@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+	<definition name="layout" template="/WEB-INF/jsp/tiles/layout.jsp">
+		<put-attribute name="common" value="/WEB-INF/jsp/cmm/common_layout.jsp" />
+		<put-attribute name="top" value="/WEB-INF/jsp/cmm/top_layout.jsp" />
+		<put-attribute name="left" value="/WEB-INF/jsp/cmm/left_layout.jsp" />
+		<put-attribute name="right" value="/WEB-INF/jsp/cmm/right_layout.jsp" />
+		<put-attribute name="content" value="" />
+	</definition>
+	
+	<definition name="blank_Layout" template="/WEB-INF/jsp/tiles/blankLayout.jsp">
+		<put-attribute name="content" value="" />
+	</definition>
+	
+	<definition name="main" extends="blank_Layout">
+		<put-attribute name="content" value="/WEB-INF/jsp/main.jsp" />
+	</definition>
+	
+	<definition name="/*/*" extends="layout">
+		<put-attribute name="content" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+	
+	<definition name="/*/*/*" extends="layout">
+		<put-attribute name="content" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+	</definition>
+	
+	<definition name="productSalesPop" extends="blank_Layout">
+		<put-attribute name="content" value="/WEB-INF/jsp/sas/product/productSalesPop.jsp" />
+	</definition>
+	
+	<definition name="error" extends="blank_Layout">
+		<put-attribute name="content" value="/WEB-INF/jsp/common/error.jsp" />
+	</definition>
+	
+</tiles-definitions>

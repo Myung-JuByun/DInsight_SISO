@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.adm.expapproval.service.impl.ExpansePayApporvalMapper">
+	
+	<select id="selectDivisionUserList" parameterType="expansePayApprovalVO" resultType="expansePayApprovalVO">
+		SELECT 
+			TD.division_id, TD.division_cd, TD.division_name, TU.user_name, TU.user_id,
+			TD.etc_explain, TD.division_level, TD.parent_cd, TD.order_seq, TD.operation_yn, TD.delete_yn
+		FROM tb_division TD
+		LEFT JOIN tb_users TU ON TU.last_division_cd = TD.division_cd
+		WHERE TD.delete_yn = '0' AND TU.user_id IS NOT NULL
+		ORDER BY TD.division_level, TD.order_seq, TU.user_name		
+	</select>
+	
+	<select id="selectExpansePayList" parameterType="expanseAdminVO" resultType="expanseAdminVO">
+		SELECT 
+			TE.expanse_id, TE.expanse_year, TE.expanse_month, TE.pay_day, 
+			TE.expanse_type, TC.code_name expanse_type_name, TE.category_id, TEC.category_name, 
+			TEC2.category_name parent_category_name,
+			TE.payment, TE.expanse_name, TC2.code_name, TE.expanse_monthly_id, TE.confer_number, 
+			TE.status_cd, TAN.node_id, TE.creator, TA.approval_id
+		FROM tb_expanse TE
+		LEFT JOIN tb_code TC ON TC.group_id = 102 AND TC.code_id = TE.expanse_type
+		LEFT JOIN tb_code TC2 ON TC2.group_id = 101 AND TC2.code_id = TE.status_cd
+		LEFT JOIN tb_expanse_category TEC ON TEC.category_id = TE.category_id
+		LEFT JOIN tb_expanse_category TEC2 ON TEC2.category_id = TEC.parent_id			
+		LEFT JOIN tb_approval TA ON TA.source_object_id = TE.expanse_monthly_id
+		LEFT JOIN tb_approval_node TAN ON TAN.approval_id = TA.approval_id AND expanse_appoint_cd = '03'
+		WHERE TE.delete_yn= 0 AND TE.expanse_year = #{expanse_year} AND TE.expanse_month = #{expanse_month}
+			AND TE.status_cd in (703, 704)
+		ORDER BY TE.pay_day, TC.order_seq, TE.category_id
+	</select>
+	
+	<select id="selectExpansePayMileageList" parameterType="expanseAdminVO" resultType="expanseAdminVO">		
+		SELECT
+		       TM.mileage_id, TM.drive_day, TM.purpose, TM.start_point, 
+		       TM.via_point, TM.end_point, TM.distance, TM.oil_cd, TC.code_name oil_cd_name, TM.cost, 
+		       TM.expanse_id, TM.expanse_monthly_id, TAN.node_id, TM.creator, TA.approval_id
+		FROM tb_mileage TM
+		LEFT JOIN tb_code TC ON TC.group_id = 105 AND TC.code_id = TM.oil_cd
+		LEFT JOIN tb_approval TA ON TA.source_object_id = TM.expanse_monthly_id
+		LEFT JOIN tb_approval_node TAN ON TAN.approval_id = TA.approval_id AND expanse_appoint_cd = '03'
+		WHERE TM.delete_yn = 0 AND TM.drive_day like concat(#{expanse_year}, #{expanse_month}, '%') 
+			AND TM.status_cd in (703, 704)
+		ORDER BY TM.drive_day
+	</select>
+
+</mapper>

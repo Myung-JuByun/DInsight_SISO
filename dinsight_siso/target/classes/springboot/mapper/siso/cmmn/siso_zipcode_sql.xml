@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.cmmn.cmm.service.impl.ZipCodeMapper">	
+
+	<select id="selectZipCodeList" parameterType="ZipCodeVO" resultType="ZipCodeVO">
+		SELECT 
+		    CONCAT(SUBSTR(A.zip_code,1,3),'-', SUBSTR(A.zip_code,4)) AS zip_code
+		    , A.build_mng_no
+			, CONCAT(A.sido_nm, ' ', A.sigu_nm, ' ') 				AS level_addr
+			, CONCAT(A.bjdong_nm,' ',
+					IF(A.bjri_nm>' ', CONCAT(A.bjri_nm,' '),'')
+					, A.jb_bunji, ' ', 
+					IF(A.jb_ho>0,A.jb_ho, '')					) 	AS jibun_addr_no
+			, CONCAT(A.road_nm, ' '
+			                   , IF(A.jiha_yn>0, '지하 ','')
+			                   , IF(A.build_nm>' ', CONCAT(A.build_nm,' '),'')
+			                   , IF(A.dt_build_nm>' ',CONCAT(A.dt_build_nm,' '),'')
+			                   , A.build_pre_no 
+			                   , IF(A.build_post_no>0, CONCAT('-',build_post_no), '')) AS road_addr_no
+		  FROM	tb_zipbook A
+		 WHERE	A.sido_nm = #{sido_nm}
+		 		
+		<if test="sigu_nm!=null and sigu_nm!=''">
+		    AND	A.sigu_nm = #{sigu_nm}
+		</if>
+		
+		<if test="addr_gubun!=null and addr_gubun!=''">
+			<choose>
+				<when test="addr_gubun.equals('J')">
+					<if test="addr_nm!=null and addr_nm!=''">
+				        AND	A.bjdong_nm LIKE CONCAT(#{addr_nm},'%')
+				    </if>
+				    <if test="addr_pre_no!=null and addr_pre_no!=''">
+				        AND	A.jb_bunji = #{addr_pre_no}
+				    </if>
+				    <if test="addr_post_no!=null and addr_post_no!=''">
+				        AND	A.jb_ho = #{addr_post_no}
+					</if>
+				</when>
+				<when test="addr_gubun.equals('S')">
+					<if test="addr_nm!=null and addr_nm!=''">
+				        AND	A.road_nm LIKE CONCAT(#{addr_nm},'%')
+				    </if>
+				    <if test="addr_pre_no!=null and addr_pre_no!=''">
+				        AND	A.build_pre_no = #{addr_pre_no}
+				    </if>
+				    <if test="addr_post_no!=null and addr_post_no!=''">
+				        AND	A.build_post_no = #{addr_post_no}
+					</if>
+				</when>
+				<otherwise></otherwise>
+			</choose>
+		</if>			
+	</select>
+	
+	<select id="selectZipCodeListRoad" parameterType="ZipCodeVO" resultType="ZipCodeVO">
+		SELECT 
+		    CONCAT(SUBSTR(A.zip_code,1,3),'-', SUBSTR(A.zip_code,4)) AS zip_code
+		    , A.build_mng_no
+			, CONCAT(A.sido_nm, ' ', A.sigu_nm, ' ') 				AS level_addr
+			, CONCAT(A.bjdong_nm,' ',
+					IF(A.bjri_nm>' ', CONCAT(A.bjri_nm,' '),'')
+					, A.jb_bunji, ' ', 
+					IF(A.jb_ho>0,A.jb_ho, '')					) 	AS jibun_addr_no
+			, CONCAT(A.road_nm, ' '
+					   , IF(A.basement_yn>0, '지하 ','')
+					   , IF(A.sigu_build_nm>' ', CONCAT(A.sigu_build_nm,' '),'')
+					   , A.build_main_no 
+					   , IF(A.build_sub_no>0, CONCAT('-',build_sub_no), '')) AS road_addr_no
+		 FROM	tb_zipbook_road A
+		WHERE	A.sido_nm = #{sido_nm}	
+		<if test="sigu_nm!=null and sigu_nm!=''">
+			AND	A.sigu_nm = #{sigu_nm}
+		</if>	
+		<if test="addr_nm!=null and addr_nm!=''">
+			AND	A.road_nm LIKE CONCAT(#{addr_nm},'%')
+		</if>			    
+		<if test="build_main_no!=null and build_main_no!=''">
+			AND	A.build_main_no = #{build_main_no}
+		</if>
+		<if test="build_sub_no!=null and build_sub_no!=''">
+			AND	A.build_sub_no = #{build_sub_no}
+		</if>		
+	</select>
+	
+	<select id="selectZipCodeListBunji" parameterType="ZipCodeVO" resultType="ZipCodeVO">
+		SELECT	CONCAT(SUBSTR(A.zip_code,1,3),'-', SUBSTR(A.zip_code,4)) AS zip_code,
+			    A.address AS level_addr			
+		  FROM	tb_zipbook_bunji A
+		 WHERE	A.sido_nm = #{sido_nm}		
+		<if test="sigu_nm!=null and sigu_nm!=''">
+			AND	A.sigu_nm = #{sigu_nm}
+		</if>
+		<if test="addr_nm!=null and addr_nm!=''">			
+			AND	(A.dong_nm LIKE CONCAT(#{addr_nm},'%') or A.build_nm LIKE CONCAT(#{addr_nm},'%'))
+		</if>		
+	</select>
+	
+	<select id="selectZipCodeListTotCnt" parameterType="ZipCodeVO" resultType="int">
+		SELECT	COUNT(*) cnt
+		  FROM	tb_zipbook A
+		 WHERE	A.sido_nm = #{sido_nm}			
+		<if test="sigu_nm!=null and sigu_nm!=''">
+		    AND	A.sigu_nm = #{sigu_nm}
+		</if>
+		
+		<if test="addr_gubun!=null and addr_gubun!=''">
+			<choose>
+				<when test="addr_gubun.equals('J')">
+					<if test="addr_nm!=null and addr_nm!=''">
+				        AND	A.bjdong_nm LIKE CONCAT(#{addr_nm},'%')
+				    </if>
+				    <if test="addr_pre_no!=null and addr_pre_no!=''">
+				        AND	A.jb_bunji = #{addr_pre_no}
+				    </if>
+				    <if test="addr_post_no!=null and addr_post_no!=''">
+				        AND	A.jb_ho = #{addr_post_no}
+					</if>
+				</when>
+				<when test="addr_gubun.equals('S')">
+					<if test="addr_nm!=null and addr_nm!=''">
+				        AND	A.road_nm LIKE CONCAT(#{addr_nm},'%')
+				    </if>
+				    <if test="addr_pre_no!=null and addr_pre_no!=''">
+				        AND	A.build_pre_no = #{addr_pre_no}
+				    </if>
+				    <if test="addr_post_no!=null and addr_post_no!=''">
+				        AND	A.build_post_no = #{addr_post_no}
+					</if>
+				</when>
+				<otherwise></otherwise>
+			</choose>
+		</if>	
+	</select>
+    
+    <select id="selectZipCodeListTotCntRoad" parameterType="ZipCodeVO" resultType="int">
+		SELECT	COUNT(*) cnt
+		  FROM	tb_zipbook_road A
+		 WHERE	A.sido_nm = #{sido_nm}			
+		<if test="sigu_nm!=null and sigu_nm!=''">
+			AND	A.sigu_nm = #{sigu_nm}
+		</if>	
+		<if test="addr_nm!=null and addr_nm!=''">
+			AND	A.road_nm LIKE CONCAT(#{addr_nm},'%')
+		</if>			    
+		<if test="build_main_no!=null and build_main_no!=''">
+			AND	A.build_main_no = #{build_main_no}
+		</if>
+		<if test="build_sub_no!=null and build_sub_no!=''">
+			AND	A.build_sub_no = #{build_sub_no}
+		</if>	
+	</select>
+    
+    <select id="selectZipCodeListTotCntBunji" parameterType="ZipCodeVO" resultType="int">
+		SELECT	COUNT(*) cnt
+		  FROM	tb_zipbook_bunji A
+		 WHERE	A.sido_nm = #{sido_nm}					
+		<if test="sigu_nm!=null and sigu_nm!=''">
+			AND	A.sigu_nm = #{sigu_nm}
+		</if>
+		<if test="addr_nm!=null and addr_nm!=''">			
+			AND	(A.dong_nm LIKE CONCAT(#{addr_nm},'%') or A.build_nm LIKE CONCAT(#{addr_nm},'%'))
+		</if>
+	</select>
+
+</mapper>	

@@ -1,0 +1,121 @@
+
+@charset "utf-8";
+
+/*font*/
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+@font-face {
+  font-family: 'NanumGothicB';
+  font-style: normal;
+  font-weight: 700;
+  src: url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Bold.eot);
+  src: url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Bold.eot?#iefix) format('embedded-opentype'),
+       url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Bold.woff2) format('woff2'),
+       url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Bold.woff) format('woff'),
+       url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Bold.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'NanumGothicEB';
+  font-style: normal;
+  font-weight: 800;
+  src: url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-ExtraBold.eot);
+  src: url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-ExtraBold.eot?#iefix) format('embedded-opentype'),
+       url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-ExtraBold.woff2) format('woff2'),
+       url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-ExtraBold.woff) format('woff'),
+       url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-ExtraBold.ttf) format('truetype');
+}
+
+
+/* base CSS Document */
+body {height:100%;  font-family:'Nanum Gothic','NanumGothicB','나눔고딕','돋움',Dotum,sans-serif; }
+
+/************************************************1121 JSH work *************************************************/
+/* 인쇄 팝업 */
+#printArea {width:100%; right:0px; background:#fff;}
+
+.pop_h1 {border-bottom:1px solid #272727;}
+.pop_h2 {border-top:1px solid #272727;}
+
+#printArea .prt_padding {width:796px; padding:25px; }
+#printArea .prt_top {height:24px; width:100%; background:#575757; text-align:center; font-size:14px; font-weight:bold; padding-top:8px; color:white; }
+#printArea .prt_top img {margin-right:10px;}
+#printArea .prt_bottom {height:24px; padding-top:8px; width:100%; background:#555555; text-align:center; font-size:12px; font-weight:bold; color:#fff;}
+#printArea .prt_btns{text-align: center;padding-bottom:15px;padding-top:15px;}
+
+#printArea .prt_title {width:746px; text-align:center; font-size:32px; font-weight:bold; padding:18px; }
+#printArea .prt_text {width:746px; text-align:center; font-size:12px; line-height:32px; font-weight:bold; padding:150px 25px 91px 25px; }
+
+#printArea .prt_con {width:746px; padding:0px 25px 0px 25px; }
+/* #printArea .prt_con .pop_table2 td {text-align:center;} */
+#printArea .prt_con .pop_table2 {border-top:2px solid #272727; border-bottom:2px solid #272727;}
+
+#printArea .prt_lnr {width:746px; padding:0px 25px 25px 25px; height:102px;}
+#printArea .prt_left {float:left; width:229px; height:98px; position: relative;}
+#printArea .prt_right {float:right; width:487px; height:98px; position: relative; }
+#printArea .prt_left .table_left {border-top:2px solid #272727; border-bottom:2px solid #272727; }
+#printArea .prt_right .table_right {border-top:2px solid #272727; border-bottom:2px solid #272727; }
+
+#printArea .prt_page {padding:15px 25px 15px 35px; font-size:12px;}
+#printArea .prt_page .page_table {text-align:center; width:750px; height:19px;}
+#printArea .prt_page .page_left {float:left;}
+#printArea .prt_page .page_con {text-align:center;}
+#printArea .prt_page .page_right {float:right}
+
+#printArea .Normal_table{border-left:none; border-right:none; border-collapse: collapse; font-size:12px;}
+
+#printArea .Normal_table td,th{height:32px;border:1px solid #e3e3e3;border-left:none; text-align:center;}
+#printArea .Normal_table th{background: #fafafa; font-size: 12px; font-weight: 600;}
+#printArea .Normal_table .right{border-right:none;}
+#printArea .Normal_table .number {text-align: center;}
+#printArea .Normal_table .date {text-align: center;}
+#printArea .Normal_table .milleage{text-align: center;}
+#printArea .Normal_table .submit{background: url('../images/btn_green.png') no-repeat 5px 0px;text-align: center}
+#printArea .Normal_table .confirmed{background: url('../images/btn_blue.png') no-repeat 5px 0px;text-align: center}
+#printArea .Normal_table .paid{background: url('../images/btn_red.png') no-repeat 5px 0px;text-align: center}
+
+#printArea .Normal_table .sum{background: #fffeed; text-align: center; border-right: none; font-weight: 600;}
+#printArea .Normal_table .sum_cost{background: #fffeed; text-align: right; border-right: none;font-weight: 600;}
+#printArea .Normal_table .cost{ text-align: right;}
+#printArea .Normal_table .level_1{text-align: center;}
+
+#printArea .Normal_table .cost_r {text-align:right; border-right:none; padding-right:7px;}
+#printArea .Normal_table .left {text-align:left; padding-left:7px}
+
+.next_print_page {page-break-before: always}
+
+.paddingright {padding-right:10px}
+
+
+/*3.27 add*/
+#printArea .my_top{height:24px; width:100%; background:#575757; text-align:center; font-size:14px; font-weight:bold; padding-top:8px; color:white; }
+/*#printArea .my-container2 {padding: 0px 25px 0px 25px ; }*/
+#printArea .Normal_table .right{border-right:none;}
+#printArea .sales_wrap{border:0px solid blue; padding:20px 15px 0px 15px;position:relative; width:100%; }
+#printArea .sales_wrap2{border:0px solid blue; margin:20px 15px 0px 15px;position:relative; }
+#printArea .Normal_table .sum{background: #fffeed; text-align: center; border-right: none; font-weight: 600;}
+
+#printArea .mini_title2{font-size: 13px; padding-left:5px;font-weight: bold;padding-top:10px; width:250px; float:left;}
+#printArea .savebtn3{padding-top:15px; text-align: center; height:51px;}
+#printArea .sales_title{font-size:24px; font-weight:bold; color:#000; margin:0 auto; width:300px; text-align:center;padding-top:15px;}
+ 
+#printArea .my-container2 img {cursor:pointer; vertical-align: middle; padding-right:5px;}
+#printArea .Normal_table td img{vertical-align: middle; padding-right:5px;}
+
+/*lhj add */
+
+#printArea .mini_title { 
+  font-size: 13px;
+  padding-left: 5px;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+/* #printArea .Normal_table {width:1070px;} */
+#printArea .Normal_table span{text-align:left;}
+#printArea .my-container2 {padding: 0px 5px 0px 0px ;  width:1070px;}
+
+#printArea .Normalprint_table td,th{height:32px;border:1px solid #e3e3e3; }
+#printArea .Normalprint_table th{background: #fafafa; font-size: 12px; font-weight: 600;}
+#printArea .Normalprint_table{ border-left:none;  border-collapse: collapse; font-size:12px;}
+#printArea .pd10{padding-left:10px;}

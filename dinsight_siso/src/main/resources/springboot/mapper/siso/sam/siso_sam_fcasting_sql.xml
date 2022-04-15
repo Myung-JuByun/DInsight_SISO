@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.sam.fcasting.service.impl.ForeCastingMapper">
+
+	<select id="selectForeCastingList" parameterType="ForeCastingVO" resultType="ForeCastingVO">
+		<![CDATA[
+		SELECT    A.sales_id
+			     , A.sales_project_id
+			     , A.sales_ym
+			     , A.sales_week
+			     , B.sales_divide_cd
+			     , A.issue_yn
+			     , A.report_item
+			     , A.qty
+			     , A.contract_ym
+			     , A.sales_status_cd
+			     , A.sales_type_cd
+			     , A.contract_price
+			     , A.cost_price
+			     , A.profit_price
+			     , A.delete_yn
+			     , A.creator
+			     , A.modifier
+			     , A.creation_date
+			     , A.modify_date
+			     , B.user_id
+			     , B.brand_cd
+			     , B.sales_project_code
+			     , B.module
+			     , C.code_name sales_divide_name
+			     , D.code_name sales_status_name
+			     , E.code_name sales_type_name
+			     , F.code_name brand_name
+			     , G.user_name
+			     , H.company_id
+			     , H.company_name
+			     FROM    tb_sales A
+			     INNER JOIN tb_sales_project B ON A.delete_yn = '0' AND A.sales_project_id = B.sales_project_id
+			     INNER JOIN tb_code C ON C.group_id = '114' AND B.sales_divide_cd = C.code_id
+			     INNER JOIN tb_code D ON D.group_id = '115' AND A.sales_status_cd   = D.code_id
+			     INNER JOIN tb_code E ON E.group_id = '116' AND A.sales_type_cd = E.code_id
+			     INNER JOIN tb_code F ON F.group_id = '117' AND B.brand_cd = F.code_id
+			     INNER JOIN tb_users G ON B.user_id = G.user_id
+			     INNER JOIN tb_company H ON B.company_id = H.company_id
+			     INNER JOIN tb_division T ON T.division_cd = G.last_division_cd
+		]]>
+		WHERE 1=1
+	 		 	
+		<if test="sales_ym!=null and sales_ym!=''">
+ 			AND	A.sales_ym = #{sales_ym} 
+ 			<if test="sales_week!=null and sales_week!=''">				
+				AND	A.sales_week = #{sales_week}							
+			</if>			
+		</if>				
+		
+		<choose>
+			<when test="user_role_id!=null and user_role_id!='7'.toString()">
+				AND	A.creator = #{creator}
+			</when>
+			<otherwise>
+				<if test="division_child_list!=null">
+					AND	T.division_cd IN
+					<foreach collection="division_child_list" item="division_child" open="(" close=")" separator=",">	
+						#{division_child} 
+					</foreach> 
+				</if>
+			</otherwise>
+		</choose>
+				
+		ORDER BY A.sales_project_id, A.sales_id ASC, sales_ym DESC, sales_week DESC, creator DESC
+	</select>	
+	
+	<insert id="foreCastingSave" parameterType="ForeCastingVO">
+		<![CDATA[
+			INSERT INTO tb_sales(
+					 sales_id
+                    ,sales_project_id
+                    ,sales_ym
+                    ,sales_week
+                    ,issue_yn
+                    ,report_item
+                    ,qty
+                    ,contract_ym
+                    ,sales_status_cd
+                    ,sales_type_cd
+                    ,contract_price
+                    ,cost_price
+                    ,profit_price
+                    ,delete_yn
+                    ,creator
+                    ,creation_date
+
+            )VALUES (
+					 #{sales_id}
+					,#{sales_project_id}
+					,#{sales_ym}
+					,#{sales_week}
+					,#{issue_yn}
+					,#{report_item}
+					,#{qty}
+					,#{contract_ym}
+					,#{sales_status_cd}
+					,#{sales_type_cd}
+					,#{contract_price}
+					,#{cost_price}
+					,#{profit_price}
+					,'0'
+					,#{creator}
+					,now()
+		  )
+		  ON DUPLICATE KEY
+          UPDATE sales_project_id  	 = #{sales_project_id}
+          		  ,sales_ym          = #{sales_ym}
+          		  ,sales_week        = #{sales_week}
+          		  ,issue_yn          = #{issue_yn}
+          		  ,report_item       = #{report_item}
+          		  ,qty               = #{qty}
+          		  ,contract_ym       = #{contract_ym}
+          		  ,sales_status_cd   = #{sales_status_cd}
+          		  ,sales_type_cd     = #{sales_type_cd}
+          		  ,contract_price    = #{contract_price}
+          		  ,cost_price        = #{cost_price}
+          		  ,profit_price      = #{profit_price}
+          		  ,delete_yn         = '0'
+          		  ,creator           = #{creator}
+          		  ,modifier          = #{modifier}
+          		  ,modify_date		 = now()
+		]]>
+	</insert>
+		
+	<update id="foreCastingListDelete" parameterType="ForeCastingVO">
+		UPDATE	tb_sales
+		   SET	delete_yn = '1',
+		   		modifier = #{modifier},
+		   		modify_date = now()
+		 WHERE	sales_id = #{sales_id}		
+	</update>
+	
+	<select id="selectForeCastingIssue" parameterType="ForeCastingVO" resultType="ForeCastingVO">
+		SELECT	report_item
+		  FROM 	tb_sales
+		 WHERE	sales_id = #{sales_id}		
+	</select>
+	 
+	<insert id="foreCastingIssueSave" parameterType="ForeCastingVO">				
+		UPDATE tb_sales  
+		   SET report_item = #{report_item} ,issue_yn = '1'
+		 WHERE sales_id = #{sales_id}		
+	</insert>
+	
+	<update id="foreCastingIssueDelete" parameterType="ForeCastingVO">
+		UPDATE	tb_sales  
+		   SET	report_item = '',
+		   		issue_yn = '0'
+ 		 WHERE	sales_id = #{sales_id}		
+	</update>
+	
+	<select id="selectForeCastingRole" parameterType="ForeCastingVO" resultType="String">
+		SELECT	MAX(grant_id)
+		  FROM	tb_grant_user
+		 WHERE	user_id = #{creator}
+	</select>
+	
+	<select id="foreCastingAutoSaveWeekCheck" parameterType="ForeCastingVO" resultType="ForeCastingVO">
+		<![CDATA[
+		SELECT  SUBSTR(sh_tt, 1, 6) AS copy_sales_ym
+		     ,  WEEK(sh_tt,5) - WEEK(DATE_SUB(sh_tt,INTERVAL DAYOFMONTH(sh_tt)-1 DAY),5) + 1 - ( tt ) AS copy_sales_week  		 
+		     ,  SUBSTR(sh_tt_2, 1, 6) AS now_sales_ym
+		     ,  WEEK(sh_tt_2,5) - WEEK(DATE_SUB(sh_tt_2,INTERVAL DAYOFMONTH(sh_tt_2)-1 DAY),5) + 1 - ( tt_2 ) AS now_sales_week  		    		    
+		  FROM  (  SELECT  DATE_FORMAT(DATE_ADD(sh_day, INTERVAL ABS( CASE WHEN (DAYOFWEEK(sh_day)-2) < 0 THEN '-6'  ELSE (DAYOFWEEK(sh_day)-2) END )*-1  DAY),'%Y%m%d')  AS sh_tt 
+		               , CASE WHEN ( DATE_FORMAT((SELECT DATE_ADD(CONCAT(SUBSTR(sh_day,1,6),'01'), INTERVAL (DAYOFWEEK(CONCAT(SUBSTR(sh_day,1,6),'01'))-2) * -1 DAY)) ,'%d')  ) ='01' THEN '0' ELSE '1' END  AS tt
+		               , DATE_FORMAT(DATE_ADD(sh_day_12, INTERVAL ABS( CASE WHEN (DAYOFWEEK(sh_day_12)-2) < 0 THEN '-6'  ELSE (DAYOFWEEK(sh_day_12)-2) END )*-1  DAY),'%Y%m%d')  AS sh_tt_2 
+		               , CASE WHEN ( DATE_FORMAT((SELECT DATE_ADD(CONCAT(SUBSTR(sh_day_12,1,6),'01'), INTERVAL (DAYOFWEEK(CONCAT(SUBSTR(sh_day_12,1,6),'01'))-2) * -1 DAY)) ,'%d')  ) ='01' THEN '0' ELSE '1' END  AS tt_2
+		     		 FROM  ( SELECT	DATE_FORMAT(DATE_ADD( sh_day_11 , INTERVAL -1 DAY)  , '%Y%m%d') sh_day ,  sh_day_11 AS sh_day_12
+		                 	   FROM (SELECT  #{now_ymd}  sh_day_11 ) AS t2
+		                	) AS t
+				) AS  tt2
+		]]>				
+	</select>
+	
+	<insert id="foreCastingAutoSave" parameterType="ForeCastingVO">
+		<![CDATA[			
+		insert into tb_sales
+		     ( sales_id
+		     , sales_project_id
+		     , sales_ym
+		     , sales_week
+		     , issue_yn
+		     , report_item
+		     , qty
+		     , contract_ym
+		     , sales_status_cd
+		     , sales_type_cd
+		     , contract_price
+		     , cost_price
+		     , profit_price
+		     , delete_yn
+		     , creator
+		     , creation_date
+		     )
+		SELECT null AS sales_id
+		      , sales_project_id
+		      , #{now_sales_ym} as sales_ym
+		      , #{now_sales_week} as sales_week
+		      , issue_yn
+		      , report_item
+		      , qty
+		      , contract_ym
+		      , sales_status_cd
+		      , sales_type_cd
+		      , contract_price
+		      , cost_price
+		      , profit_price
+		      , 0 AS delete_yn
+		      , creator
+		      , NOW() creation_date
+		FROM tb_sales
+		WHERE sales_ym = #{copy_sales_ym} AND sales_week = #{copy_sales_week}
+		AND delete_yn = '0'
+		]]>
+	</insert>
+	
+</mapper>

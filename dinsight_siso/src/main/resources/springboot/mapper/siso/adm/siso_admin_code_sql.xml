@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.adm.code.service.impl.CodeAdminMapper">
+	
+	<select id="selectCmnGroupCodeList" parameterType="CodeAdminVO" resultType="CodeAdminVO">
+		SELECT DISTINCT a.group_id
+        				,a.group_name
+						,a.etc_explain
+						,a.delete_yn
+		  FROM	tb_group_code a LEFT OUTER JOIN  tb_code b ON (a.group_id = b.group_id)
+      	 WHERE	a.delete_yn = '0'
+      <if test="sh_group_name != null and sh_group_name != ''">
+      	   AND	a.group_name LIKE concat('%', #{sh_group_name}, '%')
+	  </if>
+	  <if test="sh_code_name != null and sh_code_name != ''">
+		   AND	b.code_name LIKE concat('%', #{sh_code_name}, '%')
+	  </if>
+				
+	  ORDER BY a.group_id
+    </select>
+	  
+    <select id="selectCmnCodeList" parameterType="CodeAdminVO" resultType="CodeAdminVO">
+         SELECT	b.group_id
+         		,b.code_id
+                ,b.code_name
+                ,b.order_seq
+                ,b.etc1
+                ,b.etc2
+                ,b.etc3
+                ,b.etc4
+                ,b.order_seq
+                ,b.delete_yn
+          FROM	tb_group_code a	LEFT OUTER JOIN  tb_code b 
+            ON	a.group_id = b.group_id 
+           AND	b.delete_yn = '0'
+         WHERE	a.delete_yn = '0'
+		<if test="sh_group_name != null and sh_group_name != ''">
+		   AND	a.group_name LIKE concat('%', #{sh_group_name}, '%')
+		</if>
+		<if test="sh_code_name != null and sh_code_name != ''">
+		   AND	b.code_name LIKE concat('%', #{sh_code_name}, '%')
+		</if>
+		ORDER BY a.group_id, b.order_seq
+    </select>
+    
+    <update id="saveCmnGroupCode" parameterType="CodeAdminVO">
+          INSERT  tb_group_code(
+                  group_id
+                 ,group_name
+                 ,etc_explain
+                 ,delete_yn
+                 ,creator
+                 ,modifier
+                 ,creation_date
+                 ,modify_date
+               ) 
+         VALUES(   
+         		 #{group_id}
+                 ,#{group_name}
+                 ,#{etc_explain} 
+                 ,'0'
+                 ,#{creator}
+                 ,#{modifier}
+                 ,now()
+                 ,now()
+                )
+		ON DUPLICATE KEY 
+		UPDATE	group_id = #{group_id}
+				,group_name		= #{group_name}
+				,etc_explain	= #{etc_explain}
+				,modifier		= #{modifier}
+				,modify_date	= now() 
+    </update>
+    
+    <update id="deleteCmnGroupCode" parameterType="CodeAdminVO">
+      	UPDATE	tb_group_code	
+   		   SET	delete_yn = '1',
+   		   		modifier = #{modifier},
+   		   		modify_date	= now() 
+		 WHERE	group_id = #{group_id}  
+    </update>
+    
+     <update id="saveCmnCode" parameterType="CodeAdminVO">
+           INSERT  tb_code(
+                     group_id
+                     ,code_id
+                    ,code_name
+                    ,etc1
+                    ,etc2
+                    ,etc3
+                    ,etc4
+                    ,order_seq
+                    ,delete_yn
+                    ,creator
+                    ,modifier
+                    ,creation_date
+                    ,modify_date
+                  ) 
+            SELECT   #{group_id}
+                    ,#{code_id}
+                    ,#{code_name}
+                    ,#{etc1} 
+                    ,#{etc2}
+                    ,#{etc3}
+                    ,#{etc4}
+                    ,IFNULL(#{order_seq}, IFNULL(max(order_seq+10), 10))
+                    ,'0'
+                    ,#{creator}
+                    ,#{modifier}
+                    ,now()
+                    ,now()
+              FROM tb_code    
+             WHERE group_id=#{group_id}
+          ON DUPLICATE KEY 
+          UPDATE group_id 		= #{group_id}
+          		,code_id 		= #{code_id}
+          		,code_name		= #{code_name}
+          		,etc1			= #{etc1}
+          		,etc2			= #{etc2}
+          		,etc3			= #{etc3}
+          		,etc4			= #{etc4}
+          		,order_seq		= #{order_seq}
+          		,delete_yn		= #{delete_yn}
+          		,modifier		= #{modifier}
+          		,modify_date	= now()
+    </update>
+     
+    
+    <update id="deleteCmnCode" parameterType="CodeAdminVO">
+    	UPDATE	tb_code
+    	   SET	delete_yn = '1'
+    	   		,modifier = #{modifier}
+    	   		,modify_date = now()
+ 		 WHERE	group_id = #{group_id}
+ 		   AND	code_id = #{code_id}
+    </update>
+    
+</mapper>

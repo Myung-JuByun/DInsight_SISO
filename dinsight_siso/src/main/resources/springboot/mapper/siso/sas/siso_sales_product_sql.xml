@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.sas.product.service.impl.ProductSalesMapper">
+
+	<select id="productSalesList" parameterType="productSalesVO" resultType="productSalesVO">
+		SELECT
+			* 
+		FROM (
+			SELECT
+			 	TSC.insert_date
+			,	TSC.sales_confer_id
+			,	TSC.contract_number_id
+			,	TSC.sales_confer_kind
+			,	tc1.code_name AS sales_confer_kind_name
+			,	TSC.contract_number
+			,	TSC.company_id
+			,	TC.company_name
+			,	TSC.total_contract_price
+			,	TSC.purchase_price
+			,	TSC.profit_price
+			,	TSC.staff_id
+			,	TSC.customer_id
+			,	TSC.invoice_id
+			,	TSC.status_cd
+			,	tc2.code_name AS status_nm
+			,	TSC.degree
+			FROM tb_sales_confer TSC
+			LEFT JOIN tb_company TC ON TC.company_id = TSC.company_id
+			LEFT JOIN tb_sales_project TSP ON TSP.sales_project_id = TSC.contract_number_id
+			LEFT JOIN tb_code tc1 ON tc1.code_id = TSC.sales_confer_kind AND tc1.group_id = '146'
+			LEFT JOIN tb_code tc2 ON tc2.code_id = TSC.status_cd AND tc2.group_id = '101'
+			WHERE TSC.delete_yn = 0
+					
+			<if test="sh_product_sales_year!=null and sh_product_sales_year!=''">
+				AND	TSC.insert_date like concat(#{sh_product_sales_year}, #{sh_product_sales_month},'%')
+			</if>
+			
+			<if test="sh_company_name!=null and sh_company_name!=''">
+				AND	TC.company_name like concat(#{sh_company_name}, '%')
+			</if>
+			
+			<if test="sh_project_code!=null and sh_project_code!=''">
+				AND	TSC.contract_number = #{sh_project_code}
+			</if>
+			
+			<if test="sh_brand_cd!=null and sh_brand_cd!=''">
+				AND	TSP.brand_cd = #{sh_brand_cd}
+			</if>
+			
+			<if test="division_child_list!=null">
+				AND	TSP.operation_cd IN
+				<foreach collection="division_child_list" item="division_child" open="(" close=")" separator=",">	
+					#{division_child} 
+				</foreach> 
+			</if>
+				
+		<![CDATA[
+				ORDER BY TSC.degree DESC
+			) AS T
+			GROUP BY sales_confer_kind, contract_number
+			ORDER BY sales_confer_kind, insert_date DESC
+		]]>	
+	</select>
+	
+	<select id="productSalesDetail" parameterType="productSalesVO" resultType="productSalesVO">
+		<![CDATA[
+			SELECT
+				sales_confer_id, insert_date, contract_number, degree
+			FROM tb_sales_confer 
+			WHERE contract_number = #{contract_number} AND delete_yn = 0
+			AND sales_confer_kind = #{sales_confer_kind}
+		]]>		
+		
+		ORDER BY degree DESC
+	</select>
+	
+	<select id="productSalesConferView" parameterType="productSalesVO" resultType="productSalesVO">
+		<![CDATA[
+			SELECT
+				TSC.insert_date
+			    , TSC.sales_confer_kind
+			    , tc1.code_name  AS sales_confer_kind_name
+			    , TSC.sales_confer_id
+			    , TSC.contract_number_id
+			    , TSC.contract_number
+			    , TSC.company_id
+			    , TC.company_name
+			    , TC.address
+			    , TSC.total_contract_price
+			    , TSC.purchase_price
+			    , TSC.profit_price
+			    , TSC.staff_id
+			    , TU.user_name AS staff_name
+			    , TSC.customer_id
+			    , TC1.customer_name
+			    , TC1.division AS customer_division
+			    , TC1.phone_number AS customer_tel
+			    , TC1.mobile AS customer_hp
+			    , TC1.email AS customer_email
+			    , TSC.invoice_id
+			    , TC2.customer_name AS invoice_id_name
+			    , TC2.division AS invoice_division
+			    , TC2.phone_number AS invoice_tel
+			    , TC2.mobile AS invoice_hp
+			    , TC2.email AS invoice_email
+			    , TSC.status_cd
+			    , tc2.code_name AS status_nm
+			    , TSC.degree
+			    , TSC.sales_confer_monthly_id
+			FROM tb_sales_confer TSC
+			LEFT JOIN tb_company TC ON TC.company_id = TSC.company_id
+			LEFT JOIN tb_sales_project TSP ON TSP.sales_project_code = TSC.contract_number_id
+			LEFT JOIN tb_users TU ON TU.user_id = TSC.staff_id
+			LEFT JOIN tb_customer TC1 ON TC1.customer_id = TSC.customer_id
+			LEFT JOIN tb_customer TC2 ON TC2.customer_id = TSC.invoice_id
+			LEFT JOIN tb_code tc1 ON tc1.code_id = TSC.sales_confer_kind AND tc1.group_id = '146'
+			LEFT JOIN tb_code tc2 ON tc2.code_id = TSC.status_cd AND tc2.group_id = '101'
+			WHERE TSC.sales_confer_id = #{sales_confer_id} AND TSC.delete_yn = 0
+		]]>	
+	</select>
+	
+	<select id="productDSSalesRecordView" parameterType="productSalesVO" resultType="productSalesVO">
+		<![CDATA[
+			SELECT
+				TSRS.sales_record_ds_id,
+				TSRS.sales_confer_id,
+				TSRS.price_list_date,
+				TSRS.portfolio,
+				TSRS.portfolio_item_name,
+				TSRS.prd_number,
+				TSRS.TYPE as prd_type,
+				TSRS.trigram,
+				TSRS.prd_revision,
+				TSRS.plc,
+				TSRS.alc,
+				TSRS.qlc,
+				TSRS.ylc,
+				TSRS.etc,
+				TC1.code_name,
+				TSRS.list_price as ds_list_price,
+				TSRS.qty as ds_qty,
+				TSRS.each_yn,
+				TSRS.sales_plc_dc,
+				TSRS.sales_alc_dc,
+				TSRS.sales_plc_dc_gb,
+				TSRS.sales_alc_dc_gb,
+				TSRS.sales_plc_dc_price,
+				TSRS.sales_alc_dc_price,
+				TSRS.sales_price as ds_sales_price,
+				TSRS.purchase_plc_dc,
+				TSRS.purchase_alc_dc,
+				TSRS.purchase_plc_dc_gb,
+				TSRS.purchase_alc_dc_gb,
+				TSRS.purchase_plc_dc_price,
+				TSRS.purchase_alc_dc_price,
+				TSRS.purchase_unit_price as ds_purchase_unit_price,
+				TSRS.purchase_price as ds_purchase_price,
+				TSRS.ds_po_day,
+				TSRS.install_day,
+				TSRS.ordering_day,
+				TSRS.license_start_date,
+				TSRS.license_end_date,
+				TSRS.target_id,
+				TSRS.place_of_business				
+			FROM tb_sales_record_ds TSRS
+			LEFT JOIN tb_code TC1 ON TC1.code_id = TSRS.etc AND TC1.group_id = 145
+			WHERE TSRS.sales_confer_id =#{sales_confer_id}
+			AND  TSRS.chang_yn = #{chang_yn}
+			AND  TSRS.delete_yn  = '0'
+		]]>	
+	</select>
+	
+	<select id="productSalesRecordView" parameterType="productSalesVO" resultType="productSalesVO">
+		<![CDATA[
+			SELECT
+				TSR.sales_record_id,
+				TSR.sales_confer_id,
+				TSR.sales_gb,
+				TC1.code_name AS sales_gb_name,
+				TSR.model,
+				TSR.des_start_day,
+				TSR.des_end_day,
+				TSR.qty,
+				TSR.list_price,
+				TSR.sales_unit_price,
+				TSR.sales_price,
+				TSR.sales_dc,
+				TSR.purchase_unit_price,
+				TSR.purchase_price,
+				TSR.purchase_dc,
+				TSR.supplier,
+				TSR.purchase_pay_code,
+				TC2.code_name AS purchase_pay_name,
+				TSR.purchase_pay_method
+			FROM tb_sales_record TSR
+			LEFT JOIN tb_code TC1 ON TC1.code_id = TSR.sales_gb AND TC1.group_id = 117
+			LEFT JOIN tb_code TC2 ON TC2.code_id = TSR.purchase_pay_code AND TC2.group_id = 141
+			WHERE TSR.sales_confer_id = #{sales_confer_id} AND TSR.delete_yn = 0
+		]]>	
+	</select>
+	
+	<select id="productSalesInvoiceView" parameterType="productSalesVO" resultType="productSalesVO">
+		<![CDATA[
+			SELECT
+				TI.invoice_id,
+				TI.invoice_name,
+				TI.sales_confer_id,
+				TI.checked,
+				TI.split,
+				TI.issued,
+				TI.method,
+				TC.code_name AS method_name,
+				TI.price,
+				TI.payment_requisite_content,
+				TI.contract_number,
+				TI.invoice_content
+			 FROM	tb_invoice TI
+			LEFT JOIN tb_code TC ON TC.code_id = TI.method AND TC.group_id = 125
+			WHERE	TI.checked = #{checked} 
+			  AND	TI.sales_confer_id = #{sales_confer_id} 
+			  AND	TI.delete_yn = 0
+		]]>	
+	</select>
+	
+	<select id="selectDegreeCount" parameterType="productSalesVO" resultType="String">
+		SELECT	degree + ( CASE WHEN status_cd ='703' THEN 1 ELSE '0' END )
+		  FROM	tb_sales_confer
+		 WHERE	contract_number_id = #{contract_number_id}
+		   AND	sales_confer_kind = #{sales_confer_kind}
+		   and	delete_yn = 0
+		   and	sales_confer_id = #{sales_confer_id}		
+	</select>
+	
+	<select id="selectCheckKind" parameterType="productSalesVO" resultType="String">
+		SELECT	CASE WHEN cnt = '0' THEN 'N' ELSE 'Y' END 
+		  FROM	(
+				SELECT	COUNT(*) cnt
+				  FROM	tb_sales_confer 
+				 WHERE	contract_number_id = #{contract_number_id}
+				   AND	sales_confer_kind = #{sales_confer_kind}
+		 		) AS t1		
+	</select>
+	
+	<insert id="productSalesConferInsert">		
+		INSERT INTO tb_sales_confer (
+			sales_confer_kind, contract_number_id, contract_number, company_id,
+			total_contract_price, purchase_price, profit_price,
+			staff_id, customer_id, insert_date, invoice_id,sales_confer_monthly_id , status_cd, degree,
+			delete_yn, creator, creation_date
+		) VALUES (
+			#{sales_confer_kind}, #{contract_number_id}, #{contract_number}, #{company_id},
+			#{total_contract_price}, #{purchase_price}, #{profit_price},
+			#{staff_id}, #{customer_id}, #{insert_date}, #{invoice_id},
+			#{sales_confer_monthly_id}, #{status_cd}, #{degree}, '0', #{creator}, now()
+		)				
+		
+		<selectKey keyProperty="sales_confer_id" resultType="int">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
+	</insert>
+	
+	<update id="productSalesConferUpdate">
+		update	tb_sales_confer
+		   set	sales_confer_kind       = #{sales_confer_kind}, 
+		   		contract_number_id      = #{contract_number_id},
+		   		contract_number         = #{contract_number}, 
+		   		company_id              = #{company_id},
+		   		total_contract_price    = #{total_contract_price},
+		   		purchase_price          = #{purchase_price},
+		   		profit_price            = #{profit_price},
+		   		staff_id                = #{staff_id},
+		   		customer_id             = #{customer_id},
+		   		insert_date             = #{insert_date},
+		   		invoice_id              = #{invoice_id},
+		   		sales_confer_monthly_id = #{sales_confer_monthly_id},
+		   		status_cd               = #{status_cd},
+		   		degree                  = #{degree},
+		   		delete_yn               = '0',
+		   		modifier                = #{creator},
+		   		modify_date             = now()
+		 where	sales_confer_id = #{sales_confer_id}
+	</update>
+	
+	<insert id="productDSSalesRecordInsert">
+		INSERT INTO tb_sales_record_ds (  
+			sales_record_ds_id
+			, sales_confer_id
+			, price_list_date
+			, portfolio
+			, portfolio_item_name
+			, prd_number
+			, TYPE
+			, trigram
+			, prd_revision
+			, plc
+			, alc
+			, qlc
+			, ylc
+			, etc
+			, list_price
+			, qty
+			, each_yn
+			, sales_plc_dc
+			, sales_alc_dc
+			, sales_plc_dc_gb
+			, sales_alc_dc_gb
+			, sales_plc_dc_price
+			, sales_alc_dc_price
+			, sales_price
+			, purchase_plc_dc
+			, purchase_alc_dc
+			, purchase_plc_dc_gb
+			, purchase_alc_dc_gb
+			, purchase_plc_dc_price
+			, purchase_alc_dc_price
+			, purchase_unit_price
+			, purchase_price
+			, ds_po_day
+			, install_day
+			, ordering_day
+			, license_start_date
+			, license_end_date
+			, target_id
+			, place_of_business
+			, chang_yn
+			, delete_yn
+			, creator
+			, creation_date
+		)
+		VALUES (#{sales_record_ds_id}
+			, #{sales_confer_id}
+			, #{price_list_date}
+			, #{portfolio}
+			, #{portfolio_item_name}
+			, #{prd_number}
+			, #{prd_type}
+			, #{trigram}
+			, #{prd_revision}
+			, #{plc}
+			, #{alc}
+			, #{qlc}
+			, #{ylc}
+			, #{etc}
+			, #{ds_list_price}
+			, #{ds_qty}
+			, #{each_yn}
+			, #{sales_plc_dc}
+			, #{sales_alc_dc}
+			, #{sales_plc_dc_gb}
+			, #{sales_alc_dc_gb}
+			, #{sales_plc_dc_price}
+			, #{sales_alc_dc_price}
+			, #{ds_sales_price}
+			, #{purchase_plc_dc}
+			, #{purchase_alc_dc}
+			, #{purchase_plc_dc_gb}
+			, #{purchase_alc_dc_gb}
+			, #{purchase_plc_dc_price}
+			, #{purchase_alc_dc_price}
+			, #{ds_purchase_unit_price}
+			, #{ds_purchase_price}
+			, #{ds_po_day}
+			, #{install_day}
+			, #{ordering_day}
+			, #{license_start_date}
+			, #{license_end_date}
+			, #{target_id}
+			, #{place_of_business}
+			, #{chang_yn}
+			, '0'
+			, #{creator}
+			, now()
+		)		
+		ON DUPLICATE KEY
+		UPDATE	sales_confer_id       = #{sales_confer_id}
+			, price_list_date       = #{price_list_date}
+			, portfolio             = #{portfolio}
+			, portfolio_item_name	= #{portfolio_item_name}
+			, prd_number            = #{prd_number}
+			, TYPE                  = #{prd_type}
+			, trigram               = #{trigram}
+			, prd_revision			= #{prd_revision}
+			, plc                   = #{plc}
+			, alc                   = #{alc}
+			, qlc                   = #{qlc}
+			, ylc                   = #{ylc}
+			, etc                   = #{etc}
+			, list_price            = #{ds_list_price}
+			, qty                   = #{ds_qty}
+			, each_yn               = #{each_yn}
+			, sales_plc_dc          = #{sales_plc_dc}
+			, sales_alc_dc          = #{sales_alc_dc}
+			, sales_plc_dc_gb       = #{sales_plc_dc_gb}
+			, sales_alc_dc_gb       = #{sales_alc_dc_gb}
+			, sales_plc_dc_price    = #{sales_plc_dc_price}
+			, sales_alc_dc_price    = #{sales_alc_dc_price}
+			, sales_price           = #{ds_sales_price}
+			, purchase_plc_dc       = #{purchase_plc_dc}
+			, purchase_alc_dc       = #{purchase_alc_dc}
+			, purchase_plc_dc_gb    = #{purchase_plc_dc_gb}
+			, purchase_alc_dc_gb    = #{purchase_alc_dc_gb}
+			, purchase_plc_dc_price = #{purchase_plc_dc_price}
+			, purchase_alc_dc_price = #{purchase_alc_dc_price}
+			, purchase_unit_price   = #{ds_purchase_unit_price}
+			, purchase_price        = #{ds_purchase_price}
+			, ds_po_day             = #{ds_po_day}
+			, install_day           = #{install_day}
+			, ordering_day          = #{ordering_day}
+			, license_start_date    = #{license_start_date}
+			, license_end_date      = #{license_end_date}
+			, target_id             = #{target_id}
+			, place_of_business     = #{place_of_business}
+			, chang_yn              = #{chang_yn}
+			, delete_yn             = '0'
+			, modifier              = #{modifier}
+			, modify_date           = now()		
+	</insert>
+	
+	<insert id="productALCSalesRecordInsert">
+		INSERT INTO tb_sales_record_ds (  sales_record_ds_id
+			, sales_confer_id
+			, price_list_date
+			, portfolio
+			, portfolio_item_name
+			, prd_number
+			, TYPE
+			, trigram
+			, prd_revision
+			, plc
+			, alc
+			, qlc
+			, ylc
+			, etc
+			, list_price
+			, qty
+			, each_yn
+			, sales_plc_dc
+			, sales_alc_dc
+			, sales_plc_dc_gb
+			, sales_alc_dc_gb
+			, sales_plc_dc_price
+			, sales_alc_dc_price
+			, sales_price
+			, purchase_plc_dc
+			, purchase_alc_dc
+			, purchase_plc_dc_gb
+			, purchase_alc_dc_gb
+			, purchase_plc_dc_price
+			, purchase_alc_dc_price
+			, purchase_unit_price
+			, purchase_price
+			, ds_po_day
+			, install_day
+			, ordering_day
+			, license_start_date
+			, license_end_date
+			, target_id
+			, place_of_business
+			, chang_yn
+			, delete_yn
+			, creator
+			, creation_date
+		)
+		VALUES (#{chg_sales_record_ds_id}
+			, #{sales_confer_id}
+			, #{chg_price_list_date}
+			, #{chg_portfolio}
+			, #{chg_portfolio_item_name}
+			, #{chg_prd_number}
+			, #{chg_prd_type}
+			, #{chg_trigram}
+			, #{chg_prd_revision}
+			, #{chg_plc}
+			, #{chg_alc}
+			, #{chg_qlc}
+			, #{chg_ylc}
+			, #{chg_etc}
+			, #{chg_ds_list_price}
+			, #{chg_qty}
+			, #{chg_each_yn}
+			, #{chg_sales_plc_dc}
+			, #{chg_sales_alc_dc}
+			, #{chg_sales_plc_dc_gb}
+			, #{chg_sales_alc_dc_gb}
+			, #{chg_sales_plc_dc_price}
+			, #{chg_sales_alc_dc_price}
+			, #{chg_ds_sales_price}
+			, #{chg_purchase_plc_dc}
+			, #{chg_purchase_alc_dc}
+			, #{chg_purchase_plc_dc_gb}
+			, #{chg_purchase_alc_dc_gb}
+			, #{chg_purchase_plc_dc_price}
+			, #{chg_purchase_alc_dc_price}
+			, #{chg_ds_purchase_unit_price}
+			, #{chg_ds_purchase_price}
+			, #{chg_ds_po_day}
+			, #{chg_install_day}
+			, #{chg_ordering_day}
+			, #{chg_license_start_date}
+			, #{chg_license_end_date}
+			, #{chg_target_id}
+			, #{chg_place_of_business}
+			, #{chg_chang_yn}
+			, '0'
+			, #{creator}
+			, now()
+		)		
+		ON DUPLICATE KEY
+		UPDATE	sales_confer_id       = #{sales_confer_id}
+			, price_list_date       = #{chg_price_list_date}
+			, portfolio             = #{chg_portfolio}
+			, portfolio_item_name	= #{chg_portfolio_item_name}
+			, prd_number            = #{chg_prd_number}
+			, TYPE                  = #{chg_prd_type}
+			, trigram               = #{chg_trigram}
+			, prd_revision			= #{chg_prd_revision}
+			, plc                   = #{chg_plc}
+			, alc                   = #{chg_alc}
+			, qlc                   = #{chg_qlc}
+			, ylc                   = #{chg_ylc}
+			, etc                   = #{chg_etc}
+			, list_price            = #{chg_ds_list_price}
+			, qty                   = #{chg_qty}
+			, each_yn               = #{chg_each_yn}
+			, sales_plc_dc          = #{chg_sales_plc_dc}
+			, sales_alc_dc          = #{chg_sales_alc_dc}
+			, sales_plc_dc_gb       = #{chg_sales_plc_dc_gb}
+			, sales_alc_dc_gb       = #{chg_sales_alc_dc_gb}
+			, sales_plc_dc_price    = #{chg_sales_plc_dc_price}
+			, sales_alc_dc_price    = #{chg_sales_alc_dc_price}
+			, sales_price           = #{chg_ds_sales_price}
+			, purchase_plc_dc       = #{chg_purchase_plc_dc}
+			, purchase_alc_dc       = #{chg_purchase_alc_dc}
+			, purchase_plc_dc_gb    = #{chg_purchase_plc_dc_gb}
+			, purchase_alc_dc_gb    = #{chg_purchase_alc_dc_gb}
+			, purchase_plc_dc_price = #{chg_purchase_plc_dc_price}
+			, purchase_alc_dc_price = #{chg_purchase_alc_dc_price}
+			, purchase_unit_price   = #{chg_ds_purchase_unit_price}
+			, purchase_price        = #{chg_ds_purchase_price}
+			, ds_po_day             = #{chg_ds_po_day}
+			, install_day           = #{chg_install_day}
+			, ordering_day          = #{chg_ordering_day}
+			, license_start_date    = #{chg_license_start_date}
+			, license_end_date      = #{chg_license_end_date}
+			, target_id             = #{chg_target_id}
+			, place_of_business     = #{chg_place_of_business}
+			, chang_yn              = #{chg_chang_yn}
+			, delete_yn             = '0'
+			, modifier              = #{modifier}
+			, modify_date           = now()
+			
+		<selectKey keyProperty="sales_record_ds_id" resultType="int">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
+	</insert>
+	
+	<update id="productDSSalesRecordUpdate">
+		update	tb_sales_record_ds
+		   set	sales_confer_id       = #{sales_confer_id}
+		     , price_list_date       = #{price_list_date}
+		     , portfolio             = #{portfolio}
+		     , prd_number            = #{prd_number}
+		     , TYPE                  = #{prd_type}
+		     , trigram               = #{trigram}
+		     , prd_revision			 = #{prd_revision}
+		     , plc                   = #{plc}
+		     , alc                   = #{alc}
+		     , qlc                   = #{qlc}
+		     , ylc                   = #{ylc}
+		     , etc                   = #{etc}
+		     , list_price            = #{ds_list_price}
+		     , qty                   = #{ds_qty}
+		     , each_yn               = #{each_yn}
+		     , sales_dc              = #{ds_sales_dc}
+		     , sales_price           = #{ds_sales_price}
+		     , purchase_plc_dc       = #{purchase_plc_dc}
+		     , purchase_alc_dc       = #{purchase_alc_dc}
+		     , purchase_plc_dc_price = #{purchase_plc_dc_price}
+		     , purchase_alc_dc_price = #{purchase_alc_dc_price}
+		     , purchase_unit_price   = #{ds_purchase_unit_price}
+		     , purchase_price        = #{ds_purchase_price}
+		     , ds_start_day          = #{ds_start_day}
+		     , ds_end_day            = #{ds_end_day}
+		     , install_start_day     = #{install_start_day}
+		     , install_end_day       = #{install_end_day}
+		     , target_id             = #{target_id}
+		     , place_of_business     = #{place_of_business}
+		     , delete_yn             = '0'
+		     , modifier              = #{creator}
+		     , modify_date           = now()
+		where sales_record_ds_id = #{sales_record_ds_id}		
+	</update>
+	
+	<insert id="productSalesRecordInsert">
+		<![CDATA[
+			INSERT INTO tb_sales_record (
+				sales_confer_id, sales_gb, model,
+				des_start_day, des_end_day, qty,
+				list_price, sales_unit_price, sales_price, sales_dc, purchase_unit_price,
+				purchase_price, purchase_dc, supplier, purchase_pay_code, purchase_pay_method,
+				delete_yn, creator, creation_date
+			) VALUES (
+				#{sales_confer_id}, #{sales_gb}, #{model}, 
+				#{des_start_day}, #{des_end_day}, #{qty},
+				#{list_price}, #{sales_unit_price}, #{sales_price}, #{sales_dc}, #{purchase_unit_price},
+				#{purchase_price}, #{purchase_dc}, #{supplier}, #{purchase_pay_code}, #{purchase_pay_method},
+				'0', #{creator}, now()
+			)			
+		]]>
+	</insert>
+	
+	<update id="productSalesRecordUpdate">		
+		update tb_sales_record
+		set sales_confer_id       = #{sales_confer_id}
+		  , sales_gb			  = #{sales_gb}
+		  , model      			  = #{model}
+		  , des_start_day         = #{des_start_day}
+		  , des_end_day           = #{des_end_day}
+		  , qty                   = #{qty}
+		  ,	list_price            = #{list_price}
+		  , sales_unit_price      = #{sales_unit_price}
+		  , sales_price           = #{sales_price}
+		  , sales_dc              = #{sales_dc}
+		  , purchase_unit_price   = #{purchase_unit_price}
+		  ,	purchase_price        = #{purchase_price}
+		  , purchase_dc           = #{purchase_dc}
+		  , supplier              = #{supplier}
+		  , purchase_pay_code     = #{purchase_pay_code}
+		  , purchase_pay_method   = #{purchase_pay_method}
+		  , delete_yn             = '0'
+		  , modifier              = #{creator}
+		  , modify_date           = now()
+		where sales_record_id = #{sales_record_id}		
+	</update>
+	
+	<insert id="productAlcSalesRecordHistoryInsert">
+		<![CDATA[		
+		INSERT INTO tb_sales_record_ds_chang (   
+				sales_record_ds_chang_id
+				, sales_record_ds_id
+				, alc_id
+				, alc_company_id 
+		        , first_alc_id 
+		        , first_company_id 
+				, delete_yn
+				, creator
+				, modifier
+				, creation_date
+				, modify_date
+			) 
+	      select	sales_record_ds_chang_id
+	      			, sales_record_ds_id
+	      			, alc_id
+	      			, company_id
+	      			, first_alc_id
+	      			, first_company_id
+	      			, delete_yn
+	      			, creator
+	      			, modifier
+	      			, creation_date
+	      			, modify_date
+		from
+		(	SELECT  @cnt := @cnt + 1 AS cnt , IFNULL( (SELECT MAX(sales_record_ds_chang_id) FROM tb_sales_record_ds_chang) ,0) + @cnt + 1 AS sales_record_ds_chang_id
+								, sales_record_ds_id
+								, alc_id
+								, company_id 
+						        , first_alc_id 
+						        , first_company_id 
+								, delete_yn
+								, creator
+								, NULL AS MODIFIER
+								, creation_date
+								, NULL AS modify_date
+			FROM ( 	SELECT sales_record_ds_id
+			             , alc_id
+						 , company_id 
+						 , first_alc_id 
+						 , first_company_id 
+			             , delete_yn
+			             , creator
+			             , creation_date
+			        FROM ( SELECT * 
+			               FROM ( SELECT #{chg_sales_record_ds_id}  AS sales_record_ds_id
+			                           , ta.alc_id
+			                           , ta.company_id 
+								        , ta.first_alc_id 
+								        , ta.first_company_id 
+			                           , '0' AS delete_yn
+			            			, #{creator}  AS creator
+			            , NOW() AS  creation_date
+			            , @cnt := @cnt + 1 AS cnt
+			      FROM tb_alc ta
+			      LEFT OUTER JOIN  (  SELECT tsc.sales_confer_kind , tsc.contract_number_id , tsrd.*
+			                          FROM  (SELECT sales_confer_id, sales_confer_kind , contract_number_id
+			                                 FROM  (SELECT sales_confer_id , sales_confer_kind , contract_number_id
+			                                        FROM  tb_sales_confer
+			                                        WHERE delete_yn = '0'
+			                                        ORDER BY contract_number_id , sales_confer_kind, sales_confer_id DESC
+			                                        ) x1
+			                                 GROUP BY contract_number_id , sales_confer_kind
+			                                 ) tsc
+			                         INNER JOIN tb_sales_record_ds tsrd ON tsrd.chang_yn = '0'
+			                         AND tsc.sales_confer_id = tsrd.sales_confer_id
+			                       ) tsrd
+			     ON ta.portfolio = tsrd.portfolio AND ta.prd_number =tsrd.prd_number AND ta.prd_type = tsrd.prd_number AND ta.trigram = tsrd.trigram
+			   , (SELECT @cnt:=0 ) AS cnt  
+			   
+			WHERE ta.alc_year   = #{alc_year}
+			AND   ta.company_id = #{company_id}
+			AND   ta.portfolio  = #{chg_portfolio}
+			AND   ta.prd_number = #{chg_prd_number}
+			AND   ta.prd_type   = #{chg_prd_type}
+			AND   ta.trigram    = #{chg_trigram}
+			AND   ta.delete_yn  = '0'			
+			) x1
+			WHERE  cnt <= #{chg_qty}
+			) x2    		
+			      		) AS tt , (SELECT @cnt:=0 ) AS cnt 
+		  WHERE tt.alc_id  NOT IN ( SELECT tsrdc.alc_id FROM tb_sales_record_ds_chang tsrdc 
+          INNER JOIN tb_sales_record_ds tsrd WHERE tsrd.sales_confer_id = #{sales_confer_id} AND tsrd.chang_yn ='1' AND tsrdc.sales_record_ds_id =  tsrd.sales_record_ds_id
+          )  	     
+          ) as tt2
+		]]>
+	</insert>
+	
+	<insert id="productAlcSalesRecordHistoryInsert2">		
+		insert into tb_sales_record_ds_chang
+		select * from (
+			SELECT  IFNULL( (SELECT MAX(sales_record_ds_chang_id) FROM tb_sales_record_ds_chang) ,0) + @cnt + 1 AS sales_record_ds_chang_id
+									, #chg_sales_record_ds_id#  AS sales_record_ds_id
+									, tsrdc.alc_id
+									, tsrdc.alc_company_id  
+									, tsrdc.first_alc_id 
+									, tsrdc.first_company_id  
+									, tsrdc.delete_yn
+									, tsrdc.creator
+									, tsrdc.MODIFIER
+									, NOW() AS creation_date
+						 , tsrdc.modify_date 
+		FROM tb_sales_record_ds_chang tsrdc  , (SELECT @cnt:=0 ) AS cnt  
+		INNER JOIN tb_sales_record_ds tsrd ON   tsrd.sales_confer_id = #{old_sales_confer_id} AND tsrd.chang_yn ='1'
+			WHERE tsrd.sales_record_ds_id = tsrdc.sales_record_ds_id
+			AND tsrdc.alc_id NOT IN ( 
+				SELECT	tsrdc.alc_id 
+				  FROM	tb_sales_record_ds_chang tsrdc 
+				INNER JOIN tb_sales_record_ds tsrd WHERE tsrd.sales_confer_id = #{sales_confer_id} AND tsrd.chang_yn ='1' AND tsrdc.sales_record_ds_id =  tsrd.sales_record_ds_id
+			)  
+		 ) t1		
+	</insert>
+	
+	<insert id="productAlcSalesRecordHistoryModiInsert">		
+		INSERT INTO tb_sales_record_ds_chang (
+			sales_record_ds_chang_id
+			 , sales_record_ds_id
+			 , alc_id
+			 , delete_yn
+			 , creator
+			 , MODIFIER
+			 , creation_date
+			 , modify_date
+		      )
+		SELECT  IFNULL( (SELECT MAX(sales_record_ds_chang_id) FROM tb_sales_record_ds_chang) ,0) + @cnt + 1 AS sales_record_ds_chang_id
+			 , tsrdc.sales_record_ds_id
+			 , tsrdc.alc_id
+			 , tsrdc.delete_yn
+			 , tsrdc.creator
+			 , tsrdc.MODIFIER
+			 , NOW() as creation_date
+			 , tsrdc.modify_date 
+		 FROM	tb_sales_record_ds_chang tsrdc
+		 INNER JOIN tb_sales_record_ds tsrd 
+		 ON tsrdc.sales_record_ds_id = tsrd.sales_record_ds_id AND tsrd.sales_confer_id = #{sales_confer_id} AND tsrd.chang_yn ='1'
+	</insert>
+	
+	<insert id="productSalesInvoiceInsert">		
+		INSERT INTO tb_invoice (
+			invoice_name, sales_confer_id, checked,
+			split, issued, method,
+			price, payment_requisite_content, contract_number, invoice_content,
+			delete_yn, creator, creation_date
+		) VALUES (
+			#{invoice_name}, #{sales_confer_id}, #{checked}, 
+			#{split}, #{issued}, #{method},
+			#{price}, #{payment_requisite_content}, #{contract_number}, #{invoice_content},
+			'0', #{creator}, now()
+		)					
+	</insert>
+	
+	<update id="productSalesInvoiceUpdate">		
+		update	tb_invoice
+		   set	invoice_name                = #{invoice_name},
+		   		sales_confer_id             = #{sales_confer_id},
+		   		checked                     = #{checked},
+		   		split                       = #{split},
+		   		issued                      = #{issued},
+		   		method                      = #{method},
+		   		price                       = #{price},
+		   		payment_requisite_content   = #{payment_requisite_content},
+		   		contract_number             = #{contract_number},
+		   		invoice_content             = #{invoice_content},
+		   		delete_yn                   = '0',
+		   		modifier                    = #{creator},
+		   		modify_date                 = now()
+		 where	invoice_id = #{sale_invoice_id} 		
+	</update>
+		
+	<insert id="productSalesMonthlyInsert">
+		<![CDATA[
+			INSERT INTO tb_sales_confer_monthly (
+				sales_confer_year, sales_confer_month, status_cd,
+				delete_yn, creator, creation_date
+			) VALUES (
+				#{sales_confer_year}, #{sales_confer_month}, #{status_cd}, 
+				'0', #{creator}, now()
+			)
+		]]>
+		<selectKey keyProperty="sales_confer_monthly_id" resultType="int">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
+	</insert>
+	
+	<update id="productSalesConferFinalUpdate">
+		UPDATE	tb_sales_confer 
+		   SET	sales_confer_monthly_id = #{sales_confer_monthly_id},
+		   		status_cd = #{status_cd},
+		   		modifier = #{creator},
+		   		modify_date = now()
+		 WHERE	sales_confer_id = #{sales_confer_id}		
+	</update>
+	
+	<select id="selectCheckContract" parameterType="productSalesVO" resultType="productSalesVO">
+		SELECT * FROM (
+			SELECT tsc.contract_number_id, tsc.sales_confer_kind, tc1.code_name , tsc.sales_confer_monthly_id, CASE WHEN tsc.sales_confer_monthly_id IS NULL THEN 'N' ELSE 'Y' END AS sales_confer_monthly_yn
+				FROM tb_sales_confer tsc
+				LEFT OUTER JOIN tb_code tc1 ON tc1.group_id = '146' AND tc1.delete_yn = '0' AND tsc.sales_confer_kind = tc1.code_id
+				WHERE tsc.contract_number_id = #{contract_number_id}
+				AND  ( (  '10' = #{sales_confer_kind} AND  tsc.sales_confer_kind IN ( '10' )) 
+				   OR  (  '20' = #{sales_confer_kind}  AND  tsc.sales_confer_kind IN ( '10', '20')  ) 
+				   OR  (  '30' = #{sales_confer_kind}  AND  tsc.sales_confer_kind IN ( '10', '30')  ) 
+				     )
+				ORDER BY tsc.contract_number_id, tsc.sales_confer_kind DESC
+			) AS t 
+		WHERE sales_confer_monthly_yn = 'Y'
+		GROUP BY  contract_number_id		
+	</select>
+	
+	<select id="productSalesAlcSearch" parameterType="productSalesVO" resultType="productSalesVO">		
+		SELECT	t.*, SUM(1)
+		  FROM	(
+				SELECT	*
+				  FROM	tb_product_list
+				 WHERE	trigram = #{trigram} 
+				   AND	portfolio = #{portfolio}
+				   AND	prd_number = #{prd_number}
+				   AND	TYPE = #{prd_type}
+				   AND	revision = #{prd_revision}
+				) AS t		
+	</select>
+	
+	<delete id="productAlcSalesRecordBeforeDel">
+		DELETE
+		  FROM	tb_sales_record_ds_chang  
+		 WHERE	sales_record_ds_chang_id IN (
+			SELECT	*
+			  FROM	(
+					SELECT	tsrdc.sales_record_ds_chang_id
+					  FROM	tb_sales_record_ds_chang tsrdc 
+					  INNER JOIN tb_sales_record_ds tdsr ON tdsr.sales_record_ds_id = tsrdc.sales_record_ds_id 
+					  INNER JOIN tb_sales_confer tsc ON tdsr.sales_confer_id = tsc.sales_confer_id
+	     			   AND	tsc.sales_confer_id = #{sales_confer_id}
+	     			) tt
+			)			
+	</delete>
+	
+	<delete id="productAlcSalesRecordHistoryDel">
+		DELETE
+		  from	tb_sales_record_ds_chang
+		 WHERE	delete_yn = '0'
+		   AND	sales_record_ds_id = #{sales_record_ds_id}		
+	</delete>
+	
+	<delete id="productDSSalesRecordDel">
+		UPDATE	tb_sales_record_ds
+		   SET	delete_yn ='1', modifier = #{modifier}, modify_date = now()
+		 WHERE	sales_record_ds_id = #{sales_record_ds_id}
+		   AND	chang_yn = #{chang_yn}		
+	</delete>
+	
+	<delete id="productSalesRecordDel">
+		UPDATE	tb_sales_record
+		   SET	delete_yn ='1', modifier = #{modifier}, modify_date = now()
+		 WHERE	sales_record_id = #{sales_record_id}		
+	</delete>
+	
+	<delete id="productSalesInvoiceDel">
+		UPDATE	tb_invoice
+		   SET	delete_yn ='1', modifier = #{modifier}, modify_date = now()
+		 WHERE	invoice_id = #{invoice_id}		
+	</delete>
+			
+	<delete id="productSalesConferDel">
+		UPDATE	tb_sales_confer
+		   SET	delete_yn ='1', modifier = #{modifier}, modify_date = now()
+		 WHERE	sales_confer_id = #{sales_confer_id}		
+	</delete>
+</mapper>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.sas.admin.service.impl.SalesAdminMapper">
+	
+	<select id="selectSalesUserList" resultType="salesAdminInfoVO">
+		SELECT	division_cd,
+				user_id,
+				user_name
+		  FROM	tb_users		       
+		 WHERE  delete_yn = '0'		
+	</select>
+	
+	<select id="selectSalesCompanyList" resultType="salesAdminInfoVO">
+		SELECT	company_id,
+				company_name		
+		  FROM	tb_company
+		 WHERE	delete_yn = '0'		
+	</select>
+	
+	<select id="selectSalesAdminList" parameterType="salesAdminSearchVO" resultType="salesAdminInfoVO">
+		SELECT	t1.sales_id
+		       , t3.code_name AS division_cd
+		       , t2.user_name
+		       , t1.user_id AS sales_user
+		       , t1.sales_divide_cd
+		       , case when t1.issue_yn =1 then '○' else  '×' end AS issue_yn
+		       , t5.code_name AS sales_status_cd
+		       , t6.code_name AS sales_type_cd
+		       , t4.company_name AS company_id
+		       , t7.code_name AS brand_cd
+		       , t1.module
+		       , t1.contract_ym
+		       , t1.qty
+		       , t1.contract_price
+		       , t1.profit_price
+		       , t1.report_item
+		FROM   tb_sales t1
+		       inner join tb_users t2    on t1.user_id    = t2.user_id      
+		       AND	t2.delete_yn  = '0'
+		       inner join tb_code t3     on t3.group_id   = '109'           
+		       AND	t1.division_cd=t3.code_id 
+		       AND	t3.delete_yn  = '0'
+		       inner join tb_company t4  on t1.company_id = t4.company_id
+		       inner join tb_code t5     on t5.group_id   = '115'
+		       AND	t1.sales_status_cd=t5.code_id
+		       AND	t5.delete_yn  = '0'
+		       inner join tb_code t6     on t6.group_id   = '116'
+		       AND	t1.sales_type_cd=t6.code_id
+		       AND	t6.delete_yn  = '0'
+		       inner join tb_code t7     on t7.group_id   = '117'
+		       AND	t1.brand_cd=t7.code_id
+		       AND	t7.delete_yn  = '0'
+		WHERE  t1.delete_yn = '0'			  	
+		<if test="division_cd!=null and division_cd!=''">				
+			AND	t1.division_cd = #{division_cd}								
+		</if>
+		<if test="user_list!=null and user_list!=''">
+			AND	t1.user_id = #{user_list}									
+		</if>
+		<if test="sales_type_cd!=null and sales_type_cd!=''">		
+			AND	t6.code_name = #{sales_type_cd}									
+		</if>
+		<if test="sales_status_cd!=null and sales_status_cd!=''">
+			AND	t1.sales_status_cd = #{sales_status_cd}									
+		</if>
+		<if test="company_id!=null and company_id!=''">
+			AND	t4.company_name = #{company_id}									
+		</if>
+		<if test="brand_cd!=null and brand_cd!=''">
+			AND	t7.code_name = #{brand_cd}									
+		</if>
+		<if test="year!=null and year!=''">				
+			AND	SUBSTR(t1.contract_ym, 1,4) = #{year}								
+		</if>
+		<if test="month!=null and month!=''">				
+			AND	SUBSTR(t1.contract_ym, 5,2) = #{month}								
+		</if>
+		<if test="sales_status_cd!=null and sales_status_cd!=''">				
+			AND	t1.sales_divide_cd = #{sales_divide_cd}								
+		</if>
+		<if test="issue_yn!=null and issue_yn!=''">				
+			AND	t1.issue_yn = #{issue_yn}								
+		</if>		
+
+		ORDER BY company_id DESC
+
+		<if test="pageingYn!=null and pageingYn.equals('Y')">
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+		</if>
+
+	</select>
+
+	<select id="selectSalesAdminListTotCnt" parameterType="salesAdminSearchVO" resultType="int">
+		<![CDATA[
+			SELECT	count(*)
+			  FROM	tb_sales t1
+		      inner join	tb_users t2    on t1.creator    = t2.user_id
+		       AND	t2.delete_yn  = '0'
+		      inner join tb_code t3     on t3.group_id   = '109'
+		       AND	t1.division_cd=t3.code_id
+		       AND	t3.delete_yn  = '0'
+		       inner join tb_company t4  on t1.company_id = t4.company_id
+		       inner join tb_code t5     on t5.group_id   = '115'
+		       AND	t1.sales_status_cd = t5.code_id
+		       AND	t5.delete_yn  = '0'
+		       inner join tb_code t6     on t6.group_id   = '116'
+		       AND	t1.sales_type_cd=t6.code_id
+		       AND	t6.delete_yn  = '0'
+		       inner join tb_code t7     on t7.group_id   = '117'
+		       AND	t1.brand_cd = t7.code_id
+		       AND	t7.delete_yn  = '0'
+		       inner join (SELECT @RN:=0) AS R
+			WHERE  t1.delete_yn = '0'
+		]]>
+	  	<if test="division_cd!=null and division_cd!=''">				
+			AND	t1.division_cd = #{division_cd}								
+		</if>
+		<if test="user_list!=null and user_list!=''">
+			AND	t1.user_id = #{user_list}									
+		</if>
+		<if test="sales_type_cd!=null and sales_type_cd!=''">		
+			AND	t6.code_name = #{sales_type_cd}									
+		</if>
+		<if test="sales_status_cd!=null and sales_status_cd!=''">
+			AND	t1.sales_status_cd = #{sales_status_cd}									
+		</if>
+		<if test="company_id!=null and company_id!=''">
+			AND	t4.company_name = #{company_id}									
+		</if>
+		<if test="brand_cd!=null and brand_cd!=''">
+			AND	t7.code_name = #{brand_cd}									
+		</if>
+		<if test="year!=null and year!=''">				
+			AND	SUBSTR(t1.contract_ym, 1,4) = #{year}								
+		</if>
+		<if test="month!=null and month!=''">				
+			AND	SUBSTR(t1.contract_ym, 5,2) = #{month}								
+		</if>
+		<if test="sales_status_cd!=null and sales_status_cd!=''">				
+			AND	t1.sales_divide_cd = #{sales_divide_cd}								
+		</if>
+		<if test="issue_yn!=null and issue_yn!=''">				
+			AND	t1.issue_yn = #{issue_yn}								
+		</if>
+	</select>
+	
+	<insert id="insertSalesAdmin" parameterType="salesAdminInfoVO">		
+		INSERT INTO tb_sales ( division_cd
+								, user_id
+								, contract_ym
+								, sales_divide_cd
+								, issue_yn
+								, sales_status_cd
+								, sales_type_cd
+								, company_id
+								, brand_cd
+								, module
+								, qty
+								, report_item
+								, contract_price
+								, profit_price
+								, delete_yn
+								, creator
+								, creation_date
+							)
+		VALUES (    #{division_cd}
+					, #{sales_user}
+					, #{contract_ym}
+					, #{sales_divide_cd}
+					, #{issue_yn}
+					, #{sales_status_cd}
+					, #{sales_type_cd}
+					, #{company_id}
+					, #{brand_cd}
+					, #{module}
+					, #{qty}
+					, #{report_item}
+					, #{contract_price}
+					, #{profit_price}
+					, '0'
+					, #{creator}
+					, now()
+				)	
+	</insert>
+		
+	<update id="deleteSalesAdmin">
+		UPDATE	tb_sales
+		   SET	delete_yn = #{deleteYn},
+		   		modifier = #{modifier},
+		   		modify_date  = now()
+		WHERE sales_id = #{sales_id}		
+	</update>
+
+</mapper>

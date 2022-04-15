@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.exp.individual.service.impl.IndividualMapper">	
+	<select id="individualSelectList" parameterType="individualVO" resultType="individualVO">
+		<![CDATA[
+			(
+				SELECT 
+					SUBSTR(TM.drive_day, 5,2) AS expanse_month, 'mileage' AS expanse_type, '마일리지' AS expanse_type_name, SUM(TM.cost) AS payment,
+					TM.status_cd, TC.code_name AS status_cd_name, '90' AS order_seq		
+				FROM tb_mileage TM
+				LEFT JOIN tb_code TC ON TC.group_id = 101 AND TC.code_id = TM.status_cd
+				WHERE TM.creator = #{creator} AND TM.delete_yn = 0 AND TM.drive_day LIKE concat(#{expanse_year}, '%') AND TM.status_cd <> 707
+				GROUP BY expanse_month
+			)
+			UNION ALL
+			(
+				SELECT 
+					TE.expanse_month, TE.expanse_type, TC.code_name expanse_type_name, SUM(TE.payment) payment, 
+					TE.status_cd, TC2.code_name status_cd_name, TC.order_seq
+				FROM tb_expanse TE
+				LEFT JOIN tb_code TC ON TC.group_id = 102 AND TC.code_id = TE.expanse_type
+				LEFT JOIN tb_code TC2 ON TC2.group_id = 101 AND TC2.code_id = TE.status_cd
+				WHERE TE.creator = #{creator} AND TE.delete_yn = 0 AND TE.expanse_year = #{expanse_year} AND TE.status_cd <> 707
+				GROUP BY TE.expanse_month, TE.expanse_type
+			)
+			ORDER BY expanse_month, order_seq
+		]]>
+	</select>
+	
+	<select id="individualSelectExcelList" parameterType="individualVO" resultType="individualVO">
+		<![CDATA[
+			SELECT month_name, text1, text2, text3, text4, text5, status_cd_name 
+			FROM  ( SELECT '월' AS month_name
+			             , MAX(CASE WHEN seq = 1 THEN code_name ELSE 0 END ) text1
+			             , MAX(CASE WHEN seq = 2 THEN code_name ELSE 0 END ) text2
+			             , MAX(CASE WHEN seq = 3 THEN code_name ELSE 0 END ) text3
+			             , MAX(CASE WHEN seq = 4 THEN code_name ELSE 0 END ) text4
+			             , MAX(CASE WHEN seq = 99 THEN code_name ELSE 0 END ) text5
+			             , '진행상황' AS status_cd_name
+			        FROM ( SELECT code_id , code_name, @cnt:=@cnt+1 seq FROM tb_code TC INNER JOIN (SELECT @cnt:=0 )AS tt WHERE TC.group_id = 102 AND delete_yn ='0' 
+			               UNION ALL   
+			               SELECT '999' AS code_id, '마일리지' AS code_name,  99 AS seq
+			              ) AS t1       
+			       ) AS t11
+			
+			UNION ALL 
+			
+			SELECT  CONCAT(   CASE WHEN flag = 1 THEN month_name ELSE '' END  
+			                , CASE WHEN flag = 2 THEN 1Q         ELSE '' END  
+			                , CASE WHEN flag = 3 THEN 2Q         ELSE '' END  
+			                , CASE WHEN flag = 4 THEN 1stH       ELSE '' END  
+			                , CASE WHEN flag = 5 THEN 3Q         ELSE '' END  
+			                , CASE WHEN flag = 6 THEN 4Q         ELSE '' END  
+			                , CASE WHEN flag = 7 THEN 2ndH       ELSE '' END   
+			                , CASE WHEN flag = 8 THEN total      ELSE '' END   
+			               ) month_name
+			      , SUM(text1) text1
+			      , SUM(text2) text2
+			      , SUM(text3) text3
+			      , SUM(text4) text4
+			      , SUM(text5) text5   
+			      , CONCAT(  CASE WHEN flag = 1 THEN status_cd_name ELSE '' END  
+			               , CASE WHEN flag = 2 THEN ''             ELSE '' END  
+			               , CASE WHEN flag = 3 THEN ''             ELSE '' END  
+			               , CASE WHEN flag = 4 THEN ''             ELSE '' END  
+			               , CASE WHEN flag = 5 THEN ''             ELSE '' END  
+			               , CASE WHEN flag = 6 THEN ''             ELSE '' END  
+			               , CASE WHEN flag = 7 THEN ''             ELSE '' END   
+			               , CASE WHEN flag = 8 THEN ''             ELSE '' END   
+			               ) status_cd_name 
+			FROM (
+			      SELECT month_name 
+					       , CASE WHEN order_seq IN ( 10, 20,30)               THEN '1Q'  ELSE '' END AS '1Q'
+					       , CASE WHEN order_seq IN ( 40, 50,60)               THEN '2Q'  ELSE '' END AS '2Q'
+					       , CASE WHEN order_seq IN ( 10,20,30, 40, 50,60)     THEN '1stH' ELSE '' END AS '1stH'
+					       , CASE WHEN order_seq IN ( 70, 80,90)               THEN '3Q'  ELSE '' END AS '3Q'
+					       , CASE WHEN order_seq IN ( 100, 110,120)            THEN '4Q'  ELSE '' END AS '4Q'
+					       , CASE WHEN order_seq IN ( 40, 50,60, 100, 110,120) THEN '2ndH' ELSE '' END AS '2ndH'
+					       , 'total'
+					       , SUM(CASE WHEN seq = 1 THEN 
+						  		                           CASE WHEN payment IS NULL OR payment = '' THEN 0 ELSE payment END 
+						  		     ELSE 0 END ) text1
+					       , SUM(CASE WHEN seq = 2 THEN 
+						  		                           CASE WHEN payment IS NULL OR payment = '' THEN 0 ELSE payment END 
+						  		     ELSE 0 END ) text2
+					       , SUM(CASE WHEN seq = 3 THEN 
+						  		                           CASE WHEN payment IS NULL OR payment = '' THEN 0 ELSE payment END 
+			    			  		 ELSE 0 END) text3
+					       , SUM(CASE WHEN seq = 4 THEN 
+						  		                           CASE WHEN payment IS NULL OR payment = '' THEN 0 ELSE payment END 
+						  		     ELSE 0 END ) text4
+					       , SUM(CASE WHEN seq = 99 THEN 
+						  		                           CASE WHEN payment IS NULL OR payment = '' THEN 0 ELSE payment END 
+						  		     ELSE 0 END ) text5
+					       , MAX(CASE WHEN status_cd_name IS NULL OR status_cd_name = '' THEN '' ELSE status_cd_name END) status_cd_name
+					       , order_seq
+					   FROM ( SELECT t2.month_name,  t2.expanse_month, t2.order_seq, t3.code_id AS expanse_type, t3.code_name, t3.seq 
+					          FROM   (SELECT CONCAT(code_name, '월') AS month_name, code_id AS expanse_month, order_seq FROM tb_code WHERE group_id = '124' ) t2
+					            JOIN ( SELECT * 
+					                   FROM  ( SELECT code_id , code_name, @cnt:=@cnt+1 seq FROM tb_code TC INNER JOIN (SELECT @cnt:=0 )AS tt WHERE TC.group_id = 102 AND delete_yn ='0' 
+						                         UNION ALL   SELECT '999' AS code_id, '마일리지' AS code_name,  99 AS seq 
+						                        ) AS tt
+					                   ) t3  
+					          ORDER BY order_seq  
+					 
+					         ) s1
+					   LEFT OUTER JOIN	( SELECT * 
+					                      FROM ( SELECT * FROM  
+					                             ( SELECT SUBSTR(TM.drive_day, 5,2) AS expanse_month, '999' AS expanse_type, '마일리지' AS expanse_type_name, SUM(TM.cost) AS payment,
+										                            TM.status_cd, TC.code_name AS status_cd_name 	
+									                       FROM tb_mileage TM
+									                       LEFT JOIN tb_code TC ON TC.group_id = 101 AND TC.code_id = TM.status_cd
+									                       WHERE TM.creator = #{creator} AND TM.delete_yn = 0 AND TM.drive_day LIKE CONCAT(#{expanse_year}, '%') AND TM.status_cd <> 707
+									                       GROUP BY expanse_month
+								                       ) AS tt1
+								                       UNION ALL
+								                       SELECT * FROM 
+								                      (
+								                     	SELECT 
+								                     		TE.expanse_month, TE.expanse_type,  '' expanse_type_name,  SUM(TE.payment) payment, 
+								                     		TE.status_cd, TC2.code_name status_cd_name 
+								                     	FROM tb_expanse TE 
+								                     	LEFT JOIN tb_code TC2 ON TC2.group_id = 101 AND TC2.code_id = TE.status_cd
+								                     	WHERE TE.creator = #{creator} AND TE.delete_yn = 0 AND TE.expanse_year = #{expanse_year} AND TE.status_cd <> 707
+								                     	GROUP BY TE.expanse_month, TE.expanse_type
+								                      ) tt2
+								                  
+								                      ) ttt
+								                 ORDER BY expanse_month 
+							                 ) s2
+					    ON s1.expanse_month = s2.expanse_month AND s1.expanse_type = s2.expanse_type
+					    GROUP BY order_seq
+			     ) AS s11
+			JOIN ( SELECT 1 flag UNION ALL SELECT 2 flag UNION ALL SELECT 3 flag UNION ALL SELECT 4 flag UNION ALL
+			       SELECT 5 flag UNION ALL SELECT 6 flag UNION ALL SELECT 7 flag UNION ALL SELECT 8 flag 
+			     ) s2
+			WHERE  CONCAT( CASE WHEN flag = 1 THEN month_name ELSE '' END  
+			     , CASE WHEN flag = 2 THEN 1Q   ELSE '' END  
+			     , CASE WHEN flag = 3 THEN 2Q   ELSE '' END  
+			     , CASE WHEN flag = 4 THEN 1stH ELSE '' END  
+			     , CASE WHEN flag = 5 THEN 3Q   ELSE '' END  
+			     , CASE WHEN flag = 6 THEN 4Q   ELSE '' END  
+			     , CASE WHEN flag = 7 THEN 2ndH ELSE '' END   
+			     , CASE WHEN flag = 8 THEN total ELSE '' END   ) <> ''
+			GROUP BY CAST(CONCAT(  CASE WHEN (CASE WHEN flag = 1 THEN month_name ELSE '' END) ='' THEN '' ELSE order_seq END  
+			                     , CASE WHEN (CASE WHEN flag = 2 THEN 1Q         ELSE '' END) ='' THEN '' ELSE 31        END  
+			                     , CASE WHEN (CASE WHEN flag = 3 THEN 2Q         ELSE '' END) ='' THEN '' ELSE 61        END
+			                     , CASE WHEN (CASE WHEN flag = 4 THEN 1stH       ELSE '' END) ='' THEN '' ELSE 62        END
+			                     , CASE WHEN (CASE WHEN flag = 5 THEN 3Q         ELSE '' END) ='' THEN '' ELSE 91        END
+			                     , CASE WHEN (CASE WHEN flag = 6 THEN 4Q         ELSE '' END) ='' THEN '' ELSE 121       END
+			                     , CASE WHEN (CASE WHEN flag = 7 THEN 2ndH       ELSE '' END) ='' THEN '' ELSE 122       END
+			                     , CASE WHEN (CASE WHEN flag = 8 THEN total      ELSE '' END) ='' THEN '' ELSE 123       END )  AS UNSIGNED
+			              ) 
+			       , CONCAT(  CASE WHEN flag = 1 THEN month_name ELSE '' END  
+			                , CASE WHEN flag = 2 THEN 1Q         ELSE '' END  
+			                , CASE WHEN flag = 3 THEN 2Q         ELSE '' END  
+			                , CASE WHEN flag = 4 THEN 1stH       ELSE '' END  
+			                , CASE WHEN flag = 5 THEN 3Q         ELSE '' END  
+			                , CASE WHEN flag = 6 THEN 4Q         ELSE '' END  
+			                , CASE WHEN flag = 7 THEN 2ndH       ELSE '' END   
+			                , CASE WHEN flag = 8 THEN total      ELSE '' END   )
+			       , CONCAT(  CASE WHEN flag = 1 THEN status_cd_name ELSE '' END  
+			                , CASE WHEN flag = 2 THEN             '' ELSE '' END  
+			                , CASE WHEN flag = 3 THEN             '' ELSE '' END  
+			                , CASE WHEN flag = 4 THEN             '' ELSE '' END  
+			                , CASE WHEN flag = 5 THEN             '' ELSE '' END  
+			                , CASE WHEN flag = 6 THEN             '' ELSE '' END  
+			                , CASE WHEN flag = 7 THEN             '' ELSE '' END   
+			                , CASE WHEN flag = 8 THEN             '' ELSE '' END   )
+
+		]]>
+	</select>
+
+</mapper>

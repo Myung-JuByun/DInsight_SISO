@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+	<aop:config>
+		<aop:pointcut id="serviceMethod" expression="execution(* siso..impl.*Impl.*(..))" />
+
+		<aop:aspect ref="exceptionTransfer">
+			<aop:after-throwing throwing="exception" pointcut-ref="serviceMethod" method="transfer" />
+		</aop:aspect>
+	</aop:config>
+	
+	<bean id="exceptionTransfer" class="egovframework.rte.fdl.cmmn.aspect.ExceptionTransfer">
+		<property name="exceptionHandlerService">
+			<list>
+				<ref bean="defaultExceptionHandleManager" />
+				<ref bean="otherExceptionHandleManager" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="defaultExceptionHandleManager" class="egovframework.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager">
+		<property name="reqExpMatcher">
+			<ref bean="antPathMater"/>
+		</property>
+		<property name="patterns">
+			<list>
+				<value>**service.impl.*</value>
+			</list>
+		</property>
+		<property name="handlers">
+			<list>
+				<ref bean="springHandler" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="otherExceptionHandleManager" class="egovframework.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager">
+		<property name="reqExpMatcher">
+			<ref bean="antPathMater"/>
+		</property>
+		<property name="patterns">
+			<list>
+				<value>**service.impl.*</value>
+			</list>
+		</property>
+		<property name="handlers">
+			<list>
+				<ref bean="otherHandler" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- System Log... START-->			
+	<bean name="egovSysLogIdGnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="dataSource" />
+		<property name="strategy"   ref="sysLogStrategy" />
+		<property name="blockSize"  value="10"/>
+		<property name="table"	   	value="COMTECOPSEQ"/>
+		<property name="tableName"	value="SYSLOG_ID"/>
+	</bean>
+	<bean name="sysLogStrategy" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix"   value="SYSLOG_" />
+		<property name="cipers"   value="13" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	<!-- System Log... END-->	
+	
+	<bean name="egovMailMsgIdGnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="dataSource" />
+		<property name="strategy"   ref="mailMsgtrategy" />
+		<property name="blockSize"  value="10"/>
+		<property name="table"	   	value="COMTECOPSEQ"/>
+		<property name="tableName"	value="MAILMSG_ID"/>
+	</bean>
+	<bean name="mailMsgtrategy" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix"   value="MAILMSG_" />
+		<property name="cipers"   value="12" />
+		<property name="fillChar" value="0" />
+	</bean>	
+
+	<bean id="springHandler" class="siso.cmmn.SpringSampleExcepHndlr" />
+	<bean id="otherHandler" class="siso.cmmn.SpringSampleOthersExcepHndlr" />	
+	
+</beans>

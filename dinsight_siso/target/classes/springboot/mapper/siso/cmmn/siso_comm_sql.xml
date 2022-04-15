@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.cmmn.cmm.service.impl.CmmUseMapper">	
+	
+	<select id="selectAllCmnCodeCombo" resultType="cmmnDetailCode">		
+		SELECT group_id 
+               ,code_id  
+               ,code_name 
+               ,etc1
+               ,etc2
+               ,etc3
+               ,etc4
+          FROM tb_code
+         WHERE delete_yn  = '0'
+		 ORDER BY group_id ASC , order_seq ASC		
+	</select>
+
+	<select id="selectCmnCodeCombo" parameterType="ComDefaultCodeVO" resultType="cmmnDetailCode">		
+		SELECT	group_id 
+              	,code_id  
+              	,code_name 
+              	,etc1
+              	,etc2
+              	,etc3
+              	,etc4
+          FROM	tb_code
+         WHERE	group_id = #{group_id}
+		   AND	delete_yn = '0'
+		 ORDER BY order_seq ASC		
+	</select>
+    
+    <select id="selectCmnMenuCombo" parameterType="ComDefaultCodeVO" resultType="cmmnDetailCode">
+		SELECT	menu_level AS group_id
+				,menu_id    AS code_id
+				,menu_name  AS code_name
+                ,'' as etc1
+                ,'' as etc2
+                ,'' as etc3
+                ,'' as etc4
+          FROM	tb_menu
+         WHERE	delete_yn = 0         
+		<if test="group_level!=null and group_level > 0">
+		   AND	menu_level = #{group_level}
+		</if>
+		
+		<choose>
+			<when test="group_level!=null and group_level==2">
+				AND	level1_id = #{group_id}
+			</when>	
+			<when test="group_level!=null and group_level==3">
+				AND	level2_id = #{group_id}
+			</when>
+			<otherwise></otherwise>			   
+		</choose>
+		   
+		ORDER BY order_seq ASC					
+	</select>
+    
+    <select id="selectCmnExpCategoryCombo" parameterType="ComDefaultCodeVO" resultType="cmmnDetailCode">	
+		SELECT category_level AS group_id
+	          ,category_id    AS code_id
+              ,CONCAT(REPEAT('    ', category_level - 1),category_name) AS code_name
+              ,'' as etc1
+              ,'' as etc2
+              ,'' as etc3
+              ,'' as etc4
+          FROM (
+            SELECT c1.category_id
+                  ,c1.category_level
+                  ,c1.category_name
+                  ,(CASE WHEN c1.category_level = 1 then c1.category_id 
+                         WHEN c1.category_level = 2 then c1.parent_id
+			             WHEN c1.category_level = 3 then c2.parent_id
+                    END) as level1_id
+                  ,(CASE WHEN c1.category_level = 1 then 0 
+                         WHEN c1.category_level = 2 then c1.category_id
+			             WHEN c1.category_level = 3 then c1.parent_id
+                    END) as level2_id
+                  ,(CASE WHEN c1.category_level = 1 then 0 
+                         WHEN c1.category_level = 2 then 0
+			             WHEN c1.category_level = 3 then c2.category_id
+                    END) as level3_id
+             FROM tb_expanse_category c1
+               left outer join tb_expanse_category c2 ON (c1.parent_id = c2.category_id)
+            WHERE c1.delete_yn = 0         
+	        <if test="group_level!=null and group_level > 0">
+			   AND	menu_level = #{group_level}
+			</if>
+			
+			<choose>
+				<when test="group_level!=null and group_level==2">
+					AND	level1_id = #{group_id}
+				</when>	
+				<when test="group_level!=null and group_level==3">
+					AND	level2_id = #{group_id}
+				</when>
+				<otherwise></otherwise>			   
+			</choose>
+          ) a
+		order by level1_id asc , level2_id asc , level3_id asc , category_id asc		
+	</select>	
+    
+    <select id="selectAlcAdminProductCategorySearch" parameterType="alcAdminVO" resultType="alcAdminVO">
+		SELECT	tpl1.portfolio, tpl1.prd_number, tpl1.TYPE prd_type, tpl1.trigram, tpl1.portfolio_item_name, tpl1.alc AS list_price, tpl1.revision
+		  FROM	tb_product_list tpl1, 
+		  		( SELECT	MAX(revision ) AS revision, portfolio, prd_number, TYPE, trigram
+		  		    FROM	tb_product_list
+		  		   WHERE	1=1
+					<if test="portfolio!=null and portfolio!=''">
+						AND	portfolio LIKE CONCAT('%',#{portfolio},'%')
+					</if>
+						
+					<if test="trigram!=null and trigram!=''">
+						AND	trigram LIKE CONCAT('%',#{trigram},'%')
+					</if>
+											
+					GROUP BY portfolio, prd_number, TYPE, trigram
+			     ) tpl2
+			WHERE tpl1.revision 	   = tpl2.revision
+			AND   tpl1.portfolio       = tpl2.portfolio
+			AND   tpl1.prd_number      = tpl2.prd_number
+			AND   tpl1.TYPE            = tpl2.TYPE
+			AND   tpl1.trigram         = tpl2.trigram
+			ORDER BY tpl1.portfolio, tpl1.prd_number, tpl1.TYPE , tpl1.trigram, tpl1.portfolio_item_name
+	</select>
+	
+	  <select id="selectSalesProductCategorySearch" parameterType="productSalesVO" resultType="alcAdminVO">
+	  	SELECT	tpl1.portfolio,
+				tpl1.prd_number,
+				tpl1.TYPE prd_type,
+				tpl1.trigram,
+				tpl1.portfolio_item_name,
+				tpl1.alc,
+				tpl1.plc, 
+				tpl1.alc + tpl1.plc  as list_price, 
+				tpl1.qlc as qlc_list_price, 
+				tpl1.ylc as ylc_list_price, 
+				tpl1.revision
+		  FROM	tb_product_list tpl1, 
+		  		(SELECT	MAX(revision ) AS revision, portfolio, prd_number, TYPE , trigram
+			       FROM	tb_product_list
+			      WHERE 1=1		
+				<if test="portfolio!=null and portfolio!=''">
+					AND	portfolio LIKE CONCAT('%',#{portfolio},'%')
+				</if>
+					
+				<if test="trigram!=null and trigram!=''">
+					AND	trigram LIKE CONCAT('%',#{trigram},'%')
+				</if>
+					GROUP BY portfolio, prd_number, TYPE, trigram
+			     ) tpl2
+		WHERE tpl1.revision 	   = tpl2.revision
+		AND   tpl1.portfolio       = tpl2.portfolio
+		AND   tpl1.prd_number      = tpl2.prd_number
+		AND   tpl1.TYPE            = tpl2.TYPE
+		AND   tpl1.trigram         = tpl2.trigram
+		ORDER BY tpl1.portfolio, tpl1.prd_number, tpl1.TYPE , tpl1.trigram, tpl1.portfolio_item_name
+	</select>
+	
+	<select id="selectGrantList" resultType="cmmnDetailCode">		
+		SELECT
+			'' as group_id
+			,grant_id as code_id
+			,grant_name as code_name
+			,grant_explain as etc1
+			,'' as etc2
+			,'' as etc3
+			,'' as etc4
+		FROM tb_grant
+		WHERE delete_yn = 0		
+	</select>
+	
+	<select id="menuList" parameterType="comMenuVO" resultType="comMenuVO">		
+		SELECT 
+			  menu_id as menuId
+			, menu_name as menuName
+			, menu_url as menuUrl
+			, order_seq as orderSeq
+			, menu_level as menuLevel
+			, level1_id as level1Id
+		FROM tb_menu
+		WHERE delete_yn=0		
+	</select>
+	
+	<select id="selectWeekDate" parameterType="comDefaultVO" resultType="comDefaultVO">
+		<![CDATA[
+		SELECT	sh_year as sh_default_year,
+				sh_month as sh_default_month,
+				sh_week as sh_default_week,
+				start_date as start_default_date,
+				end_date as end_default_date
+ 		  FROM	(  
+ 		  		SELECT sh_year, sh_month
+					 , CASE WHEN R = 5 THEN sh_week
+					        WHEN R = 4 THEN sh_week -1
+					        WHEN R = 3 THEN sh_week -2
+					        WHEN R = 2 THEN sh_week -3
+					        WHEN R = 1 THEN sh_week -4
+					        END AS sh_week
+					 , CASE WHEN R = 5 THEN sh_day
+					        WHEN R = 4 THEN DATE_FORMAT(DATE_ADD(sh_day , INTERVAL  -7 * 1 DAY) ,'%Y%m%d')
+					        WHEN R = 3 THEN DATE_FORMAT(DATE_ADD(sh_day , INTERVAL  -7 * 2 DAY) ,'%Y%m%d')
+					        WHEN R = 2 THEN DATE_FORMAT(DATE_ADD(sh_day , INTERVAL  -7 * 3 DAY) ,'%Y%m%d')
+					        WHEN R = 1 THEN DATE_FORMAT(DATE_ADD(sh_day , INTERVAL  -7 * 4 DAY) ,'%Y%m%d')
+					        END AS start_date
+					 , CASE WHEN R = 5 THEN sh_day_2
+					        WHEN R = 4 THEN DATE_FORMAT(DATE_ADD(sh_day_2 , INTERVAL  -7 * 1 DAY) ,'%Y%m%d')
+					        WHEN R = 3 THEN DATE_FORMAT(DATE_ADD(sh_day_2 , INTERVAL  -7 * 2 DAY) ,'%Y%m%d')
+					        WHEN R = 2 THEN DATE_FORMAT(DATE_ADD(sh_day_2 , INTERVAL  -7 * 3 DAY) ,'%Y%m%d')
+					        WHEN R = 1 THEN DATE_FORMAT(DATE_ADD(sh_day_2 , INTERVAL  -7 * 4 DAY) ,'%Y%m%d')
+					        END AS end_date
+				FROM (
+						SELECT  SUBSTR(sh_tt, 1, 4) AS sh_year
+						     ,  SUBSTR(sh_tt, 5, 2) AS sh_month
+						     ,  WEEK(sh_tt,5) - WEEK(DATE_SUB(sh_tt,INTERVAL DAYOFMONTH(sh_tt)-1 DAY),5) + 1 - ( tt ) AS sh_week
+
+						     ,  SUBSTR(sh_tt_2, 1, 4) AS sh_year_2
+						     ,  SUBSTR(sh_tt_2, 5, 2) AS sh_month_2
+						     ,  WEEK(sh_tt_2,5) - WEEK(DATE_SUB(sh_tt_2,INTERVAL DAYOFMONTH(sh_tt_2)-1 DAY),5) + 1 - ( tt_2 ) AS sh_week_2
+						     , sh_day, sh_day_2
+
+						FROM  (  SELECT  DATE_FORMAT(DATE_ADD(sh_day, INTERVAL ABS( CASE WHEN (DAYOFWEEK(sh_day)-2) < 0 THEN '-6'  ELSE (DAYOFWEEK(sh_day)-2) END )*-1  DAY),'%Y%m%d')  AS sh_tt
+						               , CASE WHEN ( DATE_FORMAT((SELECT DATE_ADD(CONCAT(SUBSTR(sh_day,1,6),'01'), INTERVAL (DAYOFWEEK(CONCAT(SUBSTR(sh_day,1,6),'01'))-2) * -1 DAY)) ,'%d')  ) ='01' THEN '0' ELSE '1' END  AS tt
+						               , DATE_FORMAT(DATE_ADD(sh_day_12, INTERVAL ABS( CASE WHEN (DAYOFWEEK(sh_day_12)-2) < 0 THEN '-6'  ELSE (DAYOFWEEK(sh_day_12)-2) END )*-1  DAY),'%Y%m%d')  AS sh_tt_2
+						               , CASE WHEN ( DATE_FORMAT((SELECT DATE_ADD(CONCAT(SUBSTR(sh_day_12,1,6),'01'), INTERVAL (DAYOFWEEK(CONCAT(SUBSTR(sh_day_12,1,6),'01'))-2) * -1 DAY)) ,'%d')  ) ='01' THEN '0' ELSE '1' END  AS tt_2
+						               , sh_day, sh_day_2
+								FROM  ( 
+											SELECT 
+												CASE WHEN DAYOFWEEK(sh_day_11) = 1 THEN
+													DATE_FORMAT(DATE_ADD( sh_day_11 , INTERVAL ((DAYOFWEEK(sh_day_11)-2) * -1)-7 DAY)  , '%Y%m%d')
+												ELSE
+													DATE_FORMAT(DATE_ADD( sh_day_11 , INTERVAL (DAYOFWEEK(sh_day_11)-2) * -1 DAY)  , '%Y%m%d')
+												END sh_day ,
+												CASE WHEN DAYOFWEEK(sh_day_11) = 1 THEN
+													DATE_FORMAT(DATE_ADD( sh_day_11 , INTERVAL ((DAYOFWEEK(sh_day_11)-8) * -1)-7 DAY)  , '%Y%m%d')
+												ELSE
+													DATE_FORMAT(DATE_ADD( sh_day_11 , INTERVAL (DAYOFWEEK(sh_day_11)-8) * -1 DAY)  , '%Y%m%d')
+												END sh_day_2 ,
+												sh_day_11 AS sh_day_12
+											FROM
+											(
+												SELECT  DATE_FORMAT(LAST_DAY(CONCAT( concat(#{sh_default_year},#{sh_default_month}),'01') ),'%Y%m%d') AS sh_day_11
+											) T												
+                              			)	T2
+							) TT
+						) TT2
+					, (SELECT 1 R UNION ALL SELECT 2 R UNION ALL SELECT 3 R UNION ALL SELECT 4 R UNION ALL SELECT 5 R) AS	RR
+					HAVING	sh_year = #{sh_default_year}
+			  		   AND 	sh_month = #{sh_default_month}
+			 		   AND	sh_week = #{sh_default_week}
+				) X
+		]]>
+	</select>
+
+</mapper>            

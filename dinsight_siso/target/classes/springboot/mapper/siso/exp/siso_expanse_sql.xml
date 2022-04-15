@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.exp.service.impl.ExpanseMapper">	
+	
+	<insert id="insertExpanseAdmin" parameterType="expanseSearchVO">
+		<selectKey resultType="int" keyProperty="expanseId">
+			SELECT COALESCE(MAX(expanse_id),0) + 1 expanseId
+			    FROM tb_expanse
+	    </selectKey>
+	    
+		<![CDATA[
+			INSERT INTO tb_expanse ( expanse_id
+                                    ,expanse_name
+                                    ,expanse_type
+                                    ,pay_day
+                                    ,category_id
+                                    ,payment
+                                    ,expanse_year
+                                    ,expanse_month
+                                    ,division_cd
+                                    ,status_cd
+                                    ,creator
+                                    ,creation_date
+               )
+			VALUES ( #{expanse_id}
+				  , #{expanse_name}
+				  , #{expanse_type}
+				  , #{pay_day}
+				  , #{category_id}
+				  , #{payment} 
+				  , #{expanse_year}
+				  , #{expanse_month}
+				  , #{division_cd}
+				  , #{status_cd}
+				  , #{user_id}
+				  , now()
+	        )
+		]]>
+	</insert>
+	
+	<update id="updateExpanseAdmin" parameterType="expanseSearchVO">		
+		UPDATE	tb_expanse 
+		   SET	expanse_name = #{expanse_name},
+		   		expanse_type = #{expanse_type},
+		   		pay_day      = #{pay_day},
+		   		category_id  = #{category_id},
+		   		payment      = #{payment}, 
+		   		modifier     = #{user_id}, 
+		   		modify_date  = now()
+		WHERE expanse_id = #{expanse_id}		
+	</update>
+	
+	<delete id="deleteExpanseAdmin" parameterType="expanseSearchVO">		
+		UPDATE	tb_expanse
+		   SET	delete_yn    = #{delete_yn},
+		   		modifier     = #{user_id},
+		   		modify_date  = now()
+		 WHERE	expanse_id = #{expanse_id}		
+	</delete>
+	
+	<select id="selectExpanseList" parameterType="expanseSearchVO" resultType="expanseInfoVO">		
+		SELECT	expanse_id,
+				expanse_name,
+				expanse_type,
+				pay_day,
+				category_id,
+				payment,
+				expanse_year,
+				expanse_month,
+				submited_date,
+				approved_date,
+				finalized_date,
+				division_cd,
+				status_cd,
+				delete_yn,
+				creator,
+				modifier,
+				creation_date,
+				modify_date
+		FROM tb_expanse 
+		WHERE delete_yn = '0' 		
+	    <if test="expanse_year!=null and expanse_year!=''">
+			AND	expanse_year = #{expanse_year}
+		</if>
+		
+		<if test="expanse_month!=null and expanse_month!=''">
+			AND	expanse_month = #{expanse_month}
+		</if>
+		
+		<if test="expanse_id > 0">
+		    AND	expanse_id = #{expanse_id}
+		</if>
+		
+		<if test="user_id > 0">
+		   creator = #{user_id}
+		</if>
+			
+		ORDER BY expanse_id DESC
+		
+		<if test="pageingYn!=null and pageingYn='Y'.toString()">
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+		</if>						
+	</select>
+	
+	
+	<select id="selectExpanseListTotCnt" parameterType="expanseSearchVO" resultType="int">
+		SELECT count(*)
+		      ,sum(payment) AS payment
+		FROM tb_expanse 
+		WHERE delete_yn = '0' 
+			
+		<if test="expanse_year!=null and expanse_year!=''">
+			AND	expanse_year = #{expanse_year}
+		</if>
+		
+		<if test="expanse_month!=null and expanse_month!=''">
+			AND	expanse_month = #{expanse_month}
+		</if>
+		
+		<if test="expanse_id > 0">
+		    AND	expanse_id = #{expanse_id}
+		</if>
+		
+		<if test="user_id > 0">
+		   creator = #{user_id}
+		</if>
+			
+	</select>
+
+</mapper>

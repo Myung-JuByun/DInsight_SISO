@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.sas.quote.service.impl.SalesQuoteMapper">
+
+	<select id="selectSalesQuoteSearchList" resultType="salesQuoteVO">
+		<![CDATA[
+		SELECT quote_id
+				,quote_project_code
+				,quote_project_code_id
+				,quote_name
+				,quote_file_name
+				,quote_file_id
+				,quote_file_path
+				,quote_rivision
+				,t1.creator
+			FROM tb_quote t1
+			LEFT JOIN tb_sales_project TSP ON t1.quote_project_code_id = TSP.sales_project_id
+			LEFT JOIN tb_users TU ON TU.user_id = TSP.user_id
+			LEFT JOIN tb_division TD ON TD.division_cd = TSP.operation_cd
+			LEFT JOIN tb_company TCY ON TCY.company_id = TSP.company_id
+			WHERE quote_rivision = (
+				SELECT MAX(t2.quote_rivision)
+				FROM tb_quote t2
+				WHERE t1.quote_project_code = t2.quote_project_code
+			)
+			AND t1.delete_yn = '0'
+		]]>	
+		
+		<if test="sales_project_year!=null and sales_project_year!=''">
+			<choose>
+				<when test="sales_project_month!=null and sales_project_month!=''">
+					AND	t1.creation_date LIKE CONCAT( #{sales_project_year},'-', #{sales_project_month},'%')
+				</when>
+				<otherwise>
+					AND	t1.creation_date LIKE CONCAT( #{sales_project_year},'%')
+				</otherwise>
+			</choose>
+		</if>
+		
+		<if test="company_name!=null and company_name!=''">
+			AND	TCY.company_name like concat('%', #{company_name}, '%')
+		</if>
+		
+		<if test="sales_type_cd!=null and sales_type_cd!=''">
+			AND	TSP.sales_type_cd = #{sales_type_cd}
+		</if>
+		
+		<if test="sales_status_cd!=null and sales_status_cd!=''">
+			AND	TSP.sales_status_cd = #{sales_status_cd}
+		</if>
+		
+		<if test="brand_cd!=null and brand_cd!=''">
+			AND	TSP.brand_cd = #{brand_cd}
+		</if>
+		
+		<if test="user_id!=null and user_id!=''">
+			AND	TSP.user_id = #{user_id}
+		</if>
+		
+		<if test="division_child_list!=null">
+			AND	TSP.operation_cd IN
+			<foreach collection="division_child_list" item="division_child" open="(" close=")" separator=",">	
+				#{division_child} 
+			</foreach> 
+		</if>
+		
+		ORDER BY t1.creation_date DESC
+	</select>
+	
+	<select id="selectSalesQuoteRivisionList" parameterType="salesQuoteSearchVO" resultType="salesQuoteVO">
+		SELECT 	 TQ.quote_id
+			,TQ.quote_project_code
+			,TQ.quote_project_code_id
+			,TQ.quote_name
+			,TQ.quote_file_name
+			,TQ.quote_file_id
+			,TQ.quote_file_path
+			,TQ.quote_rivision
+			,TU.user_name AS quote_user_name
+			,TQ.creation_date
+		FROM tb_quote TQ
+		LEFT JOIN tb_users TU ON TU.user_id = TQ.creator
+		WHERE TQ.quote_project_code = #{in_quote_project_code}
+		ORDER BY TQ.quote_rivision DESC
+	</select>
+	
+	<select id="selectCountSalesQuote" parameterType="salesQuoteSearchVO" resultType="salesQuoteVO">
+		SELECT	count(*) as project_code_count
+		  FROM	tb_quote t1
+		 WHERE	quote_project_code = #{in_quote_project_code}
+	</select>
+	
+	<select id="selectQuoteFiledown" parameterType="salesQuoteSearchVO" resultType="salesQuoteVO">
+		SELECT 	 quote_file_name
+				,quote_file_id
+				,quote_file_path
+		  FROM	tb_quote 
+		 WHERE	quote_id = #{sh_quote_id}
+	</select>
+	
+	<update id="saveSalesQuote" parameterType="salesQuoteSearchVO">
+		INSERT INTO tb_quote (
+			 quote_project_code_id
+			,quote_project_code
+			,quote_name
+			,quote_file_name
+			,quote_file_id
+			,quote_file_path
+			,quote_rivision
+			,creator
+			,creation_date
+		)SELECT 
+			 #{in_quote_project_code_id}
+			,#{in_quote_project_code}
+			,#{in_quote_name}
+			,#{in_quote_file_name}
+			,#{in_quote_file_id}
+			,#{in_quote_file_path}
+			,CASE WHEN COUNT(quote_project_code) = 0 THEN 1 ELSE MAX(quote_rivision)+1 END AS quote_rivision				
+			,#{creator}
+			,now()
+		FROM	tb_quote
+	   WHERE	quote_project_code = #{in_quote_project_code}
+	</update>
+</mapper>

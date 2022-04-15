@@ -1,0 +1,223 @@
+/*
+ * Copyright 2008-2009 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package siso.sas.admin.service;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+
+import siso.cmmn.ComDefaultVO;
+
+/**
+ * @Class Name : CustomerSearchVO.java
+ * @Description : CustomerSearchVO Class
+ * @Modification Information
+ * @
+ * @  수정일      수정자              수정내용
+ * @ ---------   ---------   -------------------------------
+ * @ 2014.07.10           최초생성
+ *
+ * @author 개발프레임웍크 실행환경 개발팀
+ * @since 2009. 03.16
+ * @version 1.0
+ * @see
+ *
+ *  Copyright (C) by MOPAS All right reserved.
+ */
+public class SalesAdminSearchVO extends ComDefaultVO {
+
+	/**
+	 *  serialVersion UID
+	 */
+	private static final long serialVersionUID = -858838578081269359L;
+
+    /** 부서 */
+    private String division_cd = "";
+        
+    /** 담당영업 selectbox */
+    private String user_list = "";
+    
+    /** 영업 status */
+    private String sales_divide_cd = "";
+    
+    /** year */
+    private String year = "";
+    
+    /** month */
+    private String month = "";
+
+    /** 신규 or ALC */
+    private String sales_status_cd = "";
+    
+    /** 영업 유형 */
+    private String sales_type_cd;
+        
+    /** 브랜드코드 */
+    private String brand_cd;
+    
+    /** 영업이슈여부 */
+    private String issue_yn = "";
+    
+    /** 고객사 */
+    private String company_id = "";
+    
+    /** sales id (삭제) */
+    private String[] sales_id;
+    
+    
+    
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+
+
+	public String getDivision_cd() {
+		return division_cd;
+	}
+
+
+
+	public void setDivision_cd(String division_cd) {
+		this.division_cd = division_cd;
+	}
+
+
+
+	public String getSales_divide_cd() {
+		return sales_divide_cd;
+	}
+
+
+
+	public void setSales_divide_cd(String sales_divide_cd) {
+		this.sales_divide_cd = sales_divide_cd;
+	}
+
+
+
+	public String getYear() {
+		return year;
+	}
+
+
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+
+
+	public String getMonth() {
+		return month;
+	}
+
+
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+
+
+	public String getSales_status_cd() {
+		return sales_status_cd;
+	}
+
+
+
+	public void setSales_status_cd(String sales_status_cd) {
+		this.sales_status_cd = sales_status_cd;
+	}
+
+
+
+	public String getIssue_yn() {
+		return issue_yn;
+	}
+
+
+
+	public void setIssue_yn(String issue_yn) {
+		this.issue_yn = issue_yn;
+	}
+
+
+
+	public String getCompany_id() {
+		return company_id;
+	}
+
+
+
+	public void setCompany_id(String company_id) {
+		this.company_id = company_id;
+	}
+
+
+
+	public String[] getSales_id() {
+		return sales_id;
+	}
+
+
+
+	public void setSales_id(String[] sales_id) {
+		this.sales_id = sales_id;
+	}
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
+	public String getUser_list() {
+		return user_list;
+	}
+
+
+
+	public void setUser_list(String user_list) {
+		this.user_list = user_list;
+	}
+
+
+
+	public String getSales_type_cd() {
+		return sales_type_cd;
+	}
+
+
+
+	public void setSales_type_cd(String sales_type_cd) {
+		this.sales_type_cd = sales_type_cd;
+	}
+
+
+
+	public String getBrand_cd() {
+		return brand_cd;
+	}
+
+
+
+	public void setBrand_cd(String brand_cd) {
+		this.brand_cd = brand_cd;
+	}
+
+}

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.adm.user.service.impl.UserAdminMapper">	
+	
+	<insert id="userAdminDivisionInsert" parameterType="userAdminVO">
+		<![CDATA[
+			INSERT INTO tb_division (
+				division_id, division_cd, division_name, etc_explain, division_level, parent_cd, 
+				order_seq, operation_yn, operation_cd, delete_yn, creator, creation_date
+			) VALUES (
+				#{division_id}, #{division_cd}, #{division_name}, #{etc_explain}, #{division_level}, #{parent_cd},
+				#{order_seq}, #{operation_yn}, #{operation_cd}, '0', #{creator}, now()
+			)
+			ON DUPLICATE KEY 
+			UPDATE division_cd = #{division_cd}, division_name = #{division_name}, etc_explain = #{etc_explain},
+			division_level = #{division_level}, parent_cd = #{parent_cd},
+			order_seq = #{order_seq}, operation_yn = #{operation_yn}, operation_cd = #{operation_cd},
+			delete_yn = 0, modifier = #{modifier}, modify_date = now()
+		]]>
+	</insert>
+	
+	<update id="userAdminDivisionDelete" parameterType="userAdminVO">
+		<![CDATA[
+			UPDATE tb_division
+			SET 
+				delete_yn ='1', modifier = #{modifier}, modify_date = now(),
+				operation_yn = '0', operation_cd = null
+			WHERE division_id = #{division_id}
+		]]>
+	</update>
+	
+	<select id="userAdminSearchCount" parameterType="userAdminVO" resultType="String">
+		<![CDATA[
+			SELECT COUNT(user_id) 
+			FROM tb_users WHERE login_id = #{login_id}
+		]]>
+	</select>
+	
+	<insert id="userAdminUserInsert" parameterType="userAdminVO">
+		<![CDATA[
+			INSERT INTO tb_users (
+				user_id, user_name, login_id, login_Passwd, last_division_cd, 
+				job_title_cd, name_english, registration_number, email, mobile, 
+				address, birthday, employ_type_cd, 
+				solar_yn, activate_yn, role_cd, head_yn, sales_yn,
+				delete_yn, creator, creation_date
+			) VALUES (
+				#{user_id}, #{user_name}, #{login_id}, #{login_Passwd}, #{last_division_cd}, 
+				#{job_title_cd}, #{name_english}, #{registration_number}, #{email}, #{mobile}, 
+				#{address}, #{birthday}, #{employ_type_cd},
+				#{solar_yn}, #{activate_yn}, #{role_cd}, #{head_yn}, #{sales_yn},
+				'0', #{creator}, now()
+			)
+			ON DUPLICATE KEY 
+			UPDATE user_name = #{user_name}, 
+			last_division_cd = #{last_division_cd}, job_title_cd = #{job_title_cd},
+			name_english = #{name_english}, registration_number = #{registration_number},
+			email = #{email}, mobile = #{mobile},
+			address = #{address}, birthday = #{birthday},
+			employ_type_cd = #{employ_type_cd}, solar_yn = #{solar_yn},
+			activate_yn = #{activate_yn}, role_cd = #{role_cd},
+			head_yn = #{head_yn}, sales_yn = #{sales_yn},
+			delete_yn = 0, modifier = #{modifier}, modify_date = now()
+		]]>
+	</insert>
+	
+	<update id="userAdminUserDelete" parameterType="userAdminVO">
+		UPDATE	tb_users
+		   SET	delete_yn = #{delete_yn}, modifier = #{modifier}, modify_date = now()
+		 WHERE	user_id = #{user_id}		
+	</update>
+	
+	<update id="userAdminUserHeadUpdate" parameterType="userAdminVO" >
+		UPDATE	tb_users
+		   SET	activate_yn = #{activate_yn}, modifier = #{modifier}, modify_date = now()
+		 WHERE	user_id = #{user_id}		
+	</update>
+	
+	<select id="userAdminUserPassCheck" parameterType="userAdminVO" resultType="String">
+		SELECT	COUNT(user_id) 
+		  FROM	tb_users
+		 WHERE	user_id = #{user_id} 
+		   AND	login_Passwd = #{login_Passwd}		
+	</select>
+	
+	<update id="userAdminUserPassUpdate" parameterType="userAdminVO">
+		UPDATE	tb_users
+		   SET	login_Passwd = #{login_Passwd}, modifier = #{modifier}, modify_date = now()
+		 WHERE	user_id = #{user_id}		
+	</update>
+	
+	<select id="userAdminUserInfo" parameterType="userAdminVO" resultType="userAdminVO">		
+		SELECT
+			TU.user_id, TU.user_name, TU.login_id, TU.login_Passwd, TU.last_division_cd, TD.division_name AS last_division_cd_name,
+			TU.job_title_cd, TC.code_name AS job_title_cd_name, TU.name_english, TU.registration_number, TU.email, TU.mobile, 
+			TU.address, TU.birthday, TU.employ_type_cd, TC1.code_name AS employ_type_cd_name,
+			TU.solar_yn, TU.activate_yn, TU.role_cd, TC2.code_name AS role_cd_name, TU.head_yn, TU.sales_yn,
+			TU.delete_yn, TU.creator, TU.`modifier`
+		FROM tb_users TU
+		LEFT JOIN tb_division TD ON TD.division_cd = TU.last_division_cd
+		LEFT JOIN tb_code TC ON TC.code_id = TU.job_title_cd AND TC.group_id = 104
+		LEFT JOIN tb_code TC1 ON TC1.code_id = TU.employ_type_cd AND TC1.group_id = 111
+		LEFT JOIN tb_code TC2 ON TC2.code_id = TU.role_cd AND TC2.group_id = 121
+		WHERE TU.user_id = #{user_id}		
+	</select>
+
+</mapper>

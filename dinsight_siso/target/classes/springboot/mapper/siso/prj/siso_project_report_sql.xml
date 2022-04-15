@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.prj.report.service.impl.ProjectReportMapper">
+	
+	<select id="selectProjectReportList" parameterType="projectReportVO" resultType="projectReportVO">
+		<![CDATA[
+			SELECT 
+				TP.project_id, TP.project_name, TPM.user_id, TPC.*
+			FROM tb_project TP
+			LEFT JOIN tb_project_member TPM ON TPM.project_id = TP.project_id AND TPM.delete_yn = 0
+			LEFT JOIN (
+				SELECT 
+					TPC2.commute_id, TPC2.project_id AS commute_project_id, TPC2.report_ym, TPC2.report_week, 
+					TPC2.mon_status_cd, TPC2.tue_status_cd, TPC2.wed_status_cd, TPC2.thu_status_cd, 
+					TPC2.fri_status_cd, TPC2.sat_status_cd, TPC2.sun_status_cd,
+					TPC2.mon_working_hour, TPC2.tue_working_hour, TPC2.wed_working_hour, TPC2.thu_working_hour,
+					TPC2.fri_working_hour, TPC2.sat_working_hour, TPC2.sun_working_hour, 
+					TPC2.man_hour, TPC2.man_month, TPC2.status_cd, TC.code_name AS status_cd_name, TPC2.issue_report
+				FROM tb_project_commute TPC2
+				LEFT JOIN tb_code TC ON TC.code_id = TPC2.status_cd AND TC.group_id = 101
+				WHERE user_id = #{creator} AND report_ym = concat(#{sh_project_year}, #{sh_project_month}) AND report_week = #{sh_project_week}
+					AND status_cd IN ('701','702','703','704','706') 
+			) AS TPC ON TPC.commute_project_id = TPM.project_id
+			WHERE TP.delete_yn = 0 AND TPM.user_id = #{creator} 
+				AND STR_TO_DATE(TPM.job_start_day, '%Y%m%d') <  #{sh_project_week_day}
+				AND DATE_ADD(STR_TO_DATE(REPLACE(TPM.job_end_day,'-',''), '%Y%m%d'),INTERVAL +7 DAY) >= #{sh_project_week_day}
+		]]>
+		
+		ORDER BY TP.project_name
+		
+	</select>
+	
+	<select id="projectReportTot" parameterType="projectReportVO" resultType="String">
+		<![CDATA[
+		SELECT	COUNT(*) 
+		  FROM	tb_project_commute
+		 WHERE	user_id = #{creator}
+		   AND	report_ym = #{report_ym} 
+		   AND	report_week = #{report_week}
+		   AND	project_id = #{project_id}
+ 		]]>
+	</select>
+	
+	<select id="projectReportDateCheckTot" parameterType="projectReportVO" resultType="String">
+		<![CDATA[
+		SELECT	COUNT(*) 
+		  FROM	tb_project_member 
+		 WHERE	user_id = #{creator}
+		   AND	project_id = #{project_id}
+		   AND	STR_TO_DATE(job_start_day, '%Y%m%d') < #{sh_project_week_day}
+		   AND	DATE_ADD(STR_TO_DATE(REPLACE(job_end_day,'-',''), '%Y%m%d'),INTERVAL +7 DAY) >= #{sh_project_week_day}
+ 		]]>
+	</select>
+
+	<insert id="projectReportInsert">
+		<![CDATA[
+		INSERT INTO tb_project_commute (
+			commute_id, project_id, report_ym, report_week, user_id, 
+			mon_status_cd, tue_status_cd, wed_status_cd, thu_status_cd, fri_status_cd,
+			sat_status_cd, sun_status_cd,
+			mon_working_hour, tue_working_hour, wed_working_hour, thu_working_hour, 
+			fri_working_hour, sat_working_hour, sun_working_hour,
+			man_hour, status_cd, issue_report, delete_yn, creator, creation_date
+		) VALUES (
+			#{commute_id}, #{project_id}, #{report_ym}, #{report_week}, #{user_id}, 
+			#{mon_status_cd}, #{tue_status_cd}, #{wed_status_cd}, #{thu_status_cd}, #{fri_status_cd},
+			#{sat_status_cd}, #{sun_status_cd},
+			#{mon_working_hour}, #{tue_working_hour}, #{wed_working_hour}, #{thu_working_hour}, 
+			#{fri_working_hour}, #{sat_working_hour}, #{sun_working_hour},
+			#{man_hour}, #{status_cd}, #{issue_report}, 0, #{creator}, now()
+		) 
+		ON DUPLICATE KEY 
+		UPDATE mon_status_cd = #{mon_status_cd}, tue_status_cd = #{tue_status_cd}, 
+		wed_status_cd = #{wed_status_cd}, thu_status_cd = #{thu_status_cd}, fri_status_cd = #{fri_status_cd}, 
+		sat_status_cd = #{sat_status_cd}, sun_status_cd = #{sun_status_cd}, mon_working_hour = #{mon_working_hour},
+		tue_working_hour = #{tue_working_hour}, wed_working_hour = #{wed_working_hour},
+		thu_working_hour = #{thu_working_hour}, fri_working_hour = #{fri_working_hour},
+		sat_working_hour = #{sat_working_hour}, sun_working_hour = #{sun_working_hour},
+		man_hour = #{man_hour}, status_cd = #{status_cd}, issue_report = #{issue_report},
+		modifier = #{modifier}, modify_date = now()
+		]]>
+	</insert>
+	
+	<insert id="projectReportWeeklyInsert">
+		<![CDATA[
+		INSERT INTO tb_project_weekly (
+			project_year, project_month, project_weekly, status_cd, delete_yn, creator, creation_date
+		) VALUES (
+			#{sh_project_year}, #{sh_project_month}, #{sh_project_week}, #{status_cd}, '0', #{creator}, now()
+		)			
+		]]>
+		
+		<selectKey keyProperty="project_weekly_id" resultType="int">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
+	</insert>
+	
+	<update id="projectReportFinalUpdate">
+		<![CDATA[
+		UPDATE	tb_project_commute 
+		   SET	project_weekly_id= #{project_weekly_id}, status_cd = #{status_cd}, modifier = #{modifier}, modify_date = now()
+		 WHERE	commute_id = #{commute_id}
+		]]>
+	</update>
+
+</mapper>

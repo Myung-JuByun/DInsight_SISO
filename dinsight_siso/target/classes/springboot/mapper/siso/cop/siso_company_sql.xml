@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.cop.service.impl.CustomerMapper">	
+	
+	<select id="selectCustomerList" parameterType="customerSearchVO" resultType="customerInfoVO">
+		<![CDATA[
+			SELECT * FROM (
+				SELECT 
+					rn, CEIL(rn/#{rowNum}) AS page, CEIL(cnt/#{rowNum}) AS max_rn,
+					company_name, company_eng, company_id, chairman, sales_customer_user_id, sales_customer,
+					business_category, business_condition, company_reg_number, company_reg_check,
+					corporate_number, corporate_number_check, site_id, company_file_name, company_file_id,
+					company_file_path, phone_number, fax, post1, post2, address, address_eng,
+					company_yn, charger_yn, creator, modifier, etc, user_name
+				FROM (
+					SELECT 
+						@rn := @rn + 1 AS rn
+						, A1.cnt
+						, A.company_name
+						, A.company_eng
+						, A.company_id
+						, A.chairman
+						, (      SELECT GROUP_CONCAT( tu.user_id   ORDER BY tu.user_id)  FROM tb_users tu
+							INNER JOIN   tb_division td ON tu.last_division_cd = td.division_cd
+							LEFT OUTER JOIN tb_code tc ON tc.group_id = '104' AND tc.code_id = tu.job_title_cd
+							WHERE user_id IN (SELECT  sales_customer FROM tb_company_sales_customer WHERE company_id = A.company_id AND delete_yn = '0')
+						) AS sales_customer_user_id
+						, (      SELECT GROUP_CONCAT( tu.user_name   ORDER BY tu.user_id)  FROM tb_users tu
+							INNER JOIN   tb_division td ON tu.last_division_cd = td.division_cd
+							LEFT OUTER JOIN tb_code tc ON tc.group_id = '104' AND tc.code_id = tu.job_title_cd
+							WHERE user_id IN (SELECT  sales_customer FROM tb_company_sales_customer WHERE company_id = A.company_id AND delete_yn = '0')
+						) AS sales_customer
+						, A.business_category
+						, A.business_condition
+						, A.company_reg_number
+						, A.company_reg_check
+						, A.corporate_number
+						, A.corporate_number_check
+						, A.site_id
+						, A.company_file_name
+						, A.company_file_id
+						, A.company_file_path
+						, A.phone_number
+						, A.fax
+						, IF(IFNULL(A.zipcode,'')>'0',SUBSTR(A.zipcode,1,3),'') AS post1
+						, IF(IFNULL(A.zipcode,'')>'0',SUBSTR(A.zipcode,4),'')   AS post2
+						, A.address
+						, A.address_eng
+						, A.company_yn
+						, A.charger_yn
+						, A.creator
+						, A.modifier
+						, A.etc
+						, (SELECT user_name FROM tb_users WHERE user_id = A.creator) as user_name
+					FROM	tb_company A, ( SELECT @rn :=0 ) R, 
+							( SELECT COUNT(*) AS cnt FROM tb_company AA
+				  			  WHERE AA.delete_yn = '0'
+					]]>
+				
+							<if test="searchString!=null and searchString!=''">				
+								AND	AA.company_name LIKE CONCAT('%', #{searchString}, '%')							
+							</if>
+							<if test="business_condition!=null and business_condition!=''">							
+								AND	AA.business_condition = #{business_condition}								
+							</if>
+							<if test="business_category!=null and business_category!=''">
+								AND	AA.business_category = #{business_category}									
+							</if>
+							
+							<if test="division_child_list!=null">
+								AND	DD.operation_cd IN
+								<foreach collection="division_child_list" open="(" close=")" separator="," item="division_child">	
+									#{division_child} 
+								</foreach> 
+							</if>							
+							
+					<![CDATA[
+							  
+							) A1
+					WHERE   A.delete_yn = '0'
+					]]>
+					
+					<if test="searchString!=null and searchString!=''">				
+						AND	A.company_name LIKE CONCAT('%', #{searchString}, '%')							
+					</if>
+					<if test="business_condition!=null and business_condition!=''">							
+						AND	A.business_condition = #{business_condition}								
+					</if>
+					<if test="business_category!=null and business_category!=''">
+						AND	A.business_category = #{business_category}									
+					</if>
+					
+					<if test="division_child_list!=null">
+						AND	D.operation_cd IN
+						<foreach collection="division_child_list" open="(" close=")" separator="," item="division_child">	
+							#{division_child} 
+						</foreach> 
+					</if>	
+					
+		<![CDATA[
+					ORDER BY A.creation_date DESC
+				) x1
+			) x2
+			WHERE 1=1
+		]]>
+		
+		<if test="page > 0">
+			AND	page = #{page}
+		</if>
+	</select>
+
+	<select id="selectCustomerListTotCnt" parameterType="customerSearchVO" resultType="int">
+		<![CDATA[
+			SELECT count(*)
+			FROM     tb_company A
+			         INNER JOIN tb_code B ON  B.group_id = '108'  AND B.code_id = A.business_category
+			         INNER JOIN tb_code C ON  C.group_id = '107'  AND C.code_id = A.business_condition
+			WHERE    A.delete_yn = '0'
+		]]>
+		
+		<if test="searchString!=null and searchString!=''">				
+			AND	A.company_name LIKE CONCAT('%', #{searchString}, '%')							
+		</if>
+		<if test="business_condition!=null and business_condition!=''">							
+			AND	A.business_condition = #{business_condition}								
+		</if>
+		<if test="business_category!=null and business_category!=''">
+			AND	A.business_category = #{business_category}									
+		</if>
+	</select>
+	
+	
+	<insert id="insertCustomerAdmin" parameterType="customerInfoVO">		
+		INSERT INTO tb_company (
+				company_id
+			  , company_name
+			  , company_eng
+			  , chairman
+			  , business_category
+			  , business_condition
+			  , company_reg_number
+			  , company_reg_check
+			  , corporate_number
+              , corporate_number_check
+			  , site_id
+			  , phone_number
+			  , fax
+			  , zipcode
+			  , address
+			  , address_eng
+			  , company_yn
+			  , charger_yn
+			  , company_file_name
+			  , company_file_id
+			  , company_file_path
+			  , etc
+			  , operation_cd
+			  , delete_yn
+			  , creator
+			  , creation_date
+          			)
+		VALUES (     
+			 #{company_id}
+			  , #{company_name}
+			  , #{company_eng}
+			  , #{chairman}
+			  , #{business_category}
+			  , #{business_condition}
+			  , #{company_reg_number}
+			  , #{company_reg_check}
+			  , #{corporate_number}
+              , #{corporate_number_check}
+			  , #{site_id}
+			  , #{phone_number}
+			  , #{main_fax}
+			  , #{zipcode}
+			  , #{address}
+			  , #{address_eng}
+			  , #{company_yn}
+			  , #{charger_yn}
+			  , #{company_file_name}
+			  , #{company_file_id}
+			  , #{company_file_path}
+			  , #{etc}
+			  , #{operation_cd}
+	      	  , '0'
+	      	  , #{creator}
+	      	  , now()
+			      )						
+	  ON DUPLICATE KEY 
+         UPDATE  	
+             company_name          = #{company_name}
+            , company_eng           = #{company_eng}
+            , chairman              = #{chairman}
+            , business_category     = #{business_category}
+            , business_condition    = #{business_condition}
+            , company_reg_number    = #{company_reg_number}
+            , company_reg_check     = #{company_reg_check}
+            , corporate_number      = #{corporate_number}
+            , corporate_number_check = #{corporate_number_check}
+            , site_id               = #{site_id}
+            , phone_number          = #{phone_number}
+            , fax                   = #{main_fax}
+            , zipcode        		= #{zipcode}
+            , address               = #{address}
+            , address_eng           = #{address_eng}
+            , company_yn            = #{company_yn}
+            , charger_yn            = #{charger_yn}
+         	
+		<if test="company_file_id!=null and company_file_id!=''">
+         	,company_file_name		= #{company_file_name}
+	        ,company_file_id		= #{company_file_id}
+			,company_file_path		= #{company_file_path}
+		</if>
+		
+        	,etc                   = #{etc}
+        	,modifier				= #{modifier}
+        	,modify_date			= now()		
+		
+		<selectKey keyProperty="company_id" resultType="int">
+	       	SELECT LAST_INSERT_ID()
+	   	</selectKey>
+	</insert>
+	
+	<select id="salesProjectCodeCount" parameterType="customerInfoVO" resultType="int">
+		SELECT	COUNT(*) AS companyCnt
+		  FROM	tb_sales_project
+	     WHERE	company_id = #{company_id}
+	       AND	delete_yn = 0
+	</select>
+	
+	<select id="projectCount" parameterType="customerInfoVO" resultType="int">
+		SELECT	COUNT(*) AS companyCnt
+		  FROM	tb_project
+	     WHERE	company_id = #{company_id}
+	       AND	delete_yn = 0
+	</select>
+	
+	<select id="salesConferCount" parameterType="customerInfoVO" resultType="int">
+		SELECT	COUNT(*) AS companyCnt
+		  FROM	tb_sales_confer
+	     WHERE	company_id = #{company_id}
+	       AND	delete_yn = 0
+	</select>
+	
+	<update id="deleteCustomerAdmin" parameterType="customerInfoVO">					
+		UPDATE	tb_company 
+		   SET	delete_yn    = #{deleteYn}
+		   		, modifier     = #{modifier}
+				, modify_date  = now()
+		 WHERE	company_id = #{company_id}		
+	</update>
+	
+	<update id="deleteUploadfile" parameterType="customerInfoVO">
+		UPDATE	tb_company 
+		   SET	company_file_name = NULL
+		   		,company_file_id = NULL
+		   		,company_file_path = NULL
+		 WHERE	company_id = #{company_id}		
+	</update>
+	
+	<select id="selectCustomerSubList" parameterType="customerSearchVO" resultType="customerInfoVO">		
+		SELECT  customer_id
+			     , a.customer_name
+			     , a.division
+			     , a.job_title
+			     , a.email
+			     , a.mobile
+			     , a.phone_number as sub_phone_number
+			     , a.fax
+			     , a.company_id
+			     , a.invoice_gb
+			     , b.code_name invoice_gb_nm
+		  FROM	tb_customer a INNER JOIN tb_code b ON b.group_id = '001' AND a.invoice_gb = b.code_id
+		 WHERE	a.delete_yn = '0'
+		   AND	company_id = #{sh_company_id}
+		ORDER BY customer_id DESC, customer_name DESC
+	</select>
+	
+	<insert id="insertCustomerSub" parameterType="customerInfoVO">			
+		INSERT INTO tb_customer (
+								customer_id
+								,customer_name
+								,division
+								,job_title
+								,email
+								,invoice_gb
+								,mobile
+								,phone_number
+								,fax
+								,company_id
+								,delete_yn
+								,creator
+								,creation_date
+								)
+		VALUES (  #{customer_id}
+				, #{customer_name}
+				, #{division}
+				, #{job_title}
+				, #{email}
+				, IFNULL(#{invoice_gb}, '0')
+				, #{mobile}
+				, #{sub_phone_number}
+				, #{fax}
+				, #{company_id}
+				, '0'
+				, #{creator}
+				, now()
+				)
+		ON DUPLICATE KEY 
+		UPDATE  customer_name     = #{customer_name}
+				,division         = #{division}
+				,job_title        = #{job_title}
+				,email            = #{email}
+				,invoice_gb       = #{invoice_gb} 
+				,mobile           = #{mobile}
+				,phone_number     = #{sub_phone_number}
+				,fax              = #{fax}
+				,company_id       = #{company_id}                                 
+				,modifier		  = #{modifier}
+         		,modify_date	  = now()                     		
+	</insert>
+	
+	<update id="deleteCustomerSub" parameterType="customerInfoVO">			
+		UPDATE	tb_customer
+		   SET	delete_yn = '1', 
+		   		modifier = #{modifier},
+		   		modify_date  = now()
+		 WHERE	customer_id = #{customer_id}
+		   AND	company_id = #{company_id}
+	</update>
+	
+	<select id="selectCompanyFiledown" parameterType="customerSearchVO" resultType="customerInfoVO">
+		SELECT	company_file_name
+				,company_file_id
+				,company_file_path
+		  FROM	tb_company
+		 WHERE	company_id = #{sh_company_id}
+	</select>
+	
+	<select id="selectCountRegNumber" parameterType="customerSearchVO" resultType="String">
+		SELECT 	count(*) company_reg_number
+		  FROM	tb_company
+		 WHERE	company_reg_number = #{company_reg_number}
+	</select>
+	
+	<select id="selectCountCorporateNumber" parameterType="customerSearchVO" resultType="String">
+		SELECT	count(*) corporate_number
+		  FROM	tb_company
+		 WHERE	corporate_number = #{corporate_number}
+	</select>
+	
+	<select id="selectCountCompanyName" parameterType="customerSearchVO" resultType="String">
+		SELECT	COUNT(*) company_name
+		  FROM	tb_company
+		 WHERE	company_name = #{company_name}
+		   AND	delete_yn = '0'
+	</select>
+	
+	<insert id="insertSalesCustomer" parameterType="customerSearchVO">	
+		INSERT INTO tb_company_sales_customer (
+                  company_sales_customer_id
+								, company_id
+							  , sales_customer
+							  , delete_yn
+							  , creator
+							  , creation_date
+           			)
+		VALUES (      #{company_sales_customer_id}
+		            , #{sales_company_id}
+					, #{sales_customer}
+			      	, '0'
+			      	, #{creator}
+			      	, now()
+				)
+	  ON DUPLICATE KEY
+	  UPDATE  	  company_id            = #{sales_company_id}
+	            , sales_customer        = #{sales_customer}
+	            , modifier              = #{modifier}
+	            , modify_date           = now()	
+	</insert>
+	
+	<update id="deleteSalesCustomer" parameterType="customerSearchVO">				
+		UPDATE	tb_company_sales_customer
+		   SET	delete_yn    = '1',
+		   		modifier     = #{modifier},
+		   		modify_date  = now()
+		 WHERE	company_id = #{sales_company_id}	
+	</update>
+</mapper>

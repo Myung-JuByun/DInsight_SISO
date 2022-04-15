@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.exp.payment.service.impl.PaymentMapper">	
+	<select id="selectPaymentInfoList" parameterType="paymentVO" resultType="paymentVO">
+		<![CDATA[
+			(
+				SELECT 
+					TAO.source_type_cd, '00' AS expanse_appoint_cd, '기안' AS expanse_appoint_cd_name,
+					TU.user_name, TC.code_name job_title_name, TD.division_name, TAO.approval_owner_id, 
+					TU.user_id, TU.user_id AS owner_id, '0' AS order_seq, TAO.delete_yn deleteYn,
+					TU.last_division_cd AS division_cd
+				FROM tb_users TU
+				LEFT JOIN tb_approval_owner TAO ON TAO.owner_id = TU.user_id AND TAO.expanse_appoint_cd IN ('00') AND TAO.delete_yn = 0
+					AND TAO.source_type_cd = #{sh_payment_type}
+				LEFT JOIN tb_division TD ON TD.division_cd = TU.last_division_cd
+				LEFT JOIN tb_code TC ON TC.group_id = 104 AND TC.code_id = TU.job_title_cd
+				WHERE TU.user_id = #{creator}
+			)
+			UNION ALL
+			(		
+				SELECT 
+					TAO.source_type_cd, TAO.expanse_appoint_cd, TC2.code_name AS expanse_appoint_cd_name,
+					TU.user_name, TC.code_name job_title_name, TD.division_name, TAO.approval_owner_id, 
+					TAO.user_id, TAO.owner_id, TAO.order_seq, TAO.delete_yn deleteYn,
+					TU.last_division_cd AS division_cd
+				FROM tb_approval_owner TAO
+				LEFT JOIN tb_users TU ON TU.user_id = TAO.owner_id
+				LEFT JOIN tb_division TD ON TD.division_cd = TU.last_division_cd
+				LEFT JOIN tb_code TC ON TC.group_id = 104 AND TC.code_id = TU.job_title_cd
+				LEFT JOIN tb_code TC2 ON TC2.group_id = 129 AND TC2.code_id = TAO.expanse_appoint_cd
+				WHERE TAO.user_id = #{creator} and TAO.delete_yn = 0 and expanse_appoint_cd NOT IN ('00','03')
+		]]>
+		
+		<if test="sh_payment_type!=null and sh_payment_type!=''">
+			AND	TAO.source_type_cd = #{sh_payment_type}
+		</if>
+		
+		<![CDATA[
+			)
+			ORDER BY order_seq
+		]]>
+	</select>
+	
+	<select id="selectPaymentDivision" parameterType="paymentVO" resultType="paymentVO">
+		<![CDATA[
+			SELECT * FROM (
+				SELECT 
+					division_id, division_cd, division_name, 
+					etc_explain, division_level, parent_cd, order_seq, operation_yn,
+					operation_cd, delete_yn, '' AS lmt
+				FROM tb_division
+				WHERE parent_cd IS NULL
+				UNION ALL
+				SELECT  
+					division_id, division_cd, division_name, 
+					etc_explain, division_level, parent_cd, order_seq, operation_yn,
+					operation_cd, delete_yn, lmt
+				FROM    (
+					SELECT  hierarchy_connect_by_parent_eq_prior_id(division_cd) AS id, @level AS level_num, @parent_limit AS lmt
+					FROM    (
+						SELECT  @start_with := 1101,
+							@parent_limit := 100,
+							@id := @start_with,
+							@level := 1
+						) vars, tb_division
+					WHERE   @id IS NOT NULL 
+					ORDER BY order_seq DESC
+					) ho
+				JOIN    tb_division hi
+				ON      hi.division_cd = ho.id
+				WHERE hi.delete_yn = 0 
+			) t1 WHERE 1=1 
+		]]>
+		
+		<if test="sh_division_cd!=null and sh_division_cd!=''">
+			AND	division_cd = #{sh_division_cd}
+		</if>	
+	</select>
+	
+	<select id="selectAllDivision" parameterType="paymentVO" resultType="paymentVO">
+		<![CDATA[
+			SELECT 
+				division_id, division_cd, division_name, 
+				etc_explain, division_level, parent_cd, order_seq, operation_yn,
+				operation_cd, delete_yn
+			FROM tb_division
+			WHERE 0 = 0
+		]]>
+		
+		<if test="sh_division_cd!=null and sh_division_cd!=''">
+			AND	division_cd = #{sh_division_cd}
+		</if>
+		
+		ORDER BY division_level, order_seq
+	</select>
+	
+	<select id="selectUserList" parameterType="paymentVO" resultType="paymentVO">
+		<![CDATA[
+			SELECT 
+				TU.user_id, TU.user_id AS owner_id, TD.division_name, TU.user_name, 
+				TC.code_name job_title_name, TU.last_division_cd AS division_cd,
+				TU.login_id, TU.name_english, TU.email, TU.head_yn, TU.delete_yn, TU.activate_yn, TC1.code_name AS employ_type_name
+			FROM tb_users TU
+			LEFT JOIN tb_division TD ON TD.division_cd = TU.last_division_cd
+			LEFT JOIN tb_code TC ON TC.group_id = 104 AND TC.code_id = TU.job_title_cd
+			LEFT JOIN tb_code TC1 ON TC1.code_id = TU.employ_type_cd AND TC1.group_id = 111
+			WHERE 1 = 1
+		]]>
+		
+		<if test="activate_yn!=null and activate_yn!=''">
+			AND	TU.activate_yn = #{activate_yn}
+		</if>
+		
+		<if test="delete_yn!=null and delete_yn!=''">		
+			AND	TU.delete_yn = #{delete_yn}
+		</if>
+		
+		<if test="sh_division_cd!=null and sh_division_cd!=''">
+			AND	TU.last_division_cd = #{sh_division_cd}
+		</if>
+		
+		<if test="sh_user_name!=null and sh_user_name!=''">
+			AND	TU.user_name like concat('%', #{sh_user_name}, '%')
+		</if>		
+		
+		ORDER BY TD.division_cd ASC, TC.order_seq ASC, TU.user_name ASC
+	</select>
+	
+	<insert id="paymentInsert" parameterType="paymentVO">
+		<![CDATA[
+			INSERT INTO tb_approval_owner (
+				approval_owner_id, source_type_cd, user_id, owner_id, expanse_appoint_cd, order_seq, 
+				delete_yn, creator, creation_date
+			) VALUES (
+				#{approval_owner_id}, #{source_type_cd}, #{user_id}, #{owner_id}, #{expanse_appoint_cd}, #{order_seq}, 
+				'0', #{creator}, now()
+			)
+			ON DUPLICATE KEY 
+			UPDATE source_type_cd=#{source_type_cd}, user_id=#{user_id}, owner_id=#{owner_id}, expanse_appoint_cd=#{expanse_appoint_cd}, 
+			order_seq = #{order_seq}, delete_yn = 0, modifier = #{modifier}, modify_date = now()
+		]]>
+	</insert>
+	
+	<delete id="paymentDelete" parameterType="paymentVO">
+		<![CDATA[
+			UPDATE tb_approval_owner
+			SET delete_yn ='1'
+			WHERE creator = #{creator} and source_type_cd = #{source_type_cd}
+		]]>
+	</delete>
+	
+	<select id="selectReceiveList" parameterType="paymentVO" resultType="paymentVO">
+		<![CDATA[		
+			SELECT 
+				TAO.approval_owner_id, TU.user_id AS owner_id, TU.user_name, '03' AS expanse_appoint_cd
+			FROM tb_users TU
+			LEFT JOIN tb_approval_owner TAO ON TAO.owner_id = TU.user_id AND TAO.expanse_appoint_cd = '03' 
+				AND TAO.source_type_cd = #{sh_payment_type}
+			WHERE login_id = #{login_id}
+		]]>
+	</select>
+	
+	<select id="selectSalesCustomerList" parameterType="paymentVO" resultType="paymentVO">
+		<![CDATA[
+			SELECT division_id,  etc_explain, division_name, tu.user_id, tu.user_name, tu.job_title_cd, tc.code_name  FROM tb_users tu
+			INNER JOIN   tb_division td ON tu.last_division_cd = td.division_cd
+			LEFT OUTER JOIN tb_code tc ON tc.group_id = '104' AND tc.code_id = tu.job_title_cd
+			WHERE user_name LIKE CONCAT('%',#{user_name},'%')
+			GROUP BY tu.user_id ORDER BY td.division_cd, tc.order_seq ASC
+		]]>
+	</select>
+	
+</mapper>

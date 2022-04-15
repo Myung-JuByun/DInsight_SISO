@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.prj.admin.service.impl.ProjectAdminMapper">	
+	
+	<select id="selectSaledevSearchList" resultType="projectAdminVO">		
+	    SELECT 
+	        t1.code_id    as sale_dev_cd,
+	        t1.code_name  as sale_dev_name,
+	        t2.code_id    as project_status_cd,
+	        t2.code_name  as project_status_name
+      	  FROM	tb_code t1, tb_code t2 
+      	 WHERE	t1.group_id ='126' 
+      	   AND	t1.delete_yn='0'
+      	   AND	t2.group_id =(case when  t1.code_id  = '01' then '128' else '127' end  ) and  t1.delete_yn='0'      		
+	</select>
+	
+	<select id="selectUserSearchList" resultType="projectAdminVO">
+		SELECT
+			 user_id        as sel_user_id
+			,user_name      as sel_user_name
+		  FROM	tb_users		       
+		 WHERE	delete_yn = '0'     			
+	</select>
+	
+	<select id="selectCustomerSearchList" resultType="projectAdminVO">
+		SELECT customer_id, customer_name, mobile FROM tb_customer WHERE delete_yn  = '0'      
+		ORDER BY creation_date DESC
+	</select>	
+	
+	<select id="selectProjectSearchList" resultType="projectAdminVO">
+		SELECT project_id, project_name FROM tb_project WHERE delete_yn  = '0'
+		ORDER BY creation_date DESC
+	</select>
+	
+	<select id="selectCompanySearchList" resultType="projectAdminVO">
+		SELECT company_id,company_name FROM tb_company WHERE delete_yn='0'		
+		ORDER BY creation_date DESC
+	</select>
+
+	<select id="selectProjectAdminList" parameterType="projectAdminSearchVO" resultType="projectAdminVO">	
+		SELECT   t1.project_id
+				,t1.project_code
+				,t1.project_name
+				,t1.project_status_cd
+				,t1.staff_name
+				,t1.staff_phone_number
+				,t1.sale_dev_cd
+				,t3.code_name AS sale_dev_name
+				,t1.start_day
+				,t1.end_day
+				,SUM(tpm.man_month) man_month
+				,t4.company_id
+				,t4.company_name
+				,t6.division_id
+				,t6.division_name
+				,t1.creator
+				,t7.user_id
+				,t7.user_name
+				,CASE WHEN sale_dev_cd = '01' 
+				 THEN(
+				   SELECT contract_estimate_price
+				     FROM tb_sales_project
+				    WHERE sales_project_code LIKE concat('%', t1.project_code, '%')
+				 )ELSE(
+					t1.contract_price
+				 )END AS contract_price
+			FROM tb_project t1
+			LEFT OUTER JOIN tb_project_member tpm ON tpm.project_id = t1.project_id
+			INNER JOIN tb_code t3 ON t3.group_id = '126' AND t1.sale_dev_cd = t3.code_id
+			INNER JOIN tb_company t4 ON t1.company_id = t4.company_id
+			INNER JOIN tb_division t6 ON t1.division_cd = t6.division_cd
+			INNER JOIN tb_users t7 ON t1.creator = t7.user_id
+			WHERE t1.delete_yn = '0' 
+		
+	 	<if test="project_name!=null and project_name!=''">
+			AND	t1.project_name LIKE concat('%', #{project_name}, '%')
+		</if>
+		
+		<if test="project_id!=null and project_id!=''">
+			AND	t1.project_id = #{project_id}
+		</if>
+		
+		<if test="company_name!=null and company_name!=''">
+			AND	t4.company_name LIKE concat('%', #{company_name}, '%')
+		</if>
+		
+		<if test="sel_user_name!=null and sel_user_name!=''">
+			AND	t1.creator = t7.user_id and t7.user_name LIKE concat('%', #{sel_user_name}, '%') 
+		</if>
+		
+		<if test="year!=null and year!=''">
+			AND	substr(t1.start_day,1,6) <![CDATA[<= ]]>concat(#{year}, #{month}) AND concat(#{year}, #{month}) <![CDATA[<=]]> substr(t1.end_day,1,6)
+		</if>
+		
+		<if test="division_cd!=null and division_cd!=''">
+			AND	t1.division_cd = #{division_cd}
+		</if>
+		
+		GROUP BY t1.project_id
+		ORDER BY t1.creation_date DESC
+		
+	</select>
+
+	<update id="projectAdminInsert" parameterType="projectAdminSearchVO">
+		INSERT INTO tb_project (
+			 project_id
+			,project_code
+			,sale_dev_cd
+			,division_cd
+			,project_status_cd
+			,project_name
+			,company_id
+			,staff_name
+			,staff_phone_number
+			,start_day
+			,end_day
+			,contract_price
+			,delete_yn
+			,creator
+			,creation_date
+			)
+		<choose>	 
+			<when test="in_sale_dev_cd!=null and in_sale_dev_cd.equals('01')">
+				VALUES(
+				 #{in_project_id}
+				, #{in_project_code}
+				, #{in_sale_dev_cd}
+				, #{in_division_cd}
+				, #{in_project_status_cd}
+				, #{in_project_name}
+				, #{in_company_id}
+				, #{in_staff_name}
+				, #{in_staff_phone_number}
+				, REPLACE(#{in_start_day}, '-', '')
+				, REPLACE(#{in_end_day}, '-', '')
+				, REPLACE(#{in_contract_price}, ',', '')
+				, '0'
+				, #{creator}
+				, now()
+				)
+			</when>
+			<when test="in_sale_dev_cd!=null and in_sale_dev_cd.equals('02')">
+				SELECT
+				  #{in_project_id},
+				CONCAT(
+				SUBSTR(#{in_project_code},1,1),SUBSTR(REPLACE(#{in_project_code}, '-', ''),2,4),SUBSTR(REPLACE(#{in_project_code}, '-', ''),6,2),'-','DV','-'
+				,LPAD((COUNT(SUBSTR(REPLACE(#{in_project_code}, '-', ''),2,6))+1), 4, '0')
+				)
+				, #{in_sale_dev_cd}
+				, #{in_division_cd}
+				, #{in_project_status_cd}
+				, #{in_project_name}
+				, #{in_company_id}
+				, #{in_staff_name}
+				, #{in_staff_phone_number}
+				, REPLACE(#{in_start_day}, '-', '')
+				, REPLACE(#{in_end_day}, '-', '')
+				, REPLACE(#{in_contract_price}, ',', '')
+				, '0'
+				, #{creator}
+				, now()
+				FROM tb_project
+				LIMIT 1
+			</when>
+			<when test="in_sale_dev_cd!=null and in_sale_dev_cd.equals('03')">
+				SELECT
+				  #{in_project_id},
+				CONCAT(
+				SUBSTR(#{in_project_code},1,1),SUBSTR(REPLACE(#{in_project_code}, '-', ''),2,4),SUBSTR(REPLACE(#{in_project_code}, '-', ''),6,2),'-','NT','-'
+				,LPAD((COUNT(SUBSTR(REPLACE(#{in_project_code}, '-', ''),2,6))+1), 4, '0')
+				)
+				, #{in_sale_dev_cd}
+				, #{in_division_cd}
+				, #{in_project_status_cd}
+				, #{in_project_name}
+				, #{in_company_id}
+				, #{in_staff_name}
+				, #{in_staff_phone_number}
+				, REPLACE(#{in_start_day}, '-', '')
+				, REPLACE(#{in_end_day}, '-', '')
+				, REPLACE(#{in_contract_price}, ',', '')
+				, '0'
+				, #{creator}
+				, now()
+				FROM tb_project
+				LIMIT 1
+			</when>
+			<otherwise></otherwise>
+		</choose>
+			ON DUPLICATE KEY
+			UPDATE delete_yn = '0'
+			<if test="in_sale_dev_cd!=null and in_sale_dev_cd.equals('01')">
+				,project_code = #{in_project_code}
+			</if>
+			, sale_dev_cd = #{in_sale_dev_cd}
+			, project_status_cd = #{in_project_status_cd}
+			, project_name = #{in_project_name}
+			, company_id = #{in_company_id}
+			, staff_name = #{in_staff_name}
+			, staff_phone_number = #{in_staff_phone_number}
+			, division_cd = #{in_division_cd}
+			, start_day = REPLACE(#{in_start_day}, '-', '')
+			, end_day = REPLACE(#{in_end_day}, '-', '')
+			, contract_price = REPLACE(#{in_contract_price}, ',', '')
+			, modifier = #{modifier}
+			, modify_date = now()	
+	</update>
+	
+	<update id="projectAdminSave" parameterType="projectAdminSearchVO">
+		INSERT INTO tb_project (
+		project_id
+		,sale_dev_cd
+		,project_status_cd
+		,project_name
+		,company_id
+		,man_month
+		,start_day
+		,end_day
+		,creator
+		,creation_date
+		) VALUES (
+		#{project_id}
+		, #{sale_dev_cd}
+		, #{project_status_cd}
+		, #{project_name}
+		, #{company_id}
+		, #{man_month}
+		, #{start_day}
+		, #{end_day}
+		, #{creator}
+		, now()
+		)
+		ON DUPLICATE KEY
+		UPDATE delete_yn = '0'
+		, sale_dev_cd = #{sale_dev_cd}
+		, project_status_cd = #{project_status_cd}
+		, project_name = #{project_name}
+		, company_id = #{company_id}
+		, man_month = #{man_month}
+		, start_day = #{start_day}
+		, end_day = #{end_day}
+		, modifier = #{modifier}
+		, modify_date = now()	
+	</update>
+		
+	<update id="projectAdminDel" parameterType="projectAdminSearchVO">       	
+      	UPDATE tb_project 
+      	   SET delete_yn    = '1'
+			  ,modifier     = #{modifier}
+			  ,modify_date  = now()
+		WHERE project_id IN
+		<foreach collection="mo_project_id" item="id" open="(" close=")" separator=",">	
+			#{id} 
+		</foreach> 
+	</update>
+	
+		
+	<select id="selectProjectAdminDetailList" parameterType="projectAdminSearchVO" resultType="projectAdminMemberVO">
+       	SELECT  t1.member_id
+				,t1.project_id
+				,t2.project_name
+				,t3.user_id
+				,t3.user_name
+				,t1.role_cd
+				,t4.code_name AS role_name
+				,t1.stay_status_cd
+				,t5.code_name AS stay_status_name
+				,t1.job_start_day
+				,t1.job_end_day
+				,t1.man_month
+		 FROM	tb_project_member t1
+		INNER JOIN tb_project t2 ON t1.project_id = t2.project_id
+		INNER JOIN tb_users t3 ON t1.user_id = t3.user_id
+		INNER JOIN tb_code t4 ON t4.group_id = '110' AND t1.role_cd = t4.code_id
+		INNER JOIN tb_code t5 ON t5.group_id = '112' AND t1.stay_status_cd = t5.code_id       
+      	WHERE t1.project_id = #{in_sub_project_id}
+      	AND t1.delete_yn = '0'
+      	AND t2.delete_yn = '0'
+	</select>
+
+	<update id="projectAdminDetailSave" parameterType="projectAdminVO">
+        INSERT INTO tb_project_member (
+        			member_id
+        			,project_id
+        			,user_id
+				    ,role_cd
+				    ,stay_status_cd
+				    ,job_start_day
+	    			,job_end_day
+	    			,man_month
+	    			,creator
+	                ,creation_date
+        )VALUES (
+        		 #{member_id}
+        		, #{project_id}
+        		, #{user_id}
+			    , #{role_cd}
+			    , #{stay_status_cd}
+			    , #{job_start_day}
+    			, #{job_end_day}
+    			, #{man_month}
+	        	, #{creator}
+            	, now()
+        ) 
+     	ON DUPLICATE KEY
+		UPDATE    delete_yn = '0' 
+				, project_id = #{project_id}
+				, user_id = #{user_id}
+				, role_cd = #{role_cd}
+				, stay_status_cd = #{stay_status_cd}
+				, job_start_day = #{job_start_day}
+				, job_end_day = #{job_end_day}
+				, man_month = #{man_month}
+				, modifier = #{modifier}
+				, modify_date = now()	
+	</update>
+ 
+ 	<update id="projectAdminDetailDel" parameterType="projectAdminVO">
+      	UPDATE	tb_project_member 
+      	   SET	delete_yn    = '1'
+      	   		,modifier 	= #{modifier}
+      	   		,modify_date  = now()
+		 WHERE	member_id = #{member_id}
+	</update>
+</mapper>

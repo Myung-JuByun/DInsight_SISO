@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.exp.admin.service.impl.ExpanseAdminMapper">	
+	
+	<select id="selectExpanseStatusListBackup" parameterType="expanseAdminVO" resultType="String">
+		SELECT	COUNT(*)
+           FROM	(
+				SELECT	TEM.expanse_monthly_id
+				  FROM	tb_expanse TE INNER JOIN tb_expanse_monthly TEM 
+				    ON	TE.expanse_year = TEM.expanse_year 
+				   AND	TE.expanse_month = TEM.expanse_month 
+				   AND	TE.delete_yn = TEM.delete_yn 
+				   AND	TE.creator = TEM.creator
+				   AND	TEM.status_cd IN ('702','703','704','706') 
+				 WHERE	TE.delete_yn= 0 AND TE.creator = #{creator}
+				   AND	TE.expanse_year = #{expanse_year} 
+				   AND	TE.expanse_month = #{expanse_month}
+				GROUP BY TEM.expanse_monthly_id  
+				) as t1 		
+	</select>
+	
+	<select id="selectExpanseStatusList" parameterType="expanseAdminVO" resultType="String">		
+		SELECT	COUNT(*) 
+		  FROM	tb_expanse_monthly 
+		 WHERE	creator = #{creator}
+		   AND	expanse_year = #{expanse_year}
+		   AND	expanse_month = #{expanse_month} 			   
+		   AND	delete_yn = 0 AND status_cd IN ('702','703','704','706')  		
+	</select>
+	
+	<select id="selectExpansePaymentView" parameterType="expanseAdminVO" resultType="String">
+		SELECT	COUNT(approval_owner_id) 
+		  FROM	tb_approval_owner
+		 WHERE	source_type_cd = #{source_type_cd}
+		   AND	creator = #{creator}
+		   AND	delete_yn = 0		
+	</select>
+
+	<select id="selectExpanseList" parameterType="expanseAdminVO" resultType="expanseAdminVO">		
+		SELECT 
+			TE.expanse_id, TE.expanse_year, TE.expanse_month, TE.pay_day, 
+			TE.expanse_type, TC.code_name expanse_type_name, TE.category_id, TEC.category_name, TEC2.category_name parent_category_name,
+			TE.payment, TE.expanse_name, TC2.code_name, TE.expanse_monthly_id, TE.confer_number, TE.status_cd
+		  FROM	tb_expanse TE
+		LEFT JOIN tb_code TC ON TC.group_id = 102 AND TC.code_id = TE.expanse_type
+		LEFT JOIN tb_code TC2 ON TC2.group_id = 101 AND TC2.code_id = TE.status_cd
+		LEFT JOIN tb_expanse_category TEC ON TEC.category_id = TE.category_id
+		LEFT JOIN tb_expanse_category TEC2 ON TEC2.category_id = TEC.parent_id
+		WHERE	TE.delete_yn= 0 
+		  AND	TE.creator = #{creator}
+		  AND	TE.expanse_year = #{expanse_year}
+		  AND	TE.expanse_month = #{expanse_month}
+
+		<choose>
+			<when test="source_object_id!=null and source_obejct_id!=''">
+				AND	TE.expanse_monthly_id = #{source_object_id}
+			</when>
+			<otherwise>
+				AND	TE.status_cd IN ('701','702','703','704','706')
+			</otherwise>
+		</choose>				
+		
+		ORDER BY TC.order_seq, TE.pay_day, TE.category_id, TE.expanse_name
+	</select>
+	
+	<insert id="expanseInsert" parameterType="expanseAdminVO">
+		<![CDATA[
+			INSERT INTO tb_expanse (
+				expanse_id, expanse_name, expanse_type, pay_day, category_id, payment, 
+				expanse_year, expanse_month, last_division_cd, confer_number,
+				status_cd, delete_yn, creator, creation_date
+			) VALUES (
+				#{expanse_id}, #{expanse_name}, #{expanse_type}, #{pay_day}, #{category_id}, #{payment}, 
+				#{expanse_year}, #{expanse_month}, #{last_division_cd}, #{confer_number},
+				#{status_cd}, '0', #{creator}, now()
+			)
+			ON DUPLICATE KEY 
+			UPDATE	delete_yn ='0',
+					expanse_name = #{expanse_name},
+					expanse_type = #{expanse_type}, 
+					pay_day = #{pay_day},
+					category_id = #{category_id},
+					payment = #{payment},
+					confer_number = #{confer_number},
+					modifier = #{modifier},
+					modify_date = now()	
+		]]>
+	</insert>
+	
+	<delete id="expanseDelete" parameterType="expanseAdminVO">		
+		UPDATE	tb_expanse
+		   SET	delete_yn ='1'
+		 WHERE	expanse_year = #{expanse_year}
+		   AND	expanse_month = #{expanse_month}
+		   AND	creator = #{creator} 
+		   AND	status_cd IN ('701','702','703','704','706')		
+	</delete>
+	
+	<select id="expansePrintTotalPrice" parameterType="expanseAdminVO" resultType="expanseAdminVO">
+		(
+			SELECT	TC.order_seq, TE.expanse_month, TE.expanse_type, TC.code_name expanse_type_name, SUM(TE.payment) payment, TE.status_cd
+			  FROM	tb_expanse TE
+			LEFT JOIN tb_code TC ON TC.group_id = 102 AND TC.code_id = TE.expanse_type
+			 WHERE	TE.creator = #{creator} 
+			   AND	TE.delete_yn = 0 
+			   AND	TE.expanse_year = #{expanse_year}
+			   AND	TE.expanse_month = #{expanse_month}		
+		
+			<choose>
+				<when test="source_object_id!=null and source_obejct_id!=''">
+					AND	TE.expanse_monthly_id = #{source_object_id}
+				</when>
+				<otherwise>
+					AND	TE.status_cd IN ('701','702','703','704','706')
+				</otherwise>
+			</choose>
+					
+			GROUP BY TE.expanse_month, TE.expanse_type
+		)
+		UNION ALL
+		(
+			SELECT	99 AS order_seq, SUBSTR(drive_day, 5,2) AS expanse_month, 'mileage' AS expanse_type, '마일리지' AS expanse_type_name, SUM(cost) AS payment, '' AS status_cd
+			  FROM	tb_mileage 
+			 WHERE	creator = #{creator}
+			   AND	delete_yn = 0
+			   AND	drive_day like concat(#{expanse_year}, #{expanse_month}, '%') 		
+		
+			<choose>
+				<when test="source_object_id!=null and source_obejct_id!=''">
+					AND	expanse_monthly_id = #{source_object_id}
+				</when>
+				<otherwise>
+					AND	status_cd IN ('701','702','703','704','706')
+				</otherwise>
+			</choose>
+					
+			HAVING SUM(cost) IS NOT NULL
+		)
+		ORDER BY order_seq		
+	</select>
+	
+	<select id="expansePrintPayment" parameterType="expanseAdminVO" resultType="expanseAdminVO">
+		<![CDATA[
+			SELECT 
+				TU.user_name, SUBSTR(TAN.approved_date, 1, 10) AS approved_date, TAN.order_seq,
+				CASE expanse_appoint_cd
+				    WHEN '00' THEN '기안'
+				    ELSE TC.code_name
+				END status_name
+			  FROM	tb_approval TA
+			INNER JOIN tb_approval_node TAN ON TAN.approval_id = TA.approval_id AND TAN.expanse_appoint_cd <> '03'
+			INNER JOIN tb_users TU ON TU.user_id = TAN.owner_id
+			INNER JOIN tb_code TC ON TC.group_id = 103 AND TC.code_id = TAN.status_cd
+			WHERE	TA.creator = #{creator} 
+			  AND	TA.delete_yn = '0'
+			  AND	TA.source_type_cd = #{source_type_cd} 
+			  AND	TA.approval_year = #{expanse_year}
+			  AND	TA.approval_month = #{expanse_month}
+			  AND	TA.source_object_id = #{source_object_id}		
+		]]>
+		
+		<if test="approval_week != null and approval_week != ''">
+		 	AND	TA.approval_week = #{approval_week}
+		</if>
+		
+		ORDER BY TAN.order_seq
+	</select>
+	
+	<insert id="expanseFinalMonthlyInsert" parameterType="expanseAdminVO">
+		<![CDATA[
+			INSERT INTO tb_expanse_monthly (
+				expanse_year, expanse_month, status_cd, delete_yn, creator, creation_date
+			) VALUES (
+				#{expanse_year}, #{expanse_month}, #{status_cd}, '0', #{creator}, now()
+			)			
+		]]>
+		
+		<selectKey keyProperty="expanse_monthly_id" resultType="int">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
+	</insert>
+	
+	<update id="expanseFinalUpdate" parameterType="expanseAdminVO">		
+		UPDATE	tb_expanse
+		   SET	expanse_monthly_id = #{expanse_monthly_id},
+		   		submited_date = now(),
+		   		status_cd = #{status_cd},
+		   		modifier = #{modifier}, 
+		   		modify_date = now()
+		 WHERE	creator = #{creator}
+		   AND	delete_yn = 0
+		   AND	expanse_year = #{expanse_year}
+		   AND	expanse_month = #{expanse_month}
+		   AND	status_cd IN ('701','702','703','704','706') 		
+	</update>
+	
+	<update id="expanseFinalMileageUpdate" parameterType="expanseAdminVO">		
+		UPDATE	tb_mileage
+		   SET	expanse_monthly_id = #{expanse_monthly_id}, 
+		   		status_cd = #{status_cd}, 
+		   		modifier = #{modifier}, 
+		   		modify_date = now()
+		 WHERE	creator = #{creator}
+		   AND	delete_yn = 0
+		   AND 	drive_day like concat(#{expanse_year}, #{expanse_month}, '%') 
+		   AND	status_cd IN ('701','702','703','704','706')		
+	</update>
+	
+	<insert id="expanseFinalApprovalInsert" parameterType="expanseAdminVO">
+		INSERT INTO tb_approval (
+			approval_year, approval_month, approval_name, source_type_cd, source_object_id, delete_yn, creator, creation_date
+		) VALUES (
+			#{approval_year}, #{approval_month}, #{approval_name}, #{source_type_cd}, #{source_object_id}, '0', #{creator}, now()
+		)					
+		
+		<selectKey keyProperty="approval_id" resultType="int">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
+	</insert>
+	
+	<insert id="expanseFinalApprovalNodeInsert" parameterType="expanseAdminVO">
+		INSERT INTO tb_approval_node (
+			approval_id, owner_id, status_cd, approved_date, expanse_appoint_cd, delete_yn, creator, creation_date, order_seq
+		)
+		SELECT #{approval_id}, owner_id, '1701', IF(user_id = owner_id, now(), NULL), expanse_appoint_cd, '0', #{creator}, now(), order_seq
+		FROM tb_approval_owner 
+		WHERE source_type_cd = #{source_type_cd} AND (user_id = #{creator} OR expanse_appoint_cd = '03') AND delete_yn = '0'			
+	</insert>
+	
+	<select id="selectExpanseMileageList" parameterType="expanseAdminVO" resultType="expanseAdminVO">
+		SELECT	TM.mileage_id, TM.drive_day, TM.purpose, TM.start_point, 
+		    	TM.via_point, TM.end_point, TM.distance, TM.oil_cd, TC.code_name oil_cd_name, TM.cost, 
+		    	TM.expanse_id, TM.expanse_monthly_id 
+		 FROM	tb_mileage TM LEFT JOIN tb_code TC 
+		   ON 	TC.group_id = 105 AND TC.code_id = TM.oil_cd
+		WHERE	TM.creator = #{creator}
+		  AND	TM.delete_yn = 0 
+		  AND	TM.drive_day like concat(#{expanse_year}, #{expanse_month}, '%') 		
+		
+		<choose>
+			<when test="source_object_id!=null and source_obejct_id!=''">
+				AND	TM.expanse_monthly_id = #{source_object_id}
+			</when>
+			<otherwise>
+				AND	TM.status_cd IN ('701','702','703','704','706')
+			</otherwise>
+		</choose>
+		
+		ORDER BY TM.drive_day
+	</select>
+	
+	<insert id="expanseMileageInsert" parameterType="expanseAdminVO">		
+		INSERT INTO tb_mileage (
+			mileage_id, drive_day, purpose, start_point, via_point, end_point, 
+			distance, oil_cd, cost, expanse_id, status_cd,
+			delete_yn, creator, creation_date
+		) VALUES (
+			#{mileage_id}, #{drive_day}, #{purpose}, #{start_point}, #{via_point}, #{end_point}, 
+			#{distance}, #{oil_cd}, #{cost}, 0, #{status_cd},
+			'0', #{creator}, now()
+		)
+		ON DUPLICATE KEY 
+		UPDATE	delete_yn ='0',
+				drive_day = #{drive_day},
+				purpose = #{purpose},
+				start_point = #{start_point},
+				via_point = #{via_point},
+				end_point = #{end_point},
+				distance = #{distance},
+				oil_cd = #{oil_cd},
+				cost = #{cost},
+				modifier = #{modifier},
+				modify_date = now()			
+	</insert>
+	
+	<delete id="expanseMileageDelete" parameterType="expanseAdminVO">
+		UPDATE	tb_mileage
+		   SET	delete_yn ='1'
+		 WHERE	creator = #{creator}
+		   AND	delete_yn = 0
+		   AND	drive_day like concat(#{expanse_year}, #{expanse_month}, '%') 
+		   AND	status_cd IN ('701','702','703','704','706') 		
+	</delete>
+
+</mapper>

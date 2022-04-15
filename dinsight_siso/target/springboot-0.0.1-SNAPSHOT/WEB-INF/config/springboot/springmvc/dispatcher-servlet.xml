@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+	
+	<context:annotation-config />
+	
+    <context:component-scan base-package="siso" />    	    	   
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="siso.cmmn.web.SpringBindingInitializer"/>
+        </property>
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="springframework/com/cmmn/springError"/>
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.springframework.dao.DataAccessException">springframework/com/cmmn/dataAccessFailure</prop>
+                <prop key="org.springframework.transaction.TransactionException">springframework/com/cmmn/transactionFailure</prop>
+                <prop key="egovframework.rte.fdl.cmmn.exception.EgovBizException">springframework/com/cmmn/springError</prop>
+                <prop key="org.springframework.security.AccessDeniedException">springframework/com/cmmn/egovError</prop>
+            </props>
+        </property>
+    </bean>
+	
+	 <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/config/springboot/springmvc/tiles.xml</value>
+            </list>
+        </property>
+    </bean>        
+    
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1" p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView" />
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" p:order="2"/>
+	
+    <!-- For Pagination Tag -->
+    <bean id="imageRenderer" class="siso.cmmn.web.SpringImgPaginationRenderer"/>
+
+    <bean id="paginationManager" class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager">
+        <property name="rendererType">
+            <map>
+                <entry key="image" value-ref="imageRenderer"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	<!-- /For Pagination Tag -->
+	
+	<!--  excel start -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0" />
+	</bean>
+	
+	<bean id="listExcelView" class="siso.cmmn.util.SpringExcelUtil" />
+	<!--  excel end -->
+</beans>

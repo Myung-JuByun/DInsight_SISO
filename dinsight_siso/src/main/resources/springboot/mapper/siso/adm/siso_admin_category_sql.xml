@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.adm.classification.service.impl.ExpanseCategoryAdminMapper">
+	
+	<select id="selectCategoryAdminList" parameterType="ExpanseCategoryAdminVO" resultType="ExpanseCategoryAdminVO">          
+		SELECT category_level 
+	          ,category_id    
+              ,category_name
+              ,'' as etc1
+              ,'' as etc2
+              ,'' as etc3
+              ,'' as etc4
+              ,a.delete_yn
+              ,a.account_cd
+              ,a.default_expanse_class
+              ,b.code_name as account_name
+              ,parent_id
+          FROM (
+            SELECT c1.category_id
+                  ,c1.category_level
+                  ,c1.category_name
+                  ,c1.account_cd
+                  ,c1.default_expanse_class
+                  ,c1.parent_id
+                  ,(CASE WHEN c1.category_level = 1 then c1.category_id 
+                         WHEN c1.category_level = 2 then c1.parent_id
+			             WHEN c1.category_level = 3 then c2.parent_id
+                    END) as level1_id
+                  ,(CASE WHEN c1.category_level = 1 then 0 
+                         WHEN c1.category_level = 2 then c1.category_id
+			             WHEN c1.category_level = 3 then c1.parent_id
+                    END) as level2_id
+                  ,(CASE WHEN c1.category_level = 1 then 0 
+                         WHEN c1.category_level = 2 then 0
+			             WHEN c1.category_level = 3 then c2.category_id
+                    END) as level3_id
+                   ,c1.delete_yn
+             FROM	tb_expanse_category c1
+               left outer join tb_expanse_category c2 ON (c1.parent_id = c2.category_id)
+            WHERE	c1.delete_yn = 0
+         <choose>
+         	<when test="groupLevel=='0'.toString()">
+         		AND	c1.category_level = #{group_level}
+         	</when>
+         	<when test="groupLevel=='2'.toString()">
+		   		AND	c1.parent_id = #{group_id}
+		 	</when>
+		 	<when test="groupLevel=='2'.toString()">
+		 		AND	c1.parent_id = #{group_id}
+		 	</when>
+		 	<otherwise>
+		 	</otherwise>
+         </choose>    	         
+          ) a
+          left outer join tb_code b ON (a.account_cd = b.code_id) AND b.group_id = '106'
+            ORDER BY level1_id asc , level2_id asc , level3_id asc , category_id asc		
+    </select>
+    
+    <select id="selectAccountComboList" parameterType="ExpanseCategoryAdminVO" resultType="ExpanseCategoryAdminVO">          
+        SELECT	group_id,
+        		code_id  as account_cd,
+        		code_name as account_name,
+        		order_seq
+   		  FROM  tb_code
+   		 WHERE	elete_yn = '0'
+   		   AND	group_id = '106'
+    	  ORDER BY group_id, order_seq      		
+    </select>
+    
+    
+    <update id="saveExpanseCategory" parameterType="ExpanseCategoryAdminVO">
+             INSERT  tb_expanse_category(
+             		category_id
+                     ,category_name 
+                    ,category_level
+                    ,parent_id
+                    ,account_cd
+                    ,default_expanse_class
+                    ,delete_yn
+                    ,creator
+                    ,modifier
+                    ,creation_date
+                    ,modify_date
+                  ) 
+            VALUES( 
+            		#{category_id}  
+                    ,#{category_name}
+                    ,#{category_level}
+                    ,IFNULL(#{parent_id}, 0)
+                    ,#{account_cd}
+                    ,#{default_expanse_class}
+                    ,'0'
+                    ,#{creator}
+                    ,#{modifier}
+                    ,now()
+                    ,now()
+                   )
+          ON DUPLICATE KEY 
+          UPDATE category_name			= #{category_name}
+          		,category_level			= #{category_level}
+          		,parent_id				= IFNULL(#{parent_id}, 0)
+          		,account_cd				= #{account_cd}
+          		,default_expanse_class	= #{default_expanse_class}
+          		,modifier				= #{modifier}
+          		,modify_date			= now()
+    </update>
+    
+    <update id="deleteExpanseCategory" parameterType="ExpanseCategoryAdminVO">
+       	UPDATE	tb_expanse_category
+       	   SET	delete_yn = '1'
+       	   		,modifier  = #{modifier}
+       	   		,modify_date = now()
+	     WHERE	category_id = #{category_id}  
+    </update>
+    
+</mapper>

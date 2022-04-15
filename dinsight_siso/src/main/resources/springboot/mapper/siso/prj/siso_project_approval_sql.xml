@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.prj.approval.service.impl.ProjectApprovalMapper"> 
+
+	<select id="projectApprovalView" parameterType="projectApprovalVO" resultType="projectReportVO">
+		<![CDATA[
+			SELECT
+				TP.project_name, 
+				TPC.project_id,
+				TPC.report_ym,
+				TPC.report_week,
+				TPC.user_id,
+				TPC.mon_status_cd,
+				TPC.tue_status_cd,
+				TPC.wed_status_cd,
+				TPC.thu_status_cd,
+				TPC.fri_status_cd,
+				TPC.sat_status_cd,
+				TPC.sun_status_cd,
+				TPC.mon_working_hour,
+				TPC.tue_working_hour,
+				TPC.wed_working_hour,
+				TPC.thu_working_hour,
+				TPC.fri_working_hour,
+				TPC.sat_working_hour,
+				TPC.sun_working_hour,
+				TPC.man_hour,
+				TPC.project_weekly_id,
+				TPC.status_cd,
+				TPC.issue_report	
+			FROM tb_project_commute TPC
+			LEFT JOIN tb_project TP ON TP.project_id = TPC.project_id
+			WHERE TPC.delete_yn = 0 AND TPC.project_weekly_id = #{source_object_id} AND man_hour > 0
+			ORDER BY TP.project_name
+		]]>		
+	</select>
+	
+	<update id="updateProjectWeekly">
+		UPDATE	tb_project_weekly 
+		   SET	status_cd = #{status_cd}, modifier = #{modifier}, modify_date = now()
+		 WHERE	project_weekly_id = #{source_object_id}		
+	</update>
+	
+	<update id="updateProjectCommute">
+		UPDATE	tb_project_commute 
+		   SET	status_cd = #{status_cd}, modifier = #{modifier}, modify_date = now()
+		 WHERE	project_weekly_id = #{source_object_id}		
+	</update>
+	
+	<insert id="projectCommuteCopyInsert">
+		INSERT INTO tb_project_commute (
+			project_id, report_ym, report_week, user_id,
+			mon_status_cd, tue_status_cd, wed_status_cd, thu_status_cd, 
+			fri_status_cd, sat_status_cd, sun_status_cd,
+			mon_working_hour, tue_working_hour, wed_working_hour, thu_working_hour,
+			fri_working_hour, sat_working_hour, sun_working_hour,
+			man_hour, man_month, status_cd, issue_report,
+			delete_yn, creator, creation_date
+		)
+		SELECT 
+			project_id, report_ym, report_week, user_id,
+			mon_status_cd, tue_status_cd, wed_status_cd, thu_status_cd, 
+			fri_status_cd, sat_status_cd, sun_status_cd,
+			mon_working_hour, tue_working_hour, wed_working_hour, thu_working_hour,
+			fri_working_hour, sat_working_hour, sun_working_hour,
+			man_hour, man_month, #status_cd#, issue_report,
+			delete_yn, creator, creation_date
+		FROM tb_project_commute 
+		WHERE project_weekly_id = #{source_object_id}		
+	</insert>
+	
+</mapper>

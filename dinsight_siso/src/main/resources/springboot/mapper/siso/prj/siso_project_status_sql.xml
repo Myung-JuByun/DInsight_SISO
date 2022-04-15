@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.prj.status.service.impl.ProjectStatusMapper">
+	
+	<select id="selectStatusSearchList" parameterType="ProjectStatusSearchVO" resultType="ProjectStatusVO">
+		<![CDATA[
+		SELECT report_ym AS report_ym , 
+		    report_week AS report_week , 
+		    IF ( A.project_id IS NULL, '총합', IF ( A.user_id IS NULL, CONCAT(project_name, ' 합계'), project_name ) ) AS project_name , 
+		    IF ( A.project_id IS NULL, '', IF ( A.user_id IS NULL, '', company_name ) ) AS company_name , 
+		    IF ( A.project_id IS NULL, '', IF ( A.user_id IS NULL, '', IFNULL(A.user_name, '' ) ) ) AS user_name , 
+		    IF ( A.project_id IS NULL, '', IF ( A.user_id IS NULL, '', IFNULL(JT.code_name, '' ) ) ) /*투입인원 직급 명칭*/ AS JobTypeName , 
+		    IF ( A.project_id IS NULL, '', IF ( A.user_id IS NULL, '', IFNULL(ET.code_name, '' ) ) ) /*투입인원 고용구분 명칭*/ AS EmployeeTypeName , 
+		    IF ( A.project_id IS NULL, '', IF ( A.user_id IS NULL, '', IFNULL(RT.code_name, '' ) ) ) /*투입인원 역활*/ AS RoleTypeName , 
+		    IF ( A.project_id IS NULL, '', IF ( A.user_id IS NULL, '', IFNULL(ST.code_name, '' ) ) ) /*투입인원 상태*/ AS StayTypeName , 
+		    REPLACE(IFNULL(monWorkingDay, 0 ), '.00', '') AS mon_working_day , 
+		    REPLACE(IFNULL(tueWorkingDay, 0 ), '.00', '') AS tue_working_day , 
+		    REPLACE(IFNULL(wedWorkingDay, 0 ), '.00', '') AS wed_working_day , 
+		    REPLACE(IFNULL(thuWorkingDay, 0 ), '.00', '') AS thu_working_day , 
+		    REPLACE(IFNULL(friWorkingDay, 0 ), '.00', '') AS fri_working_day , 
+		    REPLACE(IFNULL(satWorkingDay, 0 ), '.00', '') AS sat_working_day , 
+		    REPLACE(IFNULL(sunWorkingDay, 0 ), '.00', '') AS sun_working_day , 
+		    '-' AS PlanStatusName , 
+		    '-' AS ResultStatus , 
+		    '-' AS ProgressPercent , 
+		    REPLACE(TRUNCATE((IFNULL(monWorkingDay, 0 ) + IFNULL(tueWorkingDay, 0 ) + IFNULL(wedWorkingDay, 0 ) + IFNULL(thuWorkingDay, 0 ) + IFNULL(friWorkingDay, 0 ) + IFNULL(satWorkingDay, 0 ) + IFNULL(sunWorkingDay, 0 )), 2), '.00', '') AS man_day , 
+		    '-' AS man_month 
+		FROM ( 
+			 SELECT
+			     CONCAT(#{sh_report_yy}, #{sh_report_mm} ) AS report_ym
+			   , #{sh_report_week} report_week
+			   , P1.project_id
+			   , P1.project_name
+			   , C1.company_name
+			   , UserInfo.user_id
+			   , IFNULL(UserInfo.user_name, '')      AS user_name
+			   , IFNULL(UserInfo.job_title_cd, '')   AS job_title_cd
+			   , IFNULL(UserInfo.employ_type_cd, '') AS employ_type_cd
+			   , CASE WHEN PC.mon_working_hour > (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.mon_status_cd ) 
+				 THEN 1 
+				 ELSE IFNULL(ROUND(SUM(PC.mon_working_hour / ( (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.mon_status_cd ) )), 2), 0) END AS monWorkingDay 
+			   , CASE WHEN PC.tue_working_hour > (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.tue_status_cd ) 
+				 THEN 1 
+				 ELSE IFNULL(ROUND(SUM(PC.tue_working_hour / ( (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.tue_status_cd ) )), 2), 0) END AS tueWorkingDay 
+			   , CASE WHEN PC.wed_working_hour > (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.wed_status_cd ) 
+				 THEN 1 
+				 ELSE IFNULL(ROUND(SUM(PC.wed_working_hour / ( (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.wed_status_cd ) )), 2), 0) END AS wedWorkingDay 
+			   , CASE WHEN PC.thu_working_hour > (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.thu_status_cd ) 
+				 THEN 1 
+				 ELSE IFNULL(ROUND(SUM(PC.thu_working_hour / ( (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.thu_status_cd ) )), 2), 0) END AS thuWorkingDay 
+			   , CASE WHEN PC.fri_working_hour > (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.fri_status_cd ) 
+				 THEN 1 
+				 ELSE IFNULL(ROUND(SUM(PC.fri_working_hour / ( (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.fri_status_cd ) )), 2), 0) END AS friWorkingDay 
+			   , CASE WHEN PC.sat_working_hour > (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.sat_status_cd ) 
+				 THEN 1 
+				 ELSE IFNULL(ROUND(SUM(PC.sat_working_hour / ( (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.sat_status_cd ) )), 2), 0) END AS satWorkingDay 
+			   , CASE WHEN PC.sun_working_hour > (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.sun_status_cd ) 
+				 THEN 1 
+				 ELSE IFNULL(ROUND(SUM(PC.sun_working_hour / ( (SELECT arith_expr FROM tb_code WHERE group_id = '113' AND delete_yn = '0' AND code_id = PC.sun_status_cd ) )), 2), 0) END AS sunWorkingDay
+			   , ProjMemb.role_cd
+			   , ProjMemb.stay_status_cd
+			FROM  tb_project         P1
+			    , tb_company         C1
+			    , tb_users     UserInfo
+			    , tb_project_member  ProjMemb
+			    LEFT OUTER JOIN tb_project_commute PC
+				ON  PC.project_id  = ProjMemb.project_id
+				AND PC.user_id     = ProjMemb.user_id
+				AND	PC.report_ym   = CONCAT(#{sh_report_yy}, #{sh_report_mm} )
+				AND	PC.report_week = #{sh_report_week}
+				AND PC.delete_yn   = '0'
+				AND PC.status_cd NOT IN ('707')
+			WHERE 
+			1=1
+			AND P1.company_id       = C1.company_id
+			AND P1.delete_yn		= '0'
+			AND C1.delete_yn        = '0'
+			AND UserInfo.user_id    = ProjMemb.user_id
+			AND UserInfo.delete_yn  = '0' 
+			AND ProjMemb.project_id = P1.project_id
+			AND ProjMemb.delete_yn  = '0'
+			AND STR_TO_DATE(REPLACE(ProjMemb.job_start_day,'-',''), '%Y%m%d') <=  DATE_ADD(STR_TO_DATE(REPLACE(#{sh_report_week_day},'-',''), '%Y%m%d'),INTERVAL -6 DAY)
+			AND STR_TO_DATE(REPLACE(ProjMemb.job_end_day,'-',''), '%Y%m%d')  >= STR_TO_DATE(REPLACE(#{sh_report_week_day},'-',''), '%Y%m%d')
+		]]>
+		
+	 	<if test="sh_project_name != null and sh_project_name != ''">
+			AND	P1.project_name LIKE concat('%', #{sh_project_name}, '%') 
+		</if>
+		<if test="sh_company_name != null and sh_company_name != ''">
+			AND	C1.company_name LIKE concat('%', #{sh_company_name}, '%')
+		</if>
+		<if test="sh_project_member_id != null and sh_project_member_id != ''">
+			AND	UserInfo.user_id = #{sh_project_member_id}
+		</if>
+		<if test="sh_job_type != null and sh_job_type != ''">
+			AND	UserInfo.job_title_cd =	#{sh_job_type}
+		</if>
+		<if test="sh_employee_type != null and sh_employee_type != ''">
+			AND	UserInfo.employ_type_cd = #{sh_employee_type}
+		</if>
+		<if test="sh_role_type != null and sh_role_type != ''">
+			AND	ProjMemb.role_cd = #{sh_role_type}
+		</if>
+		<if test="sh_stay_type != null and sh_stay_type != ''">
+			AND	ProjMemb.stay_status_cd = #{sh_stay_type}
+		</if>
+
+		<![CDATA[						
+				GROUP BY P1.project_id, UserInfo.user_id
+				WITH ROLLUP
+			) AS A 
+			LEFT JOIN tb_code AS JT ON JT.group_id = '104' AND JT.delete_yn = '0' AND JT.code_id = A.job_title_cd 
+			LEFT JOIN tb_code AS ET ON ET.group_id = '111' AND ET.delete_yn = '0' AND ET.code_id = A.employ_type_cd 
+			LEFT JOIN tb_code AS RT ON RT.group_id = '110' AND RT.delete_yn = '0' AND RT.code_id = A.role_cd 
+			LEFT JOIN tb_code AS ST ON ST.group_id = '112' AND ST.delete_yn = '0' AND ST.code_id = A.stay_status_cd
+		]]>
+		
+		<if test="sh_manday_zero != null and sh_manday_zero == '0'.toString()">
+			WHERE REPLACE(TRUNCATE((IFNULL(monWorkingDay, 0 ) + IFNULL(tueWorkingDay, 0 ) + IFNULL(wedWorkingDay, 0 ) + IFNULL(thuWorkingDay, 0 ) + IFNULL(friWorkingDay, 0 ) + IFNULL(satWorkingDay, 0 ) + IFNULL(sunWorkingDay, 0 )), 2), '.00', '') != '0'
+		</if>
+
+	</select>
+	
+	<select id="selectProjectMemberList" resultType="ProjectStatusSearchVO">		
+		SELECT	DISTINCT ProjMember.user_id	AS	sh_project_member_id,
+				concat( userInfo.user_name,	" ", JTCode.code_name )	AS	sh_project_member_name
+		  FROM	tb_project_member AS ProjMember INNER JOIN	tb_users AS	userInfo
+		    ON	userInfo.user_id = ProjMember.user_id
+		INNER JOIN	tb_code As	JTCode
+		    ON	JTCode.group_id = '104'
+		    AND	JTCode.code_id = userInfo.job_title_cd
+		    AND	JTCode.delete_yn = '0'
+		ORDER BY	JTCode.order_seq, userInfo.creation_date		
+	</select>
+	
+	<select id="selectProjectCodeList" parameterType="ProjectStatusSearchVO" resultType="ProjectStatusSearchVO">		
+		SELECT	code_id AS	sh_code_id,	
+				code_name AS	sh_code_name	
+		  FROM	tb_code
+		 WHERE	group_id = #{sh_code_group_id}
+		   AND	delete_yn = '0'
+		ORDER BY	order_seq				
+	</select>
+			
+</mapper>

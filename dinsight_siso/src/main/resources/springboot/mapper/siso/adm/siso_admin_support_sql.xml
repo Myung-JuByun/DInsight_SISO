@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.adm.support.service.impl.SupportAdminMapper">
+	
+	<select id="purchaseSelect" parameterType="SupportPurchaseVO" resultType="SupportPurchaseVO">
+	 	SELECT	purchase_id             
+				,purchase_day            
+				,purchase_project_code_id
+				,purchase_project_code   
+				,purchase_staff_id       
+				,purchase_staff_name     
+				,creditor_id             
+				,creditor_name  
+				,item_name
+				,debtor_id
+				,debtor_name
+				,purchase_supply_price   
+				,purchase_tax            
+				,purchase_total_price    
+				,creator                 
+				,creation_date           
+	 	  FROM	tb_support_purchase_list
+	 	 WHERE	1=1
+	 	<if test="startDate!=null and startDate!=''">	 	
+ 	 		AND purchase_day  <![CDATA[>]]> concat(#{startDate}, '-', '00') 
+ 	 	</if>
+ 	 	<if test="endDate!=null and endDate!=''">
+ 	 		AND purchase_day  <![CDATA[<]]> concat(#{endDate}, '-', '99') 
+ 	 	</if>
+ 	 	<if test="purchase_project_code!=null and purchase_project_code!=''">
+ 	 		AND purchase_project_code LIKE concat('%', #{purchase_project_code}, '%') 
+ 	 	</if>
+ 	 	<if test="creditor_name!=null and creditor_name!=''">
+ 	 		AND creditor_name LIKE concat('%', #{creditor_name}, '%')
+ 	 	</if>
+ 	 	<if test="debtor_name!=null and debtor_name!=''"> 	 	
+ 	 		AND debtor_name LIKE concat('%', #{debtor_name}, '%')
+ 	 	</if>
+ 	 	<if test="purchase_staff_name!=null and purchase_staff_name!=''"> 	 	
+ 	 		AND purchase_staff_name LIKE concat('%', #{purchase_staff_name}, '%')
+ 	 	</if>	 	 
+	 	 
+	 </select>
+	 
+	 <select id="salesSelect" parameterType="SupportSalesVO" resultType="SupportSalesVO">
+	 	SELECT 	sales_id             
+				,sales_day            
+				,sales_project_code_id
+				,sales_project_code   
+				,sales_staff_id       
+				,sales_staff_name     
+				,sales_client_id      
+				,sales_client_name    
+				,item_name            
+				,item_div_code_id     
+				,item_div_name        
+				,sales_supply_price   
+				,sales_tax            
+				,sales_total_price    
+				,sales_GP             
+				,creator              
+				,creation_date   
+		  FROM	tb_support_sales_list
+	 	 WHERE	1=1	 	 
+ 	 	<if test="startDate!=null and startDate!=''">
+ 	 		AND sales_day  <![CDATA[>]]> concat(#{startDate}, '-', '00') 
+ 	 	</if>
+ 	 	<if test="endDate!=null and endDate!=''">
+ 	 		AND sales_day  <![CDATA[<]]> concat(#{endDate}, '-', '99') 
+ 	 	</if>
+ 	 	<if test="sales_project_code!=null and sales_project_code!=''">	 	 	
+ 	 		AND sales_project_code LIKE concat('%', #{sales_project_code}, '%') 
+ 	 	</if>
+ 	 	<if test="item_div_name!=null and item_div_name!=''">	 	 	
+ 	 		AND item_div_name LIKE concat('%', #{item_div_name}, '%')
+ 	 	</if>
+ 	 	<if test="sales_client_name!=null and sales_client_name!=''">	 	 	
+ 	 		AND sales_client_name LIKE concat('%', #{sales_client_name}, '%')
+ 	 	</if>
+ 	 	<if test="sales_staff_name!=null and sales_staff_name!=''">	 	 	
+ 	 		AND sales_staff_name LIKE concat('%', #{sales_staff_name}, '%')
+ 	 	</if>	 	 	 	 
+	 </select>
+	 
+	 <insert id="purchaseExceluploadInsert" parameterType="SupportPurchaseVO">
+	 	INSERT INTO tb_support_purchase_list
+			(    purchase_id               
+				,purchase_day              
+				,purchase_project_code_id  
+				,purchase_project_code     
+				,purchase_staff_id         
+				,purchase_staff_name       
+				,creditor_id               
+				,creditor_name             
+				,item_name                 
+				,debtor_id                 
+				,debtor_name               
+				,purchase_supply_price     
+				,purchase_tax              
+				,purchase_total_price      
+				,creator                   
+				,creation_date             
+				,delete_yn	)
+			VALUES
+			<foreach collection="purchaseList" index="index" item="purchase" separator=",">
+				(
+					null               
+					,trim(#{purchase.purchase_day})              
+					,null  
+					,trim(#{purchase.purchase_project_code})     
+					,null         
+					,trim(#{purchase.purchase_staff_name})       
+					,null        
+					,trim(#{purchase.creditor_name})      
+					,trim(#{purchase.item_name})              
+					,null      
+					,trim(#{purchase.debtor_name})     
+					,trim(#{purchase.purchase_supply_price})              
+					,trim(#{purchase.purchase_tax})               
+					,trim(#{purchase.purchase_total_price})
+					,#{creator}                
+					,now()          
+					,'0'
+				)
+			</foreach>
+	</insert>
+	
+	 <insert id="salesExceluploadInsert" parameterType="SupportSalesVO">
+		INSERT INTO tb_support_sales_list
+			(   sales_id               
+				,sales_day              
+				,sales_project_code_id  
+				,sales_project_code     
+				,sales_staff_id         
+				,sales_staff_name       
+				,sales_client_id        
+				,sales_client_name      
+				,item_name              
+				,item_div_code_id       
+				,item_div_name          
+				,sales_supply_price     
+				,sales_tax              
+				,sales_total_price      
+				,sales_GP               
+				,creator                
+				,creation_date          
+				,delete_yn	)
+			VALUES
+			<foreach collection="salesList" index="index" item="sale" separator=",">						
+				(
+					null               
+					,trim(#{sale.sales_day})              
+					,null  
+					,trim(#{sale.sales_project_code})     
+					,null         
+					,trim(#{sale.sales_staff_name})       
+					,null        
+					,trim(#{sale.sales_client_name})      
+					,trim(#{sale.item_name})              
+					,null      
+					,trim(#{sale.item_div_name})          
+					,trim(#{sale.sales_supply_price})     
+					,trim(#{sale.sales_tax})              
+					,trim(#{sale.sales_total_price})      
+					,trim(#{sale.sales_GP})               
+					,#{creator}                
+					,now()          
+					,'0'
+				)						
+			</foreach>
+	</insert>
+	
+	<select id="purchaseSalesStatus" parameterType="SupportPurchaseSalesVO" resultType="SupportPurchaseSalesVO">
+		SELECT   Ord	
+				,project_code
+				,staff_name
+				,client_name
+				,sales_price_sum
+				,purchase_price_sum
+				,sales_GP_sum
+				,GP 
+		FROM (
+		    SELECT              *
+		                    ,   sales_price_sum - purchase_price_sum                AS    GP
+		    FROM (
+		            SELECT
+		                        1                                                   AS    Ord
+		                    ,   sales.sales_project_code                            AS    project_code
+		                    ,   ifnull(MAX(ltrim(sales.sales_staff_name)),'-')      AS    staff_name
+		                    ,   ifnull(MAX(ltrim(sales.sales_client_name)),'-')     AS    client_name
+		                    ,   IFNULL(SUM(sales.sales_supply_price ),0)		    AS    sales_price_sum
+		                    ,   IFNULL(SUM(purchase.purchase_supply_price ),0)      AS    purchase_price_sum
+		                    ,   IFNULL(SUM(sales.sales_GP ),0)                      AS    sales_GP_sum
+		            FROM        tb_support_sales_list                               AS    sales
+		            LEFT JOIN   tb_support_purchase_list                            AS    purchase
+		                    ON  sales.sales_project_code            =   purchase.purchase_project_code
+		            WHERE       sales.sales_project_code IS NOT NULL
+            		<if test="in_staff_name!=null and in_staff_name!=''">		            		
+                    	AND sales.sales_staff_name like concat('%', #{in_staff_name}, '%') 
+                    </if>
+                    <if test="in_project_code!=null and in_project_code!=''">		                    
+                    	AND sales.sales_project_code like concat('%', #{in_project_code}, '%') 
+                    </if>
+                    <if test="startDate!=null and startDate!=''">		                    
+                    	AND sales.sales_day <![CDATA[>]]> concat(#{startDate}, '-', '00')
+                    </if>
+                    <if test="endDate!=null and endDate!=''">		                    
+                    	AND sales.sales_day <![CDATA[<]]> concat(#{endDate}, '-', '99')
+                    </if>		            
+		            GROUP   BY  sales.sales_project_code, sales.sales_staff_name
+		            union
+		            SELECT
+		                        2                                                   AS      Ord
+		                    ,   purchase.purchase_project_code                      AS      project_code
+		                    ,   ifnull(max(ltrim(purchase.purchase_staff_name)),'-') AS      staff_name
+		                    ,   ifnull(MAX(ltrim(purchase.debtor_name)),'-')        AS      client_name
+		                    ,   0                                                   AS      sales_price_sum
+		                    ,    IFNULL(SUM(purchase.purchase_supply_price),0)      AS      purchase_price_sum
+		                    ,   0                                                   AS      sales_GP_sum
+		            FROM         tb_support_purchase_list                           AS      purchase
+		            WHERE       purchase.purchase_project_code not in ( select sales_project_code from tb_support_sales_list where sales_project_code is not null)
+		                    AND purchase.purchase_project_code is not null
+		                    <if test="in_staff_name!=null and in_staff_name!=''">
+		                    	AND purchase.purchase_staff_name like concat('%', #{in_staff_name}, '%') 
+		                    </if>
+		                    <if test="in_project_code!=null and in_project_code!=''">
+		                    	AND purchase.purchase_project_code like concat('%', #{in_project_code}, '%') 
+		                    </if>
+		                    <if test="startDate!=null and startDate!=''">
+		                    	AND purchase.purchase_day <![CDATA[>]]> concat(#{startDate}, '-', '00')
+		                    </if>
+		                    <if test="endDate!=null and endDate!=''">    
+		                    	AND purchase.purchase_day <![CDATA[<]]> concat(#{endDate}, '-', '99')
+		                    </if>
+		                    
+		            GROUP   BY  purchase.purchase_project_code
+		            ORDER   BY  Ord, project_code
+		    ) AS A
+		) AS B
+		union
+		SELECT  3 as Ord
+		    ,   '-' AS project_code
+		    ,   '-' AS staff_name
+		    ,   '-' AS client_name
+		    ,   sum(sales_price_sum) AS spc
+		    ,   sum(purchase_price_sum) AS pps
+		    ,   sum(sales_GP_sum ) as sgs
+		    ,   sum(GP) AS gps
+		FROM (
+		    SELECT              *
+		                    ,   sales_price_sum - purchase_price_sum                AS    GP
+		    FROM (
+		            SELECT
+		                        1                                                   AS    Ord
+		                    ,   sales.sales_project_code                            AS    project_code
+		                    ,   ifnull(MAX(ltrim(sales.sales_staff_name)),'-')      AS    staff_name
+		                    ,   ifnull(MAX(ltrim(sales.sales_client_name)),'-')     AS    client_name
+		                    ,   IFNULL(SUM(sales.sales_supply_price ),0)			AS    sales_price_sum
+		                    ,   IFNULL(SUM(purchase.purchase_supply_price ),0)      AS    purchase_price_sum
+		                    ,   IFNULL(SUM(sales.sales_GP ),0)                      AS    sales_GP_sum
+		            FROM        tb_support_sales_list                               AS    sales
+		            LEFT JOIN   tb_support_purchase_list                            AS    purchase
+		                    ON  sales.sales_project_code	=	purchase.purchase_project_code
+		            WHERE       sales.sales_project_code IS NOT NULL
+		            		<if test="in_staff_name!=null and in_staff_name!=''">
+		                    	AND sales.sales_staff_name like concat('%', #{in_staff_name}, '%') 
+		                    </if>
+		                    <if test="in_project_code!=null and in_project_code!=''">
+		                    	AND sales.sales_project_code like concat('%', #{in_project_code}, '%') 
+		                    </if>
+		                    <if test="startDate!=null and startDate!=''">
+		                    	AND sales.sales_day <![CDATA[>]]> concat(#{startDate}, '-', '00')
+		                    </if>
+		                    <if test="endDate!=null and endDate!=''">    
+		                    	AND sales.sales_day <![CDATA[<]]> concat(#{endDate}, '-', '99')
+		                    </if>
+		            
+		            GROUP   BY  sales.sales_project_code, sales.sales_staff_name
+		            union
+		            SELECT
+		                        2                                                   AS      Ord
+		                    ,   purchase.purchase_project_code                      AS      project_code
+		                    ,   ifnull(max(ltrim(purchase.purchase_staff_name)),'-') AS      staff_name
+		                    ,   ifnull(MAX(ltrim(purchase.debtor_name)),'-')        AS      client_name
+		                    ,   0                                                   AS      sales_price_sum
+		                    ,   IFNULL(SUM(purchase.purchase_supply_price),0)		AS      purchase_price_sum
+		                    ,   0                                                   AS      sales_GP_sum
+		            FROM         tb_support_purchase_list                           AS      purchase
+		            WHERE       purchase.purchase_project_code not in ( select sales_project_code from tb_support_sales_list where sales_project_code is not null)
+		                    AND purchase.purchase_project_code is not null
+		                    <if test="in_staff_name!=null and in_staff_name!=''">
+		                    	AND purchase.purchase_staff_name like concat('%', #{in_staff_name}, '%') 
+		                    </if>
+		                    <if test="in_project_code!=null and in_project_code!=''">
+		                    	AND purchase.purchase_project_code like concat('%', #{in_project_code}, '%') 
+		                    </if>
+		                    <if test="startDate!=null and startDate!=''">
+		                    	AND purchase.purchase_day <![CDATA[>]]> concat(#{startDate}, '-', '00')
+		                    </if>
+		                    <if test="endDate!=null and endDate!=''">    
+		                    	AND purchase.purchase_day <![CDATA[<]]> concat(#{endDate}, '-', '99')
+		                    </if>
+		            GROUP   BY  purchase.purchase_project_code
+		            ORDER   BY  Ord, project_code
+		    ) AS A
+		) AS V
+		ORDER BY ord, project_code
+	</select>
+	
+	<select id="salesStatus" parameterType="SupportSalesVO" resultType="SupportPurchaseSalesVO">
+		SELECT  1                                                AS Ord,
+		        sales.sales_project_code                         AS project_code,
+		        IFNULL(MAX(sales.sales_staff_name), '-')         AS staff_name,
+		        IFNULL(MAX(sales.sales_client_name), '-')        AS client_name,
+		        IFNULL(SUM(sales.sales_supply_price),0)          AS sales_price_sum,
+		        0                                                AS purchase_price_sum,
+		        IFNULL(SUM(sales.sales_GP), 0)                   AS sales_GP_sum,
+		        IFNULL(SUM(sales.sales_supply_price),0)			 AS GP
+		FROM    tb_support_sales_list AS sales
+		WHERE   sales.sales_project_code IS NOT NULL
+		    AND sales.sales_project_code NOT IN (   SELECT purchase_project_code
+		                                            FROM tb_support_purchase_list
+		                                            WHERE purchase_project_code IS NOT NULL
+		                                        )
+			      <if test="in_staff_name!=null and in_staff_name!=''">
+	              	AND sales.sales_staff_name like concat('%', #{in_staff_name}, '%') 
+	              </if>
+	              <if test="in_project_code!=null and in_project_code!=''">
+	              	AND sales.sales_project_code like concat('%', #{in_project_code}, '%') 
+	              </if>
+	              <if test="startDate!=null and startDate!=''">
+	              	AND sales.sales_day <![CDATA[>]]> concat(#{startDate}, '-', '00')
+	              </if>
+	              <if test="endDate!=null and endDate!=''">    
+	              	AND sales.sales_day <![CDATA[<]]> concat(#{endDate}, '-', '99')
+	              </if>
+		GROUP BY sales.sales_project_code
+		UNION ALL
+		SELECT  3                                               AS Ord,
+		        '-'                                             AS project_code,
+		        '-'                                             AS staff_name,
+		        '-'                                             AS client_name,
+		        IFNULL(SUM(sales.sales_supply_price),0)         AS sales_price_sum,
+		        0                                               AS purchase_price_sum,
+		        IFNULL(SUM(sales.sales_GP), 0)                  AS sales_GP_sum,
+		        IFNULL(SUM(sales.sales_supply_price),0)         AS GP
+		FROM    tb_support_sales_list                           AS sales
+		WHERE   sales.sales_project_code IS NOT NULL
+		    AND sales.sales_project_code NOT IN (   SELECT  purchase_project_code
+		                                            FROM    tb_support_purchase_list
+		                                            WHERE   purchase_project_code IS NOT NULL
+		                                        )
+			  <if test="in_staff_name!=null and in_staff_name!=''">
+              	AND sales.sales_staff_name like concat('%', #{in_staff_name}, '%') 
+              </if>
+              <if test="in_project_code!=null and in_project_code!=''">
+              	AND sales.sales_project_code like concat('%', #{in_project_code}, '%') 
+              </if>
+              <if test="startDate!=null and startDate!=''">
+              	AND sales.sales_day <![CDATA[>]]> concat(#{startDate}, '-', '00')
+              </if>
+              <if test="endDate!=null and endDate!=''">    
+              	AND sales.sales_day <![CDATA[<]]> concat(#{endDate}, '-', '99')
+              </if>
+		ORDER BY ord, project_code
+	</select>
+	
+	<select id="purchaseStatus" parameterType="SupportPurchaseVO" resultType="SupportPurchaseSalesVO">
+		SELECT      1                                       AS  Ord
+		        ,   purchase_project_code                   AS  project_code
+		        ,   IFNULL(MAX(purchase_staff_name),'-')    AS  staff_name
+		        ,   IFNULL(MAX(debtor_name),'-')            AS  client_name
+		        ,   0                                       AS  sales_price_sum
+		        ,   IFNULL(SUM(purchase_supply_price),0)   AS  purchase_price_sum
+		        ,   0                                       AS  sales_GP_sum
+		        ,   IFNULL(SUM(purchase_supply_price),0)* -1          AS  GP
+		FROM        tb_support_purchase_list AS purchase
+		WHERE       purchase_project_code   IS NOT NULL
+		        AND purchase_project_code   NOT IN  (   SELECT  sales_project_code
+		                                                FROM    tb_support_sales_list
+		                                                WHERE   sales_project_code IS NOT NULL 
+		                                            )
+		  			<if test="in_staff_name!=null and in_staff_name!=''">
+                    	AND purchase.purchase_staff_name like concat('%', #{in_staff_name}, '%') 
+                    </if>
+                    <if test="in_project_code!=null and in_project_code!=''">
+                    	AND purchase.purchase_project_code like concat('%', #{in_project_code}, '%') 
+                    </if>
+                    <if test="startDate!=null and startDate!=''">
+                    	AND purchase.purchase_day <![CDATA[>]]> concat(#{startDate}, '-', '00')
+                    </if>
+                    <if test="endDate!=null and endDate!=''">    
+                    	AND purchase.purchase_day <![CDATA[<]]> concat(#{endDate}, '-', '99')
+                    </if>
+		GROUP BY    purchase_project_code  
+		UNION ALL
+		SELECT      3                                       	AS  Ord
+		        ,   '-'                                     	AS  project_code
+		        ,   '-'                                     	AS  staff_name
+		        ,   '-'                                     	AS  client_name
+		        ,   0                                       	AS  sales_price_sum
+		        ,    IFNULL(SUM(purchase_supply_price),0)       AS  purchase_price_sum
+		        ,   0                                         	AS  sales_GP_sum
+		        ,    IFNULL(SUM(purchase_supply_price),0)* -1 	AS  GP
+		FROM        tb_support_purchase_list AS purchase
+		WHERE       purchase_project_code   IS NOT NULL
+		        AND purchase_project_code   NOT IN  (   SELECT  sales_project_code
+		                                                FROM    tb_support_sales_list
+		                                                WHERE   sales_project_code IS NOT NULL 
+		                                            )
+			     <if test="in_staff_name!=null and in_staff_name!=''">
+	              	AND purchase.purchase_staff_name like concat('%', #{in_staff_name}, '%') 
+	             </if>
+	             <if test="in_project_code!=null and in_project_code!=''">
+	              	AND purchase.purchase_project_code like concat('%', #{in_project_code}, '%') 
+	             </if>
+	             <if test="startDate!=null and startDate!=''">
+	              	AND purchase.purchase_day <![CDATA[>]]> concat(#{startDate}, '-', '00')
+	             </if>
+	             <if test="endDate!=null and endDate!=''">    
+	              	AND purchase.purchase_day <![CDATA[<]]> concat(#{endDate}, '-', '99')
+	             </if>
+		ORDER BY    Ord,   project_code
+	</select>
+	
+	<select id="salesStatusPop" parameterType="SupportPurchaseSalesVO" resultType="SupportSalesVO">
+		select      sales_id             
+					,sales_day            
+					,sales_project_code_id
+					,sales_project_code   
+					,sales_staff_id       
+					,sales_staff_name     
+					,sales_client_id      
+					,sales_client_name    
+					,item_name            
+					,item_div_code_id     
+					,item_div_name        
+					,sales_supply_price   
+					,sales_tax            
+					,sales_total_price    
+					,sales_GP
+		from        tb_support_sales_list
+		where       sales_project_code = #{in_project_code}
+		union all
+		select      99999999 as sales_id        
+		        ,   '-'		 as sales_day
+		        ,   '-'		 as sales_project_code_id
+		        ,   '-'		 as sales_project_code
+		        ,   '-'		 as sales_staff_id
+		        ,   '-'		 as sales_staff_name
+		        ,   '-'		 as sales_client_id
+		        ,   '-'		 as sales_client_name
+		        ,   '-'		 as item_name
+		        ,   '-'		 as item_div_code_id
+		        ,   '-'		 as item_div_name
+		        ,   sum(sales_supply_price)
+		        ,   sum(sales_tax)
+		        ,   sum(sales_total_price)
+		        ,   sum(sales_gp)
+		from        tb_support_sales_list
+		where       sales_project_code = #{in_project_code}
+		order by sales_id
+	</select>
+	
+	<select id="purchaseStatusPop" parameterType="SupportPurchaseSalesVO" resultType="SupportPurchaseVO">
+		select          purchase_id             
+						,purchase_day            
+						,purchase_project_code_id
+						,purchase_project_code   
+						,purchase_staff_id       
+						,purchase_staff_name     
+						,creditor_id             
+						,creditor_name  
+						,item_name
+						,debtor_id
+						,debtor_name
+						,purchase_supply_price   
+						,purchase_tax            
+						,purchase_total_price    
+		from            tb_support_purchase_list
+		where           purchase_project_code=#{in_project_code} 
+		union all
+		select          99999999                    AS  purchase_id
+					,   '-'							AS  purchase_day
+					,   '-'							AS  purchase_project_code_id
+					,   '-'							AS  purchase_project_code
+					,   '-'							AS  purchase_staff_id
+					,   '-'							AS  purchase_staff_name
+					,   '-'							AS  creditor_id
+					,   '-'							AS  creditor_name
+					,   '-'							AS  item_name
+					,   '-'							AS  debtor_id
+					,   '-'							AS  debtor_name
+		            ,   SUM(purchase_supply_price)  AS  purchase_supply_price
+		            ,   SUM(purchase_tax)           AS  purchase_tax
+		            ,   SUM(purchase_total_price)   AS  purchase_total_price
+		from            tb_support_purchase_list
+		where           purchase_project_code=#{in_project_code} 
+		ORDER   BY      purchase_id
+	</select>
+	
+	<delete id="purchaseDelete" parameterType="SupportPurchaseVO">
+		DELETE
+		  FROM	tb_support_purchase_list
+		 WHERE	1=1
+		 <if test="startDate!=null and startDate!=''">
+		   AND	purchase_day  <![CDATA[>]]> concat(#{startDate}, '-', '00') 
+		 </if>
+		 <if test="endDate!=null and endDate!=''">
+		   AND	purchase_day  <![CDATA[<]]> concat(#{endDate}, '-', '99') 
+		 </if>		   
+	</delete>
+	
+	<delete id="salesDelete" parameterType="SupportSalesVO">
+		DELETE FROM tb_support_sales_list
+		 WHERE 1=1
+		 <if test="startDate!=null and startDate!=''">
+			AND sales_day  <![CDATA[>]]> concat(#{startDate}, '-', '00') 
+		 </if>
+		 <if test="endDate!=null and endDate!=''">
+		 	AND sales_day  <![CDATA[<]]> concat(#{endDate}, '-', '99') 
+		 </if>
+	</delete>
+	
+	<select id="item_div_name" resultType="SupportSalesItemNameVO">
+		select distinct item_div_name as item_div_list
+			from tb_support_sales_list
+			where item_div_name != ''
+			order by item_div_name 
+	</select>
+</mapper>

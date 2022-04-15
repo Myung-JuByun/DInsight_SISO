@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias alias="authVO" type="siso.adm.auth.service.AuthVO" />		
+		<typeAlias alias="ExpanseCategoryAdminVO" type="siso.adm.classification.service.ExpanseCategoryAdminVO" />
+		<typeAlias alias="codeAdminVO" type="siso.adm.code.service.CodeAdminVO" />
+		<typeAlias alias="expansePayApprovalVO" type="siso.adm.expapproval.service.ExpansePayApprovalVO" />
+		<typeAlias alias="expanseAdminVO" type="siso.exp.admin.service.ExpanseAdminVO" />
+		<typeAlias alias="ComMenuVO" type="siso.adm.service.ComMenuVO"/>
+    	<typeAlias alias="ComDefaultCodeVO" type="siso.cmmn.cmm.service.ComDefaultCodeVO"/>
+    	<typeAlias alias="cmmnDetailCode" type="siso.cmmn.cmm.service.CmmnDetailCode"/>
+    	<typeAlias alias="SupportPurchaseVO" type="siso.adm.support.service.SupportPurchaseVO" />
+    	<typeAlias alias="SupportSalesVO" type="siso.adm.support.service.SupportSalesVO" />
+    	<typeAlias alias="SupportPurchaseSalesVO" type="siso.adm.support.service.SupportPurchaseSalesVO" />
+    	<typeAlias alias="SupportSalesItemNameVO" type="siso.adm.support.service.SupportSalesItemNameVO" />
+    	<typeAlias alias="userAdminVO" type="siso.adm.user.service.UserAdminVO" />
+    	<typeAlias alias="alcAdminVO" type="siso.alc.admin.service.AlcAdminVO" />
+    	<typeAlias alias="alcStatusVO" type="siso.alc.status.service.AlcStatusVO" />
+    	<typeAlias alias="customerSearchVO" type="siso.cop.service.CustomerSearchVO" />
+		<typeAlias alias="customerInfoVO" type="siso.cop.service.CustomerInfoVO" />    	
+		<typeAlias alias="ZipCodeVO" type="siso.cmmn.cmm.service.ZipCodeVO"/>			
+		<typeAlias alias="productSalesVO" type="siso.sas.product.service.ProductSalesVO" />
+		<typeAlias alias="comDefaultVO" type="siso.cmmn.ComDefaultVO" />
+		<typeAlias alias="approvalVO" type="siso.exp.approval.service.ApprovalVO" />
+		<typeAlias alias="individualVO" type="siso.exp.individual.service.IndividualVO" />
+		<typeAlias alias="paymentVO" type="siso.exp.payment.service.PaymentVO" />
+		<typeAlias alias="referenceVO" type="siso.exp.reference.service.ReferenceVO" />
+		<typeAlias alias="expanseSearchVO" type="siso.exp.service.ExpSearchVO"/>
+		<typeAlias alias="expanseInfoVO" type="siso.exp.service.ExpanseInfoVO"/>
+		<typeAlias alias="prdVO" type="siso.prd.service.PrdVO" />
+		<typeAlias alias="projectAdminSearchVO" type="siso.prj.admin.service.ProjectAdminSearchVO" />
+		<typeAlias alias="projectAdminVO" type="siso.prj.admin.service.ProjectAdminVO" />
+		<typeAlias alias="projectAdminMemberVO" type="siso.prj.admin.service.ProjectAdminMemberVO" />
+		<typeAlias alias="projectApprovalVO" type="siso.prj.approval.service.ProjectApprovalVO" />
+		<typeAlias alias="projectReportVO" type="siso.prj.report.service.ProjectReportVO" />
+		<typeAlias alias="ProjectStatusSearchVO" type="siso.prj.status.service.ProjectStatusSearchVO" />
+		<typeAlias alias="ProjectStatusVO" type="siso.prj.status.service.ProjectStatusVO" />
+		<typeAlias alias="ForeCastingVO" type="siso.sam.fcasting.service.ForeCastingVO" />
+		<typeAlias alias="foreCastingStatusVO" type="siso.sam.fcastingstatus.service.ForeCastingStatusVO" />
+		<typeAlias alias="projectCodeVO" type="siso.sam.pcode.service.ProjectCodeVO" />
+		<typeAlias alias="salesAdminSearchVO" type="siso.sas.admin.service.SalesAdminSearchVO" />
+		<typeAlias alias="salesAdminInfoVO" type="siso.sas.admin.service.SalesAdminInfoVO" />
+		<typeAlias alias="productSalesApprovalVO" type="siso.sas.approval.service.ProductSalesApprovalVO" />
+		<typeAlias alias="salesContractSearchVO" type="siso.sas.contract.service.SalesContractSearchVO" />
+		<typeAlias alias="salesContractVO" type="siso.sas.contract.service.SalesContractVO" />
+		<typeAlias alias="salesQuoteSearchVO" type="siso.sas.quote.service.SalesQuoteSearchVO" />
+		<typeAlias alias="salesQuoteVO" type="siso.sas.quote.service.SalesQuoteVO" />
+		<typeAlias alias="salesStatusSearchVO" type="siso.sas.status.service.SalesStatusSearchVO" />
+		<typeAlias alias="salesStatusInfoVO" type="siso.sas.status.service.SalesStatusInfoVO" />					
+		<typeAlias alias="userSearchVO" type="siso.usr.service.UserSearchVO" />
+		<typeAlias alias="userInfoVO" type="siso.usr.service.UserInfoVO" />					
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="springboot/mapper/siso/adm/siso_admin_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/adm/siso_admin_user_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/adm/siso_admin_expapproval_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/adm/siso_admin_code_sql.xml" />
+		<mapper resource="springboot/mapper/siso/adm/siso_admin_category_sql.xml" />
+		<mapper resource="springboot/mapper/siso/adm/siso_admin_support_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/adm/siso_admin_auth_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/cmmn/siso_comm_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/cmmn/siso_zipcode_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/cop/siso_company_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/exp/siso_expanse_admin_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/exp/siso_expanse_approval_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/exp/siso_expanse_individual_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/exp/siso_expanse_payment_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/exp/siso_expanse_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/exp/siso_expanse_reference_sql.xml" />
+		<mapper resource="springboot/mapper/siso/prj/siso_project_admin_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/prj/siso_project_approval_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/prj/siso_project_status_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/prj/siso_project_report_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/sas/siso_sales_admin_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/sas/siso_sales_status_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/sas/siso_sales_quote_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/sas/siso_sales_contract_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/sas/siso_sales_product_sql.xml"/>
+		<mapper resource="springboot/mapper/siso/sas/siso_sales_approval_sql.xml"/>			 
+		<mapper resource="springboot/mapper/siso/usr/siso_user_sql.xml" />
+		<mapper resource="springboot/mapper/siso/sam/siso_sam_fcasting_sql.xml" />
+		<mapper resource="springboot/mapper/siso/sam/siso_sam_fcastingStatus_sql.xml" />
+		<mapper resource="springboot/mapper/siso/sam/siso_sam_pcode_sql.xml" />
+		<mapper resource="springboot/mapper/siso/alc/siso_alc_admin_sql.xml" />
+		<mapper resource="springboot/mapper/siso/alc/siso_alc_status_sql.xml" />
+		<mapper resource="springboot/mapper/siso/prd/siso_product_sql.xml" />
+	</mappers>
+</configuration>

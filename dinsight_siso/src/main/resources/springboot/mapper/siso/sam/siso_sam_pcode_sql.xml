@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.sam.pcode.service.impl.ProjectCodeMapper">	
+	
+	<select id="projectCodeList" parameterType="projectCodeVO" resultType="projectCodeVO">
+		<![CDATA[
+			SELECT
+				TSP.sales_project_id, TSP.user_id, TU.user_name, TSP.sales_project_year, TSP.sales_project_month,TSP.sales_divide_cd,
+				TSP.sales_type_cd, TC1.code_name AS sales_type_cd_name, TSP.company_id, TCY.company_name,
+				TCY.address AS company_address,
+				TCR1.customer_id, TCR1.division AS customer_division, TCR1.customer_name,
+				TCR1.phone_number AS customer_tel, TCR1.mobile AS customer_hp, TCR1.email AS customer_email,
+				TCR2.customer_id AS invoice_id, TCR2.division AS invoice_division, TCR2.customer_name AS invoice_name,
+				TCR2.phone_number AS invoice_tel, TCR2.mobile AS invoice_hp, TCR2.email AS invoice_email,
+				TSP.brand_cd, TC2.code_name AS brand_cd_name, TC2.etc1 AS brand_cd_name_sub, TSP.module,
+				TSP.sales_status_cd, TC3.code_name AS sales_status_cd_name,
+				TSP.closing, TSP.win_gb, TSP.sales_project_code, TSP.contract_estimate_price, TSP.cost_price, TSP.profit_price, TSP.delete_yn,
+				TU.last_division_cd, 
+				IFNULL(TD.division_cd, TD2.division_cd) operation_cd,
+				IFNULL(TD.division_name, TD2.division_name) operation_cd_name,
+				IF(SUBSTR(TD.division_name, 1, 3) = '솔루션', 'R', 'T') operation_cd_code, TSP.user_id, TSP.creator,
+				IF(TUC2.user_name IS NOT NULL, TUC2.user_name, TUC.user_name) creator_user_name
+			FROM tb_sales_project TSP
+			LEFT JOIN tb_code TC1 ON TC1.code_id = TSP.sales_type_cd AND TC1.group_id = '116'
+			LEFT JOIN tb_code TC2 ON TC2.code_id = TSP.brand_cd AND TC2.group_id = '117'
+			LEFT JOIN tb_code TC3 ON TC3.code_id = TSP.sales_status_cd AND TC3.group_id = '115'
+			LEFT JOIN tb_company TCY ON TCY.company_id = TSP.company_id
+			LEFT JOIN (
+				SELECT
+					customer_id, division, customer_name , phone_number, mobile, email, company_id
+				FROM tb_customer
+				WHERE delete_yn=0 AND invoice_gb = 0
+				GROUP BY company_id
+				ORDER BY company_id, customer_id
+			) AS TCR1 ON TCR1.company_id = TCY.company_id
+			LEFT JOIN (
+				SELECT
+					customer_id, division, customer_name , phone_number, mobile, email, company_id
+				FROM tb_customer
+				WHERE delete_yn=0 AND invoice_gb = 1
+				GROUP BY company_id
+				ORDER BY company_id, customer_id
+			) AS TCR2 ON TCR2.company_id = TCY.company_id
+			LEFT JOIN tb_users TU ON TU.user_id = TSP.user_id
+			LEFT JOIN tb_users TUC ON TUC.user_id = TSP.creator
+			LEFT JOIN tb_users TUC2 ON TUC2.user_id = TSP.modifier
+			LEFT JOIN tb_division TD2 ON TD2.division_cd = TU.last_division_cd
+			LEFT JOIN tb_division TD ON TD.division_cd = TD2.operation_cd
+			WHERE TSP.delete_yn = 0
+ 		]]>
+ 		
+ 		<if test="sales_project_year!=null and sales_project_year!=''">
+			AND	TSP.sales_project_year = #{sales_project_year}
+		</if>
+		
+		<if test="sales_project_month!=null and sales_project_month!=''">
+			AND	TSP.sales_project_month = #{sales_project_month}
+		</if>
+		
+		<choose>
+			<when test="sh_closing_year!=null and sh_closing_year!=''">
+				<choose>
+					<when test="sh_closing_month!=null and sh_closing_month!=''">
+						AND	TSP.closing like concat(#{sh_closing_year}, '.', #{sh_closing_month}, '%')
+					</when>				
+					<otherwise>
+						AND	TSP.closing like concat(#{sh_closing_year}, '%')
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				<if test="sh_closing_month!=null and sh_closing_month!=''">
+					AND	TSP.closing like concat('%.',  #{sh_closing_month}, '.%')
+				</if>
+			</otherwise>
+		</choose>		
+		
+		<if test="company_name!=null and company_name!=''">
+			AND	TCY.company_name like concat('%', #{company_name}, '%')
+		</if>
+				
+		<if test="sales_type_cd!=null and sales_type_cd!=''">
+			AND	TSP.sales_type_cd = #{sales_type_cd}
+		</if>
+				
+		<if test="sales_status_cd!=null and sales_status_cd!=''">
+			AND	TSP.sales_status_cd = #{sales_status_cd}
+		</if>
+		
+		<if test="brand_cd!=null and brand_cd!=''">
+			AND	TSP.brand_cd = #{brand_cd}
+		</if>
+		
+		<if test="user_id!=null and user_id!=''">
+			AND	TU.user_id like concat('%', #{user_id}, '%')
+		</if>
+		
+		<if test="division_child_list!=null">
+			AND	TU.last_division_cd IN
+			<foreach collection="division_child_list" item="division_child" open="(" close=")" separator=",">	
+				#{division_child} 
+			</foreach> 
+		</if>
+				
+		<if test="win_gb!=null and win_gb!=''">
+			<choose>
+				<when test="win_gb == '0'.toString()">
+					AND	win_gb = 'X'
+				</when>
+				<when test="win_gb == '1'.toString()">
+					AND	win_gb is NULL
+				</when>
+				<otherwise></otherwise>
+			</choose>			
+		</if>
+		
+	</select>		
+	
+	<insert id="projectCodeInsert">
+		<![CDATA[
+			INSERT INTO tb_sales_project (
+				sales_project_id, user_id, operation_cd, sales_project_year, sales_project_month, sales_divide_cd, 
+				sales_type_cd, company_id, brand_cd, module, sales_status_cd, closing, 
+				win_gb, sales_project_code, contract_estimate_price, cost_price, profit_price, 
+				delete_yn, creator, creation_date
+			) VALUES (
+				#{sales_project_id}, #{user_id}, #{operation_cd}, #{sales_project_year}, #{sales_project_month}, #{sales_divide_cd}, 
+				#{sales_type_cd}, #{company_id}, #{brand_cd}, #{module},  #{sales_status_cd}, #{closing}, 
+				#{win_gb}, #{sales_project_code}, #{contract_estimate_price}, #{cost_price}, #{profit_price}, 
+				'0', #{creator}, now()
+			)
+			ON DUPLICATE KEY 
+			UPDATE user_id = #{user_id}, operation_cd= #{operation_cd}, sales_project_year = #{sales_project_year}, 
+			sales_project_month = #{sales_project_month}, sales_divide_cd = #{sales_divide_cd}, sales_type_cd = #{sales_type_cd}, 
+			company_id = #{company_id}, brand_cd = #{brand_cd}, module = #{module}, sales_status_cd = #{sales_status_cd}, 
+			closing = #{closing}, contract_estimate_price = #{contract_estimate_price}, cost_price = #{cost_price}, 
+			profit_price = #{profit_price}, delete_yn ='0', creator = #{creator}, modifier = #{modifier}, modify_date = now()	
+		]]>
+		
+		<selectKey keyProperty="salesProjectKey" resultType="int">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
+	</insert>
+	
+	<update id="projectCodeDelBackup">		
+		UPDATE	tb_sales_project
+		   SET	delete_yn = 1, modifier = #{modifier}, modify_date = now()
+		 WHERE	sales_project_year = #{sales_project_year} AND sales_project_month = #{sales_project_month}		
+	</update>
+	
+	<select id="projectCount" parameterType="projectCodeVO" resultType="int">		
+		SELECT	COUNT(*)
+		  FROM	tb_project 
+		 WHERE	project_code = #{sales_project_code}
+		   AND	delete_yn = 0		
+	</select>
+	
+	<select id="quoteCount" parameterType="projectCodeVO" resultType="int">
+		SELECT	COUNT(*)
+		  FROM	tb_quote
+		 WHERE	quote_project_code_id = #{sales_project_id}
+		   AND	delete_yn = 0		
+	</select>
+	
+	<select id="contractCount" parameterType="projectCodeVO" resultType="int">		
+		SELECT	COUNT(*)
+		  FROM	tb_contract 
+		 WHERE	contract_project_code_id = #{sales_project_id}
+		   AND	delete_yn = 0		
+	</select>
+	
+	<select id="salesConferCount" parameterType="projectCodeVO" resultType="int">
+		SELECT	COUNT(*)
+		  FROM	tb_sales_confer 
+		 WHERE	contract_number_id = #{sales_project_id}
+		   AND	delete_yn = 0		
+	</select>	
+	
+	<update id="projectCodeDel">
+		UPDATE	tb_sales_project
+		   SET	delete_yn = 1, modifier = #{modifier}, modify_date = now()
+		 WHERE	sales_project_id = #{sales_project_id}		
+	</update>
+	
+	<select id="selectMonthProjectCount" parameterType="projectCodeVO" resultType="int">
+		SELECT	CASE 
+					WHEN FLOOR(MAX(SUBSTR(sales_project_code, 12,4))) IS NULL THEN 0 
+					ELSE FLOOR(MAX(SUBSTR(sales_project_code, 12,4))) 
+				END
+		  FROM	tb_sales_project t1
+		 WHERE	sales_project_year = #{sales_project_year} AND sales_project_month = #{sales_project_month}		
+	</select>		
+	
+	<select id="projectDivisionUserList" parameterType="projectCodeVO" resultType="projectCodeVO">
+		
+		SELECT 
+			TU.user_id AS code_id,
+			CONCAT(TU.user_name, ' ', TC.code_name) AS code_name
+		 FROM	tb_grant_user TGU
+		LEFT JOIN tb_users TU ON TU.user_id = TGU.user_id 
+		LEFT JOIN tb_code TC ON TC.code_id = TU.job_title_cd AND TC.group_id = 104
+		LEFT JOIN tb_sales_project TSP ON TSP.user_id = TGU.user_id
+		 WHERE	TGU.grant_id in ('3', '4')
+				
+		<if test="division_child_list!=null">
+			AND	( 
+				TU.last_division_cd IN
+				<foreach collection="division_child_list" item="division_child" open="(" close=")" separator=",">	
+					#{division_child} 
+				</foreach> 
+				
+				OR TSP.operation_cd IN
+				<foreach collection="division_child_list" item="division_child" open="(" close=")" separator=",">	
+					#{division_child} 
+				</foreach>
+			)
+		</if>
+		
+		GROUP by TU.user_id
+		ORDER BY TC.order_seq
+	</select>
+	
+	<select id="projectDivisionList" parameterType="projectCodeVO" resultType="projectCodeVO">
+		SELECT	division_cd AS code_id,
+				division_name AS code_name
+		  FROM	tb_division 
+		 WHERE	operation_yn = 1		
+		
+		<if test="division_child_list!=null">
+			AND	division_cd IN
+			<foreach collection="division_child_list" item="division_child" open="(" close=")" separator=",">	
+				#{division_child} 
+			</foreach>			
+		</if>
+	</select>
+	
+	<update id="projectCodeSuccess">		
+		UPDATE	tb_sales_project
+		   SET	win_gb = NULL, sales_status_cd = #{sales_status_cd}, modifier = #{modifier}, modify_date = now()
+		 WHERE	sales_project_id = #{sales_project_id}		
+	</update>
+
+</mapper>

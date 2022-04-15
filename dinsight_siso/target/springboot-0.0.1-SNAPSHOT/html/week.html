@@ -1,0 +1,897 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko">
+<head> 
+<title>디인사이트 SISO 인트라넷에 오신것을 환영합니다</title> 
+<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+<meta name="keywords" content="rntime,strategy">
+<meta name="description" content="디인사이트 SISO 인트라넷">
+<link rel="shortcut icon" href="images/rnt.ico">
+<link rel="stylesheet" type="text/css" href="siso.css">
+</head> 
+
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script>
+	$(document).ready(function() {
+		resizeContent();
+	});
+	$(window).resize(function() {
+		resizeContent();
+	});
+
+	function resizeContent() {
+		var windowHeight = $(window).height();
+		var centerHeight = $("#Center_wrap").height()+70;
+		$('#Left_wrap').css({'height':(centerHeight)+'px'});
+		$('#Right_wrap').css({'height':(centerHeight)+'px'});
+	}
+</script>
+
+<body>
+
+<div id="Wrapper">
+<!-- left menu start-->
+<div id="Left_wrap">
+			<div class="logo"><img src="images/logo.gif" alt="logo" /></div>
+			<img src="images/left_title.gif" alt="intranet system" />
+			
+			<div class="menu">
+				<ul>
+					<li class="on">프로젝트 관리</li>
+					<li><a href="">주간보고</a></li>
+					<li><a href="">프로젝트 현황</a></li>
+					<li><a href="">프로젝트 <br/>투입현황</a></li>
+				</ul>				
+			</div>
+			
+			<div class="m_footer">
+
+		<!--패밀리 사이트 시작-->
+		<div class="family">
+								<h3><a id="familyToggle" href="#sitemap.asp" onclick="familyToggle('familyList');return false">
+								<!-- 자바스크립트가 안될때는 해당사이트로 간다 -->
+								<img src="images/left_link.gif" alt="" /></a>
+								</h3>
+								<script type="text/javascript">
+									//<![CDATA[
+									function familyToggle(fam){
+									var familyArea = document.getElementById(fam);
+									if(familyArea.style.display=="block"){
+										familyArea.style.display="none";
+											}
+											else{familyArea.style.display="block";
+											}
+									}
+									//]]>
+									</script>
+
+										<dl id="familyList" style="display: none;">
+											<dt></dt>
+											<dd>
+											    <a target="_blank" href="https://wp.tbizpoint.co.kr/service/login/wpLogin.do" title="새창으로 이동합니다">인트라넷</a>
+											    <a target="_blank" href="http://www.rntime.com" title="새창으로 이동합니다">디인사이트</a>
+											</dd>
+										</dl>
+							</div>
+		<!--//패밀리 사이트 끝-->
+			
+			<br/>
+				<p>디인사이트(주)<br/>
+				Copyright(C) 2014<br/>
+				All Rights Reserved.</p>
+			</div>
+			
+</div>
+<!--//left menu end-->	
+
+<!-- Content start-->
+			
+		<div id="Center_wrap">
+			<div class="info">
+			<img src="images/ico_person.gif" alt="" /> 주선희 과장 (shju,전략사업부) 
+			<img src="images/btn_logout.gif" alt="logout" />
+				
+			</div>
+			<div class="clear"></div>
+			
+			<!-- Content head start -->
+			<div class="head_title">
+			
+				<div class="path"><img src="images/ico_navi.gif" alt="navigation_icon" valign="middle"/> P/J관리 > <span>주간보고</span> </div>
+				<h2>개인경비</h2>
+				
+			</div>
+			<!--//Content head end -->
+			
+			<!-- search start -->
+			
+			<div class="search"> 
+				
+				부서명 &nbsp;&nbsp;
+				<select class="select_dv" >
+					<option>전략사업부</option> 
+					<option>전략사업부</option> 
+					<option>전략사업부</option> 
+					<option>전략사업부</option> 
+				</select>&nbsp;&nbsp;
+				프로젝트명 &nbsp;&nbsp;
+				<select class="select_pj" >
+					<option>삼성생명 법인영업</option> 
+					<option>서울우유</option> 
+					<option>삼성생명 VOC</option> 
+					<option>기타</option> 
+				</select>&nbsp;&nbsp;			
+			<div class="btn_go"><a href=""><img src="images/btn_go.gif" alt="조회" /></a></div>
+			</div>
+			<!--// search end -->
+			
+			<!-- button start -->
+			
+			<div class="btn_action">
+				<ul>
+					 <li><a href="#" onclick="openLayer('layerPop',100,200)"/><img src="images/btn_plus_on.gif" alt="추가"/></a></li>
+					 <li><a href=""><img src="images/btn_del_on.gif" alt="삭제"/></a></li>
+					 <li><a href=""><img src="images/btn_save_on.gif" alt="저장"/></a></li>
+				</ul>
+			</div>
+			
+			<!--// button end -->
+			
+			<!-- //레이어 팝업 사용시 위치 -->
+			<!-- 레이어팝업 스타일 및 스크립트 start -->			
+<style type="text/css">
+		#layerPop{width:240px;height:370px;position:absolute;display:none;border:2px solid black; background: #fff; font-size:13px;}
+		#layerPop h2{ padding-top:10px; font-size:13px; font-weight: 600 ;text-align:center;background: #f2f2f2; height:22px;}
+		#layerPop .pop_table{padding:15px; border:0px; height:300px; width: 210px;}
+		#layerPop .pop_table th{text-align: left; height:25px;}
+		#layerPop .pop_table th, td{border:0px; }
+	
+		#layerPop .save{position:absolute; bottom:0px;right:0px; background: #555555; height:23px; width: 240px; text-align: center;
+			padding-top:10px;height:22px;
+		}
+			#layerPop .save a{color:white;}
+		#layerPop .p_title{font-weight:bold;}
+		#layerPop input{width: 204px; color:#666; padding-left:5px;}
+		#layerPop input.input2{width:92px;}
+		#layerPop select{width: 100px;border: 1px solid #dbdbdb;height: 24px;}
+		#layerPop .sel1{width:204px;}
+	</style>
+
+
+	<script type="text/javascript">
+	<!--
+	//레이어 팝업 열기
+	function openLayer(IdName, tpos, lpos){
+		var pop = document.getElementById(IdName);
+		pop.style.display = "block";
+		pop.style.top = tpos + "px";
+		pop.style.left = lpos + "px";
+	}
+
+	//레이어 팝업 닫기
+	function closeLayer(IdName){
+		var pop = document.getElementById(IdName);
+		pop.style.display = "none";
+	}	
+	//-->
+	</script>
+
+<div id="layerPop">
+	<h2>고객정보 등록</h2>
+	<table class="pop_table">
+		<tr>
+			<th colspan="2" class="p_title">부서명</th>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<select class="sel1">
+							<option>전략사업부</option>
+							<option>전략사업부</option>
+							<option>전략사업부</option>
+							<option>전략사업부</option>
+							<option>전략사업부</option>
+						</select>
+			</td>
+		</tr>
+		<tr>
+			<th colspan="2" class="p_title">프로젝트명</th>
+		</tr>
+	    <tr>
+			<td colspan="2">
+				<select id="" class="prj1 sel1">
+							<option>삼성생명 법인영업</option>
+							<option></option>
+							<option></option>
+							<option></option>
+							<option></option>
+							<option></option>
+							<option></option>
+						</select>
+			</td>
+		</tr>
+		<tr>
+			<th width="110">보고년월</th><th>보고주차</th>
+		</tr>
+		<tr>
+			<td>
+				 <select id="" class="year_month">
+							<option>2014.07</option>
+							<option>2014.08</option>
+							<option>2014.09</option>
+							<option>2014.10</option>
+						</select>
+
+			</td>
+			<td>
+				 <select id="" class="year_month">
+							<option>2014.07</option>
+							<option>2014.08</option>
+							<option>2014.09</option>
+							<option>2014.10</option>
+						</select>
+			</td>
+		</tr>
+		<tr>
+			<th width="110">계획(P) </th><th>실적(A)</th>
+		</tr>
+		<tr>
+			<td><input type="text" value="내용 입력" size="10" class="input2"></input></td><td><input type="text" value="내용 입력" size="10"  class="input2"></input></td>
+		</tr>
+		<tr>
+			<th colspan="2" class="p_title">이슈사항</th>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="text" value="내용 입력" size="20"></input></td>
+		</tr>
+		
+	</table>
+					
+				<div class="save"><a href="#" onclick="closeLayer('layerPop')" >저장하기</a></div>
+	</div>
+<!--//레이어팝업 스타일 및 스크립트 end -->
+
+			
+
+			
+			
+			
+			<!--  table start -->
+			<div class="con_table">
+			<div class="Wrap_table">
+			   <table cellpadding="0" cellspacing="0" width="802" class="Normal_table">
+				   <tr>
+					   <th  width="37">No</th>
+					   <th  width="78">부서</th>
+					   <th  width="116">프로젝트명</th>
+					   <th  width="80">보고년월</th>
+					   <th  width="80">보고주차</th>
+					   <th  width="75">계획(P)</th>
+					   <th  width="75">실적(A)</th>
+					   <th  width="" class="right">이슈사항</th>
+				   </tr>
+				   <tr>
+					   <td class="number">1</td>
+					   <td class="txt_center">전략사업부</td>
+					   <td class="txt_center">삼성생명 법인영업</td>
+					   <td class="txt_center">2014/07/04</td>
+					   <td class="txt_center">1주차</td>
+					   <td class="txt_center">10%</td>
+					   <td class="txt_center">10%</td>
+					   <td class="right txt_left">&nbsp;&nbsp; 없음</td>
+				   </tr>
+				   <tr>
+					   <td class="number">2</td>
+					   <td class="txt_center">전략사업부</td>
+					   <td class="txt_center">삼성생명 법인영업</td>
+					   <td class="txt_center">2014/07/04</td>
+					   <td class="txt_center">1주차</td>
+					   <td class="txt_center">10%</td>
+					   <td class="txt_center">10%</td>
+					   <td class="right txt_left">&nbsp;&nbsp; 없음</td>
+				   </tr>
+				   <tr class="on_click">
+					   <td class="number">3</td>
+					   <td class="txt_center">전략사업부</td>
+					   <td class="txt_center">삼성생명 법인영업</td>
+					   <td class="txt_center">2014/07/04</td>
+					   <td class="txt_center">1주차</td>
+					   <td class="txt_center">10%</td>
+					   <td class="txt_center">10%</td>
+					   <td class="right txt_left">&nbsp;&nbsp; 없음</td>
+				   </tr>
+				   <tr>
+					   <td class="number">4</td>
+					   <td class="txt_center">전략사업부</td>
+					   <td class="txt_center">삼성생명 법인영업</td>
+					   <td class="txt_center">2014/07/04</td>
+					   <td class="txt_center">1주차</td>
+					   <td class="txt_center">10%</td>
+					   <td class="txt_center">10%</td>
+					   <td class="right txt_left">&nbsp;&nbsp; 없음</td>
+				   </tr>
+				   <tr>
+					   <td class="number">5</td>
+					   <td class="txt_center">전략사업부</td>
+					   <td class="txt_center">삼성생명 법인영업</td>
+					   <td class="txt_center">2014/07/04</td>
+					   <td class="txt_center">1주차</td>
+					   <td class="txt_center">10%</td>
+					   <td class="txt_center">10%</td>
+					   <td class="right txt_left">&nbsp;&nbsp; 없음</td>				   
+				   </tr>
+				   <tr>
+					   <td class="number"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="right txt_left">&nbsp;&nbsp;</td>
+				   </tr>
+				    <tr>
+					   <td class="number"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="right txt_left">&nbsp;&nbsp;</td>
+				   </tr>
+                   <tr>
+					   <td class="number"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="right txt_left">&nbsp;&nbsp;</td>
+				   </tr>
+                   <tr>
+					   <td class="number"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="right txt_left">&nbsp;&nbsp;</td>
+				   </tr>
+                   <tr>
+					   <td class="number"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="txt_center"></td>
+					   <td class="right txt_left">&nbsp;&nbsp;</td>
+				   </tr>
+				   
+			   </table>
+			</div>
+
+			</div>
+			<!--  //table end -->
+			
+		<!-- -----------on click start---------------------- -->
+			
+			<!-- button start -->
+			
+			<div class="btn_action">
+				<ul>
+					 <li>
+						  <select class="" >
+						  <option>월요일</option>
+						  <option>화요일</option>
+						  <option>수요일</option>
+						  <option>목요일</option>
+						  <option>금요일</option>
+						 
+						  </select>
+					  </li>
+					 <li><select class=""><option>근태상태</option></select></li>
+					 <li class="last"><a href=""><img src="images/btn_all.gif" alt="전체적용"/></a></li>
+					 <li class="last"><a href=""><img src="images/btn_new.gif" alt="신규"/></a></li>
+					 <li class="last"><a href=""><img src="images/btn_save2.gif" alt="저장"/></a></li>
+				</ul>
+			</div>
+			
+			<!--// button end -->
+			
+			<div class="Project_info_title">서울우유 2014년 7월 1주차 프로젝트 투입정보(상위 Grid 내 선택된 정보값)</div>
+		<div class="Wrap_table">
+			<table class="Normal_table week_prj_table">
+			<tr>
+				<th width="35">No</th>
+				<th width="60">사원명</th>
+				<th width="50">역할</th>
+				<th width="50">상태</th>
+				<th width="111">월요일<br/>(2014-06-30)</th>
+				<th width="111">화요일<br/>(2014-07-01)</th>
+				<th width="111">수요일<br/>(2014-07-02)</th>
+				<th width="111">목요일<br/>(2014-07-03)</th>
+				<th width="111" >금요일<br/>(2014-07-04)</th>
+				<th  width="52"class="right">합계<br/>(M/D)</th>
+			</tr>
+			
+				<tr>
+					<td class="txt_center">1</td>
+					<td class="txt_center">홍길동</td>
+					<td class="txt_center">PMO</td>
+					<td class="txt_center">비상주</td>
+					<td class="txt_center">
+						<select class="select_work" >
+						    <option value="">근태상태</option>
+						 	<option >정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="right txt_center">5.0</td>
+				</tr>
+				
+								<tr>
+					<td class="txt_center">2</td>
+					<td class="txt_center">홍길동</td>
+					<td class="txt_center">PMO</td>
+					<td class="txt_center">상주</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="right txt_center">5.0</td>
+				</tr>
+				
+				<tr>
+					<td class="txt_center">3</td>
+					<td class="txt_center">홍길동</td>
+					<td class="txt_center">PMO</td>
+					<td class="txt_center">상주</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="right txt_center">5.0</td>
+				</tr>
+				
+				<tr class="mouse_over">
+					<td class="txt_center">4</td>
+					<td class="txt_center">홍길동</td>
+					<td class="txt_center">PMO</td>
+					<td class="txt_center">비상주</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="right txt_center">5.0</td>
+				</tr>
+				
+				<tr>
+					<td class="txt_center">5</td>
+					<td class="txt_center">홍길동</td>
+					<td class="txt_center">PMO</td>
+					<td class="txt_center">비상주</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="txt_center">
+						<select class="select_work"  >
+						<option value="">근태상태</option>
+						 	<option>정상</option>
+						 	<option>휴일</option>
+						 	<option>임시공휴일</option>
+						 	<option>월차</option>
+						 	<option>반일 근무</option>
+						 	<option>투입전</option>
+						 	<option>철수</option>
+						 	<option>결근</option>
+						</select>
+
+					</td>
+					<td class="right txt_center">5.0</td>
+				</tr>
+				
+				<tr>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="right txt_center"></td>
+				</tr>
+				
+				<tr>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="right txt_center"></td>
+				</tr>
+				
+				<tr>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="right txt_center"></td>
+				</tr>
+				
+				<tr>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="right txt_center"></td>
+				</tr>
+				
+				<tr>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="txt_center"></td>
+					<td class="right txt_center"></td>
+				</tr>
+			</table>
+		</div>	
+			
+			
+			<!-- //on click table end-->
+			
+			
+			
+		</div>	
+<!-- Content end-->	
+	
+<!-- Rignt menu start-->	
+		<div id="Right_wrap">
+			<ul>
+				<li><a href=""><img src="images/right_01.gif" alt="경비관리" /></a></li>
+				<li><a href=""><img src="images/right_02.gif" alt="인사관리" /></a></li>
+				<li><a href=""><img src="images/right_03.gif" alt="프로젝트관리" /></a></li>
+				<li><a href=""><img src="images/right_04.gif" alt="계약관리" /></a></li>
+				<li><a href=""><img src="images/right_05.gif" alt="고객관리" /></a></li>
+				<li><a href=""><img src="images/right_06.gif" alt="매출품의" /></a></li>
+				<li><a href=""><img src="images/right_07.gif" alt="경비승인" /></a></li>
+				<li class="last"><a href=""><img src="images/right_08.gif" alt="관리자" /></a></li>
+			</ul>
+					
+		</div>
+<!--// right menu end-->
+
+</div>	
+	
+</body>
+</html>

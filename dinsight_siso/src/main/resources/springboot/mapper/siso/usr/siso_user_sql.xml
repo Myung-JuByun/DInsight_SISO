@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.usr.service.impl.UserMapper">
+	
+	<sql id="userFunc">
+		<if test="searchString!=null and searchString!=''">
+			<if test="searchMode.equals('userId')">
+				AND	login_id = #{searchString}
+			</if>
+			
+			<if test="searchMode.equals('userName')">			
+				AND	user_name = #{searchString}
+			</if>
+		</if>	
+	</sql>
+	
+	<select id="selectUserList" parameterType="userSearchVO" resultType="userInfoVO">
+		SELECT	login_id, 
+				user_name,
+				division_cd, 
+				job_title_cd, 
+				email, 
+				activate_yn, 
+				head_yn 
+		  FROM	tb_users
+		 WHERE	1=1
+		 <include refid="userFunc" />
+		 		
+		ORDER BY user_name DESC		
+		
+		<if test="pageingYn!=null and pageingYn.equals('Y')">
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+		</if>
+	</select>
+
+	<select id="selectUserListTotCnt" parameterType="userSearchVO" resultType="int">
+		SELECT count(*) FROM tb_users		
+		<include refid="userFunc" />		
+	</select>
+
+</mapper>

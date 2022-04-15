@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko">
+<head> 
+<title>디인사이트 SISO 인트라넷에 오신것을 환영합니다</title> 
+<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+<meta name="keywords" content="rntime,strategy">
+<meta name="description" content="디인사이트 SISO 인트라넷">
+<link rel="shortcut icon" href="images/rnt.ico">
+<link rel="stylesheet" type="text/css" href="siso.css">
+</head> 
+
+<body>
+
+<div id="Wrapper">
+<!-- left menu start-->
+<div id="Left_wrap">
+			<div class="logo"><img src="images/logo.gif" alt="logo" /></div>
+			<img src="images/left_title.gif" alt="intranet system" />
+			
+			<div class="menu">
+				<ul>
+					<li class="on">프로젝트관리</li>
+					<li><a href="">주간보고</a></li>
+					<li><a href="">프로젝트 현황</a></li>
+					<li><a href="">프로젝트 <br/>투입현황</a></li>
+				</ul>				
+			</div>
+			
+			<div class="m_footer">
+
+		<!--패밀리 사이트 시작-->
+		<div class="family">
+								<h3><a id="familyToggle" href="#sitemap.asp" onclick="familyToggle('familyList');return false">
+								<!-- 자바스크립트가 안될때는 해당사이트로 간다 -->
+								<img src="images/left_link.gif" alt="" /></a>
+								</h3>
+								<script type="text/javascript">
+									//<![CDATA[
+									function familyToggle(fam){
+									var familyArea = document.getElementById(fam);
+									if(familyArea.style.display=="block"){
+										familyArea.style.display="none";
+											}
+											else{familyArea.style.display="block";
+											}
+									}
+									//]]>
+									</script>
+
+										<dl id="familyList" style="display: none;">
+											<dt></dt>
+											<dd>
+											    <a target="_blank" href="https://wp.tbizpoint.co.kr/service/login/wpLogin.do" title="새창으로 이동합니다">인트라넷</a>
+											    <a target="_blank" href="http://www.rntime.com" title="새창으로 이동합니다">디인사이트</a>
+											</dd>
+										</dl>
+							</div>
+		<!--//패밀리 사이트 끝-->
+			
+			<br/>
+				<p>디인사이트(주)<br/>
+				Copyright(C) 2014<br/>
+				All Rights Reserved.</p>
+			</div>
+			
+</div>
+<!--//left menu end-->	
+
+
+
+<!-- Content start-->
+			
+		<div id="Center_wrap">
+			<div class="info"><img src="images/ico_person.gif" alt="" /> 주선희 과장 (shju,전략사업부) <img src="images/btn_logout.gif" alt="logout" />
+				
+			</div>
+			<div class="clear"></div>
+			
+			<!-- Content head start -->
+			<div class="head_title">
+			
+				<div class="path"><img src="images/ico_navi.gif" alt="navigation_icon" valign="middle"/> P/J관리 > <span>프로젝트 관리</span> </div>
+				<h2>프로젝트 관리</h2>
+				
+			</div>
+			<!--//Content head end -->
+			
+			<!-- search start -->
+			
+			<div class="search2"> 
+				<table>
+					<tr>
+						<td>부서명</td>
+						<td>
+							<select  id="" name="">
+							    <option >전략사업부</option>
+								<option >경영지원부</option>
+								<option >솔루션영업부</option>
+								<option >솔루션기술부</option>
+								<option >M&S사업부</option>
+								<option >인프라사업부</option> 
+								<option >시스템사업부</option>
+								<option >3D융합사업부</option>
+								<option >공공사업부</option>
+								<option >ICT사업부</option>
+								<option >기업사업부</option>
+							</select> 
+						</td>
+						<td>&nbsp;&nbsp;계약일자&nbsp;&nbsp;</td><td><input></input> 년도</td>
+						<td>&nbsp;&nbsp;
+							<select id="" name="">
+								<option >01</option>
+								<option >02</option>
+								<option >03</option>
+								<option >04</option>
+								<option >05</option>
+								<option >06</option>
+								<option >07</option>
+								<option >08</option>
+								<option >09</option>
+								<option >10</option>
+								<option >11</option>
+								<option >12</option>
+							</select>
+								월
+					   </td>
+					</tr>
+					
+					<tr>
+						<td>프로젝트명&nbsp;&nbsp;</td>
+						<td><input ></input></td><td>&nbsp;&nbsp;고객사명&nbsp;&nbsp;</td><td><input ></input></td>
+					</tr>
+				</table>
+			
+			
+							
+				
+			<div class="btn_go2"><a href=""><img src="images/btn_go.gif" alt="조회" /></a></div>
+			</div>
+			<!--// search end -->
+			
+		
+			<!-- button start -->
+
+			<div class="btn_action">
+				<ul>
+					 <li><a href="#" onclick="openLayer('layerPop',100,200)"/>
+					 <img src="images/btn_plus_on.gif" alt="추가"/></a></li>
+
+					 <li><a href=""><img src="images/btn_del_on.gif" alt="삭제"/></a></li>
+					 <li><a href=""><img src="images/btn_save_on.gif" alt="저장"/></a></li>
+				</ul>
+			</div>
+			
+			
+			<!--// button end -->
+			
+			<!-- 레이어팝업 스타일 및 스크립트 start -->			
+<style type="text/css">
+		#layerPop{width:240px;height:370px;position:absolute;display:none;border:2px solid black; background: #fff; font-size:13px;}
+		#layerPop h2{ padding-top:10px; font-size:13px; font-weight: 600 ;text-align:center;background: #f2f2f2; height:22px;}
+		#layerPop .pop_table{padding:15px; border:0px; height:300px;}
+		#layerPop .pop_table th{text-align: left; height:25px;}
+		#layerPop .pop_table th, td{border:0px; }
+	
+		#layerPop .save{position:absolute; bottom:0px;right:0px; background: #555555; height:23px; width: 240px; text-align: center;
+			padding-top:10px;height:22px;
+		}
+			#layerPop .save a{color: white;}
+		#layerPop .p_title{font-weight:bold;}
+		#layerPop input{width: 204px; color:#666; padding-left:5px;}
+		#layerPop select{width: 100px; border: 1px solid #dbdbdb;height: 24px;}
+	</style>
+
+
+	<script type="text/javascript">
+	<!--
+	//레이어 팝업 열기
+	function openLayer(IdName, tpos, lpos){
+		var pop = document.getElementById(IdName);
+		pop.style.display = "block";
+		pop.style.top = tpos + "px";
+		pop.style.left = lpos + "px";
+	}
+
+	//레이어 팝업 닫기
+	function closeLayer(IdName){
+		var pop = document.getElementById(IdName);
+		pop.style.display = "none";
+	}	
+	//-->
+	</script>
+
+<div id="layerPop">
+	<h2>고객정보 등록</h2>
+	<table class="pop_table">
+		<tr>
+			<th colspan="2" class="p_title">고객사명</th>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="text" value="내용 입력" size="20"></input></td>
+		</tr>
+		<tr>
+			<th colspan="2" class="p_title">주소</th>
+		</tr>
+		<tr>
+			<td >
+				<select id="" class="city1">
+							<option class="">서울시</option>
+							<option></option>
+							<option></option>
+							<option></option>
+							<option></option>
+							<option></option>
+							<option></option>
+						</select>
+						</td>
+			<td >
+				<select id="" class="city2">
+							<option>구로구</option>
+							<option>강남구</option>
+							<option>도봉구</option>
+							<option>강서구</option>
+							<option>양천구</option>
+							<option>관악구</option>
+							
+						</select>
+
+			</td>
+		</tr>
+		<tr>
+			<th colspan="2" class="p_title">상세주소</th>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="text" value="내용 입력" size="20"></input></td>
+		</tr>
+		<tr>
+			<th colspan="2" class="p_title">담당자명</th>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="text" value="내용 입력" size="20"></input></td>
+		</tr>
+		<tr>
+			<th colspan="2" class="p_title">연락처</th>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="text" value="내용 입력" size="20"></input></td>
+		</tr>
+		
+	</table>
+					
+				<div class="save"><a href="#" onclick="closeLayer('layerPop')" >저장하기</a></div>
+	</div>
+<!--//레이어팝업 스타일 및 스크립트 end -->
+
+			
+			
+			
+			<!--  table start -->
+			<div class="con_table">
+			<div class="Wrap_table">
+			   <table cellpadding="0" cellspacing="0" width="802" class="project_table Normal_table">
+			   <thead>
+				   <tr>
+					   <th  width="37" rowspan="2">No</th>
+					   <th  width="78" rowspan="2">부서</th>
+					   <th  width="110" rowspan="2">프로젝트명</th>
+					   <th  width="162" colspan="2">계약</th>
+					   <th  width="55" rowspan="2">계약(M/M)</th>
+					   <th  width="78" rowspan="2">DB종류</th>
+					   <th  width="137" colspan="2">고객사</th>
+					   <th  width="144" colspan="2" class="right">담당자</th>
+					 
+				   </tr>
+				   <tr>
+					  <th > 시작일</th>
+					   <th class="level_2">종료일</th>
+					   <th class="level_4">고객사</th>
+					   <th class="level_4">주소</th>
+					   <th class="level_4">담당자</th>					   
+					   <th class="right">연락처</th>
+				   </tr>
+			   </thead>
+			   <tbody>   
+				   
+				   <tr>
+					   <td class="number">1</td>
+					   <td class="level_1">전략사업부</td>
+					   <td class="level_2">삼성생명 법인영업</td>
+					   <td class="level_3">2014/05/12</td>
+					   <td class="level_4">2014/12/01</td>
+					   <td class="level_5">17</td>
+					   <td class="level_6">DB종류</td>
+					   <td class="level_7">&nbsp;삼성생명</td>
+					   <td class="level_8">&nbsp;서울시 중구...</td>
+					   <td class="level_9">홍길동</td>
+					   <td class="level_10 right">&nbsp;01-234-5679</td>
+				   </tr>
+				   <tr>
+					   <td class="number">2</td>
+					   <td class="level_1">전략사업부</td>
+					   <td class="level_2">삼성생명 법인영업</td>
+					   <td class="level_3">2014/05/12</td>
+					   <td class="level_4">2014/12/01</td>
+					   <td class="level_5">17</td>
+					   <td class="level_6">DB종류</td>
+					  <td class="level_7">&nbsp;삼성생명</td>
+					   <td class="level_8">&nbsp;서울시 중구...</td>
+					   <td class="level_9">홍길동</td>
+					   <td class="level_10 right">&nbsp;01-234-5679</td>			   
+				   </tr>
+				   <tr  class="on_click">
+					   <td class="number">3</td>
+					   <td class="level_1">전략사업부</td>
+					   <td class="level_2">삼성생명 법인영업</td>
+					   <td class="level_3">2014/05/12</td>
+					   <td class="level_4">2014/12/01</td>
+					   <td class="level_5">17</td>
+					   <td class="level_6">DB종류</td>
+					   <td class="level_7">&nbsp;삼성생명</td>
+					   <td class="level_8">&nbsp;서울시 중구...</td>
+					   <td class="level_9">홍길동</td>
+					   <td class="level_10 right">&nbsp;01-234-5679</td>
+				   </tr>
+				   <tr>
+					   <td class="number">4</td>
+					    <td class="level_1">전략사업부</td>
+					   <td class="level_2">삼성생명 법인영업</td>
+					   <td class="level_3">2014/05/12</td>
+					   <td class="level_4">2014/12/01</td>
+					   <td class="level_5">17</td>
+					   <td class="level_6">DB종류</td>
+					  <td class="level_7">&nbsp;삼성생명</td>
+					   <td class="level_8">&nbsp;서울시 중구...</td>
+					   <td class="level_9">홍길동</td>
+					   <td class="level_10 right">&nbsp;01-234-5679</td>			
+				   </tr>
+				   <tr>
+					   <td class="number">5</td>
+					   <td class="level_1">전략사업부</td>
+					   <td class="level_2">삼성생명 법인영업</td>
+					   <td class="level_3">2014/05/12</td>
+					   <td class="level_4">2014/12/01</td>
+					   <td class="level_5">17</td>
+					   <td class="level_6">DB종류</td>
+					   <td class="level_7">&nbsp;삼성생명</td>
+					   <td class="level_8">&nbsp;서울시 중구...</td>
+					   <td class="level_9">홍길동</td>
+					   <td class="level_10 right">&nbsp;01-234-5679</td>
+				  </tr>
+				    <tr>
+					   <td class="number"></td>
+					   <td class="milleage"></td>
+					   <td class="date"></td>
+					   <td class="level_1"></td>
+					   <td class="cost"></td>
+					   <td class="level_3"></td>
+					   <td class="level_4"></td>
+					   <td></td>
+					    <td class="level_4"></td>
+					   <td class="level_4"></td>
+					   <td class="right"></td>
+				   </tr>
+
+				   <tr>
+					   <td class="number"></td>
+					   <td class="milleage"></td>
+					   <td class="date"></td>
+					   <td class="level_1"></td>
+					   <td class="level_2"></td>
+					   <td class="cost"></td>
+					   <td></td>
+					    <td class="level_4"></td>
+					   <td class="level_4"></td>
+					   <td></td>
+					   <td class="right"></td>
+				   </tr>
+
+				   <tr>
+					   <td class="number"></td>
+					   <td class="milleage"></td>
+					   <td class="date"></td>
+					   <td class="level_1"></td>
+					   <td class="level_2"></td>
+					   <td class="cost"></td>
+					   <td class="level_3"></td>
+					   <td class="level_4"></td>
+					    <td class="level_4"></td>
+					   <td class="level_4"></td>
+					   <td class="right"></td>
+				   </tr>
+
+				   <tr>
+					   <td class="number"></td>
+					   <td class="milleage"></td>
+					   <td class="date"></td>
+					   <td class="level_1"></td>
+					   <td class="level_2"></td>
+					   <td class="cost"></td>
+					   <td class="level_3"></td>
+					   <td class="level_4"></td>
+					    <td class="level_4"></td>
+					   <td class="level_4"></td>
+					   <td class="right"></td>
+				   </tr>
+			   </tbody> 
+
+
+
+			   </table>
+			</div>
+			</div>
+			<!--  //table end -->
+		</div>	
+<!-- Content end-->	
+	
+<!-- Rignt menu start-->	
+		<div id="Right_wrap">
+			<ul>
+				<li><a href=""><img src="images/right_01.gif" alt="경비관리" /></a></li>
+				<li><a href=""><img src="images/right_02.gif" alt="인사관리" /></a></li>
+				<li><a href="project.html"><img src="images/right_03.gif" alt="프로젝트관리" /></a></li>
+				<li><a href=""><img src="images/right_04.gif" alt="계약관리" /></a></li>
+				<li><a href=""><img src="images/right_05.gif" alt="고객관리" /></a></li>
+				<li><a href=""><img src="images/right_06.gif" alt="매출품의" /></a></li>
+				<li><a href=""><img src="images/right_07.gif" alt="경비승인" /></a></li>
+				<li class="last"><a href=""><img src="images/right_08.gif" alt="관리자" /></a></li>
+			</ul>
+					
+		</div>
+<!--// right menu end-->
+</div>	
+	
+</body>
+</html>

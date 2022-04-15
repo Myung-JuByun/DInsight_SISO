@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.alc.status.service.impl.AlcStatusMapper">
+		
+	<select id="alcStatusList" parameterType="alcStatusVO" resultType="alcStatusVO">
+		SELECT   ta.alc_year
+		       , ta.company_id
+		       , tc3.company_name
+		       , ta.contract_number_id
+		       , tsp.sales_project_code
+		       , ta.portfolio
+		       , ta.prd_number
+		       , ta.prd_type
+		       , ta.trigram
+		       , ta.portfolio_item_name
+		       , ta.prd_revision
+		       , stock_yn
+		       , CASE WHEN stock_yn = '1' THEN 'Y' WHEN stock_yn = '0' THEN 'N' END AS stock_nm
+		       , SUM(ta.qty) AS qty
+		      , ta.alc_id
+		FROM     tb_alc ta
+		LEFT OUTER JOIN tb_company  tc3 ON tc3.company_id = ta.company_id
+		LEFT OUTER JOIN tb_sales_project tsp ON tsp.sales_project_id = ta.contract_number_id
+		WHERE   ta.destruction_yn = '0'
+		AND     ta.delete_yn = '0'		
+
+		<if test="sh_company_id != null and sh_company_id != ''">
+			AND	( '0' = IF(IFNULL(#{sh_company_id},'')='', '0','1')  OR ta.company_id = #{sh_company_id} )
+		</if>
+		
+		<if test="sh_contract_number_id != null and sh_contract_number_id != ''">	
+			AND ( '0' = IF(IFNULL(#{sh_contract_number_id},'')='', '0','1')  OR ta.contract_number_id = #{sh_contract_number_id} )
+		</if>	
+		
+		<if test="sh_year!=null and sh_year!=''">
+			AND	ta.alc_year = #{sh_year}
+		</if>
+				
+		<if test="sh_sales_customer!=null and sh_sales_customer!=''">			
+			AND	( '0' = IF(IFNULL(#{sh_sales_customer},'')='', '0','10' )  OR ta.company_id IN (SELECT company_id  FROM tb_company_sales_customer  WHERE sales_customer = #{sh_sales_customer} ))
+		</if>
+		
+		<if test="sh_license_ym!=null and sh_license_ym!=''">
+			AND	( '0' = IF(IFNULL(#{sh_license_ym},'')='', '0','10' )  OR  ( #{sh_license_ym}  BETWEEN SUBSTR(ta.license_start_day,1, 6) AND SUBSTR(ta.license_end_day,1, 6)))
+		</if>
+		
+		GROUP BY tsp.sales_project_code, ta.alc_year, ta.company_id, ta.portfolio, ta.prd_number, ta.prd_type, ta.trigram, ta.place_of_business , stock_yn
+	</select>
+	
+	<select id="alcStatusDetailList" parameterType="alcStatusVO" resultType="alcStatusVO">
+		SELECT   ta.alc_year
+		       , ta.company_id
+		       , tc3.company_name
+		       , ta.place_of_business
+		       , ta.portfolio
+		       , ta.prd_number
+		       , ta.prd_type
+		       , ta.trigram
+		       , ta.portfolio_item_name
+		       , ta.prd_revision
+		       , SUM(ta.qty) AS qty
+		FROM tb_alc ta
+		LEFT OUTER JOIN   tb_contract tc ON ta.sales_confer_id = tc.sales_confer_id AND tc.delete_yn = '0'
+		LEFT OUTER JOIN tb_company  tc3 ON tc3.company_id = ta.company_id
+		WHERE ta.delete_yn = '0'		
+		<if test="sh_year!=null and sh_year!=''">
+			AND	ta.alc_year = #{sh_year}
+		</if>
+		
+		<if test="company_id!=null and company_id!=''">
+			AND	ta.company_id = #{company_id}
+		</if>
+		
+		<if test="portfolio!=null and portfolio!=''">
+			AND	ta.portfolio=#{portfolio}
+		</if>
+		
+		<if test="prd_number!=null and prd_number!=''">
+			AND	ta.prd_number=#{prd_number}
+		</if>
+		
+		<if test="prd_type!=null and prd_type!=''">
+			AND	ta.prd_type=#{prd_type}
+		</if>
+		
+		<if test="trigram!=null and trigram!=''">
+			AND	ta.trigram=#{trigram}
+		</if>
+		
+		<if test="contract_number_id!=null and contract_number_id!=''">
+			AND	ta.contract_number_id=#{contract_number_id}
+		</if>		
+
+		GROUP BY  ta.alc_year, ta.company_id, tc3.company_name, ta.place_of_business   , ta.portfolio, ta.prd_number, ta.prd_type, ta.trigram, ta.portfolio_item_name
+	</select>
+	
+	<select id="alcStatusDetailInstallCustomerList" parameterType="alcStatusVO" resultType="alcStatusVO">
+		SELECT    ta.company_id
+		       , tc3.company_name
+		       , SUM(ta.qty) AS qty
+		       , ta.install_identical_yn
+		       , ta.install_company_id
+		       , tc4.company_name as install_company_name
+		       , ta.ordering_day
+		       , ta.ordering_identical_yn
+		       , ta.install_day
+		       , ta.target_id
+		       , ta.license_start_day
+		       , ta.license_end_day
+		       , ta.invoice_day
+		       , ta.list_price
+		       , ta.estimated_cost
+		       , ta.collect_money_day
+		       , ta.collect_money
+		       , ta.max_chg_alc_id
+		       , ta.stock_yn
+		       , CASE WHEN stock_yn = '1' THEN 'Y' WHEN stock_yn = '0' THEN 'N' END AS stock_nm
+		       , ta.purchase_agreement_yn
+		       , CASE WHEN purchase_agreement_yn = '1' THEN 'Y' WHEN purchase_agreement_yn = '0' THEN 'N' END AS purchase_agreement_nm
+		       , tc.contract_project_code_id
+		       , case when tc.contract_project_code_id is null then 'N' else 'Y' end as contract_project_code_nm
+		FROM     tb_alc ta
+		LEFT OUTER JOIN tb_company  tc3 ON tc3.company_id = ta.company_id
+		LEFT OUTER JOIN tb_company  tc4 ON tc4.company_id = ta.install_company_id
+		LEFT OUTER JOIN tb_sales_project tsp ON tsp.sales_project_id = ta.contract_number_id
+		LEFT OUTER JOIN ( select distinct contract_project_code_id from tb_contract ) tc ON tc.contract_project_code_id = tsp.sales_project_id
+		WHERE ta.delete_yn = '0'		
+		
+		<if test="sh_year!=null and sh_year!=''">
+			AND	ta.alc_year = #{sh_year}
+		</if>
+		
+		<if test="company_id!=null and company_id!=''">
+			AND	ta.company_id = #{company_id}
+		</if>
+		
+		<if test="portfolio!=null and portfolio!=''">
+			AND	ta.portfolio=#{portfolio}
+		</if>
+		
+		<if test="prd_number!=null and prd_number!=''">
+			AND	ta.prd_number=#{prd_number}
+		</if>
+		
+		<if test="prd_type!=null and prd_type!=''">
+			AND	ta.prd_type=#{prd_type}
+		</if>
+		
+		<if test="trigram!=null and trigram!=''">
+			AND	ta.trigram=#{trigram}
+		</if>
+		
+		<if test="contract_number_id!=null and contract_number_id!=''">
+			AND	ta.contract_number_id=#{contract_number_id}
+		</if>
+
+		GROUP BY ta.alc_year, ta.company_id, ta.portfolio, ta.prd_number, ta.prd_type, ta.trigram, ta.install_company_id, ta.place_of_business
+	</select>
+	
+	<select id="alcStatusDetailContractFileList" parameterType="alcStatusVO" resultType="alcStatusVO">
+		SELECT	  contract_id AS id
+				, contract_name AS name
+				, contract_file_name AS file_name
+				, contract_file_id AS file_id
+				, contract_file_path AS file_path
+				, contract_rivision AS rivision
+		FROM tb_contract 
+		WHERE delete_yn = '0' AND contract_project_code_id = #{contract_number_id}
+		ORDER BY contract_rivision DESC
+	</select>
+	
+</mapper>

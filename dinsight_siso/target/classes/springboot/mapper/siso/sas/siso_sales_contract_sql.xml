@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.sas.contract.service.impl.SalesContractMapper">
+
+	<select id="selectSalesContractSearchList" resultType="salescontractVO">
+		<![CDATA[
+		SELECT contract_id
+				,contract_project_code
+				,contract_project_code_id
+				,contract_name
+				,contract_file_name
+				,contract_file_id
+				,contract_file_path
+				,contract_rivision
+				,t1.creator
+			FROM tb_contract t1
+			LEFT JOIN tb_sales_project TSP ON t1.contract_project_code_id = TSP.sales_project_id
+			LEFT JOIN tb_users TU ON TU.user_id = TSP.user_id
+			LEFT JOIN tb_division TD ON TD.division_cd = TSP.operation_cd
+			LEFT JOIN tb_company TCY ON TCY.company_id = TSP.company_id
+			WHERE contract_rivision = (
+						SELECT MAX(t2.contract_rivision)
+						FROM tb_contract t2
+						WHERE t1.contract_project_code = t2.contract_project_code
+					)
+			AND t1.delete_yn = '0'
+			]]>
+			<if test="sales_project_year!=null and sales_project_year!=''">
+				<choose>			
+					<when test="sales_project_year!=null and sales_project_year!=''">
+						AND	t1.creation_date LIKE CONCAT( #{sales_project_year},'-', #{sales_project_month},'%')
+					</when>
+					<otherwise>				
+						AND	t1.creation_date LIKE CONCAT( #{sales_project_year},'%')
+					</otherwise>				
+				</choose>
+			</if>
+			
+			<if test="company_name!=null and company_name!=''">
+				AND	TCY.company_name like concat('%', #{company_name}, '%')
+			</if>
+			
+			<if test="sales_type_cd!=null and sales_type_cd!=''">
+				AND	TSP.sales_type_cd = #{sales_type_cd}
+			</if>
+			
+			<if test="sales_status_cd!=null and sales_status_cd!=''">
+				AND	TSP.sales_status_cd = #{sales_status_cd}
+			</if>
+			
+			<if test="brand_cd!=null and brand_cd!=''">
+				AND	TSP.brand_cd = #{brand_cd}
+			</if>
+			
+			<if test="user_id!=null and user_id!=''">
+				AND	TSP.user_id = #{user_id}
+			</if>
+			
+			<if test="division_child_list!=null">
+				AND	TSP.operation_cd IN
+				<foreach collection="division_child_list" item="division_child" open="(" close=")" separator=",">	
+					#{division_child} 
+				</foreach> 
+			</if>		
+		
+		ORDER BY t1.creation_date DESC
+	</select>
+	
+	<select id="selectSalesContractRivisionList" parameterType="salescontractSearchVO" resultType="salescontractVO">
+		SELECT 	 TC.contract_id
+				,TC.contract_project_code
+				,TC.contract_project_code_id
+				,TC.contract_name
+				,TC.contract_file_name
+				,TC.contract_file_id
+				,TC.contract_file_path
+				,TC.contract_rivision
+				,TU.user_name AS contract_user_name
+				,TC.creation_date
+				,TC.modify_date
+			FROM tb_contract TC
+			LEFT JOIN tb_users TU ON TU.user_id = TC.creator
+			WHERE TC.contract_project_code = #{sh_contract_project_code}
+			ORDER BY TC.contract_rivision DESC
+	</select>
+	
+	<select id="selectCountSalesContract" parameterType="salescontractSearchVO" resultType="salescontractVO">
+		SELECT	count(*) AS project_code_count
+		  FROM	tb_contract t1
+		 WHERE	contract_project_code = #{in_contract_project_code}
+	</select>
+	
+	<select id="selectContractFiledown" parameterType="salescontractSearchVO" resultType="salescontractVO">
+		SELECT 	 contract_file_name
+				,contract_file_id
+				,contract_file_path
+		  FROM	tb_contract 
+		 WHERE	contract_id = #{sh_contract_id}
+	</select>
+	
+	<update id="saveSalesContract" parameterType="salescontractSearchVO">
+		INSERT INTO tb_contract (
+			 contract_project_code_id
+			,contract_project_code
+			,contract_name
+			,contract_file_name
+			,contract_file_id
+			,contract_file_path
+			,contract_rivision
+			,creator
+			,creation_date 
+		)SELECT 
+			 #{in_contract_project_code_id}
+			,#{in_contract_project_code}
+			,#{in_contract_name}
+			,#{in_contract_file_name}
+			,#{in_contract_file_id}
+			,#{in_contract_file_path}
+			,CASE WHEN COUNT(contract_project_code) = 0 THEN 1 ELSE MAX(contract_rivision)+1 END AS contract_rivision
+			,#{creator}
+			,now()
+		FROM tb_contract
+	   WHERE contract_project_code = #{in_contract_project_code}
+	</update>
+</mapper>

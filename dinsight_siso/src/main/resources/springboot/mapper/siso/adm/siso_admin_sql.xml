@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.adm.service.impl.MenuAdminMapper">
+	
+	<select id="selectCmmMenuList" parameterType="ComMenuVO" resultType="ComMenuVO">
+    	<if test="user_id != null">
+    		<choose>
+				<when test="user_id > 0">
+	           	 	  SELECT a.menu_id      
+						      ,a.menu_name      
+						      ,a.menu_url       
+						      ,a.menu_img_url   
+						      ,a.menu_authority
+						      ,a.order_seq
+						      ,a.menu_level
+						      ,a.level1_id
+						      ,b.menu_name      AS level1_name
+						      ,b.menu_authority AS level1_authority
+						      ,a.level2_id
+						      ,c.menu_name      AS level2_name
+						      ,c.menu_authority AS level2_authority
+						      ,a.level3_id
+						      ,a.delete_yn
+						      ,a.creator
+						      ,a.modifier       
+						      ,a.creation_date  
+						      ,a.modify_date
+						      ,a.chkMenu
+						FROM(
+						SELECT t1.*
+						     , CASE WHEN t2.grant_id IS NULL AND t1.grant_id IS NULL THEN 'N'
+						       ELSE 'Y' END chkmenu       
+						FROM   
+						 (
+						  SELECT TM.*,
+						   TGL.grant_id
+						  FROM tb_menu TM
+						  LEFT JOIN tb_grant_list TGL ON TGL.menu_id = TM.menu_id AND TGL.grant_id = 1
+						  WHERE TM.delete_yn = '0'
+						 ) AS t1
+						 LEFT JOIN 
+						 (
+						  SELECT 
+						   TM.menu_id,
+						   TM.menu_name,
+						   TGL.grant_id
+						  FROM tb_menu TM
+						  INNER JOIN tb_grant_list TGL ON TGL.menu_id = TM.menu_id
+						  INNER JOIN tb_grant_user TGU ON TGU.grant_id = TGL.grant_id
+						  INNER JOIN tb_users TU ON TU.user_id = TGU.user_id
+						  WHERE TM.delete_yn = '0' AND TU.user_id = #{user_id}
+						  GROUP BY TM.menu_id
+						 ) AS t2 ON t1.menu_id = t2.menu_id
+						) a
+						left outer join tb_menu b on (a.level1_id = b.menu_id)
+						left outer join tb_menu c on (a.level2_id = c.menu_id)
+						<!--  ORDER BY a.menu_id-->
+	  			</when>
+	  			<otherwise>
+  			  		SELECT a.menu_id      
+		                  ,a.menu_name      
+		                  ,a.menu_url       
+		                  ,a.menu_img_url   
+		                  ,a.menu_authority
+		                  ,a.order_seq
+		                  ,a.menu_level
+		                  ,a.level1_id
+		                  ,b.menu_name      AS level1_name
+		                  ,b.menu_authority AS level1_authority
+		                  ,a.level2_id
+		                  ,c.menu_name      AS level2_name
+		                  ,c.menu_authority AS level2_authority
+		                  ,a.level3_id
+		                  ,a.delete_yn
+		                  ,a.creator
+		                  ,a.modifier       
+		                  ,a.creation_date  
+		                  ,a.modify_date
+		                  ,'0' chkMenu   
+		              FROM tb_menu a
+		              left outer join tb_menu b on (a.level1_id = b.menu_id)
+		              left outer join tb_menu c on (a.level2_id = c.menu_id)
+				</otherwise>        
+			</choose>
+		</if>
+        WHERE	a.delete_yn = '0'
+        <if test="menu_id!=null and menu_id > 0">
+		  AND	a.menu_id = #{menu_id}
+		</if>
+		
+		<if test="menu_level!=null and menu_level > 0">
+		  AND	a.menu_level = #{menu_level}	
+		</if>           
+		 
+		<if test="menu_url!=null and menu_url!=''">
+		  AND	a.menu_url = #{menu_url}
+		</if>     
+		
+		<choose>
+			<when test="menu_level == 1">
+				<if test="level1_id != null and level1_id != ''">
+					AND	a.level1_id = #{level1_id}
+				</if>
+				<if test="menu_name != null and menu_name != ''">
+					AND	a.menu_name like concat('%',#{menu_name},'%')
+				</if>
+			</when>
+			<when test="menu_level == 2">
+				AND a.level1_id = #{level1_id}
+			</when>
+			<when test="menu_level == 3">
+				AND	a.level2_id = #{level2_id}
+			</when>
+			<otherwise></otherwise>	
+		</choose>
+        
+        ORDER BY a.menu_level ASC,a.order_seq ASC					
+	</select>
+	
+	
+	
+	<insert id="insertMenuAdmin" parameterType="ComMenuVO">
+	    <selectKey resultType="int" keyProperty="menu_id">
+			SELECT	COALESCE(MAX(menu_id),0) + 1 menu_id
+			  FROM	tb_menu
+	    </selectKey>
+	    
+		INSERT INTO tb_menu (  menu_id    
+		                      ,menu_name      
+			                  ,menu_url       
+			                  ,menu_img_url   
+			                  ,menu_authority
+			                  ,order_seq
+			                  ,menu_level
+			                  ,level1_id
+			                  ,level2_id
+			                  ,level3_id
+			                  ,delete_yn
+			                  ,creator
+			                  ,creation_date  
+				              )
+			 SELECT   #{menu_id}
+			         ,#{menu_name}
+			         ,#{menu_url}
+			         ,#{menu_img_url}
+			         ,#{menu_authority}
+			         ,#{order_seq}
+			         ,#{menu_level}
+			<choose>
+				<when test="menu_level == 1">
+					,#{menu_id}
+	                ,0
+	                ,0
+				</when>
+				<when test="menu_level == 2">
+					,#{level1_id}
+	                ,#{menu_id}
+	                ,#{level3_id}
+				</when>
+				<when test="menu_level == 3">
+					,#{level1_id}
+	                ,#{level2_id}
+	                ,#{menu_id}
+				</when>
+				<otherwise></otherwise>
+			</choose>		    
+					,'0'
+					,#{user_id}
+					,now()
+			   FROM	DUAL         			
+	</insert>
+	
+	<update id="updateMenuAdmin" parameterType="ComMenuVO">
+		UPDATE	tb_menu 
+		   SET	menu_name = #{menu_name},
+		   		menu_url = #{menu_url},
+		   		menu_img_url = #{menu_img_url},
+		   		menu_authority = #{menu_authority},
+		   		order_seq = #{order_seq},
+		   		modifier = #{user_id},
+		   		modify_date = now()
+		 WHERE	menu_id = #{menu_id}		
+	</update>
+	
+	<update id="deleteMenuAdmin" parameterType="ComMenuVO">
+		UPDATE	tb_menu 
+		   SET	delete_yn = '1',
+		   		modifier = #{user_id},
+		   		modify_date = now()
+		 WHERE	menu_id = #{menu_id}		
+	</update>
+	
+	<select id="selectCmmCodeDetail" parameterType="ComDefaultCodeVO" resultType="cmmnDetailCode">
+		SELECT	group_id,
+				code_id,
+				code_name,
+				etc1, 
+                etc2, 
+                etc3, 
+                etc4,
+                order_seq,
+                delete_yn,
+                creator,
+                modifier,
+                creation_date,
+                modify_date 
+         FROM	tb_code
+        WHERE	group_id = #{group_id}
+          AND	delete_yn = '0'
+		ORDER BY order_seq ASC	
+	</select>
+	
+    <select id="selectGroupIdDetail" parameterType="ComDefaultCodeVO" resultType="cmmnDetailCode">
+    	select	group_id,
+    			group_name,
+    			etc_explain,
+    			delete_yn,
+    			creator,
+    			modifier,
+    			creation_date,
+    			modify_date
+		  FROM	tb_group_code
+		 WHERE	delete_yn  = '0'
+		 ORDER BY group_id ASC          
+    </select>
+
+
+</mapper>

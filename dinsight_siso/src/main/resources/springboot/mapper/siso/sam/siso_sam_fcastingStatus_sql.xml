@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.sam.fcastingstatus.service.impl.ForeCastingStatusMapper">	
+	
+	<select id="fCastingStatusList" parameterType="foreCastingStatusVO" resultType="foreCastingStatusVO">
+		<![CDATA[
+			SELECT 
+				division_name,
+				IF(division_name IN( '합계' ), '99999', operation_cd) AS operation_cd,
+				CONCAT(user_name, ' ', IF(user_name IN ('소계','합계') , '' ,  code_name )) user_name,
+				contract_price,
+				profit_price,
+				CASE WHEN user_name = '소계' THEN '9999'  
+                	 WHEN user_name = '합계' THEN '99999'
+               	ELSE order_seq  END order_seq
+			FROM
+			(
+				SELECT 
+					IF(TD2.division_name IS NULL, '합계', TD2.division_name) AS division_name,
+					TD2.operation_cd,
+					IF(TD2.division_name  IS NULL, '합계', IF(TU.user_name  IS NULL, '소계', TU.user_name) ) AS user_name, 
+					TC.code_name,
+					SUM(TS.contract_price) AS contract_price,
+					SUM(TS.profit_price) AS profit_price,
+					TC.order_seq
+				FROM tb_sales TS
+				LEFT JOIN tb_sales_project TSP ON TSP.sales_project_id = TS.sales_project_id
+				LEFT JOIN tb_users TU ON TU.user_id = TSP.user_id
+				LEFT JOIN tb_code TC ON TC.code_id = TU.job_title_cd AND TC.group_id = 104
+				LEFT JOIN tb_division TD ON TD.division_cd = TU.last_division_cd
+				LEFT JOIN tb_division TD2 ON TD2.division_cd = TD.operation_cd
+				WHERE TS.delete_yn = 0 AND TS.sales_ym = CONCAT(#{sh_sales_year}, #{sh_sales_month}) and TS.sales_week = #{sh_sales_week}
+		]]>		
+		
+		<if test="division_child_list!=null">
+			AND	TD2.operation_cd IN
+			<foreach collection="division_child_list" item="division_child" open="(" close=")" separator=",">	
+				#{division_child} 
+			</foreach> 
+		</if>
+		
+		<if test="division_cd_list!=null">
+			AND	TD2.operation_cd IN
+			<foreach collection="division_cd_list" item="division_cd" open="(" close=")" separator=",">	
+				#{division_cd} 
+			</foreach> 
+		</if>
+		
+		<if test="contract_ym_list!=null">
+			AND	SUBSTRING(TS.contract_ym, 5, 2) IN
+			<foreach collection="contract_ym_list" item="contract_ym" open="(" close=")" separator=",">	
+				#{contract_ym} 
+			</foreach> 
+		</if>
+		
+		<if test="sales_status_cd_list!=null">
+			AND	TS.sales_status_cd IN
+			<foreach collection="sales_status_cd_list" item="sales_status_cd" open="(" close=")" separator=",">	
+				#{sales_status_cd} 
+			</foreach> 
+		</if>
+		
+		<if test="user_id_list!=null">
+			AND	TSP.user_id IN
+			<foreach collection="user_id_list" item="user_id" open="(" close=")" separator=",">	
+				#{user_id} 
+			</foreach> 
+		</if>
+		
+		<if test="sales_type_cd_list!=null">
+			TS.sales_type_cd IN
+			<foreach collection="sales_type_cd_list" item="sales_type_cd" open="(" close=")" separator=",">	
+				#{sales_type_cd} 
+			</foreach> 
+		</if>
+		
+		<if test="issue_yn_list!=null">
+			TS.issue_yn IN
+			<foreach collection="issue_yn_list" item="issue_yn" open="(" close=")" separator=",">	
+				#{issue_yn} 
+			</foreach> 
+		</if>
+		
+		<![CDATA[
+				GROUP BY TD2.division_name, TU.user_name WITH ROLLUP
+			) AS t1
+			ORDER BY operation_cd,  order_seq
+ 		]]>
+	</select>		
+	
+	<select id="fCastingStatusDetailList" parameterType="foreCastingStatusVO" resultType="foreCastingStatusVO">
+		<![CDATA[
+			SELECT  flag 
+			   , CASE WHEN flag=4 THEN '9999999' ELSE division_cd END AS division_cd
+			   , CASE WHEN flag=1 THEN sales_ym WHEN flag=2 THEN sales_ym ELSE 9999 END AS sales_ym 
+			   , CASE WHEN flag=4 THEN '합계' ELSE division_name END AS division_name
+			   , CASE WHEN flag=1 THEN user_id WHEN flag=2 THEN user_id ELSE '999999' END AS user_id
+			   , CASE WHEN flag=1 THEN CONCAT(user_name, ' ', code_name ) WHEN flag=2 THEN CONCAT(user_name, ' ', code_name, ' ', '요약' ) WHEN flag=3 THEN '소계' ELSE '합계' END  AS user_name
+			   , CASE WHEN flag=1 THEN contract_ym WHEN flag=2 THEN contract_ym ELSE 9999 END AS contract_ym 
+			   , CASE WHEN flag=1 THEN contract_name WHEN flag=2 THEN CONCAT(contract_name, ' ' , '합계') WHEN flag=3 THEN '소계' ELSE '합계' END  AS contract_name
+			   , CASE WHEN flag=1 THEN sales_divide_cd ELSE NULL END  AS sales_divide_cd
+			   , CASE WHEN flag=1 THEN sales_status_cd_name ELSE NULL END  AS sales_status_cd_name
+			   , CASE WHEN flag=1 THEN sales_type_cd_name ELSE NULL END  AS sales_type_cd_name
+			   , CASE WHEN flag=1 THEN company_name ELSE NULL END  AS company_name
+			   , CASE WHEN flag=1 THEN brand_cd_name ELSE NULL END  AS brand_cd_name
+			   , CASE WHEN flag=1 THEN module ELSE NULL END  AS module
+			   , SUM(CASE WHEN flag=1 THEN qty WHEN flag=2 THEN qty ELSE qty END ) AS qty
+			   , SUM(CASE WHEN flag=1 THEN contract_price WHEN flag=2 THEN contract_price ELSE contract_price END ) AS contract_price
+			   , SUM(CASE WHEN flag=1 THEN profit_price WHEN flag=2 THEN profit_price ELSE profit_price END ) AS profit_price
+			   , CASE WHEN flag=1 THEN order_seq ELSE NULL END  AS order_seq
+			 FROM (
+			  SELECT  TD2.division_cd, sales_ym,
+			   IF(TD2.division_name IS NULL, '합계', TD2.division_name) AS division_name,
+			   TSP.user_id,
+			   IF(TD2.division_name  IS NULL, '합계', IF(TU.user_name  IS NULL, '소계', TU.user_name) ) AS user_name,
+			   TC1.code_name ,
+			   TC1.code_id ,
+			   CONCAT( SUBSTR(TS.contract_ym, 1, 4) , '년 ' , SUBSTR(TS.contract_ym, 5, 2) ,  '월') AS contract_name ,
+			   TS.contract_ym,
+			   TSP.sales_divide_cd,
+			   TC2.code_name AS sales_status_cd_name,
+			   TC3.code_name AS sales_type_cd_name,
+			   TCM.company_name,
+			   TC4.code_name AS brand_cd_name,
+			   TSP.module,
+			   TS.qty,
+			   SUM(TS.contract_price) contract_price,
+			   SUM(TS.profit_price) profit_price,
+			   TC1.order_seq 
+			  FROM tb_sales TS
+			  INNER JOIN tb_sales_project TSP ON TSP.sales_project_id = TS.sales_project_id
+			  LEFT JOIN tb_users TU ON TU.user_id = TSP.user_id
+			  LEFT JOIN tb_division TD ON TD.division_cd = TU.last_division_cd
+			  LEFT JOIN tb_division TD2 ON TD2.division_cd = TD.operation_cd
+			  LEFT JOIN tb_code TC1 ON TC1.code_id = TU.job_title_cd AND TC1.group_id = 104
+			  LEFT JOIN tb_code TC2 ON TC2.code_id = TS.sales_status_cd AND TC2.group_id = 115
+			  LEFT JOIN tb_code TC3 ON TC3.code_id = TS.sales_type_cd AND TC3.group_id = 116
+			  LEFT JOIN tb_company TCM ON TCM.company_id = TSP.company_id
+			  LEFT JOIN tb_code TC4 ON TC4.code_id = TSP.brand_cd AND TC4.group_id = 117
+			  LEFT JOIN tb_code TC5 ON TC5.code_id = TSP.module AND TC5.group_id = 119
+			 WHERE TS.delete_yn = 0 AND TS.sales_ym =  CONCAT(#{sh_sales_year}, #{sh_sales_month}) and TS.sales_week = #{sh_sales_week}
+			]]>
+						
+			<if test="division_child_list!=null">
+				AND	TD2.operation_cd IN
+				<foreach collection="division_child_list" item="division_child" open="(" close=")" separator=",">	
+					#{division_child} 
+				</foreach> 
+			</if>
+			
+			<if test="division_cd_list!=null">
+				AND	TD2.operation_cd IN
+				<foreach collection="division_cd_list" item="division_cd" open="(" close=")" separator=",">	
+					#{division_cd} 
+				</foreach> 
+			</if>
+			
+			<if test="contract_ym_list!=null">
+				AND	SUBSTRING(TS.contract_ym, 5, 2) IN
+				<foreach collection="contract_ym_list" item="contract_ym" open="(" close=")" separator=",">	
+					#{contract_ym} 
+				</foreach> 
+			</if>
+			
+			<if test="sales_status_cd_list!=null">
+				AND	TS.sales_status_cd IN
+				<foreach collection="sales_status_cd_list" item="sales_status_cd" open="(" close=")" separator=",">	
+					#{sales_status_cd} 
+				</foreach> 
+			</if>
+			
+			<if test="user_id_list!=null">
+				AND	TSP.user_id IN
+				<foreach collection="user_id_list" item="user_id" open="(" close=")" separator=",">	
+					#{user_id} 
+				</foreach> 
+			</if>
+			
+			<if test="sales_type_cd_list!=null">
+				TS.sales_type_cd IN
+				<foreach collection="sales_type_cd_list" item="sales_type_cd" open="(" close=")" separator=",">	
+					#{sales_type_cd} 
+				</foreach> 
+			</if>
+			
+			<if test="issue_yn_list!=null">
+				TS.issue_yn IN
+				<foreach collection="issue_yn_list" item="issue_yn" open="(" close=")" separator=",">	
+					#{issue_yn} 
+				</foreach> 
+			</if>			
+			
+			<![CDATA[
+				 GROUP BY IF(TD2.division_name IS NULL, '합계', TD2.division_name) ,
+				   TSP.user_id,
+				   IF(TD2.division_name  IS NULL, '합계', IF(TU.user_name  IS NULL, '소계', TU.user_name) ) ,
+				   TS.contract_ym,
+				   TC1.code_name ,
+				   TC1.code_id ,
+				   CONCAT( SUBSTR(TS.contract_ym, 1, 4) , '년 ' , SUBSTR(TS.contract_ym, 5, 2) ,  '월') ,
+				   TSP.sales_divide_cd,
+				   TC2.code_name,
+				   TC3.code_name,
+				   TCM.company_name,
+				   TC4.code_name,
+				   TSP.module,
+				   TS.qty,
+				   TC1.order_seq
+				  ) x1, ( SELECT 1  flag UNION ALL SELECT 2 flag UNION ALL SELECT 3 flag UNION ALL SELECT 4 flag ) x2 
+				  GROUP BY
+				   flag  
+				   , CASE WHEN flag=4 THEN '9999999' ELSE division_cd END
+				   , CASE WHEN flag=1 THEN sales_ym WHEN flag=2 THEN sales_ym ELSE 9999 END 
+				   , CASE WHEN flag=4 THEN '합계' ELSE division_name END  
+				   , CASE WHEN flag=1 THEN user_id WHEN flag=2 THEN user_id ELSE '999999' END
+				   , CASE WHEN flag=1 THEN CONCAT(user_name, ' ', code_name ) WHEN flag=2 THEN CONCAT(user_name, ' ', code_name, ' ', '요약' ) WHEN flag=3 THEN '소계' ELSE '합계' END 
+				   , CASE WHEN flag=1 THEN contract_name WHEN flag=2 THEN CONCAT(contract_name, ' ' , '합계') WHEN flag=3 THEN '소계' ELSE '합계' END 
+				   , CASE WHEN flag=1 THEN contract_ym WHEN flag=2 THEN contract_ym ELSE 9999 END 
+				   , CASE WHEN flag=1 THEN sales_divide_cd ELSE NULL END
+				   , CASE WHEN flag=1 THEN sales_status_cd_name ELSE NULL END
+				   , CASE WHEN flag=1 THEN sales_type_cd_name ELSE NULL END
+				   , CASE WHEN flag=1 THEN company_name ELSE NULL END
+				   , CASE WHEN flag=1 THEN brand_cd_name ELSE NULL END
+				   , CASE WHEN flag=1 THEN module ELSE NULL END
+				   , CASE WHEN flag=1 THEN order_seq ELSE NULL END 
+				  ORDER BY division_cd, user_id,contract_ym, flag
+ 		]]>
+	</select>		
+
+</mapper>

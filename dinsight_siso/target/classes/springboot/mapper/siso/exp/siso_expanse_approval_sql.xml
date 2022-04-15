@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.exp.approval.service.impl.ApprovalMapper">		
+	
+	<select id="selectApprovalList" parameterType="approvalVO" resultType="approvalVO">
+		<![CDATA[
+			SELECT  approval_year, approval_month, status_cd, code_name AS status_cd_name, creation_date, user_name, approval_name, creator, node_id, owner_id, source_object_id, approval_id
+			      , division_cd , division_name, final_expanse_appoint
+			FROM 
+			(
+				SELECT  
+					x1.approval_year, x1.approval_month,   x3.code_name, x1.creation_date, x5.user_name, x1.approval_name, x1.creator, x1.node_id,  x1.source_object_id, x1.approval_id
+					,x7.division_cd , x7.division_name
+					,x2.owner_id AS before_owner_id , x6.user_name before_owner_name 
+					, CASE WHEN x1.owner_id  = x2.owner_id  THEN '1702' 
+			                       WHEN x1.creator   = x2.owner_id  THEN '1702'		
+					  ELSE x2.status_cd END AS before_status_cd 
+					,x1.owner_id , x4.user_name AS owner_name , x1.status_cd, CASE WHEN x8.final_order_seq IS NULL THEN 0 ELSE 1 END AS final_expanse_appoint
+				FROM
+				( 
+				  SELECT  t1.approval_id, t1.node_id, t2.approval_year, t2.approval_month, t1.status_cd, t1.creation_date ,  t2.approval_name, t2.source_object_id
+				      , t1.creator 
+				      , t1.owner_id, t1.expanse_appoint_cd, t1.order_seq
+				      ,  CASE WHEN t1.order_seq - 1 < 0  THEN 0 ELSE t1.order_seq - 1  END   AS before_order_seq
+				  FROM    tb_approval_node t1
+				        INNER JOIN tb_approval t2 ON  t2.approval_year = #{sh_expanse_year} AND t2.approval_month = #{sh_expanse_month} AND t1.approval_id = t2.approval_id
+				                           AND t2.source_type_cd = #{source_type_cd}
+				  WHERE  t1.delete_yn ='0' AND owner_id = #{creator} AND t1.expanse_appoint_cd IN ('01','02')
+				  ORDER BY approval_id, creator, expanse_appoint_cd, order_seq
+				) AS x1
+				LEFT OUTER JOIN tb_approval_node AS x2 ON  x1.approval_id = x2.approval_id AND x1.before_order_seq = x2.order_seq AND  x2.delete_yn ='0' 
+				INNER JOIN tb_code x3 ON x3.group_id ='103' AND x1.status_cd = x3.code_id AND x3.delete_yn='0'
+				INNER JOIN tb_users x4 ON x1.owner_id = x4.user_id AND x4.delete_yn='0'
+				INNER JOIN tb_users x5 ON x1.creator = x5.user_id  AND x5.delete_yn='0'
+				INNER JOIN tb_users x6 ON x2.owner_id = x6.user_id  AND x6.delete_yn='0'   
+				INNER JOIN tb_division x7 ON  x5.last_division_cd = x7.division_cd AND x7.delete_yn='0' 
+				LEFT OUTER JOIN ( 
+				 	SELECT  approval_id , expanse_appoint_cd , MAX(order_seq) AS final_order_seq 
+				 	FROM  tb_approval_node 
+				 	WHERE delete_yn ='0' AND expanse_appoint_cd = '02' GROUP BY  approval_id , expanse_appoint_cd
+				) AS x8 ON x1.approval_id = x8.approval_id AND x1.order_seq = x8.final_order_seq
+			)  AS tt
+			WHERE ( #{sh_status_cd} = 1701 AND before_status_cd = '1702' AND status_cd = '1701'  )
+			 OR   ( #{sh_status_cd} = 1702 AND                               status_cd = '1702'  )
+			 OR   ( #{sh_status_cd} = 1703 AND                               status_cd = '1703'  )
+			 ORDER BY user_name, creation_date desc
+		]]>
+	</select>
+	
+	<select id="selectProjectApprovalList" parameterType="approvalVO" resultType="approvalVO">
+		<![CDATA[
+			SELECT  approval_year, approval_month, approval_week, status_cd, code_name AS status_cd_name, creation_date, user_name, approval_name, creator, node_id, owner_id, source_object_id, approval_id
+			      , division_cd , division_name, final_expanse_appoint
+			FROM 
+			(
+				SELECT  
+					x1.approval_year, x1.approval_month, x1.approval_week, x3.code_name, x1.creation_date, x5.user_name, x1.approval_name, x1.creator, x1.node_id,  x1.source_object_id, x1.approval_id
+					,x7.division_cd , x7.division_name
+					,x2.owner_id AS before_owner_id , x6.user_name before_owner_name 
+					, CASE WHEN x1.owner_id  = x2.owner_id  THEN '1702' 
+					       WHEN x1.creator   = x2.owner_id  THEN '1702'		
+					  ELSE x2.status_cd END AS before_status_cd 
+					,x1.owner_id , x4.user_name AS owner_name , x1.status_cd, CASE WHEN x8.final_order_seq IS NULL THEN 0 ELSE 1 END AS final_expanse_appoint
+				FROM
+				( 
+					SELECT  t1.approval_id, t1.node_id, t2.approval_year, t2.approval_month, t2.approval_week, t1.status_cd, t1.creation_date ,  t2.approval_name, t2.source_object_id
+					, t1.creator 
+					, t1.owner_id, t1.expanse_appoint_cd, t1.order_seq
+					,  CASE WHEN t1.order_seq - 1 < 0  THEN 0 ELSE t1.order_seq - 1  END   AS before_order_seq
+					FROM    tb_approval_node t1
+					INNER JOIN tb_approval t2 ON  t2.approval_year = #{sh_expanse_year} AND t2.approval_month = #{sh_expanse_month} AND t2.approval_week = #{sh_expanse_week} AND t1.approval_id = t2.approval_id
+					   AND t2.source_type_cd = #{source_type_cd} 
+					WHERE  t1.delete_yn ='0' AND owner_id = #{creator} AND t1.expanse_appoint_cd IN ('01','02')
+					ORDER BY approval_id, creator, expanse_appoint_cd, order_seq
+				) AS x1
+				LEFT OUTER JOIN tb_approval_node AS x2 ON  x1.approval_id = x2.approval_id AND x1.before_order_seq = x2.order_seq AND  x2.delete_yn ='0' 
+				INNER JOIN tb_code x3 ON x3.group_id ='103' AND x1.status_cd = x3.code_id AND x3.delete_yn='0'
+				INNER JOIN tb_users x4 ON x1.owner_id = x4.user_id AND x4.delete_yn='0'
+				INNER JOIN tb_users x5 ON x1.creator = x5.user_id  AND x5.delete_yn='0'
+				INNER JOIN tb_users x6 ON x2.owner_id = x6.user_id  AND x6.delete_yn='0'   
+				INNER JOIN tb_division x7 ON  x5.last_division_cd = x7.division_cd AND x7.delete_yn='0' 
+				LEFT OUTER JOIN ( 
+					SELECT  approval_id , expanse_appoint_cd , MAX(order_seq) AS final_order_seq 
+					FROM  tb_approval_node 
+					WHERE delete_yn ='0' AND expanse_appoint_cd = '02' GROUP BY  approval_id , expanse_appoint_cd
+				) AS x8 ON x1.approval_id = x8.approval_id AND x1.order_seq = x8.final_order_seq
+			)  AS tt
+			WHERE ( #{sh_status_cd} = 1701 AND before_status_cd = '1702' AND status_cd = '1701'  )
+			 OR   ( #{sh_status_cd} = 1702 AND                               status_cd = '1702'  )
+			 OR   ( #{sh_status_cd} = 1703 AND                               status_cd = '1703'  )
+			 ORDER BY user_name, creation_date desc
+		]]>
+	</select>	
+	
+	<update id="updateApprovalNodeOwner" parameterType="approvalVO">
+		<![CDATA[
+			UPDATE tb_approval_node 
+			SET status_cd = #{status_cd}, approved_date = now(), modifier = #{modifier}, modify_date = now()
+			WHERE node_id = #{node_id}
+		]]>
+	</update>
+	
+	<update id="updateApprovalNodeCreator" parameterType="approvalVO">
+		<![CDATA[
+			UPDATE tb_approval_node 
+			SET status_cd = #{status_cd}, modifier = #{modifier}, modify_date = now()
+			WHERE approval_id = #{approval_id} AND expanse_appoint_cd = #{expanse_appoint_cd}
+		]]>
+	</update>
+	
+	<update id="updateExpanseMonthly" parameterType="approvalVO">
+		<![CDATA[
+			UPDATE tb_expanse_monthly 
+			SET status_cd = #{status_cd}, modifier = #{modifier}, modify_date = now()
+			WHERE expanse_monthly_id = #{source_object_id}
+		]]>
+	</update>
+	
+	<update id="updateExpanse" parameterType="approvalVO">
+		<![CDATA[
+			UPDATE tb_expanse 
+			SET status_cd = #{status_cd}, modifier = #{modifier}, modify_date = now()
+			WHERE expanse_monthly_id = #{source_object_id}
+		]]>
+	</update>
+	
+	<update id="updateExpanseMileage" parameterType="approvalVO">
+		<![CDATA[
+			UPDATE tb_mileage 
+			SET status_cd = #{status_cd}, modifier = #{modifier}, modify_date = now()
+			WHERE expanse_monthly_id = #{source_object_id}
+		]]>
+	</update>
+	
+	<insert id="expanseMonthlyInsert" parameterType="approvalVO">
+		<![CDATA[
+			INSERT INTO tb_expanse_monthly (
+				expanse_year, expanse_month, status_cd, delete_yn, creator, creation_date
+			) VALUES (
+				#{approval_year}, #{approval_month}, #{status_cd}, '0', #{creator}, now()
+			)			
+		]]>
+		
+		<selectKey keyProperty="expanse_monthly_id" resultType="int">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
+	</insert>
+	
+	<insert id="expanseCopyInsert" parameterType="approvalVO">
+		<![CDATA[
+			INSERT INTO tb_expanse (
+				expanse_name, expanse_type, pay_day, category_id, payment, 
+				expanse_year, expanse_month, submited_date,
+				last_division_cd, project_id, confer_number, status_cd, delete_yn, creator, creation_date
+			)
+			SELECT 
+				expanse_name, expanse_type, pay_day, category_id, payment, 
+				expanse_year, expanse_month, submited_date,
+				last_division_cd, project_id, confer_number, #{status_cd}, delete_yn, creator, creation_date
+			FROM tb_expanse 
+			WHERE expanse_monthly_id = #{source_object_id}
+		]]>
+	</insert>
+	
+	<insert id="expanseMileageCopyInsert" parameterType="approvalVO">
+		<![CDATA[
+			INSERT INTO tb_mileage (
+				drive_day, purpose, start_point, via_point, end_point, distance, oil_cd, cost, 
+				status_cd, delete_yn, creator, creation_date, expanse_id, project_id
+			)
+			SELECT 
+				drive_day, purpose, start_point, via_point, end_point, distance, oil_cd, cost, 
+				#{status_cd}, delete_yn, creator, creation_date, '0', project_id
+			FROM tb_mileage 
+			WHERE expanse_monthly_id = #{source_object_id}
+		]]>
+	</insert>
+	
+	<insert id="expanseApprovalInsert" parameterType="approvalVO">
+		<![CDATA[
+			INSERT INTO tb_approval (
+				approval_year, approval_month, approval_week, approval_name, 
+				source_type_cd, source_object_id, delete_yn, creator, creation_date
+			) VALUES (
+				#{approval_year}, #{approval_month}, #{approval_week}, #{approval_name}, 
+				#{source_type_cd}, #{source_object_id}, '0', #{creator}, now()
+			)			
+		]]>
+		
+		<selectKey keyProperty="approval_id" resultType="int">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
+	</insert>
+	
+	<insert id="expanseApprovalNodeInsert" parameterType="approvalVO">
+		<![CDATA[
+			INSERT INTO tb_approval_node (
+				approval_id, owner_id, status_cd, approved_date, expanse_appoint_cd, delete_yn, creator, creation_date, order_seq
+			)
+			SELECT #{approval_id}, owner_id, '1701', IF(user_id = owner_id, now(), NULL), expanse_appoint_cd, '0', #{creator}, now(), order_seq
+			FROM tb_approval_owner 
+			WHERE source_type_cd = #{source_type_cd} AND (user_id = #{creator} OR expanse_appoint_cd = '03') AND delete_yn = '0'	
+		]]>
+	</insert>
+
+</mapper>

@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.alc.admin.service.impl.AlcAdminMapper">
+	<sql id="alcSearchCondition">
+		<if test="sh_company_id != null and sh_company_id != ''">
+			AND	( '0' = IF(IFNULL(#{sh_company_id},'')='', '0','1')  OR ta.company_id = #{sh_company_id} )
+		</if>
+		
+		<if test="sh_year!=null and sh_year!=''">
+			AND	ta.alc_year = #{sh_year}
+		</if>
+		
+		<if test="sh_place_of_business!=null and sh_place_of_business!=''">
+			AND	( '0' = IF(IFNULL(#{sh_place_of_business},'')='', '0','10' )  OR ta.place_of_business = #{sh_place_of_business})
+		</if>
+		
+		<if test="sh_sales_customer!=null and sh_sales_customer!=''">
+			AND	( '0' = IF(IFNULL(#{sh_sales_customer},'')='', '0','10' )  OR ta.sales_customer = #{sh_sales_customer})
+		</if>
+		
+		<if test="portfolio!=null and portfolio!=''">
+			AND	ta.portfolio=#{portfolio}
+		</if>
+		
+		<if test="prd_number!=null and prd_number!=''">
+			AND	ta.prd_number=#{prd_number}
+		</if>
+		
+		<if test="prd_type!=null and prd_type!=''">
+			AND	ta.prd_type=#{prd_type}
+		</if>
+		
+		<if test="trigram!=null and trigram!=''">
+			AND	ta.trigram=#{trigram}
+		</if>	
+	</sql>
+			
+	<select id="alcAdminList" parameterType="alcAdminVO" resultType="alcAdminVO">	
+		SELECT   ta.alc_id
+		       , ta.alc_year
+		       , ta.company_id
+		       , tc3.company_name
+		       , ta.place_of_business
+		       , tc2.code_name
+		       , ta.sales_customer
+		       , tu.user_name
+		       , ta.portfolio
+		       , ta.prd_number
+		       , ta.prd_type
+		       , ta.trigram
+		       , ta.portfolio_item_name
+		       , ta.prd_revision
+		       , COUNT(ta.qty) AS qty
+		FROM     tb_alc ta
+		LEFT OUTER JOIN tb_quote tq    ON tq.quote_id = ta.quote_id
+		LEFT OUTER JOIN tb_contract tc ON tc.contract_id = ta.contract_id
+		LEFT OUTER JOIN tb_code     tc2 ON tc2.code_id     = ta.place_of_business AND tc2.group_id = '144'
+		LEFT OUTER JOIN tb_users    tu ON tu.user_id     = ta.sales_customer
+		LEFT OUTER JOIN tb_company  tc3 ON tc3.company_id = ta.company_id
+		WHERE	ta.destruction_yn = '0'
+		  AND	ta.delete_yn = '0'	
+		<include refid="alcSearchCondition" />			
+		GROUP BY ta.alc_year, ta.company_id, ta.portfolio, ta.prd_number, ta.prd_type, ta.trigram, ta.place_of_business , ta.sales_customer
+	</select>
+	
+	<select id="alcAdminInstallCustomerList" parameterType="alcAdminVO" resultType="alcAdminVO">
+		SELECT    ta.install_company_id
+		       , tc3.company_name
+		       , COUNT(ta.qty) AS qty
+		       , ta.install_identical_yn
+		       , ta.ordering_start_day
+		       , ta.ordering_end_day
+		       , ta.ordering_identical_yn
+		       , ta.install_start_day
+		       , ta.install_end_day
+		       , ta.target_id
+		       , ta.license_date
+		       , ta.list_price
+		       , ta.estimated_cost
+		       , ta.purchase_date
+		       , ta.collect_money
+		       , ta.invoice_start_day
+		       , ta.invoice_end_day
+		       , ta.contract_start_day
+		       , ta.contract_end_day
+		       , MAX(CASE WHEN ta.quote_id IS NOT NULL  THEN '1' ELSE '0' END) quote_file_yn
+		       , CASE WHEN MAX(CASE WHEN ta.quote_id IS NOT NULL  THEN '1' ELSE '0' END) = '1' THEN 'Y' ELSE 'N' END  quote_file_nm
+		       , MAX(CASE WHEN ta.contract_id IS NOT NULL THEN '1' ELSE '0' END) contract_file_yn
+		       , CASE WHEN MAX(CASE WHEN ta.contract_id IS NOT NULL  THEN '1' ELSE '0' END) = '1' THEN 'Y' ELSE 'N' END  contract_file_nm
+		       , ta.stock_yn
+		       , CASE WHEN ta.stock_yn ='1' THEN 'Y' ELSE 'N' END AS stock_nm
+		       , ta.purchase_agreement_yn
+		       , CASE WHEN ta.purchase_agreement_yn ='1' THEN 'Y' ELSE 'N' END AS purchase_agreement_nm
+		       , ta.max_chg_alc_id
+		FROM     tb_alc ta
+		LEFT OUTER JOIN tb_quote tq    ON tq.quote_id = ta.quote_id
+		LEFT OUTER JOIN tb_contract tc ON tc.contract_id = ta.contract_id
+		LEFT OUTER JOIN tb_code     tc2 ON tc2.code_id     = ta.place_of_business AND tc2.group_id = '144'
+		LEFT OUTER JOIN tb_users    tu ON tu.user_id     = ta.sales_customer
+		LEFT OUTER JOIN tb_company  tc3 ON tc3.company_id = ta.install_company_id
+		WHERE   ta.destruction_yn = '0'
+		AND     ta.delete_yn = '0'
+		
+		<include refid="alcSearchCondition" />
+
+		GROUP BY ta.alc_year, ta.company_id, ta.portfolio, ta.prd_number, ta.prd_type, ta.trigram, ta.install_company_id, ta.place_of_business , ta.sales_customer
+	</select>
+	
+	<insert id="insertAlcAdmin" parameterType="alcAdminVO">
+		<![CDATA[
+		INSERT INTO tb_alc (
+				  alc_id
+                , alc_year
+                , company_id
+                , place_of_business
+                , sales_customer
+                , portfolio
+                , prd_number
+                , prd_type
+                , trigram
+                , portfolio_item_name
+                , qty
+                , ordering_start_day
+                , ordering_end_day
+                , install_company_id
+                , install_identical_yn
+                , ordering_identical_yn
+                , install_start_day
+                , install_end_day
+                , target_id
+                , license_date
+                , list_price
+                , estimated_cost
+                , purchase_date
+                , collect_money
+                , destruction_yn
+                , quote_id
+                , invoice_id
+                , invoice_start_day
+                , invoice_end_day
+                , contract_id
+                , contract_start_day
+                , contract_end_day
+                , stock_yn
+                , purchase_agreement_yn
+                , max_chg_alc_id
+				, delete_yn
+				, creator
+				, creation_date
+          			)
+		VALUES (      #{alc_id}
+                , #{alc_year}
+                , #{company_id}
+                , #{place_of_business}
+                , #{sales_customer}
+                , #{portfolio}
+                , #{prd_number}
+                , #{prd_type}
+                , #{trigram}
+                , #{portfolio_item_name}
+                , #{qty}
+                , #{ordering_start_day}
+                , #{ordering_end_day}
+                , #{install_company_id}
+                , #{install_identical_yn}
+                , #{ordering_identical_yn}
+                , #{install_start_day}
+                , #{install_end_day}
+                , #{target_id}
+                , #{license_date}
+                , #{list_price}
+                , #{estimated_cost}
+                , #{purchase_date}
+                , #{collect_money}
+                , #{destruction_yn}
+                , #{quote_id}
+                , #{invoice_id}
+                , #{invoice_start_day}
+                , #{invoice_end_day}
+                , #{contract_id}
+                , #{contract_start_day}
+                , #{contract_end_day}
+                , #{stock_yn}
+                , #{purchase_agreement_yn}
+                , #{max_chg_alc_id}
+		      	, '0'
+		      	, #{creator}
+		      	, now()
+		      )
+
+	  ON DUPLICATE KEY
+	  UPDATE  	  place_of_business      = #{place_of_business}
+	            , sales_customer         = #{sales_customer}
+	            , portfolio              = #{portfolio}
+	            , prd_number             = #{prd_number}
+	            , prd_type               = #{prd_type}
+	            , trigram                = #{trigram}
+	            , portfolio_item_name    = #{portfolio_item_name}
+	            , qty                    = #{qty}
+	            , ordering_start_day     = #{ordering_start_day}
+	            , ordering_end_day       = #{ordering_end_day}
+	            , install_company_id     = #{install_company_id}
+	            , install_identical_yn   = #{install_identical_yn}
+	            , ordering_identical_yn  = #{ordering_identical_yn}
+	            , install_start_day      = #{install_start_day}
+	            , install_end_day        = #{install_end_day}
+	            , target_id              = #{target_id}
+	            , license_date           = #{license_date}
+	            , list_price             = #{list_price}
+	            , estimated_cost         = #{estimated_cost}
+	            , purchase_date          = #{purchase_date}
+	            , collect_money          = #{collect_money}
+	            , destruction_yn         = #{destruction_yn}
+	            , quote_id               = #{quote_id}
+	            , invoice_id             = #{invoice_id}
+	            , invoice_start_day      = #{invoice_start_day}
+	            , invoice_end_day        = #{invoice_end_day}
+	            , contract_id            = #{contract_id}
+	            , contract_start_day     = #{contract_start_day}
+	            , contract_end_day       = #{contract_end_day}
+	            , stock_yn               = #{stock_yn}
+	            , purchase_agreement_yn  = #{purchase_agreement_yn}
+	            , max_chg_alc_id         = #{max_chg_alc_id}
+	            , modifier               = #{creator}
+	            , modify_date            = now()
+	    ]]>
+	    
+		<selectKey keyProperty="alc_id" resultType="int">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
+	</insert>
+	
+	<insert id="insertAlcAdminChang" parameterType="alcAdminVO">
+		INSERT INTO tb_alc_chang (
+                  chg_alc_id
+				, alc_id
+                , alc_year
+                , company_id
+                , place_of_business
+                , sales_customer
+                , portfolio
+                , prd_number
+                , prd_type
+                , trigram
+                , portfolio_item_name
+                , qty
+                , ordering_start_day
+                , ordering_end_day
+                , install_company_id
+                , install_identical_yn
+                , ordering_identical_yn
+                , install_start_day
+                , install_end_day
+                , target_id
+                , license_date
+                , list_price
+                , estimated_cost
+                , purchase_date
+                , collect_money
+                , destruction_yn
+                , quote_id
+                , invoice_id
+                , invoice_start_day
+                , invoice_end_day
+                , contract_id
+                , contract_start_day
+                , contract_end_day
+                , stock_yn
+                , purchase_agreement_yn
+				, delete_yn
+				, creator
+				, creation_date
+          			)
+		VALUES (      #{chg_alc_id}
+		            , #{alc_id}
+                , #{alc_year}
+                , #{company_id}
+                , #{place_of_business}
+                , #{sales_customer}
+                , #{portfolio}
+                , #{prd_number}
+                , #{prd_type}
+                , #{trigram}
+                , #{portfolio_item_name}
+                , #{qty}
+                , #{ordering_start_day}
+                , #{ordering_end_day}
+                , #{install_company_id}
+                , #{install_identical_yn}
+                , #{ordering_identical_yn}
+                , #{install_start_day}
+                , #{install_end_day}
+                , #{target_id}
+                , #{license_date}
+                , #{list_price}
+                , #{estimated_cost}
+                , #{purchase_date}
+                , #{collect_money}
+                , #{destruction_yn}
+                , #{quote_id}
+                , #{invoice_id}
+                , #{invoice_start_day}
+                , #{invoice_end_day}
+                , #{contract_id}
+                , #{contract_start_day}
+                , #{contract_end_day}
+                , #{stock_yn}
+                , #{purchase_agreement_yn}
+				, '0'
+				, #{creator}
+				, now()
+				)
+
+	  ON DUPLICATE KEY
+	  UPDATE  	  place_of_business      = #{place_of_business}
+	            , sales_customer         = #{sales_customer}
+	            , portfolio              = #{portfolio}
+	            , prd_number             = #{prd_number}
+	            , prd_type               = #{prd_type}
+	            , trigram                = #{trigram}
+	            , portfolio_item_name    = #{portfolio_item_name}
+	            , qty                    = #{qty}
+	            , ordering_start_day     = #{ordering_start_day}
+	            , ordering_end_day       = #{ordering_end_day}
+	            , install_company_id     = #{install_company_id}
+	            , install_identical_yn   = #{install_identical_yn}
+	            , ordering_identical_yn  = #{ordering_identical_yn}
+	            , install_start_day      = #{install_start_day}
+	            , install_end_day        = #{install_end_day}
+	            , target_id              = #{target_id}
+	            , license_date           = #{license_date}
+	            , list_price             = #{list_price}
+	            , estimated_cost         = #{estimated_cost}
+	            , purchase_date          = #{purchase_date}
+	            , collect_money          = #{collect_money}
+	            , destruction_yn         = #{destruction_yn}
+	            , quote_id               = #{quote_id}
+	            , invoice_id             = #{invoice_id}
+	            , invoice_start_day      = #{invoice_start_day}
+	            , invoice_end_day        = #{invoice_end_day}
+	            , contract_id            = #{contract_id}
+	            , contract_start_day     = #{contract_start_day}
+	            , contract_end_day       = #{contract_end_day}
+	            , stock_yn               = #{stock_yn}
+	            , purchase_agreement_yn  = #{purchase_agreement_yn}
+	            , modifier               = #{creator}
+	            , modify_date            = now()
+	</insert>
+	
+	<select id="alcSalesList" resultType="alcAdminVO">
+		SELECT tgu.user_id as code_id, tu.user_name as code_name
+		FROM tb_grant_user tgu
+		INNER JOIN tb_users tu ON tgu.user_id = tu.user_id
+		INNER JOIN tb_division td ON td.division_cd = tu.last_division_cd
+		WHERE tgu.grant_id ='3'
+	</select>
+	
+	<update id="updateAlcAdminMaxChgAlcId">
+		UPDATE tb_alc z, (SELECT alc_id, MAX(chg_alc_id) AS max_chg_alc_id 
+		FROM tb_alc_chang  GROUP BY alc_id) t
+		SET z.max_chg_alc_id = t.max_chg_alc_id
+		WHERE z.max_chg_alc_id IS NULL
+		AND  z.alc_id = t.alc_id		
+	</update>
+	
+	<select id="alcAdminDetailQuiteFileList" parameterType="alcAdminVO" resultType="alcAdminVO">
+		SELECT   ta.quote_id as id
+		       , tq.quote_name as name
+		       , tq.quote_file_name as file_name
+		       , tq.quote_file_id as file_id
+		       , tq.quote_file_path as file_path
+		       , tq.quote_rivision as rivision
+		FROM     tb_alc ta
+		LEFT OUTER JOIN tb_quote tq    ON tq.quote_id = ta.quote_id
+		LEFT OUTER JOIN tb_contract tc ON tc.contract_id = ta.contract_id
+		LEFT OUTER JOIN tb_code     tc2 ON tc2.code_id     = ta.place_of_business AND tc2.group_id = '144'
+		LEFT OUTER JOIN tb_users    tu ON tu.user_id     = ta.sales_customer
+		LEFT OUTER JOIN tb_company  tc3 ON tc3.company_id = ta.install_company_id
+		WHERE   ta.destruction_yn = '0'
+		AND     ta.delete_yn = '0'
+		
+		<include refid="alcSearchCondition" />					
+
+		GROUP BY ta.alc_year, ta.company_id, ta.portfolio, ta.prd_number, ta.prd_type, ta.trigram, ta.install_company_id, ta.place_of_business , ta.sales_customer
+	</select>
+	
+	<select id="alcAdminDetailContractFileList" parameterType="alcAdminVO" resultType="alcAdminVO">
+		SELECT   ta.contract_id as id
+		       , tc.contract_name as name
+		       , tc.contract_file_name as file_name
+		       , tc.contract_file_id as file_id
+		       , tc.contract_file_path as file_path
+		       , tc.contract_rivision as rivision
+		FROM     tb_alc ta
+		LEFT OUTER JOIN tb_quote tq    ON tq.quote_id = ta.quote_id
+		LEFT OUTER JOIN tb_contract tc ON tc.contract_id = ta.contract_id
+		LEFT OUTER JOIN tb_code     tc2 ON tc2.code_id     = ta.place_of_business AND tc2.group_id = '144'
+		LEFT OUTER JOIN tb_users    tu ON tu.user_id     = ta.sales_customer
+		LEFT OUTER JOIN tb_company  tc3 ON tc3.company_id = ta.install_company_id
+		WHERE   ta.destruction_yn = '0'
+		AND     ta.delete_yn = '0'
+		
+		<include refid="alcSearchCondition" />	
+
+		GROUP BY ta.alc_year, ta.company_id, ta.portfolio, ta.prd_number, ta.prd_type, ta.trigram, ta.install_company_id, ta.place_of_business , ta.sales_customer
+	</select>
+	
+</mapper>

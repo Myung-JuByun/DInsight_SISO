@@ -1,0 +1,67 @@
+/* 2016.03.17 추가 | 버튼 스타일시트 */
+/*버튼 공통*/ 
+  .ct-btn {
+      display: inline-block;
+      margin: 0 auto;
+      outline: 0;
+      vertical-align: middle;
+      
+      font-family: inherit;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 13px;
+      text-align: center;
+      
+      white-space: nowrap;
+      cursor: pointer;
+
+      border: 0;
+  }
+  .ct-btn.td {
+      height: 24px;
+      padding: 0 15px;
+      line-height: 23px;
+      border-radius: 3px;
+      font-size: 12px;
+  }
+/* 버튼 사이즈별 */
+  .ct-btn.small {
+      height: 26px;
+      padding: 0 15px;
+      line-height: 25px;
+      border-radius: 3px;
+  }
+  .ct-btn.normal {
+      height: 28px;
+      padding: 0 25px;
+      line-height: 27px;
+      border-radius: 4px;
+  }
+  .ct-btn.large {
+      height: 31px;
+      padding: 0 35px;
+      line-height: 30px;
+      border-radius: 5px;
+  }
+/* 버튼 색상별 */
+  .ct-btn.red {
+      color: #fff;
+      background: #fb7575;
+  }
+  .ct-btn.darkgrey {
+    color: #fff;
+    background: #575757;
+  }
+  .ct-btn.grey {
+    color: #fff;
+    background: #a5a5a5;
+  }
+  .ct-btn.lightgrey {
+    color: #fff;
+    background: #b0b0b0;
+  }
+  .ct-btn.blue {
+      color: #fff;
+      background: #191970;
+  }
+  /* end 버튼 스타일시트 */

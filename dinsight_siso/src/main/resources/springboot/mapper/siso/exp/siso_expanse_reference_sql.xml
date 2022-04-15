@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.exp.reference.service.impl.ReferenceMapper">	
+	
+	<select id="selectReferenceList" parameterType="referenceVO" resultType="referenceVO">
+		<![CDATA[
+			SELECT	rr.reference_room_id
+					, rr.reference_file_id
+					, rr.reference_file_name
+					, rr.reference_file_path
+					, rr.delete_yn
+					, u.user_name creator_name
+					, DATE_FORMAT(rr.creation_date, '%Y-%m-%d') creation_date
+					, rr.modify_date
+			FROM	tb_reference_room rr
+			JOIN	tb_users u
+ 			ON		u.user_id = rr.creator
+			WHERE	rr.delete_yn = '0'	
+		]]>
+	</select>
+	
+	<select id="selectReferenceFileDown" parameterType="referenceVO" resultType="referenceVO">
+		SELECT	reference_room_id
+				, reference_file_id
+				, reference_file_name
+				, reference_file_path
+		FROM 	tb_reference_room 
+		WHERE 	reference_file_id = #{reference_file_id}
+	</select>
+	
+	<insert id="saveReference" parameterType="referenceVO">
+		<selectKey resultType="string" keyProperty="reference_room_id">
+			SELECT COALESCE(MAX(reference_room_id),0) + 1 reference_room_id
+			    FROM tb_reference_room
+	    </selectKey>
+		INSERT INTO tb_reference_room ( 
+		             reference_room_id
+		             , reference_file_id
+		             , reference_file_name
+                     , reference_file_path
+                     , delete_yn
+                     , creator
+                     , creation_date
+                     )
+        VALUES (    
+                    #{reference_room_id}
+                    , #{reference_file_id}
+                    , #{reference_file_name}
+                    , #{reference_file_path}
+                    , '0'
+                    , #{creator}
+                    , now()
+               )
+	</insert>
+	
+	<update id="deleteReference" parameterType="referenceVO">
+		UPDATE tb_reference_room
+		SET delete_yn = 1, modifier = #{modifier}, modify_date = now()
+		WHERE reference_room_id IN
+		<foreach collection="reference_room_ids" item="room_id" open="(" close=")" separator=",">	
+			#{room_id} 
+		</foreach>			
+	</update>
+</mapper>

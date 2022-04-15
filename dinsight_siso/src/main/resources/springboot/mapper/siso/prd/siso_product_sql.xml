@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siso.prd.service.impl.PrdMapper">	
+	
+	<select id="prdMainList" parameterType="prdVO" resultType="prdVO">
+		<![CDATA[
+			SELECT max_rn, page, price_list_date, portfolio, prd_number, TYPE AS prd_type, trigram, portfolio_item_name, plc, alc, qlc, ylc, revision
+			FROM (
+				SELECT rn, CEIL(rn/ #{rownum}) AS page,  CEIL(cnt/ #{rownum}) AS max_rn,  price_list_date, portfolio, prd_number, TYPE, trigram, portfolio_item_name, plc, alc, qlc, ylc, revision
+				FROM (
+					SELECT t3.cnt AS cnt, t2.*, @rn := @rn + 1 AS rn FROM (
+						SELECT * FROM (
+							SELECT 
+								 price_list_date
+								, portfolio
+								, prd_number
+								, TYPE
+								, trigram
+								, portfolio_item_name
+								, plc
+								, alc
+								, qlc
+								, ylc
+								, revision
+								, elc
+							FROM   tb_product_list t
+							WHERE 1=1 
+							]]>
+							<if test="sh_year!=null and sh_year!=''">
+								AND	price_list_date like concat(#{sh_year}, '%')
+							</if>			
+							<if test="portfolio!=null and portfolio!=''">
+								AND	( '0' = IF(IFNULL(#{portfolio},'')='', '0','10' )  OR portfolio like concat('%',#{portfolio}, '%'))
+							</if>			
+							<if test="prd_number!=null and prd_number!=''">
+								AND	( '0' = IF(IFNULL(#{prd_number},'')='', '0','10' )  OR prd_number like concat('%',#{prd_number}, '%'))
+							</if>
+							<if test="prd_type!=null and prd_type!=''">
+								AND	( '0' = IF(IFNULL(#{prd_type},'')='', '0','10' )  OR TYPE like concat('%',#{prd_type}, '%'))
+							</if>			
+							<if test="trigram!=null and trigram!=''">
+								AND	( '0' = IF(IFNULL(#{trigram},'')='', '0','10' )  OR trigram like concat('%',#{trigram}, '%'))
+							</if>								
+							<![CDATA[
+							ORDER BY revision DESC	
+						) t
+						GROUP BY prd_number, TYPE, trigram, portfolio
+						ORDER BY NULL
+					) t2 , ( SELECT @rn :=0 ) r, (
+									SELECT COUNT(*) cnt FROM (
+										SELECT COUNT(*)  FROM tb_product_list
+										WHERE 1=1 
+										]]>
+										<if test="sh_year!=null and sh_year!=''">
+											AND	price_list_date like concat(#{sh_year}, '%')
+										</if>			
+										<if test="portfolio!=null and portfolio!=''">
+											AND	( '0' = IF(IFNULL(#{portfolio},'')='', '0','10' )  OR portfolio like concat('%',#{portfolio}, '%'))
+										</if>			
+										<if test="prd_number!=null and prd_number!=''">
+											AND	( '0' = IF(IFNULL(#{prd_number},'')='', '0','10' )  OR prd_number like concat('%',#{prd_number}, '%'))
+										</if>
+										<if test="prd_type!=null and prd_type!=''">
+											AND	( '0' = IF(IFNULL(#{prd_type},'')='', '0','10' )  OR TYPE like concat('%',#{prd_type}, '%'))
+										</if>			
+										<if test="trigram!=null and trigram!=''">
+											AND	( '0' = IF(IFNULL(#{trigram},'')='', '0','10' )  OR trigram like concat('%',#{trigram}, '%'))
+										</if>	
+										<![CDATA[
+										GROUP BY prd_number, TYPE, trigram, portfolio
+									) t
+					) t3
+				) t4
+			) t5
+			WHERE page = #{page}
+			ORDER BY price_list_date, portfolio, prd_number, TYPE, trigram, portfolio_item_name, plc, alc, qlc, ylc
+		]]>
+	</select>
+	
+	<select id="prdYearCheck" parameterType="prdVO" resultType="String">
+		<![CDATA[
+			SELECT
+			cnt
+			FROM (
+			SELECT COUNT(*) AS cnt
+			FROM tb_product_list
+			where 1=1
+		]]>
+		<if test="sh_year!=null and sh_year!=''">
+			AND	price_list_date like concat(#{sh_year}, '%')
+		</if>	
+		) AS t
+	</select>
+	
+	<select id="prdRevisionCheck" parameterType="prdVO" resultType="String">
+		<![CDATA[
+			SELECT MAX(revision)+1 FROM tb_product_list 
+			WHERE prd_number = #{prd_number} AND TYPE = #{prd_type} AND trigram = #{trigram} AND portfolio = #{portfolio}
+		]]>
+	</select>
+	
+	<delete id="prdYearDelete" parameterType="prdVO">
+		DELETE 
+		  FROM	tb_product_list
+		 where	1=1
+		<if test="sh_year!=null and sh_year!=''">
+		   AND	price_list_date like concat(#{sh_year}, '%')
+		</if>
+	</delete>
+	
+	<insert id="insertPrdExcel" parameterType="prdVO">
+		 insert into tb_product_list (
+			 	  pricelist
+			 	, currency
+			 	, price_list_date
+			 	, VERSION
+			 	, prd_number
+			 	, TYPE
+			 	, trigram
+			 	, portfolio_item_name
+			 	<if test="plc!=null and plc!=''">
+			 	, plc
+			 	</if>
+			 	<if test="alc!=null and alc!=''">
+			 	, alc
+			 	</if>
+			 	, portfolio
+			 	<if test="qlc!=null and qlc!=''">
+			 	, qlc
+			 	</if>
+			 	<if test="ylc!=null and ylc!=''">
+			 	, ylc
+			 	</if>
+			 	<if test="slc!=null and slc!=''">
+			 	, slc
+			 	</if>
+			 	<if test="tbl2!=null and tbl2!=''">
+			 	, tbl2
+			 	</if>
+			 	<if test="tbl3!=null and tbl3!=''">
+			 	, tbl3
+			 	</if>
+			 	<if test="ulc!=null and ulc!=''">
+			 	, ulc
+			 	</if>
+			 	<if test="xlc!=null and xlc!=''">
+			 	, xlc
+			 	</if>
+			 	<if test="qrc!=null and qrc!=''">
+			 	, qrc
+			 	</if>
+			 	<if test="elc!=null and elc!=''">
+			 	, elc
+			 	</if>
+			 	, revision
+		 )
+		 values ( #{pricelist}
+		        , #{currency}
+		        , #{price_list_date}
+		        , #{version}
+		        , #{prd_number}
+		        , #{prd_type}
+		        , #{trigram}
+		        , #{portfolio_item_name}
+		        <if test="plc!=null and plc!=''">
+		        , #{plc}
+		        </if>
+		        <if test="alc!=null and alc!=''">
+		        , #{alc}
+		        </if>
+		        , #{portfolio}
+		        <if test="qlc!=null and qlc!=''">
+		        , #{qlc}
+		        </if>
+		        <if test="ylc!=null and ylc!=''">
+		        , #{ylc}
+		        </if>
+		        <if test="slc!=null and slc!=''">
+		        , #{slc}
+		        </if>
+		        <if test="tbl2!=null and tbl2!=''">
+		        , #{tbl2}
+		        </if>
+		        <if test="tbl3!=null and tbl3!=''">
+		        , #{tbl3}
+		        </if>
+		        <if test="ulc!=null and ulc!=''">
+		        , #{ulc}
+		        </if>
+		        <if test="xlc!=null and xlc!=''">
+		        , #{xlc}
+		        </if>
+		        <if test="qrc!=null and qrc!=''">
+		        , #{qrc}
+		        </if>
+		        <if test="elc!=null and elc!=''">
+		        , #{elc}
+		        </if>
+		        , #{revision}
+		        )
+	</insert>
+	
+	<select id="prdDetailList" parameterType="prdVO" resultType="prdVO">		
+		SELECT pricelist
+		     , currency
+		     , price_list_date
+		     , portfolio
+		     , prd_number
+		     , VERSION as version
+		     , TYPE as prd_type
+		     , trigram
+		     , portfolio_item_name
+		     , plc
+		     , alc
+		     , qlc
+		     , ylc
+		     , slc
+		     , tbl2
+		     , tbl3
+		     , ulc
+		     , xlc
+		     , qrc
+		     , elc
+		     , revision
+		from tb_product_list
+		where 1=1		
+		<if test="price_list_date!=null and price_list_date!=''">
+			AND	price_list_date = #{price_list_date}
+		</if>
+		<if test="portfolio!=null and portfolio!=''">
+			AND	portfolio       = #{portfolio}
+		</if>
+		<if test="prd_number!=null and prd_number!=''">
+			AND	prd_number      = #{prd_number}
+		</if>
+		<if test="prd_type!=null and prd_type!=''">
+			AND	TYPE            = #{prd_type}
+		</if>
+		<if test="trigram!=null and trigram!=''">
+			AND	trigram         = #{trigram}
+		</if>
+		<if test="revision!=null and revision!=''">
+			AND	revision         = #{revision}
+		</if>		
+	</select>
+	
+	<select id="prdDetailAllList" parameterType="prdVO" resultType="prdVO">		
+		SELECT pricelist
+		     , currency
+		     , price_list_date
+		     , portfolio
+		     , prd_number
+		     , VERSION as version
+		     , TYPE as prd_type
+		     , trigram
+		     , portfolio_item_name
+		     , plc
+		     , alc
+		     , qlc
+		     , ylc
+		     , slc
+		     , tbl2
+		     , tbl3
+		     , ulc
+		     , xlc
+		     , qrc
+		     , elc
+		     , revision
+		from tb_product_list
+		where 1=1		
+		<if test="portfolio!=null and portfolio!=''">
+			AND	portfolio       = #{portfolio}
+		</if>	
+		<if test="prd_number!=null and prd_number!=''">
+			AND	prd_number      = #{prd_number}
+		</if>
+		<if test="prd_type!=null and prd_type!=''">
+			AND	TYPE            = #{prd_type}
+		</if>
+		<if test="prd_type!=null and prd_type!=''">
+			AND	trigram         = #{trigram}
+		</if>
+		order by revision
+	</select>
+	
+</mapper>
