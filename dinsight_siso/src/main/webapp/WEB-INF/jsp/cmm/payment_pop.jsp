@@ -3,8 +3,11 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<script type="text/javascript">
 
+<div id="approval_pop" style="max-height:557px; width:1030px; overflow-y:auto;">
+</div>
+
+<script type="text/javascript">
 	function viewHTML() {	
 		var HTML ="",
 			conH=cf.workareaheight-223;

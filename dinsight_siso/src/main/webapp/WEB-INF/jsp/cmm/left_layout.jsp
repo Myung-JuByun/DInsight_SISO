@@ -4,9 +4,111 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
-<script type="text/javascript">
+<div class="logo">
+	<c:choose>
+		<c:when test="${serverIp=='211.232.93.54'}">
+			<img :src="logoGif" alt="logo" />
+		</c:when>
+		<c:otherwise>
+			<img :src="logoGif" alt="logo" @click="goMain" :style="pointer"/>
+		</c:otherwise>
+	</c:choose>
+</div>
+
+<img src="<c:url value='/images/main/left_title.gif'/>" alt="intranet system" />
+
+<div class="menu">
+	<ul id="level2Menu">
+       <!-- 개인경비 class="on" -->
+        <c:forEach var="result" items="${menuInfo.subMenu}" varStatus="status">
+        	<c:choose>
+	    		<c:when test="${menuInfo.level2_id == result.menu_id}">
+	    			<li class="on"><c:out value='${result.menu_name}' escapeXml="false" /></li>
+	    		</c:when>
+	    		<c:otherwise>
+	    			<c:choose>
+	    				<c:when test="${result.level1_id == '9' && (result.menu_id == '39' || result.menu_id == '40' || result.menu_id == '46' || result.menu_id == '44' || result.menu_id == '45')}"> <!-- || result.menuId == '44' || result.menuId == '45'  -->
+	    					<li><a href="javascript:generalPop('준비중입니다.')"><c:out value='${result.menu_name}' escapeXml="false" /></a></li>
+	    				</c:when>
+	    				<c:otherwise>
+	    					<c:choose>
+	    						<c:when test="${result.chkMenu == 'N'}">
+	    							<li><a href="javascript:generalPop('권한이 없습니다.')"><c:out value='${result.menu_name}' escapeXml="false" /></a></li>	
+	    						</c:when>
+								<c:otherwise>
+									<li><a href="javascript:fn_pageMove('<c:out value='${result.menu_id}'/>','<c:out value='${result.menu_url}'/>') "><c:out value='${result.menu_name}' escapeXml="false" /></a></li>
+								</c:otherwise>		    					
+	    					</c:choose>
+	    				</c:otherwise>
+	    			</c:choose>
+	    		</c:otherwise>
+	    	</c:choose>
+	    </c:forEach> 
+	</ul>
+</div>
+
+<div id="excelDownDiv" :class="exdown">
+	<a href="javascript:;" @click="refPop"><img :src="downImg" :alt="boardRoom" /></a>
+</div>
+
+<div id="footer" class="m_footer">
+	<!--패밀리 사이트 시작-->
+	<div class="family">
+		<h3>
+			<a href="javascript:;" onclick="familyToggle('familyList');">
+				<!-- 자바스크립트가 안될때는 해당사이트로 간다 -->
+				<img id="linkPlus" src="<c:url value='/images/main/left_link_plus.png'/>" alt="사이트 링크 보이기" />
+				<img id="linkMinus" src="<c:url value='/images/main/left_link_minus.png'/>" alt="사이트 링크 숨기기" style="display:none" />
+  			</a>
+		</h3>
+		<dl id="familyList" style="display: none;">
+			<dt></dt>
+	   		<dd>
+	   			<a target="_blank" href="https://wp.tbizpoint.co.kr/service/login/wpLogin.do" title="새창으로 이동합니다">그룹웨어</a>
+	   			<a target="_blank" href="http://www.dinsight.kr" title="새창으로 이동합니다">디인사이트</a>
+	   		</dd>
+		</dl>
+	</div>
+	<!--//패밀리 사이트 끝-->
+	<br/>
+	<p>(주)디인사이트<br/>
+	Copyright(C) 2022<br/>
+	All Rights Reserved.</p>
+</div>  
+
+<script src="/js/common/sisoData.js"></script>
+<script>
 	var refRowCount = 0;
 	var refCon;
+	
+	new Vue({
+		el : ".logo",
+		data : {
+			logoGif : "<c:url value='/images/main/logo.gif'/>",
+			pointer : "cursor:pointer"
+		},
+		methods : {
+			goMain : function(){
+				$(location).attr("href", "/main");
+			}
+		}	
+	});
+	
+	new Vue({
+		el : "#excelDownDiv",
+		data : {
+			exdown : "exal_down",
+			downImg : "<c:url value='/images/main/down_file.gif'/>",
+			boardRoom : "자료실"
+		},
+		methods : {
+			refPop : function(){
+				callExpanseReferenceData(function(data){
+				   referencePop(data);
+				});
+			}
+		}
+	});
 	
 	function familyToggle(fam) {
 		var familyArea = $("#" + fam);
@@ -22,32 +124,17 @@
 		}
 	}
 	
-	function goMain(){
-		window.location.href = "/main";
-	}
-	
-	function refPop(){
-		callExpanseReferenceData(function(data){
-		   referencePop(data);
-		});
-	}
-   
 	function referencePop(obj){
 		refRowCount = obj.refList.length;
 		refArrList = new Array();
 	   
 		refCon=document.createElement("div");
-		refCon.style.width=800+"px";
-		refCon.style.height=450+"px";
-		refCon.style.position="absolute";
 		refCon.innerHTML="";
-		
+		Object.assign(refCon.style, {width:"800px", height:"450px", position:"absolute"});
+				
 		var con0=cf.mkTag("div",refCon),
 			con1=cf.mkTag("div",con0);
-		con1.style.width=800+"px";
-		con1.style.height=450+"px";
-		con1.style.border=2+"px solid black";
-		con1.style.backgroundColor="white";
+		Object.assign(con1.style, {width:"800px", height:"450px", border:"2px solid black", backgroundColor:"white"});		
 		
 		var con2=cf.mkTag("div",con1),
 			span=cf.mkTag("span",con2);
@@ -68,8 +155,7 @@
 		
 		var con3=cf.mkTag("div",con1);
 		con3.className="my-container";
-		con3.style.height=375+"px";
-		con3.style.overflowY="auto";
+		Object.assign(con3.style, {height:"375px", overflowY:"auto"});
 		
 		var con4=cf.mkTag("div",con3);
 		con4.className="con_table";
@@ -77,7 +163,7 @@
 		if(obj.isMng == "Y"){
 			var con4_title=cf.mkTag("div",con4);
 			con4_title.className="btn_action";
-			con4_title.style.paddingBottom=15+"px";
+			con4_title.style.paddingBottom="15px";
 			
 			var con4_ul=cf.mkTag("ul",con4_title);
 			var con4_li1=cf.mkTag("li",con4_ul);
@@ -88,7 +174,7 @@
 				tbd.childNodes.trav(function(tr,idx){
 					if(idx==0){
 						tr.childNodes.trav(function(td,num){
-							cf.setCss(td,{borderTop:0+"px"});
+							cf.setCss(td,{borderTop:"0px"});
 						});
 					}
 				});
@@ -160,14 +246,12 @@
 	
 	function mkRefDetailhead(son){
 		var table=cf.mkTag("table",son);
-		table.style.width=100+"%";
-		table.cellpadding=0;
-		table.cellspacing=0;
+		Object.assign(table.style, {width:"100%", "border-spacing":"0px", padding:"0px"});
 		table.className="Normal_table";
 		
 		var tr=cf.mkTag("tr",table),
 			th=cf.mkTag("th", tr);
-		th.style.width=10+"%";
+		th.style.width="10%";
 		var ipt=cf.mkTag("input", th);
 		ipt.className="refCheckMode";
 		ipt.type="checkbox";
@@ -175,37 +259,35 @@
 			GroupCheck('refCheckMode', 'reference_id');
 		};
 		var th=cf.mkTag("th", tr);
-		th.style.width=50+"%";
+		th.style.width="50%";
 		th.innerHTML="파일명";
 		var th=cf.mkTag("th", tr);
-		th.style.width=20+"%";
+		th.style.width="20%";
 		th.innerHTML="등록자";
 		var th=cf.mkTag("th", tr);
-		th.style.width=20+"%";
+		th.style.width="20%";
 		th.className="right";
 		th.innerHTML="등록일";
 	}
 	
 	function mkRefDetailbody(son, obj){
-		var table=cf.mkTag("table",son);
-		table.style.width=100+"%";
-		table.cellpadding=0;
-		table.cellspacing=0;
-		table.className="Normal_table";
-		table.id="referenceView";
+		var table=cf.mkTag("table",son);		
+		Object.assign(table.style, {width:"100%", "border-spacing":"0px", padding:"0px"});
+		Object.assign(table.className, "Normal_table");
+		Object.assign(table.id, "referenceView");
 		
 		if(obj.refList.length==0){
 			var tr=cf.mkTag("tr",table),
 				td1=cf.mkTag("td", tr);
 			td1.style.textAlign="center";
 			td1.innerHTML="조회된 데이터가 없습니다.";
-			cf.setCss(td1,{borderTop:0+"px"});
+			cf.setCss(td1,{borderTop:"0px"});
 		}else{
 			obj.refList.trav(function(d,i){
 				var tr=cf.mkTag("tr",table),
 					td1=cf.mkTag("td", tr);
 				td1.className="center";
-				td1.style.width=10+"%";
+				td1.style.width="10%";
 				td1.style.textAlign="center";
 				var ipt = cf.mkTag("input", td1);
 				ipt.type = "checkbox";
@@ -233,20 +315,20 @@
 				
 				var td3=cf.mkTag("td", tr);
 				td3.style.textAlign="center";
-				td3.style.width=20+"%";
+				td3.style.width="20%";
 				td3.innerHTML=d.creator_name;
 				
 				var td4=cf.mkTag("td", tr);
 				td4.className="right";
 				td4.style.textAlign="center";
-				td4.style.width=20+"%";
+				td4.style.width="20%";
 				td4.innerHTML=d.creation_date;
 				
 				if(i==0){
-					cf.setCss(td1,{borderTop:0+"px"});
-					cf.setCss(td2,{borderTop:0+"px"});
-					cf.setCss(td3,{borderTop:0+"px"});
-					cf.setCss(td4,{borderTop:0+"px"});
+					cf.setCss(td1,{borderTop:"0px"});
+					cf.setCss(td2,{borderTop:"0px"});
+					cf.setCss(td3,{borderTop:"0px"});
+					cf.setCss(td4,{borderTop:"0px"});
 				}
 			});
 		}
@@ -260,7 +342,7 @@
 		var tr = cf.mkTag("tr", tbd),
 			td1 = cf.mkTag("td", tr);
 		td1.style.textAlign="center";
-		td1.style.width=10+"%";
+		td1.style.width="10%";
 		
 		var ipt1 = cf.mkTag("input", td1);
 		ipt1.type = "checkbox";
@@ -269,18 +351,18 @@
 		
 		var td2 = cf.mkTag("td", tr);
 		td2.style.paddingLeft="10px";
-		td2.style.width=50+"%";
+		td2.style.width="50%";
 		
 		var ipt2 = cf.mkTag("input", td2);
 		ipt2.type = "file";
 		ipt2.style.width="90%";
 		
 		var td3 = cf.mkTag("td", tr);
-		td3.style.width=20+"%";
+		td3.style.width="20%";
 		
 		var td4 = cf.mkTag("td", tr);
 		td4.className="right";
-		td4.style.width=20+"%";
+		td4.style.width="20%";
 	}
 	
 	function delRefRow(){
@@ -360,73 +442,3 @@
 		});
 	}
 </script>
-									
-<div class="logo">
-	<c:choose>
-		<c:when test="${serverIp=='211.232.93.54'}">
-			<img src="<c:url value='/images/main/logo.gif'/>" alt="logo" />
-		</c:when>
-		<c:otherwise>
-			<img src="<c:url value='/images/main/logo.gif'/>" alt="logo" onclick="goMain();" style="cursor:pointer"/>
-		</c:otherwise>
-	</c:choose>
-</div>
-
-<img src="<c:url value='/images/main/left_title.gif'/>" alt="intranet system" />
-<div class="menu">
-	<ul id="level2Menu">
-       <!-- 개인경비 class="on" -->
-        <c:forEach var="result" items="${menuInfo.subMenu}" varStatus="status">
-        	<c:choose>
-	    		<c:when test="${menuInfo.level2_id == result.menu_id}">
-	    			<li class="on"><c:out value='${result.menu_name}' escapeXml="false" /></li>
-	    		</c:when>
-	    		<c:otherwise>
-	    			<c:choose>
-	    				<c:when test="${result.level1_id == '9' && (result.menu_id == '39' || result.menu_id == '40' || result.menu_id == '46' || result.menu_id == '44' || result.menu_id == '45')}"> <!-- || result.menuId == '44' || result.menuId == '45'  -->
-	    					<li><a href="javascript:generalPop('준비중입니다.')"><c:out value='${result.menu_name}' escapeXml="false" /></a></li>
-	    				</c:when>
-	    				<c:otherwise>
-	    					<c:choose>
-	    						<c:when test="${result.chkMenu == 'N'}">
-	    							<li><a href="javascript:generalPop('권한이 없습니다.')"><c:out value='${result.menu_name}' escapeXml="false" /></a></li>	
-	    						</c:when>
-								<c:otherwise>
-									<li><a href="javascript:fn_pageMove('<c:out value='${result.menu_id}'/>','<c:out value='${result.menu_url}'/>') "><c:out value='${result.menu_name}' escapeXml="false" /></a></li>
-								</c:otherwise>		    					
-	    					</c:choose>
-	    				</c:otherwise>
-	    			</c:choose>
-	    		</c:otherwise>
-	    	</c:choose>
-	    </c:forEach> 
-	</ul>
-</div>
-<%-- <div class="exal_down"><a href="#" onclick="window.open(encodeURI('<c:url value='/cmm/fms/FileOnlyDown'/>'))"><img src="<c:url value='/images/main/down_exal.gif'/>" alt="엑셀다운로드" /></a></div> --%>
-<div class="exal_down"><a href="javascript:;" onclick="refPop();"><img src="<c:url value='/images/main/down_file.gif'/>" alt="자료실" /></a></div>
-<div class="m_footer">
-	<!--패밀리 사이트 시작-->
-	<div class="family">
-		<h3>
-			<a href="javascript:;" onclick="familyToggle('familyList');">
-				<!-- 자바스크립트가 안될때는 해당사이트로 간다 -->
-				<img id="linkPlus" src="<c:url value='/images/main/left_link_plus.png'/>" alt="사이트 링크 보이기" />
-				<img id="linkMinus" src="<c:url value='/images/main/left_link_minus.png'/>" alt="사이트 링크 숨기기" style="display:none" />
-  			</a>
-		</h3>
-		<dl id="familyList" style="display: none;">
-			<dt></dt>
-	   		<dd>
-	   			<a target="_blank" href="https://wp.tbizpoint.co.kr/service/login/wpLogin.do" title="새창으로 이동합니다">그룹웨어</a>
-	   			<a target="_blank" href="http://www.dinsight.kr" title="새창으로 이동합니다">디인사이트</a>
-	   		</dd>
-		</dl>
-	</div>
-	<!--//패밀리 사이트 끝-->
-	<br/>
-	<p>(주)디인사이트<br/>
-	Copyright(C) 2022<br/>
-	All Rights Reserved.</p>
-</div>  
-
-<script src="/js/common/sisoData.js"></script>

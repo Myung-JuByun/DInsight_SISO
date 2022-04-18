@@ -8,10 +8,9 @@
 <div class="btn_action">
 	<div class="descript asterisk infobot"><span>* 표시는 필수 입력 항목입니다.</span></div>
 	<ul>
-		<li id="btnCopy"><a href="javascript:void(0);"><img src="<c:url value='/images/btn/btn_copy_on.gif'/>" class="img_copy" alt="복사" /></a></li>
-		<li id="btnAdd"><a href="javascript:void(0);"><img src="<c:url value='/images/btn/btn_plus_on.gif'/>" class="img_plus" alt="추가" /></a></li>
-		<li id="btnDel"><a href="javascript:void(0);"><img src="<c:url value='/images/btn/btn_del_on.gif'/>" class="img_del" alt="삭제" /></a></li>
-		<li id="btnSave"><a href="javascript:void(0);"><img src="<c:url value='/images/btn/btn_save_on.gif'/>" class="img_save" alt="저장" /></a></li>
+		<li v-for="item in btnList" :id="item.id">
+			<a href="javascript:void(0);"><img :src="item.btnImg" :class="item.imgClass" :alt="item.altText" /></a>
+		</li>		
 	</ul>
 </div>
 <div class="con_table">
@@ -72,5 +71,18 @@
 	</div>
 </div>
 
+<script>
+	new Vue({
+		el : ".btn_action",
+		data : {
+			btnList : [
+				{id:"btnCopy", btnImg:"/images/btn/btn_copy_on.gif", altText:"복사", imgClass:"img_copy"},
+				{id:"btnAdd", btnImg:"/images/btn/btn_plus_on.gif", altText:"추가", imgClass:"img_plus"},
+				{id:"btnDel", btnImg:"/images/btn/btn_del_on.gif", altText:"삭제", imgClass:"img_del"},
+				{id:"btnSave", btnImg:"/images/btn/btn_save_on.gif", altText:"저장", imgClass:"img_save"},					
+			]
+		}	
+	});
+</script>
 <script src="/js/sam/fcasting/fcastingfnc.js"></script>
 <script src="/js/sam/fcasting/fcastingpages.js"></script>

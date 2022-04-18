@@ -16,10 +16,10 @@
 	<div class="descript asterisk infobot">
 		<span>* 표시는 필수 입력 항목입니다.</span>
 	</div>
-	<ul>
-		<li><a href="javascript:pcodeAdd()"><img src="/images/btn/btn_plus_on.gif" alt="추가" /></a></li>
-		<li><a href="javascript:pcodeDel()"><img src="/images/btn/btn_del_on.gif" alt="삭제" /></a></li>
-		<li><a href="javascript:pcodeSave()"><img src="/images/btn/btn_save_on.gif" alt="저장" /></a></li>
+	<ul id="btnUL">
+		<li v-for="item in btnList">
+			<a :href="item.func"><img :src="item.btnImg" :alt="item.altText" /></a>
+		</li>		
 	</ul>
 </div>
 <!--// button end -->
@@ -63,6 +63,17 @@
 
 <script>
 	var login_userid = "<c:out value='${loginVO.user_id}' />";
+	
+	new Vue({
+		el : "#btnUL",
+		data : {
+			btnList : [
+				{func:"javascript:pcodeAdd()", btnImg:"/images/btn/btn_plus_on.gif", altText:"추가"},
+				{func:"javascript:pcodeDel()", btnImg:"/images/btn/btn_del_on.gif", altText:"삭제"},
+				{func:"javascript:pcodeSave()", btnImg:"/images/btn/btn_save_on.gif", altText:"저장"}
+			]
+		}
+	});	
 </script>
 <script src="/js/sam/pcode/pcodefnc.js"></script>
 <script src="/js/sam/pcode/pcodepages.js"></script>

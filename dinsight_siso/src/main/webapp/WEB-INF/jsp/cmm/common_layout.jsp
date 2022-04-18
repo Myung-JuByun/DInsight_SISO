@@ -53,29 +53,7 @@
 <script src="/js/common/contractSrchPop.js"></script>
 <script src="/js/common/division.js"></script>
 <script src="/js/cop/copsalsepop2.js"></script>
-<script>
-	//전역변수 초기화
-	g_min_rowCnt         = 10;  
-	g_def_table          = "";
-	g_fix_colm_table     = "";
-	g_fix_data_table     = "";
-	g_fix_colm_div       = "";
-	g_fix_data_list_div  = "";
-	g_fix_data_title_div = "";
-	g_domain             = "<c:url value='/'/>";
-	
-	var errorYn      = "${menuInfo.error_yn}";
-	var errorMessage = "${menuInfo.error_message}";
-	
-	$(document).ready(function(){		
-		if (errorYn == "true")			
-			$(location).attr("href", g_domain);
-		
-		$(".prt_top").css("cursor","pointer");
-		$(".prt_top").draggable();
-		
-	});
-</script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <c:choose>
  	<c:when test="${menuInfo.loginVO != null }">
  		<c:set value='${menuInfo.loginVO}' var="loginVO" />
@@ -105,6 +83,37 @@
  	</c:otherwise>
  </c:choose>
 </head>
-<div class="wrap-loading hide">
-    <div><img src="/images/common/loading_bar1.gif" /></div>
+<div id="loadingImg" :class="loadingHide">
+    <div><img :src="loadingBar" /></div>
 </div>
+<script>
+	//전역변수 초기화
+	g_min_rowCnt         = 10;  
+	g_def_table          = "";
+	g_fix_colm_table     = "";
+	g_fix_data_table     = "";
+	g_fix_colm_div       = "";
+	g_fix_data_list_div  = "";
+	g_fix_data_title_div = "";
+	g_domain             = "<c:url value='/'/>";
+	
+	var errorYn      = "${menuInfo.error_yn}";
+	var errorMessage = "${menuInfo.error_message}";
+	
+	new Vue({
+		el : "#loadingImg",
+		data : {
+			loadingHide : "wrap-loading hide",
+			loadingBar : "/images/common/loading_bar1.gif"
+		}
+	})
+	
+	$(document).ready(function(){		
+		if (errorYn == "true")			
+			$(location).attr("href", g_domain);
+		
+		$(".prt_top").css("cursor","pointer");
+		$(".prt_top").draggable();
+		
+	});
+</script>

@@ -10,8 +10,8 @@
 <!--  table start -->
 <div class="con_table">
 	<div class="Wrap_table">
-		<div style="overflow-y:scroll;">
-			<table class="project_table Normal_table" style="text-align:center">
+		<div :style="yScroll">
+			<table :class="tblClass" :style="tCenter">
 				<thead>
 					<tr>
 						<th width="5%">No.</th>
@@ -28,8 +28,8 @@
 				</thead>
 			</table>
 		</div>
-		<div style="overflow-y:scroll; height:364px;">
-			<table class="project_table Normal_table" style="text-align:center">
+		<div :style="yScroll2">
+			<table :class="tblClass" :style="tCenter">
 				<tbody id="alcStatusView" class="txtclr">
 				</tbody> 
 			</table>
@@ -43,6 +43,16 @@
 <script src="/js/alc/status/alcstatusfnc.js"></script>
 <script src="/js/alc/status/alcstatuspop.js"></script>
 <script>
+	new Vue({
+		el : ".con_table",
+		data : {
+			yScroll : "overflow-y:scroll;",
+			tCenter : "text-align:center",
+			yScroll2 : this.yScroll + "height:364px;",
+			tblClass : "project_table Normal_table",			
+		}		
+	});
+	
 	$(document).ready(function(){	
 		defaultLoadList();
 	});

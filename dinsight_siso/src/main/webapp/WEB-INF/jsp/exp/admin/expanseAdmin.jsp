@@ -5,11 +5,215 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
+<style type="text/css">
+	.div_overflow_main {width:100%; height:361px; overflow-x:hidden; overflow-y:scroll;}
+	.div_overflow_mileage {width:100%; height:465px; overflow-x:hidden; overflow-y:auto;}
+	.div_overflow_y_scroll {overflow-y:scroll;}
+	.paddingright {padding-right:10px}
+</style>
+
+<noscript class="noScriptTitle">자바스크립트를 지원하지 않는 브라우저에서는 일부 기능을 사용하실 수 없습니다.</noscript>
+<form:form commandName="searchVO" method="post" id="searchForm" name="searchForm">
+	<input type="hidden" id="monthStatus" name="monthStatus" value="${params.approval_status}" />
+	<input type="hidden" id="expanseCount" name="expanseCount" value="${params.expanse_count}" />
+	<input type="hidden" id="mileageCount" name="mileageCount" value="${params.mileage_count}" />
+	<input type="hidden" id="paymentCount" name="paymentCount" value="${params.payment_count}" />
+	<input type="hidden" id="headYn" name="headYn" value="${params.head_yn}">
+	<div class="search4" id="searchDiv"></div>
+	<!--// search end -->
+
+	<!-- button start -->
+	<div id="expanseAdmBtn" class="btn_action">
+		<ul>
+			<li v-for="(item, index) in btnList" :class="{'last':index == btnList.length - 1}">
+				<a href="javascript:;" :onclick="item.func"><img :id="item.id" :src="item.btnImg" :alt="item.altText" :class="item.imgClass" /></a>
+			</li>			
+		</ul>
+	</div>
+	<!--// button end -->
+
+	<!--  table start -->
+	<div class="con_table">
+		<div class="Wrap_table">
+			<div class="div_overflow_y_scroll">
+				<table class="Normal_table">
+					<thead>
+						<tr>
+							<th width="5%"><input type="checkbox" name="CheckMode" class ="CheckMode" value="Y" onclick="GroupCheck('CheckMode', 'expanse_id')"></th>
+							<th width="5%">No</th>
+							<th width="7%">날짜</th>
+							<th width="13%">
+								<select name="sh_expanse_type" id="sh_expanse_type" style="width:100%; background:#fafafa ;font-weight:bold;" onchange="javascript:showExpanseType(this)">
+									<option value="">구분 전체</option>
+									<c:forEach var="typeC" items="${typeList}" varStatus="statusC">
+										<option value="<c:out value="${typeC.code_id}" />">
+											<c:out value="${typeC.code_name}" />
+										</option>
+									</c:forEach>
+								</select>
+							</th>
+							<th width="13%">분류</th>
+							<th width="10%">금액</th>
+							<th width="24%">내역</th>
+							<th width="15%">품의서 No.</th>
+							<th width="10%" class="right">상태</th>
+						</tr>
+					</thead>				
+					<tbody>
+						<tr class="copyRow hide">
+							<td width="5%" class="txt_center2"><input type="checkbox" name="expanse_id" class="expanse_id"></td>
+							<td width="5%" class="txt_center listIndex"></td>
+							<td width="7%" class="txt_center3"><input name="in_pay_day" class="in_pay_day input_date" readonly></td>
+							<td width="13%" class="txt_center">
+								<select name="in_expanse_type" class="in_expanse_type select_pop2" style="width:95%;">
+									<c:forEach var="typeC" items="${typeList}" varStatus="statusC">
+										<option value="<c:out value="${typeC.code_id}" />">
+											<c:out value="${typeC.code_name}" />
+										</option>
+									</c:forEach>
+								</select>
+							</td>
+							<td width="13%" class="txt_center">
+								<select name="in_category_id" class="in_category_id select_pop2" title="분류" style="width:95%;"></select>
+							</td>
+							<td width="10%" class="txt_center"><input name="in_payment" class="in_payment price" title="금액"></input></td>
+							<td width="24%" class="txt_center"><input name="in_expanse_name" class="in_expanse_name" title="내역"></input></td>
+							<td width="15%" class="txt_center"><input name="in_confer_number" class="in_confer_number" title="품의서번호"></input></td>
+							<td width="10%" class="txt_center statusView right">
+								<input type="hidden" name="in_expanse_id" class="in_expanse_id" />
+								<input type="hidden" name="in_expanse_type_temp" class="in_expanse_type_temp" />
+								<input type="hidden" name="in_category_id_temp" class="in_category_id_temp" />					
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="div_overflow_main">
+				<table class="Normal_table">
+					<tbody id="refresh" class="txtclr">
+						<tr class="listRow hide">
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						
+						<c:forEach var="result" items="${resultList}" varStatus="status">
+							<c:set value="${(searchVO.pageIndex-1)*searchVO.recordCountPerPage + status.count}" var="index" />
+							<c:set value="${fn:substring(result.pay_day, 4, 6)}" var="st_month" />
+							<c:set value="${fn:substring(result.pay_day, 6, 8)}" var="st_day" />
+							<tr class="listRow">
+								<td width="5%" class="txt_center2"><input type="checkbox" name="expanse_id" class="expanse_id" value="<c:out value="${result.expanse_id}" />"></input></td>
+								<td width="5%" class="txt_center listIndex">
+									<c:out value="${index}" />
+									<input type="hidden" name="in_expanse_id" class="in_expanse_id" value="<c:out value="${result.expanse_id}" />"></input>
+									<input type="hidden" name="in_expanse_type_temp" class="in_expanse_type_temp" value="<c:out value="${result.expanse_type}" />"></input>
+									<input type="hidden" name="in_category_id_temp" class="in_category_id_temp" value="<c:out value="${result.category_id}" />"></input>
+									<input type="hidden" name="in_expanse_monthly_id" class="in_expanse_monthly_id" value="<c:out value="${result.expanse_monthly_id}" />"></input>
+								</td>
+								<td width="7%" class="txt_center"><input name="in_pay_day" class="in_pay_day input_date" value="<c:out value="${st_month}-${st_day}" />" readonly></input></td>
+								<td width="13%" class="txt_center">
+									<select name="in_expanse_type" class="in_expanse_type select_pop2" style="width:95%;">
+										<c:forEach var="typeL" items="${typeList}" varStatus="statusL">
+											<option value="<c:out value="${typeL.code_id}" />" <c:if test="${result.expanse_type == typeL.code_id}">selected="selected"</c:if>>
+												<c:out value="${typeL.code_name}" />
+											</option>
+										</c:forEach>
+									</select>
+								</td>
+								<td width="13%" class="txt_center">
+									<select name="in_category_id" class="in_category_id select_pop2" title="분류" style="width:95%;"></select>
+								</td>
+								<td width="10%" class="txt_center"><input name="in_payment" class="in_payment price" title="금액" value="<c:out value="${result.payment}" />"></input></td>
+								<td width="24%" class="txt_center"><input name="in_expanse_name" class="in_expanse_name" title="내역" value="<c:out value="${result.expanse_name}" />"></input></td>
+								<td width="15%" class="txt_center"><input name="in_confer_number" class="in_confer_number" title="품의서번호" value="<c:out value="${result.confer_number}" />"></input></td>
+								<td width="10%" class="txt_center statusView right" >
+									<c:choose>
+									    <c:when test="${result.status_cd == '701'}">
+									        <img src='/images/exp_payment/btn_red.png' style="vertical-align: middle"/>
+									    </c:when>
+									    <c:when test="${result.status_cd == '702'}">
+									        <img src='/images/exp_payment/btn_blue.png' style="vertical-align: middle"/>
+									    </c:when>
+									    <c:when test="${result.status_cd == '703'}">
+									        <img src='/images/exp_payment/btn_green.png' style="vertical-align: middle"/>
+									    </c:when>
+									    <c:when test="${result.status_cd == '706'}">
+									        <img src='/images/exp_payment/btn_yellow.gif' style="vertical-align: middle"/>
+									    </c:when>
+									    <c:otherwise></c:otherwise>
+									</c:choose>
+									<c:out value="${result.code_name}" /><input type="hidden" name="chk_submit" value="${result.status_cd}">
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="div_overflow_y_scroll">
+				<table style="width:802px" class="Normal_table">	
+					<tfoot>
+						<tr>
+							<td width="43%" class="sum" colspan="5">합계</td>
+							<td width="10%" class="sum_cost"><input id="sum_price" name="sum_price" class="price" title="금액" readonly></input></td>
+							<td width="24%" class="sum">&nbsp;</td>
+							<td width="15%" class="sum">&nbsp;</td>
+							<td width="10%" class="sum">&nbsp;</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!--  //table end -->
+	
+	<!-- 인쇄 start-->
+	<%-- <jsp:include page="expansePrint.jsp" flush="true" /> --%>
+	<!--  //인쇄 end -->
+	
+	<!--// 마일리지 팝업 start-->
+	<jsp:include page="expanseMileage.jsp" flush="true" />				
+	<!--// 마일리지 팝업 end-->
+</form:form>
 <script type="text/javascript">
 	$(document).ready(function() {
+		new Vue({
+			el : "#expanseAdmBtn",
+			data : {
+				btnList : [
+					{id:"btn_add", func:"expanseAddDelCopy('expanse', 'ADD');", btnImg:"/images/btn/btn_plus_on.gif", altText:"추가", imgClass:"img_plus"},
+					{id:"btn_del", func:"expanseAddDelCopy('expanse', 'DEL');", btnImg:"/images/btn/btn_del_on.gif", altText:"삭제", imgClass:"img_del"},
+					{id:"btn_copy", func:"expanseAddDelCopy('expanse', 'COPY');", btnImg:"/images/btn/btn_copy_on.gif", altText:"복사", imgClass:"img_copy"},
+					{id:"btn_save", func:"expanseAdminInsert(); return false;", btnImg:"/images/btn/btn_save_on.gif", altText:"저장", imgClass:"img_save"},
+					{id:"btn_print", func:"openPrint()", btnImg:"/images/btn/btn_print_on.gif", altText:"인쇄", imgClass:"img_print"},
+					{id:"btn_mil_popup", func:"layerPopup('layer', 'mileage_pop', 'layerClose'); return false", btnImg:"/images/btn/btn_mil_on.gif", altText:"마일리지", imgClass:"img_mil"},
+					{id:"img_exlup", func:"", btnImg:"/images/btn/btn_exlup_on.gif", altText:"엑셀 업로드", imgClass:"img_exlup"},
+					{id:"btn_submit", func:"", btnImg:"/images/btn/btn_submit.gif", altText:"제출", imgClass:"img_submit cursor"}
+				]
+			}	
+		});
+		
+		new Vue({
+			el : "#expanseMilBtn",
+			data : {
+				btnList : [
+					{func:"expanseAddDelCopy('mileage', 'ADD'); return false;", btnImg:"/images/btn/btn_plus_on.gif", altText:"추가", imgClass:"img_plus"},
+					{func:"expanseAddDelCopy('mileage', 'DEL'); return false;", btnImg:"/images/btn/btn_del_on.gif", altText:"삭제", imgClass:"img_del"},
+					{func:"expanseAddDelCopy('mileage', 'COPY'); return false;", btnImg:"/images/btn/btn_copy_on.gif", altText:"복사", imgClass:"img_copy"},
+					{func:"expanseAdminMileageInsert(); return false;", btnImg:"/images/btn/btn_save_on.gif", altText:"저장", imgClass:"img_save"},					
+				]
+			}	
+		});
+		
 		mkSearchDiv();
 		defaultLoadList();
-	});
+	});	
 	
 	function mkSearchDiv(){
 		var p=document.getElementById("searchDiv");
@@ -26,9 +230,9 @@
 		select.onchange=function(){
 			expanseAdminSearch();
 		};
-		cf.setCss(select,{width:70+"px"});
-		cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
-		cf.setCss(bx1,{width:195+"px"});
+		cf.setCss(select,{width:"70px"});
+		cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
+		cf.setCss(bx1,{width:"195px"});
 		
 		var	select = cf.mkTag("select", bx1),
 			span = cf.mkTag("span", bx1);
@@ -39,10 +243,10 @@
 			expanseAdminSearch();
 		};	
 		span.innerHTML = "월";
-		cf.setCss(select,{width:60+"px"});
-		cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
+		cf.setCss(select,{width:"60px"});
+		cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
 		
-		cf.setCss(srch,{marginLeft:20+"px"});
+		cf.setCss(srch,{marginLeft:"20px"});
 		cf.setCss(bx1,{float:"left"});
 	}
 	
@@ -164,6 +368,99 @@
 		}
 	}
 	
+	function expanseAddDelCopy(type, mode){
+		//경비입력
+		if(type == "expanse") {
+			if(mode == "ADD")
+				tableAddRow('copyRow', 'listRow', 'listIndex', 'expanse_id', 'input_date', 'N');
+			else if(mode == "DEL")
+				generalPop("삭제하시겠습니까?", function(){
+					tableDelRow('expanse_id', 'listRow', 'listIndex', 'in_payment', 'sum_price');
+				});
+			else if(mode == "COPY")
+				tableCopyRow('listRow .expanse_id', 'listRow', 'listIndex', 'input_date', 'in_payment', 'sum_price', ['in_expanse_id', 'expanse_id', 'statusView']);											
+		//마일리지
+		} else {
+			if(mode == "ADD")
+				tableAddRow('copyRowLayer', 'listRowLayer', 'mileageListIndex', 'mileage_id', 'input_date', 'N');
+			else if(mode == "DEL")
+				generalPop("삭제하시겠습니까?", function(){
+					tableDelRow('mileage_id', 'listRowLayer', 'mileageListIndex', ['in_distance','in_cost'], ['sum_mileageDistance','sum_mileagePrice']);
+				});
+			else if(mode == "COPY")
+				tableCopyRow('listRowLayer .mileage_id', 'listRowLayer', 'mileageListIndex', 'input_date', ['in_distance','in_cost'], ['sum_mileageDistance','sum_mileagePrice'], ['in_mileage_id', 'mileage_id']);								
+		}
+		
+		chk_submit();
+	}
+	
+	function expanseAdminInsert() {	
+		if($("#sh_expanse_type").val() != "") {
+			generalPop("구분 검색을 '구분 전체'로 변경해주세요.");
+			return false;
+		}		
+		
+		var insertYN = "N";
+		
+		$(".listRow .listIndex").each(function() {			
+			if($(this).text() != "")	insertYN = "Y";							
+		});		
+		//저장할 데이터가 없더라도 현재월 데이터가 존재하면 저장을 할수 있게 한다
+		if($("#expanseCount").val() > 0) insertYN = "Y";
+		
+		if(insertYN == "N") {							
+			generalPop("경비를 입력해주세요.");
+			return false;			
+		} else {			
+			//품의서 번호 체크
+			var obj = priceOverCheck("listRow .in_payment");
+			
+			if(obj.permitYn == "Y") {
+				generalPopOk("품의서 번호를 입력하세요.", function (){
+					obj.permitEle.focus();
+				});	
+				return false;
+			}			
+			//경비체크
+			var checkClassNameArr = {
+				"in_pay_day" : "날짜를 입력해주세요.", 
+				"in_expanse_type" : "구분을 선택해주세요.", 
+				"in_category_id" : "분류를 선택해주세요.", 
+				"in_payment" : "금액을 입력해주세요.",
+				"in_expanse_name" : "내역을 입력해주세요."
+			};
+			
+			DynamicRowCheckInsert("listRow", checkClassNameArr, "저장", "/exp/admin/expanseAdminInsert", "/exp/admin/expanseAdmin.do .listRow", "refresh");
+			
+			//전체선택 체크박스 초기화
+			$(".CheckMode").prop("checked", false);
+			chk_submit();
+		}
+	}
+	
+	function openPrint() {		
+		var con = document.createElement("div");
+		Object.assign(con.style, {
+			width:"820px", height:(cf.workareaheight - 60) + "px", position:"absoulte", backgroundColor:"white"}
+		); 
+		
+		//검색년월의 마지막날
+		var today = new Date();
+		var lastday = today.getFullYear()+"년 "+(today.getMonth() + 1)+"월 "+ today.getDate()+"일";						
+		var obj = {
+			year : $("#sh_expanse_year").val(),
+			month : $("#sh_expanse_month").val(),
+			day : lastday,
+			creator : "<c:out value="${params.creator}" />",
+			username : "<c:out value="${params.user_name}" />",
+			divisionname : "<c:out value="${params.division_cd_name}" />",
+			objectid : $(".in_expanse_monthly_id:first").val()
+		};						
+		
+		mkPrint(con, false, obj);
+		callPop(con);
+	}
+	
 	//유종에 따른 거리의 합계금액 계산(마일리지)
 	function sumMileageRow(_this, _event) {
 		
@@ -179,10 +476,8 @@
 			//유종*거리
 			resultSum = oilCd * distance;
 			
-			$(_this).parent().parent().parent().find(".in_cost").val(resultSum);
-			
-		} else {
-			
+			$(_this).parent().parent().parent().find(".in_cost").val(resultSum);			
+		} else {			
 			var oilCd = $(_this).parent().parent().find(".in_oil_cd option:selected").attr("alt");
 			var distance = $(_this).val();
 			
@@ -202,37 +497,7 @@
 	//검색(경비, 마일리지)
 	function expanseAdminSearch(){		
 		$("#searchForm").submit();
-	}
-	
-	//추가, 삭제, 복사(경비, 마일리지)
-	function expanseAddDelCopy(type, mode){
-		//경비입력
-		if(type == "expanse") {
-			if(mode == "ADD") {
-				tableAddRow('copyRow', 'listRow', 'listIndex', 'expanse_id', 'input_date', 'N');
-			} else if(mode == "DEL") {
-				generalPop("삭제하시겠습니까?", function(){
-					tableDelRow('expanse_id', 'listRow', 'listIndex', 'in_payment', 'sum_price');
-				});
-			} else if(mode == "COPY") {
-				tableCopyRow('listRow .expanse_id', 'listRow', 'listIndex', 'input_date', 'in_payment', 'sum_price', ['in_expanse_id', 'expanse_id', 'statusView']);				
-			}
-		
-		//마일리지
-		} else {
-			if(mode == "ADD") {
-				tableAddRow('copyRowLayer', 'listRowLayer', 'mileageListIndex', 'mileage_id', 'input_date', 'N');
-			} else if(mode == "DEL") {
-				generalPop("삭제하시겠습니까?", function(){
-					tableDelRow('mileage_id', 'listRowLayer', 'mileageListIndex', ['in_distance','in_cost'], ['sum_mileageDistance','sum_mileagePrice']);
-				});
-			} else if(mode == "COPY") {
-				tableCopyRow('listRowLayer .mileage_id', 'listRowLayer', 'mileageListIndex', 'input_date', ['in_distance','in_cost'], ['sum_mileageDistance','sum_mileagePrice'], ['in_mileage_id', 'mileage_id']);
-				
-			}
-		}
-		chk_submit();
-	}
+	}		
 	
 	//분류 디폴트 세팅(부서장 : 접대, 부서장외 : 식대)
 	function defaultCategorySelectbox() {
@@ -287,53 +552,6 @@
 		});
 		var obj = {permitYn : permitYn,	permitCnt : permitCnt,permitEle : permitEle};		
 		return obj;
-	}
-	
-	//저장(경비)
-	function expanseAdminInsert() {	
-		if($("#sh_expanse_type").val() != "") {
-			generalPop("구분 검색을 '구분 전체'로 변경해주세요.");
-			return false;
-		}		
-		var insertYN = "N";
-		$(".listRow .listIndex").each(function() {			
-			if($(this).text() != "") {
-				insertYN = "Y";
-			}
-		});		
-		//저장할 데이터가 없더라도 현재월 데이터가 존재하면 저장을 할수 있게 한다
-		if($("#expanseCount").val() > 0) insertYN = "Y";		
-		if(insertYN == "N") {
-			
-			generalPop("경비를 입력해주세요.");
-			return false;			
-		} else {			
-			//품의서 번호 체크
-			var obj = priceOverCheck("listRow .in_payment");
-			
-			if(obj.permitYn == "Y") {
-				generalPopOk("품의서 번호를 입력하세요.", function (){
-					obj.permitEle.focus();
-				});	
-				return false;
-			}			
-			//경비체크
-			var checkClassNameArr = {
-					"in_pay_day" : "날짜를 입력해주세요.", 
-					"in_expanse_type" : "구분을 선택해주세요.", 
-					"in_category_id" : "분류를 선택해주세요.", 
-					"in_payment" : "금액을 입력해주세요.",
-					"in_expanse_name" : "내역을 입력해주세요."
-			};			
-			//form 체크후 저장하기
-			//DynamicRowCheckInsert(listClassName, checkClassNameArr, confirmMsg, insertUrl, successAfterUrl, successReFreshIdName)
-			//DynamicRowCheckInsert(listClassName, checkClassNameArr, confirmMsg, insertUrl)	
-			DynamicRowCheckInsert("listRow", checkClassNameArr, "저장", "/exp/admin/expanseAdminInsert", "/exp/admin/expanseAdmin.do .listRow", "refresh");
-			
-			//전체선택 체크박스 초기화
-			$(".CheckMode").prop("checked", false);
-			chk_submit();
-		}
 	}
 	
 	//경비제출(경비, 마일리지)
@@ -505,36 +723,6 @@
 		sumPrice(['sum_price', 'sum_mileageDistance','sum_mileagePrice'], ['in_payment', 'in_distance', 'in_cost']);
 	}
 	
-	//인쇄 팝업 오픈	
-	function openPrint() {		
-		var con=document.createElement("div");
-		con.style.width=820+"px";
-		con.style.height=cf.workareaheight-60+"px";
-		con.style.position="absolute";
-		con.style.backgroundColor="white";
-		//con.style.overflow="auto";
-		
-		//검색년월의 마지막날
-		var today = new Date();
-		var lastday = today.getFullYear()+"년 "+(today.getMonth() + 1)+"월 "+ today.getDate()+"일";
-		
-		var obj = {
-				//year : today.getFullYear(),
-				//month : today.getMonth() + 1,
-				year : $("#sh_expanse_year").val(),
-				month : $("#sh_expanse_month").val(),
-				day : lastday,
-				creator : "<c:out value="${params.creator}" />",
-				username : "<c:out value="${params.user_name}" />",
-				divisionname : "<c:out value="${params.division_cd_name}" />",
-				objectid : $(".in_expanse_monthly_id:first").val()
-		}
-		//console.log(obj);
-		
-		mkPrint(con, false, obj);
-		callPop(con);
-	}
-	
 	function excel_down(){
 		var down=document.getElementById("excel_down");
 		down.style.display="";
@@ -563,186 +751,26 @@
 			});
 		}
 	}
+	
+	function chk_submit(){
+		var img_btn=document.getElementById("btn_submit"),
+			chk=document.getElementsByName("chk_submit");
+		if(chk.length>0){
+			chk.trav(function(d,i){
+				if(d.value=="702"||d.value=="703"){
+					img_btn.src="/images/btn/btn_submit_done.gif";
+				}else{
+					img_btn.src="/images/btn/btn_submit.gif";
+					img_btn.onclick=function(){
+						expanseAdminFinalInsert();
+					};
+				}
+			});
+			//expanseAdminFinalInsert()
+		}else{
+			img_btn.onclick=function(){
+				generalPop("경비/마일리지 저장 후 경비제출을 하실 수 있습니다.");
+			};
+		}
+	}
 </script>
-
-<style type="text/css">
-	.div_overflow_main {width:100%; height:361px; overflow-x:hidden; overflow-y:scroll;}
-	.div_overflow_mileage {width:100%; height:465px; overflow-x:hidden; overflow-y:auto;}
-	.div_overflow_y_scroll {overflow-y:scroll;}
-	.paddingright {padding-right:10px}
-</style>
-
-<noscript class="noScriptTitle">자바스크립트를 지원하지 않는 브라우저에서는 일부 기능을 사용하실 수 없습니다.</noscript>
-<form:form commandName="searchVO" method="post" id="searchForm" name="searchForm">
-	<input type="hidden" id="monthStatus" name="monthStatus" value="${params.approval_status}" />
-	<input type="hidden" id="expanseCount" name="expanseCount" value="${params.expanse_count}" />
-	<input type="hidden" id="mileageCount" name="mileageCount" value="${params.mileage_count}" />
-	<input type="hidden" id="paymentCount" name="paymentCount" value="${params.payment_count}" />
-	<input type="hidden" id="headYn" name="headYn" value="${params.head_yn}">
-	<div class="search4" id="searchDiv"></div>
-	<!--// search end -->
-
-	<!-- button start -->
-	<div class="btn_action">
-		<ul>
-			<li><a href="javascript:;" onclick="expanseAddDelCopy('expanse', 'ADD'); return false;"><img src="<c:url value='/images/btn/btn_plus_on.gif'/>" class="img_plus" alt="추가" /></a></li>
-			<li><a href="javascript:;" onclick="expanseAddDelCopy('expanse', 'DEL'); return false;"><img src="<c:url value='/images/btn/btn_del_on.gif'/>" class="img_del" alt="삭제" /></a></li>
-			<li><a href="javascript:;" onclick="expanseAddDelCopy('expanse', 'COPY'); return false;"><img src="<c:url value='/images/btn/btn_copy_on.gif'/>" class="img_copy" alt="복사" /></a></li>
-			<li><a href="javascript:;" onclick="expanseAdminInsert(); return false;"><img src="<c:url value='/images/btn/btn_save_on.gif'/>" class="img_save" alt="저장" /></a></li>
-			<li><a href="javascript:;" onclick="openPrint(); return false;"><img src="<c:url value='/images/btn/btn_print_on.gif'/>" class="img_print" alt="인쇄" /></a></li>
-			<li><a href="javascript:;" onclick="layerPopup('layer', 'mileage_pop', 'layerClose'); return false;"><img src="<c:url value='/images/btn/btn_mil_on.gif'/>" class="img_mil" alt="마일리지" /></a></li>			
-			<li><img src="<c:url value='/images/btn/btn_exlup_on.gif'/>" id="img_exlup" class="img_exlup" alt="엑셀 업로드" /></li>
-			<li class="last"><img src="/images/btn/btn_submit.gif" class="img_submit cursor" alt="제출" id="btn_submit"/></li>
-		</ul>
-	</div>
-	<!--// button end -->
-
-	<!--  table start -->
-	<div class="con_table">
-		<div class="Wrap_table">
-			<div class="div_overflow_y_scroll">
-				<table class="Normal_table">
-					<thead>
-						<tr>
-							<th width="5%"><input type="checkbox" name="CheckMode" class ="CheckMode" value="Y" onclick="GroupCheck('CheckMode', 'expanse_id')"></th>
-							<th width="5%">No</th>
-							<th width="7%">날짜</th>
-							<th width="13%">
-								<select name="sh_expanse_type" id="sh_expanse_type" style="width:100%; background:#fafafa ;font-weight:bold;" onchange="javascript:showExpanseType(this)">
-									<option value="">구분 전체</option>
-									<c:forEach var="typeC" items="${typeList}" varStatus="statusC">
-										<option value="<c:out value="${typeC.code_id}" />">
-											<c:out value="${typeC.code_name}" />
-										</option>
-									</c:forEach>
-								</select>
-							</th>
-							<th width="13%">분류</th>
-							<th width="10%">금액</th>
-							<th width="24%">내역</th>
-							<th width="15%">품의서 No.</th>
-							<th width="10%" class="right">상태</th>
-						</tr>
-					</thead>				
-					<tbody>
-						<tr class="copyRow hide">
-							<td width="5%" class="txt_center2"><input type="checkbox" name="expanse_id" class="expanse_id"></td>
-							<td width="5%" class="txt_center listIndex"></td>
-							<td width="7%" class="txt_center3"><input name="in_pay_day" class="in_pay_day input_date" readonly></td>
-							<td width="13%" class="txt_center">
-								<select name="in_expanse_type" class="in_expanse_type select_pop2" style="width:95%;">
-									<c:forEach var="typeC" items="${typeList}" varStatus="statusC">
-										<option value="<c:out value="${typeC.code_id}" />">
-											<c:out value="${typeC.code_name}" />
-										</option>
-									</c:forEach>
-								</select>
-							</td>
-							<td width="13%" class="txt_center">
-								<select name="in_category_id" class="in_category_id select_pop2" title="분류" style="width:95%;"></select>
-							</td>
-							<td width="10%" class="txt_center"><input name="in_payment" class="in_payment price" title="금액"></input></td>
-							<td width="24%" class="txt_center"><input name="in_expanse_name" class="in_expanse_name" title="내역"></input></td>
-							<td width="15%" class="txt_center"><input name="in_confer_number" class="in_confer_number" title="품의서번호"></input></td>
-							<td width="10%" class="txt_center statusView right">
-								<input type="hidden" name="in_expanse_id" class="in_expanse_id" />
-								<input type="hidden" name="in_expanse_type_temp" class="in_expanse_type_temp" />
-								<input type="hidden" name="in_category_id_temp" class="in_category_id_temp" />					
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			
-			<div class="div_overflow_main">
-				<table class="Normal_table">
-					<tbody id="refresh" class="txtclr">
-						<tr class="listRow hide">
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						
-						<c:forEach var="result" items="${resultList}" varStatus="status">
-							<c:set value="${(searchVO.pageIndex-1)*searchVO.recordCountPerPage + status.count}" var="index" />
-							<c:set value="${fn:substring(result.pay_day, 4, 6)}" var="st_month" />
-							<c:set value="${fn:substring(result.pay_day, 6, 8)}" var="st_day" />
-							<tr class="listRow">
-								<td width="5%" class="txt_center2"><input type="checkbox" name="expanse_id" class="expanse_id" value="<c:out value="${result.expanse_id}" />"></input></td>
-								<td width="5%" class="txt_center listIndex">
-									<c:out value="${index}" />
-									<input type="hidden" name="in_expanse_id" class="in_expanse_id" value="<c:out value="${result.expanse_id}" />"></input>
-									<input type="hidden" name="in_expanse_type_temp" class="in_expanse_type_temp" value="<c:out value="${result.expanse_type}" />"></input>
-									<input type="hidden" name="in_category_id_temp" class="in_category_id_temp" value="<c:out value="${result.category_id}" />"></input>
-									<input type="hidden" name="in_expanse_monthly_id" class="in_expanse_monthly_id" value="<c:out value="${result.expanse_monthly_id}" />"></input>
-								</td>
-								<td width="7%" class="txt_center"><input name="in_pay_day" class="in_pay_day input_date" value="<c:out value="${st_month}-${st_day}" />" readonly></input></td>
-								<td width="13%" class="txt_center">
-									<select name="in_expanse_type" class="in_expanse_type select_pop2" style="width:95%;">
-										<c:forEach var="typeL" items="${typeList}" varStatus="statusL">
-											<option value="<c:out value="${typeL.code_id}" />" <c:if test="${result.expanse_type == typeL.code_id}">selected="selected"</c:if>>
-												<c:out value="${typeL.code_name}" />
-											</option>
-										</c:forEach>
-									</select>
-								</td>
-								<td width="13%" class="txt_center">
-									<select name="in_category_id" class="in_category_id select_pop2" title="분류" style="width:95%;"></select>
-								</td>
-								<td width="10%" class="txt_center"><input name="in_payment" class="in_payment price" title="금액" value="<c:out value="${result.payment}" />"></input></td>
-								<td width="24%" class="txt_center"><input name="in_expanse_name" class="in_expanse_name" title="내역" value="<c:out value="${result.expanse_name}" />"></input></td>
-								<td width="15%" class="txt_center"><input name="in_confer_number" class="in_confer_number" title="품의서번호" value="<c:out value="${result.confer_number}" />"></input></td>
-								<td width="10%" class="txt_center statusView right" >
-									<c:choose>
-									    <c:when test="${result.status_cd == '701'}">
-									        <img src='/images/exp_payment/btn_red.png' style="vertical-align: middle"/>
-									    </c:when>
-									    <c:when test="${result.status_cd == '702'}">
-									        <img src='/images/exp_payment/btn_blue.png' style="vertical-align: middle"/>
-									    </c:when>
-									    <c:when test="${result.status_cd == '703'}">
-									        <img src='/images/exp_payment/btn_green.png' style="vertical-align: middle"/>
-									    </c:when>
-									    <c:when test="${result.status_cd == '706'}">
-									        <img src='/images/exp_payment/btn_yellow.gif' style="vertical-align: middle"/>
-									    </c:when>
-									    <c:otherwise></c:otherwise>
-									</c:choose>
-									<c:out value="${result.code_name}" /><input type="hidden" name="chk_submit" value="${result.status_cd}">
-								</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
-			
-			<div class="div_overflow_y_scroll">
-				<table style="width:802px" class="Normal_table">	
-					<tfoot>
-						<tr>
-							<td width="43%" class="sum" colspan="5">합계</td>
-							<td width="10%" class="sum_cost"><input id="sum_price" name="sum_price" class="price" title="금액" readonly></input></td>
-							<td width="24%" class="sum">&nbsp;</td>
-							<td width="15%" class="sum">&nbsp;</td>
-							<td width="10%" class="sum">&nbsp;</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-		</div>
-	</div>
-	<!--  //table end -->
-	
-	<!-- 인쇄 start-->
-	<%-- <jsp:include page="expansePrint.jsp" flush="true" /> --%>
-	<!--  //인쇄 end -->
-	
-	<!--// 마일리지 팝업 start-->
-	<jsp:include page="expanseMileage.jsp" flush="true" />				
-	<!--// 마일리지 팝업 end-->
-</form:form>

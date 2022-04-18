@@ -1,4 +1,3 @@
-
 document.getElementById("Right_wrap").childNodes[1].childNodes[0].opt=false;
 rightFold();
 

@@ -25,7 +25,7 @@
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
-	</ul>
+	</ul>	 
 </div>
 <script src="/js/common/right_menu.js"></script>
 

@@ -592,7 +592,7 @@ function setInfoDiv(){
 		copydiv=document.getElementById("copyrihgt");
 	
 	infodiv.innerHTML="※본 시스템은 익스플로러(IE) 10 이상의 버전과</br>크롬(Chrome)에 최적화되어 있습니다.";
-	copydiv.innerHTML="Copyright ⓒ 2022 <bold>THE INSIGHT INTRANET SYSTEM.</bold> All Rights Reserved.";
+	copydiv.innerHTML="Copyright ⓒ 2022 <strong>THE INSIGHT INTRANET SYSTEM.</strong> All Rights Reserved.";
 	
 	cf.setCss(infodiv,{position:"absolute",top:235+"px",width:400+"px",fontSize:10+"px",color:"#575757",textAlign:"center",lineHeight:14+"px",height:40+"px"});
 	cf.setCss(copydiv,{position:"absolute",top:275+"px",width:400+"px",fontSize:10+"px",color:"#fff",textAlign:"center",lineHeight:20+"px"});

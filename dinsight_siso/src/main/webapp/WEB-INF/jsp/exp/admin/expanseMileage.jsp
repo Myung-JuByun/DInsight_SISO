@@ -9,23 +9,12 @@
 	<div class="bg"></div>
 	<div id="mileage_pop" class="pop-layer movePopup" style="width:77%; height:600px">
 		<div class="mil_top my_top"> 마일리지 입력 <a href="#" class="layerClose"><img src="/images/pop_btn/btn_pop_close.png" alt="닫기" align="right" style="padding-right:10px"/></a> </div>
-		<div class="mil-container">
-	
-			<!-- button start -->
-			<!-- <div class="btn_action">
+		<div class="mil-container">				
+			<div id="expanseMilBtn" class="btn_action">
 				<ul>
-					<li><a href="#" onclick="tableAddRow('copyRowLayer', 'listRowLayer', 'mileageListIndex', 'mileage_id', 'input_date', 'N'); return false;"><img src="/images/btn_plus_on.gif" class="img_plus" alt="추가"></a></li>
-					<li><a href="#" onclick="tableDelRow('mileage_id', 'listRowLayer', 'mileageListIndex', ['in_distance','in_cost'], ['sum_mileageDistance','sum_mileagePrice']); return false;"><img src="/images/btn_del_on.gif" class="img_del" alt="삭제"></a></li>
-					<li><a href="#" onclick="tableCopyRow('mileage_id', 'listRowLayer', 'mileageListIndex', 'input_date', ['in_distance','in_cost'], ['sum_mileageDistance','sum_mileagePrice'], ['in_mileage_id', 'mileage_id']); return false;"><img src="/images/btn_copy_on.gif" class="img_copy" alt="복사"></a></li>
-					<li class="last"><a href="#" onclick="expanseAdminMileageInsert(); return false;"><img src="/images/btn_save_on.gif" class="img_save" alt="저장"></a></li>
-				</ul>
-			</div> -->
-			<div class="btn_action">
-				<ul>
-					<li><a href="#" onclick="expanseAddDelCopy('mileage', 'ADD'); return false;"><img src="/images/btn/btn_plus_on.gif" class="img_plus" alt="추가"></a></li>
-					<li><a href="#" onclick="expanseAddDelCopy('mileage', 'DEL'); return false;"><img src="/images/btn/btn_del_on.gif" class="img_del" alt="삭제"></a></li>
-					<li><a href="#" onclick="expanseAddDelCopy('mileage', 'COPY'); return false;"><img src="/images/btn/btn_copy_on.gif" class="img_copy" alt="복사"></a></li>
-					<li class="last"><a href="#" onclick="expanseAdminMileageInsert(); return false;"><img src="/images/btn/btn_save_on.gif" class="img_save" alt="저장"></a></li>
+					<li v-for="(item, index) in btnList" :class="{'last':index == btnList.length - 1}">
+						<a href="javascript:;" :onclick="item.func"><img :src="item.btnImg" :alt="item.altText" :class="item.imgClass" /></a>
+					</li>					
 				</ul>
 			</div>
 			<!--// button end -->
@@ -33,7 +22,7 @@
 			<!--  table start -->
 			<div class="con_table div_overflow_mileage">
 				<div class="Wrap_table">
-					<table style="width:792px" class="Normal_table">
+					<table class="Normal_table">
 						<thead>
 							<tr>
 								<th width="37"><input type="checkbox" name="CheckMileageMode" class="CheckMileageMode" value="Y" onclick="GroupCheck('CheckMileageMode', 'mileage_id')"></th>
@@ -113,8 +102,8 @@
 							<tr>
 								<td class="sum" colspan="7">합계</td>
 								<td class="sum">&nbsp;</td>
-								<td class="sum_cost"><input id="sum_mileageDistance" name="sum_mileageDistance" class="price" title="금액" readonly></td>
-								<td class="sum_cost"><input id="sum_mileagePrice" name="sum_mileagePrice" class="price" title="금액" readonly></td>
+								<td class="sum_cost"><input id="sum_mileageDistance" name="sum_mileageDistance" class="price" style="padding-left:0px" title="금액" readonly></td>
+								<td class="sum_cost"><input id="sum_mileagePrice" name="sum_mileagePrice" class="price" style="padding-left:0px" title="금액" readonly></td>
 							</tr>
 						</tfoot>
 					</table>
