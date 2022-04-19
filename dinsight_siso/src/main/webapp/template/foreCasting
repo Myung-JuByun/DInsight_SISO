@@ -1,0 +1,68 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<div class="search4" id="searchDiv"></div>
+<div class="btn_action">
+	<div class="descript asterisk infobot"><span>{{ message }}</span></div>
+	<ul>
+		<li v-for="item in btnList" :id="item.id">
+			<a href="javascript:void(0);"><img :src="item.btnImg" :class="item.imgClass" :alt="item.altText" /></a>
+		</li>		
+	</ul>
+</div>
+<div class="con_table">
+	<div class="Wrap_table">
+		<div class="pCodeTable" id="pCodeTable">
+			<table style="width:1700px; table-layout:fixed;" class="scrollTable" id="Normal_table">
+				<thead id="listhead">
+					<tr>
+						<th width="2%" style="text-Align:center;"><input id="checkAll" width="100%" name="checklist" type="checkbox"></th>
+						<th width="8%">Project Code<span class="asterisk">*</span></th>
+						<th width="3%">년</th>
+						<th width="2%">월</th>
+						<th width="2%">주차</th>
+						<th width="4%">
+							<select id="orderUserName" :style="padding20LargeCombo" @change="showSearchRow(this)">
+								<option value="">담당전체</option>
+							</select>
+						</th>
+						<th width="3%">
+							<select id="orderSalesDivide" :style="padding5LargeCombo" @change="showSearchRow(this)">
+								<option value="">ALC전체</option>
+							</select>
+						</th>
+						<th width="3%">이슈</th>
+						<th width="6%">
+							<select id="orderSalesStatus" :style="smallComboStyle" @change="showSearchRow(this)">
+								<option value="">영업현황전체</option>
+							</select>
+							<span class="asterisk">*</span>
+						</th>
+						<th width="4%">
+							<select id="orderSalesType" :style="smallComboStyle" @change="showSearchRow(this)">
+								<option value="">구분전체</option>
+							</select>
+							<span class="asterisk">*</span>
+						</th>
+						<th width="6%">고객사명</th>
+						<th width="6%">Type</th>
+						<th width="5%">제품</th>
+						<th width="3%">수량<span class="asterisk">*</span></th>
+						<th width="6%">계약금액<span class="asterisk">*</span></th>
+						<th width="5%">매입금액<span class="asterisk">*</span></th>
+						<th width="6%">영업이익<span class="asterisk">*</span></th>
+						<th width="6%">
+							<select id="orderContractYm" :style="smallComboStyle" @change="showSearchRow(this)">
+								<option value="">계약시점전체</option>
+							</select>
+							<span class="asterisk">*</span>
+						</th>
+					</tr>
+				</thead>
+				<!-- 리스트 시작 -->
+				<tbody id="listView" class="txtclr">
+				</tbody>
+				<!-- 리스트 끝 -->
+			</table>
+		</div>
+	</div>
+</div>

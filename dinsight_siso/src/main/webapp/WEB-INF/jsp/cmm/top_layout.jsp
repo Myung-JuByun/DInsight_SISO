@@ -75,7 +75,7 @@
 	.info img {cursor:pointer}
 	.my-container img {cursor:pointer}
 </style>
-<jsp:include page="payment_pop.jsp" flush="true"/>
+<%@ include file="/template/paymentPop" %>
 <script src="/js/common/top_menu.js"></script>
 <div class="clear"></div>
 

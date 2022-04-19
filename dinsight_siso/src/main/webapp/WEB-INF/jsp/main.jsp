@@ -40,6 +40,7 @@
 	<script src="/js/common/common.js"></script>
 	<script src="/js/common/project_util.js"></script>
 	<script src="/js/common/project_grid.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>	
 	<%
 		siso.sys.service.LoginVO user = (siso.sys.service.LoginVO) siso.cmmn.util.SpringUserDetailsHelper.getAuthenticatedUser();
 		pageContext.setAttribute("userInfo", user);

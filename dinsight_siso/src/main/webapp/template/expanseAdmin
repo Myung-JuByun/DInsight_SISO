@@ -1,0 +1,152 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<!-- button start -->
+<div id="expanseAdmBtn" class="btn_action">
+	<ul>
+		<li v-for="(item, index) in btnList" :class="{'last':index == btnList.length - 1}">
+			<a href="javascript:;" :onclick="item.func"><img :id="item.id" :src="item.btnImg" :alt="item.altText" :class="item.imgClass" /></a>
+		</li>			
+	</ul>
+</div>
+<!--// button end -->
+
+<!--  table start -->
+<div class="con_table">
+	<div class="Wrap_table">
+		<div class="div_overflow_y_scroll">
+			<table class="Normal_table">
+				<thead>
+					<tr>
+						<th width="5%"><input type="checkbox" name="CheckMode" class ="CheckMode" value="Y" onclick="GroupCheck('CheckMode', 'expanse_id')"></th>
+						<th width="5%">No</th>
+						<th width="7%">날짜</th>
+						<th width="13%">
+							<select name="sh_expanse_type" id="sh_expanse_type" style="width:100%; background:#fafafa ;font-weight:bold;" onchange="javascript:showExpanseType(this)">
+								<option value="">구분 전체</option>
+								<c:forEach var="typeC" items="${typeList}" varStatus="statusC">
+									<option value="<c:out value="${typeC.code_id}" />">
+										<c:out value="${typeC.code_name}" />
+									</option>
+								</c:forEach>
+							</select>
+						</th>
+						<th width="13%">분류</th>
+						<th width="10%">금액</th>
+						<th width="24%">내역</th>
+						<th width="15%">품의서 No.</th>
+						<th width="10%" class="right">상태</th>
+					</tr>
+				</thead>				
+				<tbody>
+					<tr class="copyRow hide">
+						<td width="5%" class="txt_center2"><input type="checkbox" name="expanse_id" class="expanse_id"></td>
+						<td width="5%" class="txt_center listIndex"></td>
+						<td width="7%" class="txt_center3"><input name="in_pay_day" class="in_pay_day input_date" readonly></td>
+						<td width="13%" class="txt_center">
+							<select name="in_expanse_type" class="in_expanse_type select_pop2" style="width:95%;">
+								<c:forEach var="typeC" items="${typeList}" varStatus="statusC">
+									<option value="<c:out value="${typeC.code_id}" />">
+										<c:out value="${typeC.code_name}" />
+									</option>
+								</c:forEach>
+							</select>
+						</td>
+						<td width="13%" class="txt_center">
+							<select name="in_category_id" class="in_category_id select_pop2" title="분류" style="width:95%;"></select>
+						</td>
+						<td width="10%" class="txt_center"><input name="in_payment" class="in_payment price" title="금액"></input></td>
+						<td width="24%" class="txt_center"><input name="in_expanse_name" class="in_expanse_name" title="내역"></input></td>
+						<td width="15%" class="txt_center"><input name="in_confer_number" class="in_confer_number" title="품의서번호"></input></td>
+						<td width="10%" class="txt_center statusView right">
+							<input type="hidden" name="in_expanse_id" class="in_expanse_id" />
+							<input type="hidden" name="in_expanse_type_temp" class="in_expanse_type_temp" />
+							<input type="hidden" name="in_category_id_temp" class="in_category_id_temp" />					
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="div_overflow_main">
+			<table class="Normal_table">
+				<tbody id="refresh" class="txtclr">
+					<tr class="listRow hide">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					
+					<c:forEach var="result" items="${resultList}" varStatus="status">
+						<c:set value="${(searchVO.pageIndex-1)*searchVO.recordCountPerPage + status.count}" var="index" />
+						<c:set value="${fn:substring(result.pay_day, 4, 6)}" var="st_month" />
+						<c:set value="${fn:substring(result.pay_day, 6, 8)}" var="st_day" />
+						<tr class="listRow">
+							<td width="5%" class="txt_center2"><input type="checkbox" name="expanse_id" class="expanse_id" value="<c:out value="${result.expanse_id}" />"></input></td>
+							<td width="5%" class="txt_center listIndex">
+								<c:out value="${index}" />
+								<input type="hidden" name="in_expanse_id" class="in_expanse_id" value="<c:out value="${result.expanse_id}" />"></input>
+								<input type="hidden" name="in_expanse_type_temp" class="in_expanse_type_temp" value="<c:out value="${result.expanse_type}" />"></input>
+								<input type="hidden" name="in_category_id_temp" class="in_category_id_temp" value="<c:out value="${result.category_id}" />"></input>
+								<input type="hidden" name="in_expanse_monthly_id" class="in_expanse_monthly_id" value="<c:out value="${result.expanse_monthly_id}" />"></input>
+							</td>
+							<td width="7%" class="txt_center"><input name="in_pay_day" class="in_pay_day input_date" value="<c:out value="${st_month}-${st_day}" />" readonly></input></td>
+							<td width="13%" class="txt_center">
+								<select name="in_expanse_type" class="in_expanse_type select_pop2" style="width:95%;">
+									<c:forEach var="typeL" items="${typeList}" varStatus="statusL">
+										<option value="<c:out value="${typeL.code_id}" />" <c:if test="${result.expanse_type == typeL.code_id}">selected="selected"</c:if>>
+											<c:out value="${typeL.code_name}" />
+										</option>
+									</c:forEach>
+								</select>
+							</td>
+							<td width="13%" class="txt_center">
+								<select name="in_category_id" class="in_category_id select_pop2" title="분류" style="width:95%;"></select>
+							</td>
+							<td width="10%" class="txt_center"><input name="in_payment" class="in_payment price" title="금액" value="<c:out value="${result.payment}" />"></input></td>
+							<td width="24%" class="txt_center"><input name="in_expanse_name" class="in_expanse_name" title="내역" value="<c:out value="${result.expanse_name}" />"></input></td>
+							<td width="15%" class="txt_center"><input name="in_confer_number" class="in_confer_number" title="품의서번호" value="<c:out value="${result.confer_number}" />"></input></td>
+							<td width="10%" class="txt_center statusView right" >
+								<c:choose>
+								    <c:when test="${result.status_cd == '701'}">
+								        <img src='/images/exp_payment/btn_red.png' style="vertical-align: middle"/>
+								    </c:when>
+								    <c:when test="${result.status_cd == '702'}">
+								        <img src='/images/exp_payment/btn_blue.png' style="vertical-align: middle"/>
+								    </c:when>
+								    <c:when test="${result.status_cd == '703'}">
+								        <img src='/images/exp_payment/btn_green.png' style="vertical-align: middle"/>
+								    </c:when>
+								    <c:when test="${result.status_cd == '706'}">
+								        <img src='/images/exp_payment/btn_yellow.gif' style="vertical-align: middle"/>
+								    </c:when>
+								    <c:otherwise></c:otherwise>
+								</c:choose>
+								<c:out value="${result.code_name}" /><input type="hidden" name="chk_submit" value="${result.status_cd}">
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="div_overflow_y_scroll">
+			<table style="width:802px" class="Normal_table">	
+				<tfoot>
+					<tr>
+						<td width="43%" class="sum" colspan="5">합계</td>
+						<td width="10%" class="sum_cost"><input id="sum_price" name="sum_price" class="price" title="금액" readonly></input></td>
+						<td width="24%" class="sum">&nbsp;</td>
+						<td width="15%" class="sum">&nbsp;</td>
+						<td width="10%" class="sum">&nbsp;</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
+<!--  //table end -->

@@ -1,0 +1,32 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<div class="search3" id="searchDiv"></div>
+
+<!--  table start -->
+<div class="con_table">
+	<div class="Wrap_table">
+		<div :style="yScroll">
+			<table :class="tblClass" :style="tCenter">
+				<thead>
+					<tr>
+						<th width="5%">No.</th>
+						<th width="10%">고객사</th>
+						<th width="10%">Project Code</th>
+						<th width="15%">Portfolio</th>
+						<th width="10%">Prd.Number</th>
+						<th width="10%">Type</th>
+						<th width="10%">Trigram</th>
+						<th width="15%">Portfolio<br>Item Name</th>
+						<th width="5%">copy</th>
+						<th width="10%" class="right">상세보기</th>
+					</tr>							
+				</thead>
+			</table>
+		</div>
+		<div :style="yScroll2">
+			<table :class="tblClass" :style="tCenter">
+				<tbody id="alcStatusView" class="txtclr">
+				</tbody> 
+			</table>
+		</div>
+	</div>
+</div>

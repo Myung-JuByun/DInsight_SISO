@@ -3809,7 +3809,7 @@ jCommon.prototype.mkAbsoluteDiv=function(x,y,w,h,p){
 		top:y+"px",
 		left:x+"px",
 		width:w+"px",
-		height=h+"px"
+		height:h+"px"
 	});
 	
 	return sltr;
@@ -4034,13 +4034,13 @@ jCommon.prototype.calDate=function(str,opt,int){
 jCommon.prototype.getQuadrant=function(x,y,w,h,left,top,div){
 	var hHalf=x+w/2;
 	if(left>hHalf)
-		div.style.left=(left-101-10)-x+"px";
+		div.style.left=(left-111)-x+"px";
 	else
 		div.style.left=left+10-x+"px";
 	
 	var vHalf=h/2;
 	if(top>vHalf)
-		div.style.top=top-57-10+"px";
+		div.style.top=top-67+"px";
 	else
 		div.style.top=top+10+"px";	
 };
@@ -4159,31 +4159,30 @@ jCommon.prototype.mkTextboxEx=function(p){
 	var doc=this.mkAbsoluteDiv(0,0,a.w,a.h,p);
 	var tbl=this.mkTable(1,1,doc);
 	tbl.table.style.height=a.h+"px";
-	tbl.table.style.fontSize=11+"px";
+	tbl.table.style.fontSize="11px";
 	tbl.cells[0][0].style.textAlign="left";
-	tbl.cells[0][0].style.paddingLeft=0+"px";
+	tbl.cells[0][0].style.paddingLeft="0px";
 	return {div:doc,table:tbl.table,cell:tbl.cells[0][0]};
 };
 jCommon.prototype.mkTextbox=function(x,y,w,h,p){
 	var doc=this.mkAbsoluteDiv(x,y,w,h,p);
 	var tbl=this.mkTable(1,1,doc);
 	tbl.table.style.height=h+"px";
-	tbl.table.style.fontSize=11+"px";
+	tbl.table.style.fontSize="11px";
 	tbl.cells[0][0].style.textAlign="left";
-	tbl.cells[0][0].style.paddingLeft=0+"px";
+	tbl.cells[0][0].style.paddingLeft="0px";
 	return {div:doc,table:tbl.table,cell:tbl.cells[0][0]};
 };
 jCommon.prototype.mkTab=function(x,y,w,h,p,fnc){
 	var cf=this;
 	var tabHeight=20;
-
 	var a=this.mkAbsoluteDiv(x,y,w,h,p);
 
 	//tab 부분
 	var b=this.mkAbsoluteDiv(0,0,w,tabHeight,a);
 	var c=this.mkTable(1,2,b);
 	c.table.style.height=tabHeight+"px";
-	c.table.style.fontSize=13+"px";
+	c.table.style.fontSize="13px";
 	c.table.style.fontWeight="bold";
 	c.table.style.background="url("+cf.imgPath+"img/tab_left.gif)";
 
@@ -4598,12 +4597,11 @@ jCommon.prototype.SHA1=function(msg){
 	};
  
 	function lsb_hex(val) {
-		var str="";
-		var i;
+		var str="";		
 		var vh;
 		var vl;
  
-		for( i=0; i<=6; i+=2 ) {
+		for(var i=0; i<=6; i+=2) {
 			vh = (val>>>(i*4+4))&0x0f;
 			vl = (val>>>(i*4))&0x0f;
 			str += vh.toString(16) + vl.toString(16);
@@ -4612,11 +4610,10 @@ jCommon.prototype.SHA1=function(msg){
 	};
  
 	function cvt_hex(val) {
-		var str="";
-		var i;
+		var str="";		
 		var v;
  
-		for( i=7; i>=0; i-- ) {
+		for(var i=7; i>=0; i-- ) {
 			v = (val>>>(i*4))&0x0f;
 			str += v.toString(16);
 		}
@@ -4771,18 +4768,16 @@ jCommon.prototype.encode64=function(input) {
 		enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
 		enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
 		enc4 = chr3 & 63;
-		if (isNaN(chr2)) {
+		
+		if (isNaN(chr2))
 			enc3 = enc4 = 64;
-		} else if (isNaN(chr3)) {
+		else if (isNaN(chr3))
 			enc4 = 64;
-		}
+		
 		output = output +_keyStr.charAt(enc1) + _keyStr.charAt(enc2) +_keyStr.charAt(enc3) + _keyStr.charAt(enc4);
-	}
+	}	
 	
-	
-	
-	
-	function utf8_encode(string) {
+	var utf8_encode = function(string) {
 		string = string.replace(/\r\n/g, "\n");
 		var utftext = "";
 		for (var n = 0; n < string.length; n++) {
@@ -4801,15 +4796,9 @@ jCommon.prototype.encode64=function(input) {
 		return utftext;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	return output;
 };
+
 jCommon.prototype.mkIndicator=function(md){
 	var ps={
 		x:100,y:0,w:500,h:20,cw:10,ch:20
@@ -4839,8 +4828,7 @@ jCommon.prototype.mkIndicator=function(md){
 	},false);
 	a.addEventListener("touchend",function(event){
 		event.preventDefault();
-	},false);
-	
+	},false);	
 	
 	var pin=cf.mkAbsoluteDiv(0,10,ps.w,1,a);
 	pin.style.backgroundColor="red";
@@ -4848,6 +4836,7 @@ jCommon.prototype.mkIndicator=function(md){
 	var cr=cf.mkAbsoluteDiv(0,ps.h/2-ps.ch/2,ps.cw,ps.ch,a);
 	cr.style.backgroundColor="yellow";
 };
+
 jCommon.prototype.jsonTraverse=function(json){
 	var arr=new Array();
 	for(var i in json){
@@ -4858,6 +4847,7 @@ jCommon.prototype.jsonTraverse=function(json){
 	}
 	return arr;
 };
+
 jCommon.prototype.jsonParser=function(json){
 	var cnt=0;
 	var arr=new Array();
@@ -5338,17 +5328,7 @@ function ajaxcallforgeneral(){
 	];
 	HTTP.createXMLHTTPObject=function(){
 		var xmlHTTP=null;
-		//xmlHTTP=new ActiveXObject("Microsoft.XMLHTTP");
-//		alert(xmlHTTP);
-//		for(var i=0;i<HTTP._factories.length;i++){
-//			try{
-//				xmlHTTP = HTTP._factories[i]();
-//
-//			}catch(e){
-//				continue;
-//			}
-//			break;
-//		}
+
 		if(html5){
 			xmlHTTP=new XMLHttpRequest();
 		}else{
@@ -5458,8 +5438,7 @@ jCommon.prototype.jsnstr=function(jsn){
 };
 
 
-jCommon.prototype.getel=function(str,p){
-	
+jCommon.prototype.getel=function(str,p){	
 	var a=this.getHead(str,1),
 		b=this.cutHead(str,1),
 		rslt;
@@ -5669,9 +5648,7 @@ jCommon.prototype.getCookie=function(cname){
 jCommon.prototype.delCookie=function(cname){
 	document.cookie=cname+"=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 };
-///////////////////////////////////////////////2014.06.26///
 
-//2014.07.01. by Jae Hyun Lee
 jCommon.prototype.lp=function(url,param,callback){
 	//long polling implemetation;
 	var xhr=new XMLHttpRequest();
@@ -5694,39 +5671,8 @@ jCommon.prototype.lp=function(url,param,callback){
 	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xhr.send(param);
 };
-///////////////////////////////////////////////2014.07.01///
 
-//2014.07.09. by Jae Hyun Lee
-jCommon.prototype.list=function(obj){
-	//like this
-	/*
-	var itms=cf.list({
-		p:dv, 
-		ar:arr,
-		style:{
-			paddingTop:10+"px", 
-			paddingBottom:10+"px", 
-			paddingLeft:10+"px", 
-			borderBottom:"1px solid #ddd",
-			fontSize:13+"px",
-			fontWeight:"bold",
-			backgroundColor:"white",
-			color:"black"
-		},
-		styleMove:{
-			backgroundColor:"#eee", 
-			color:"black"
-		},
-		styleClick:{
-			backgroundColor:"rgb(111,149,219)", 
-			color:"white"
-		},
-		clickaction:function(el,cur,prev){
-			
-		}
-	});
-	*/
-	//create simple listbox
+jCommon.prototype.list=function(obj){	
 	var selected;
 	var dvs=new Array();
 	obj.ar.trav(function(d,n){
@@ -5754,8 +5700,7 @@ jCommon.prototype.list=function(obj){
 	});
 	return dvs;
 };
-///////////////////////////////////////////////2014.07.09///
-// jCommon에 trav 추가(2014/07/21 - CJS)
+
 jCommon.prototype.trav = function ( arr, fnc ) {
 	var i, lng, a;
 	for ( i=0, lng=arr.length; i<lng; i++ ) {
@@ -5763,16 +5708,16 @@ jCommon.prototype.trav = function ( arr, fnc ) {
 		if ( a ) break;
 	}
 };
-// mkFrag 추가(2014/07/21 - CJS)
+
 jCommon.prototype.mkFrag = function () {
 	return document.createDocumentFragment();
 };
-// setText 추가(2014/07/21 - CJS)
+
 jCommon.prototype.setText = function ( elem, text ) {
 	if ( elem.textContent ) elem.textContent = text;
 	else elem.innerText = text;
 };
-// getText 추가(2014/07/21 - CJS)
+
 jCommon.prototype.getText = function ( elem ) {
 	var returnStr = "";
 	if ( elem.textContent ) returnStr = elem.textContent;
@@ -5780,76 +5725,76 @@ jCommon.prototype.getText = function ( elem ) {
 	
 	return returnStr;
 };
-// make 추가(2014/07/25 - CJS)
+
 jCommon.prototype.make = (function () {
-	var 
-		attr = function () {
-			var arg = arguments,
-				rtnAttr = "", el;
-			if ( arg.length===0 ) return "";
-			if ( typeof arg[0]==="string" ) {
-				if ( this.getAttribute ) rtnAttr = this.getAttribute(arg[0]);
-				else rtnAttr = this[arg[0]];
-				return rtnAttr;
-			} else {
-				for ( el in arg[0] ) {
-					if ( !Object.prototype.isPrototypeOf(arg[0][el]) ) {
-						if ( this.setAttribute ) this.setAttribute(el, arg[0][el]);
-						else this[el] = arg[0][el];
+	var attr = function () {
+		var arg = arguments,
+			rtnAttr = "", el;
+		if ( arg.length===0 ) return "";
+		if ( typeof arg[0]==="string" ) {
+			if ( this.getAttribute ) rtnAttr = this.getAttribute(arg[0]);
+			else rtnAttr = this[arg[0]];
+			return rtnAttr;
+		} else {
+			for ( el in arg[0] ) {
+				if ( !Object.prototype.isPrototypeOf(arg[0][el]) ) {
+					if ( this.setAttribute ) this.setAttribute(el, arg[0][el]);
+					else this[el] = arg[0][el];
+				}
+			}
+			return this;
+		}
+	};
+	
+	var css = function () {
+		var getUpper = function ( str ) {
+				var chars = "abcdefghijklmnopqrstuvwxyz",
+					tp, i, lng;
+				for ( i=0, lng=str.length; i<lng; i++ ) {
+					if ( chars.indexOf(str.charAt(i))==-1 ) {
+						tp = str.split(str.charAt(i));
+						tp[1] = str.charAt(i).toLowerCase() + tp[1];
+						str = tp[0] +"-"+ tp[1];
 					}
 				}
-				return this;
-			}
-		},
-		css = function () {
-			var 
-				getUpper = function ( str ) {
-					var chars = "abcdefghijklmnopqrstuvwxyz",
-						tp, i, lng;
-					for ( i=0, lng=str.length; i<lng; i++ ) {
-						if ( chars.indexOf(str.charAt(i))==-1 ) {
-							tp = str.split(str.charAt(i));
-							tp[1] = str.charAt(i).toLowerCase() + tp[1];
-							str = tp[0] +"-"+ tp[1];
-						}
-					}
-					return str;
-				},
-				arg = arguments,
-				cssInfo = this.style.cssText,
-				computedStyle,
-				rtnCss = "", el;
-			if ( arg.length===0 ) return "";
-			if ( typeof arg[0]==="string" ) {
-				if  ( this.currentStyle ) {
-					computedStyle = this.currentStyle;
-				} else {
-					computedStyle = window.getComputedStyle(this, null);
-				}
-				return computedStyle[arg[0]];
+				return str;
+			},
+			arg = arguments,
+			cssInfo = this.style.cssText,
+			computedStyle,
+			rtnCss = "", el;
+		if ( arg.length===0 ) return "";
+		if ( typeof arg[0]==="string" ) {
+			if  ( this.currentStyle ) {
+				computedStyle = this.currentStyle;
 			} else {
-				for ( el in arg[0] ) {
-					if ( !Object.prototype.isPrototypeOf(arg[0][el]) ) {
-						rtnCss += getUpper(el) +":"+ arg[0][el] +";";
-					}
+				computedStyle = window.getComputedStyle(this, null);
+			}
+			return computedStyle[arg[0]];
+		} else {
+			for ( el in arg[0] ) {
+				if ( !Object.prototype.isPrototypeOf(arg[0][el]) ) {
+					rtnCss += getUpper(el) +":"+ arg[0][el] +";";
 				}
-				this.style.cssText = cssInfo + rtnCss;
-				return this;
 			}
-		},
-		text = function () {
-			var arg = arguments,
-				rtnText = "";
-			if ( arg.length===0) {
-				if ( this.textContent ) rtnText = this.textContent;
-				else rtnText = this.innerText;
-				return rtnText;
-			} else {
-				if ( this.textContent ) this.textContent = ""+ arg[0];
-				else this.innerText = ""+ arg[0];
-				return this;
-			}
-		};
+			this.style.cssText = cssInfo + rtnCss;
+			return this;
+		}
+	};
+	
+	var text = function () {
+		var arg = arguments,
+			rtnText = "";
+		if ( arg.length===0) {
+			if ( this.textContent ) rtnText = this.textContent;
+			else rtnText = this.innerText;
+			return rtnText;
+		} else {
+			if ( this.textContent ) this.textContent = ""+ arg[0];
+			else this.innerText = ""+ arg[0];
+			return this;
+		}
+	};
 	
 
 	return function ( tagName, parent ) {
@@ -5902,7 +5847,7 @@ jCommon.prototype.recursive=function(dt){
 	};
 	return res;
 };
-//2015.01.21. by Jae Hyun Lee
+
 jCommon.prototype.arToJson=function(ar){
 	var arr=new Array();
 	
@@ -5917,7 +5862,7 @@ jCommon.prototype.arToJson=function(ar){
 	});
 	return arr;
 };
-//2015.02.04. by Jae Hyun Lee
+
 jCommon.prototype.riseandfall=function(m,fnc){
 	rise(m,function(s,opt){
 		if(!opt) fnc(s);
@@ -5928,6 +5873,7 @@ jCommon.prototype.riseandfall=function(m,fnc){
 		}
 	});
 };
+
 jCommon.prototype.fallandrise=function(m,fnc){
 	fall(m,function(s,opt){
 		if(!opt) fnc(m-s);
@@ -5938,6 +5884,7 @@ jCommon.prototype.fallandrise=function(m,fnc){
 		}
 	});
 };
+
 jCommon.prototype.rise=function(m,fnc){
 	var ACCEL=3;
 	var cnt=0, 
@@ -5957,6 +5904,7 @@ jCommon.prototype.rise=function(m,fnc){
 			prev=s;
 		},20);
 };
+
 jCommon.prototype.fall=function(m,fnc){
 	var ACCEL=3;
 	var cnt=0, 
@@ -5974,6 +5922,7 @@ jCommon.prototype.fall=function(m,fnc){
 			}
 		},20);
 };
+
 jCommon.prototype.parseTag=function(str){
 	var pat=/<[a-z]+[\s]{0,}[^<{]*>/g,
 		pat1=/<\/[\sa-z]+>/g,
@@ -6021,6 +5970,7 @@ jCommon.prototype.parseTag=function(str){
 	};
 	return arr;
 };
+
 jCommon.prototype.fndTag=function(str){
 	/*
 	fndTag(document.body.innerHTML);
@@ -6054,19 +6004,8 @@ jCommon.prototype.fndTag=function(str){
 		return false;
 	}
 };
-//2015.02.04. by Jae Hyun Lee
+
 jCommon.prototype.arToJson=function(ar){
-	//like this
-	
-	/*
-	cf.arToJson([
-		//col1:id, col2:parent, col3:name, col4:content
-		[1,0,"root",""],
-		[2,1,"first",""],
-		[3,1,"second",""]
-	]);
-	*/
-	
 	var arr=new Array();
 	ar.trav(function(d,i){
 		var obj={
@@ -6079,7 +6018,7 @@ jCommon.prototype.arToJson=function(ar){
 	});
 	return arr;
 };
-//2015.03.04. by Jae Hyun Lee
+
 jCommon.prototype.getTimeStamp=function(){
 	var a=new Date().getMilliseconds();
 	var b=cf.getToday();
@@ -6090,7 +6029,7 @@ jCommon.prototype.getTimeStamp=function(){
 	str+=a;
 	return str;
 };
-//2015.04.20. by Jae Hyun Lee
+
 jCommon.prototype.jsoc=function(addr, fnc){
 	var l=this;
 	this.action;

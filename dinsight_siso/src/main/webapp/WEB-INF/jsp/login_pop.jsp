@@ -9,26 +9,9 @@
 <style type="text/css">
 	img {cursor:pointer}
 </style>
-<!-- Main start-->
-<div id="pop_up_login" class="login">
-	<div :class='loginCon' :style="conBackGround">
-		<form:form method="post" id="loginForm" name="loginForm">
-			<div>
-				<input :class="idRequired" :style="inputStyle" type="text" id="login_id" name="login_id" :title="loginId" @keypress="checkKey"/>
-				<input :class="pwRequired" :style="inputStyle" type="password" id="login_Passwd" name="login_Passwd" :title="loginPasswd" @keypress="checkKey">
-		    </div>
-			<div class="login_btn button">
-				<img :src="btnImage" :alt="altText" @click="actionLogin" />
-			</div>
-			<div id="join_form" :style="joinFormStyle"><img :src="joinBtnImg" @click="joinPopup"/></div>
-		 </form:form>
-		 <div id="info_msg"></div>
-		 <div id="copyright"></div>
-	</div>
-	 <!-- 컨텐츠가 들어갈 영역 지정 (이미지, html 등.. 여러가지를 동적으로 부를수 있다. -->
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<%@ include file="/template/loginPop" %>
+
 <script>
 
 $(document).ready(function() {
@@ -53,11 +36,17 @@ $(document).ready(function() {
 			pwRequired : "txt_pw required",
 			inputStyle : "width:140px; ime-mode:inactive;",
 			altText : "로그인",
-			loginId : this.altText + " ID",
-			loginPasswd : this.altText + " 패스워드",
 			joinFormStyle : "position:absolute; top:165px; left:273px; width:70px;",
 			joinBtnImg : "/images/main/btn_join.gif",
 			btnImage : "/images/main/btn_login.gif",						
+		},
+		computed : {
+			loginId : function(){
+				return this.altText + " ID";
+			},
+			loginPasswd : function(){
+				return this.altText + " 패스워드";
+			}			
 		},
 		methods : {
 			checkKey : function(event){
@@ -128,8 +117,7 @@ $(document).ready(function() {
 			            fn_ajax_resultLogin(json, formId);
 				    }
 			    });	
-			},
-			
+			},			
 			joinPopup : function(){
 				var con = document.createElement("div");				
 				Object.assign(con.style, {width:"880px", height:"420px", position:"absolute"});

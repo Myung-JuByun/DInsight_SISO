@@ -1,168 +1,175 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
-<div id="approval_pop" style="max-height:557px; width:1030px; overflow-y:auto;">
-</div>
+<template>
+	<div :id="pop" :style="popStyle">
+	   <!--//Content head end -->	
+	   <div class="search" style="width:990px;">
+	      <table>
+	         <tr>
+	            <td style="font-weight: bold">{{ paymentRequestDiv }}</td>
+	            <td>
+	            	<select name="sh_payment_type" class="sh_payment_type select2"></select>
+	            </td>
+	         </tr>
+	      </table>
+	   </div>
+	   <!--// search end -->		
+	   <div class="Left_wrap2">
+	      <!--  table start -->			
+	      <div class="Left_group4_3">
+	         <div class="title2">{{ organizationMap }}</div>
+	         <div class="left_table4">
+	            <table class="Normal_table">
+	               <tr height="138px">
+	                  <td class="right">
+	                     <div class="POP_tree_menu" id="POP_tree_menu">
+	                     	<!-- 트리메뉴 시작 -->							
+	                        <!-- 트리메뉴 끝 -->							
+	                     </div>
+	                  </td>
+	               </tr>
+	               <tr>
+	                  <td class="right end" align="right">
+	                  	<a v-for="item in treeBtnList" href="javascript:;" :onclick="item.func"><img :src="item.btnImg" :alt="item.altText"/></a>	                  	
+	                  </td>
+	               </tr>
+	            </table>
+	         </div>
+	      </div>
+	      <!--2nd table start -->		
+	      <div class='Left_group4'>
+	         <div class='title3'>
+	            <div class='group_search'>
+	            	<input type='text' name='search_user_name' id='search_user_name' size='30' :placeholder="namePlaceHolder" :style="nameInputStyle">
+	            	<img src='/images/ico/btn_search_small.gif' name='search_img_user_name' alt='search' style="vertical-align:middle" />
+	            </div>
+	         </div>
+	         <div class='left_table4'>
+	            <table class='Normal_table'>
+	               <tr>
+	                  <th width='31px'></th>
+	                  <th width='60px'>{{ name }}</th>
+	                  <th width='50px'>{{ position }} </th>
+	                  <th width='90px' class='right'>{{ department }}</th>
+	                  <th width='10px' class='right'>&nbsp;</th>
+	               </tr>
+	               <tr height='150px'>
+	                  <td colspan='5' class='right'>
+	                     <div style='height:150px;overflow:auto;'>
+	                        <table class='Normal_table'>
+	                           <tbody id='userListPopView'>
+	                              <!-- 직원리스트 시작 -->
+	                              <!-- 직원리스트 끝 -->								
+	                           </tbody>
+	                        </table>
+	                     </div>
+	                  </td>
+	               </tr>
+	               <tr>
+	                  <td align="right" colspan="4" class="right end">
+	                  	<a v-for="item in selectBtnList" href="javascript:;" :onclick="item.func"><img :src="item.btnImg" :alt="item.altText"/></a>	                  						
+	                  </td>
+	               </tr>
+	            </table>
+	         </div>
+	      </div>
+	      <!--3rd btns start -->		
+	      <div class="Left_group5">
+	         <ul>
+	            <li v-for="item in confirmBtnList">
+	            	<a href="javascript:;"><img :src="item.btnImg" :alt="item.altText" /></a>
+	            </li>	            
+	         </ul>
+	      </div>
+	      <!--//3rd btns end -->	
+	   </div>
+	   <!--//left end -->		<!--결재선 순서 지정 -->	
+	   <div class="Right_group4">
+	      <div class="title2">{{ paymentLine }}</div>
+	      <div class="POP_confirm_div">
+	         <ul></ul>
+	      </div>
+	      <div class="confirm_btns">
+	         <ul>
+	         	<li v-for="item in paymentBtnList">
+	         		<a href="javascript:void(0)"><img :src="item.btnImg" :alt="item.altText"/></a>
+	         	</li>	         	
+	         </ul>
+	      </div>
+	   </div>
+	   <!--//결재선 순서 지정 end -->		
+	   <div class="clear"></div>
+	   <div class="Wrap_table2">
+	      <table class="Normal_table">
+	         <tbody>
+	            <tr>
+	               <th width="80"> {{ payment }} </th>
+	               <td class="right pd10">
+	                  <table style="height:60px" class="in_table">
+	                     <tr></tr>
+	                     <tr></tr>
+	                  </table>
+	               </td>
+	            </tr>
+	            <tr>
+	               <th width="80" class="non-bt"> {{ receive }} </th>
+	               <td class="right pd10" style="border-bottom:none;">
+	                  <table style="height:60px" class="in_table">
+	                     <tr></tr>
+	                     <tr></tr>
+	                  </table>
+	               </td>
+	            </tr>
+	         </tbody>
+	      </table>
+	   </div>
+	   <!--  //table end -->
+	</div>
+</template>	
 
 <script type="text/javascript">
-	function viewHTML() {	
-		var HTML ="",
-			conH=cf.workareaheight-223;
+	var addPaymentView = function(){		
+		$("#contents").html($("template").html());
 		
-		HTML += "<div id='approval_pop' style='height:"+conH+"px; max-height:557px; width:1030px; overflow-y:auto'>";
-		HTML += "	<!--//Content head end -->";
-		HTML += "	<div class='search' style='width:990px;'>";
-		HTML += "		<table>";
-		HTML += "			<tr>";
-		HTML += "				<td style='font-weight: bold'>결재 요청 구분&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-		HTML += "				<td>";
-		HTML += "					<select name='sh_payment_type' class='sh_payment_type select2'>";
-		//HTML += "						<option value='01'>경비</option>";
-		//HTML += "						<option value='02'>프로젝트</option>";
-		//HTML += "						<option value='03'>M/H</option>";
-		//HTML += "						<option value='04'>매입/매출</option>";
-		HTML += "					</select>";
-		HTML += "				</td>";
-		HTML += "			</tr>";
-		HTML += "		</table>";
-		HTML += "	</div>";
-		HTML += "	<!--// search end -->";
-		HTML += "	";
-		HTML += "	<div class='Left_wrap2'>";
-		HTML += "	<!--  table start -->";
-		HTML += "	";
-		HTML += "		<div class='Left_group4_3'>";
-		HTML += "			<div class='title2'>조직도</div>";
-		HTML += "			<div class='left_table4'>";
-		HTML += "				<table class='Normal_table'>";
-		HTML += "	";
-		HTML += "					<tr height='138px'>";
-		HTML += "						<td class='right'>";
-		HTML += "							<div class='POP_tree_menu' id='POP_tree_menu'>";
-		HTML += "							<!-- 트리메뉴 시작 -->";
-		HTML += "							<!-- 트리메뉴 끝 -->";
-		HTML += "							</div>";
-		HTML += "						</td>";
-		HTML += "					</tr>";
-		HTML += "					<tr>";
-		HTML += "						<td class='right end'  align='right'>";
-		HTML += "							<a href='javascript:PaymentTreeView(\"Y\")'><img src='/images/exp_payment/btn_openall.gif'alt='전체펼침' /> </a>";
-		HTML += "							<a href='javascript:PaymentTreeView(\"N\")'><img src='/images/exp_payment/btn_closeall.gif'alt='전체닫기' /></a>";
-		HTML += "						</td>";
-		HTML += "					</tr>";
-		HTML += "				</table>";
-		HTML += "			</div>";
-		HTML += "		</div>		";
-		HTML += "	";
-		HTML += "		<!--2nd table start -->";
-		HTML += "		<div class='Left_group4'>";
-		HTML += "			<div class='title3'>";
-		HTML += "				<div class='group_search'><input type='text' name='search_user_name' id='search_user_name' size='30' value='  이름을 입력하세요  ex)홍길동' style='border:1px solid #dbdbdb;'><img src='/images/ico/btn_search_small.gif' name='search_img_user_name' alt='search' align='absmiddle'></div>";
-		HTML += "			</div>";
-		HTML += "			<div class='left_table4'>";
-		HTML += "				<table class='Normal_table'>";
-		HTML += "					<tr>";
-		HTML += "						<th width='31px'></th>";
-		HTML += "						<th width='60px'>이름</th>";
-		HTML += "						<th width='50px'>직위</th>";
-		HTML += "						<th width='90px' class='right'>부서</th>";
-		HTML += "						<th width='10px' class='right'>&nbsp;</th>";
-		HTML += "					</tr>";
-		HTML += "					<tr height='150px'>";
-		HTML += "						<td colspan='5' class='right'>";
-		HTML += "							<div style='height:150px;overflow:auto;'>";
-		HTML += "								<table class='Normal_table'>";
-		HTML += "								<tbody id='userListPopView'>";
-		HTML += "									<!-- 직원리스트 시작 -->";
-		HTML += "									<!-- 직원리스트 끝 -->";
-		HTML += "								</tbody>";
-		HTML += "								</table>";
-		HTML += "							</div>";
-		HTML += "						</td>";
-		HTML += "					</tr>";
-		HTML += "					<tr>";
-		HTML += "						<td align='right' colspan='4' class='right end'>";
-		HTML += "							<a href='javascript:PaymentGroupCheckMode(\"Y\",\"payment_id\")'><img src='/images/exp_payment/btn_selectall.gif' alt='' /></a>";
-		HTML += "							<a href='javascript:PaymentGroupCheckMode(\"N\",\"payment_id\")'><img src='/images/exp_payment/btn_deselectall.gif' alt='' /></a>";
-		HTML += "					</td>";
-		HTML += "					</tr>";
-		HTML += "				</table>";
-		HTML += "			</div>";
-		HTML += "		</div>";
-		HTML += "	";
-		HTML += "		<!--3rd btns start -->";
-		HTML += "		<div class='Left_group5'>";
-		HTML += "			<ul>";
-		HTML += "				<li><a href='javascript:void(0)'><img src='/images/exp_payment/btn_ex.gif' alt='검토'/></a></li>";
-		HTML += "				<li><a href='javascript:void(0)'><img src='/images/exp_payment/btn_ok.gif' alt='승인'/></a></li>";
-		HTML += "			</ul>";
-		HTML += "		</div>";
-		HTML += "		<!--//3rd btns end -->";
-		HTML += "	</div>";
-		HTML += "	<!--//left end -->";
-		HTML += "	";
-		HTML += "	<!--결재선 순서 지정 -->";
-		HTML += "	<div class='Right_group4'>";
-		HTML += "		<div class='title2'>결재선(순서 ▼)</div>";
-		HTML += "		<div class='POP_confirm_div'>";
-		HTML += "			<ul>";
-		HTML += "				";
-		HTML += "			</ul>";
-		HTML += "		</div>";
-		HTML += "		<div class='confirm_btns'>";
-		HTML += "			<ul>";
-		HTML += "				<li><a href='javascript:void(0)'><img src='/images/exp_payment/btn_up.gif' alt=''/></a></li>";
-		HTML += "				<li><a href='javascript:void(0)'><img src='/images/exp_payment/btn_down.gif' alt=''/></a></li>";
-		HTML += "				<li><a href='javascript:void(0)'><img src='/images/exp_payment/btn_top.gif' alt=''/></a></li>";
-		HTML += "				<li><a href='javascript:void(0)'><img src='/images/exp_payment/btn_bottom.gif' alt=''/></a></li>";
-		HTML += "				<li><a href='javascript:void(0)'><img src='/images/exp_payment/btn_del.gif' alt=''/></a></li>";
-		HTML += "				<li><a href='javascript:void(0)'><img src='/images/exp_payment/btn_delall.gif' alt=''/></a></li>";
-		HTML += "			</ul>";
-		HTML += "		</div>";
-		HTML += "	</div>";
-		HTML += "	<!--//결재선 순서 지정 end -->";
-		HTML += "	";
-		HTML += "	<div class='clear'></div>";
-		HTML += "	";
-		HTML += "	<div class='Wrap_table2'>";
-		HTML += "	   <table class='Normal_table'>";
-		HTML += "		   <tbody>";
-		HTML += "		   <tr>";
-		HTML += "			   <th width='80'> 결재 </th>";
-		HTML += "			   <td class='right pd10'>";
-		HTML += "					<table height='60' class='in_table'>";
-		HTML += "						<tr>";
-		HTML += "							";
-		HTML += "						</tr>";
-		HTML += "						<tr>";
-		HTML += "							";
-		HTML += "						</tr>";
-		HTML += "					</table>";
-		HTML += "				</td>";
-		HTML += "			</tr>";
-		HTML += "			<tr>";
-		HTML += "				<th width='80' class='non-bt'> 수신 </th>";
-		HTML += "				<td class='right pd10 ' style='border-bottom:none;'>";
-		HTML += "					<table height='60' class='in_table'>";
-		HTML += "						<tr>";
-		HTML += "							";
-		HTML += "						</tr>";
-		HTML += "						<tr>";
-		HTML += "							";
-		HTML += "						</tr>";
-		HTML += "					</table>";
-		HTML += "				</td>";
-		HTML += "			</tr>";
-		HTML += "			</tbody>";
-		HTML += "		 </table>";
-		HTML += "	</div>";
-		HTML += "	<!--  //table end -->";
-		HTML += "</div>";
-		
-		return HTML;
+		new Vue({
+			el : "#contents",
+			data : function() {
+				return {
+					pop : "approval_pop",
+					popStyle : "height:714px; max-height:" + (cf.workareaheight-223) + "px; width:1030px; overflow-y:auto",
+					paymentRequestDiv : "결재 요청 구분",
+					organizationMap : "조직도",
+					namePlaceHolder : "이름을 입력하세요  ex)홍길동",
+					name : "이름",
+					position : "직위",
+					department : "부서",
+					nameInputStyle : "border:1px solid #dbdbdb;",
+					paymentLine : "결재선(순서 ▼)",
+					payment : "결재",
+					receive : "수신",
+					treeBtnList : [
+						{func:"PaymentTreeView('Y');", btnImg:"/images/exp_payment/btn_openall.gif", altText:"전체펼침"},
+						{func:"PaymentTreeView('N');", btnImg:"/images/exp_payment/btn_closeall.gif", altText:"전체닫기"}
+					],
+					selectBtnList : [
+						{func:"PaymentGroupCheckMode('Y','payment_id');", btnImg:"/images/exp_payment/btn_selectall.gif", altText:"전체 선택"},
+						{func:"PaymentGroupCheckMode('N','payment_id');", btnImg:"/images/exp_payment/btn_deselectall.gif", altText:"전체 선택 해제"}
+					],
+					confirmBtnList : [
+						{btnImg:"/images/exp_payment/btn_ex.gif", altText:"검토"},
+						{btnImg:"/images/exp_payment/btn_ok.gif", altText:"승인"}
+					],
+					paymentBtnList : [
+						{btnImg:"/images/exp_payment/btn_up.gif", altText:"위로"},
+						{btnImg:"/images/exp_payment/btn_down.gif", altText:"아래로"},
+						{btnImg:"/images/exp_payment/btn_top.gif", altText:"맨위로"},
+						{btnImg:"/images/exp_payment/btn_bottom.gif", altText:"맨아래로"},
+						{btnImg:"/images/exp_payment/btn_del.gif", altText:"삭제"},
+						{btnImg:"/images/exp_payment/btn_delall.gif", altText:"모두삭제"}
+					]				
+				};
+			}	
+		});				
 	}
 	
 	var POP_DIVISIONS,POP_MEMBERS,POP_DIVISION_ROOT,POP_CURRENT_DIVISION,POP_CURRENT_DIVISION_MEMBERS=new Array(),POP_CURRENT_SEARCH_MEMBERS=new Array(),	
@@ -187,7 +194,7 @@
 		con1.id="pop_my";
 		con2.className="my_top";
 		span.innerHTML="결재선 지정";
-		con2_a.href="#";
+		con2_a.href="javascript:;";
 		con2_a.className="my_top_closs";
 		con2_img.src="/images/pop_btn/btn_pop_close.png";
 		con2_img.id="my_closs";
@@ -197,14 +204,12 @@
 			cf.killTag(con.parentNode);
 		};
 		
-		cf.setCss(con1,{width:1055+"px",height:cf.workareaheight-105+"px",maxHeight:655+"px",border:2+"px solid black",backgroundColor:"#fff"});
+		cf.setCss(con1,{width:"1055px",height:cf.workareaheight-105+"px",maxHeight:"655px",border:"2px solid black",backgroundColor:"#fff"});
 		
 		var con3=cf.mkTag("div",con1);
 		con3.className="my-container";
-		con3.id="contents";
-		con3.innerHTML=eval("viewHTML()");		
-		cf.setCss(con3,{overflowY:"auto",height:cf.workareaheight-203+"px",maxHeight:557+"px"});
-		
+		con3.id="contents";			
+		cf.setCss(con3,{overflowY:"auto",height:cf.workareaheight-203+"px",maxHeight:"557px"});		
 		
 		var con4=cf.mkTag("div",con1),
 			btn1=cf.mkTag("button",con4),
@@ -221,10 +226,10 @@
 		btn2.onclick=function(){
 			cf.killTag(con.parentNode);	
 		};
-		cf.setCss(btn1,{marginRight:5+"px"});
+		cf.setCss(btn1,{marginRight:"5px"});
 		
 		callPop(con);
-		
+		addPaymentView();
 		defaultPopLoadList();		
 		mkDivSelectBox($(".sh_payment_type")[0], POP_paymentType);
 	};	
@@ -877,5 +882,3 @@
 	};
 	
 </script>
-
-	
