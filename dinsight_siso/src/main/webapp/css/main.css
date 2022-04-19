@@ -187,7 +187,7 @@ input{height:26px; border:1px solid #dbdbdb;}
 #approval_pop .Wrap_table2{border-top:2px solid black;border-bottom:2px solid black; margin-top:20px; }
 #approval_pop .Wrap_table2 th{height:80px; background: #727272; color: #fff;border-top:none;}
 #approval_pop .Wrap_table2 .in_table{border-collapse: collapse; border:1px solid #f2f2f2; }
-#approval_pop .Wrap_table2 .in_table th{height:20px; background: #fafafa; color:black;} 
+#approval_pop .Wrap_table2 .in_table th{height:20px; background: #00faff; color:black;} 
 
 #approval_pop .Left_group4_3 .left_table4{width: 100%;height:224px;margin-top: 0px;border-top:2px solid black;border-bottom:2px solid black;}  
 .end{height:42px;}
