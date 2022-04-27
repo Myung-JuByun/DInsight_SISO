@@ -1,6 +1,5 @@
 //권한설정 저장
-function authSave(obj){
-	
+function authSave(obj){	
 	var temp=$("#userListView").find("input:checkbox[name='in_user_id']").serialize();
 	
 	if(temp.length==0){
@@ -24,18 +23,15 @@ function authSave(obj){
 }
 
 //권한설정 보기
-function viewAuth(mode){
-	
+function viewAuth(mode){	
 	//권한버튼 색깔 초기화
 	if(PREV_BUTTON != null) PREV_BUTTON.className="ct-btn darkgrey normal";
 	
-	//
 	var temp=$("#userListView").find("input:checkbox[name='in_user_id']").serializeArray();
 	
 	if(temp.length==0){
 		if(!mode) generalPop("이름을 체크해주세요.");
-	}else{
-		
+	}else{		
 		$.ajax({
 			  url: "/adm/auth/authViewList",
 			  type: "POST",
@@ -49,12 +45,10 @@ function viewAuth(mode){
 }
 
 //권한설정 삭제
-function delAuth(){
-	
+function delAuth(){	
 	//권한버튼 색깔 초기화
 	if(PREV_BUTTON != null) PREV_BUTTON.className="ct-btn darkgrey normal";
-	
-	//
+		
 	var temp=$("#authList").find("input:checkbox[name='in_grant_user_id']").serializeArray();
 	
 	if(temp.length==0){
@@ -76,8 +70,7 @@ function delAuth(){
 }
 
 //메뉴권한 설정 보기
-function viewSaveMenuAtuhList(obj){
-	
+function viewSaveMenuAtuhList(obj){	
 	$.ajax({
 		  url: "/adm/auth/menuAuthSaveListAjax",
 		  type: "POST",
@@ -90,8 +83,7 @@ function viewSaveMenuAtuhList(obj){
 }
 
 //메뉴권한 설정 저장
-function saveMenuAuth(obj){
-	
+function saveMenuAuth(obj){	
 	var temp=$("#checkbox_menu_tree").find("input:checkbox[name='in_menu_id']").serialize();
 	
 	if(!obj){
@@ -124,8 +116,6 @@ function saveMenuAuth(obj){
 
 //메뉴권한 설정 삭제
 function delMenuAuth(obj){
-	
-	//
 	var temp=$("#viewSaveMenuAtuhList").find("input:checkbox[name='in_menu_id']").serializeArray();
 	
 	if(temp.length==0){
@@ -147,8 +137,7 @@ function delMenuAuth(obj){
 }
 
 //권한추가
-function authAddSave(con){
-	
+function authAddSave(con){	
 	if($("#grant_name").val()==""){
 		generalPop("권한을 입력하세요.");
 		$("#grant_name").focus();
@@ -161,8 +150,7 @@ function authAddSave(con){
 		return;
 	}
 	
-	generalPop("저장하시겠습니까?", function(){
-		
+	generalPop("저장하시겠습니까?", function(){		
 		var temp = $("#con_auth_table").find("input, select").serializeArray();
 		
 		$.ajax({
@@ -179,8 +167,7 @@ function authAddSave(con){
 }
 
 //권한삭제
-function authDelSave(obj){
-	
+function authDelSave(obj){	
 	if(!obj){
 		generalPop("삭제할 권한을 선택해주세요.");
 	}else{

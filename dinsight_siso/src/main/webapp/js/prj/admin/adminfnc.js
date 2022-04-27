@@ -22,7 +22,8 @@ function defaultLoadList(){
 	});
 	DIVISIONS_op=ar;
 	cf.setCss(dv,{height:cf.workareaheight/4+"px"});
-};
+}
+
 function searchAdmin(){
 	var pjName=document.getElementById("search_pjName").value,
 		companyName=document.getElementById("search_companyName").value,
@@ -34,29 +35,8 @@ function searchAdmin(){
 		var obj=data.projectList;
 		prjList(obj);
 	});
-};
-/*function dateSelect(){
-	var year=document.getElementById("sh_project_year");
-	var month=document.getElementById("sh_project_month");
-	
-	year.innerHTML="";
-	month.innerHTML="";
-	
-	var date=new Date();
-	var current_year=date.getFullYear()-1;
-	var current_month=date.getMonth();
-	
-	createYearMonthDay("Y", 2013, "#sh_project_year");
-	var op;
-	for(i=0;i<12;i++){
-		op=cf.mkTag("option",month);
-		op.value=i+1;
-		op.innerHTML=i+1;
-		if(i==current_month){
-			op.selected="selected";
-		}
-	}
-};*/
+}
+
 function modiDate(data,opt){
 	var y=data.substring(0,4);
 	var m=data.substring(4,6);
@@ -65,7 +45,8 @@ function modiDate(data,opt){
 	if(opt)	var date=y+"."+m+"."+d;
 	else var date=y+"-"+m+"-"+d;
 	return date;
-};
+}
+
 function mkSelect(select, obj, def){
 	var op;
 	select.className= "select_pop";
@@ -104,76 +85,76 @@ function mkSelect(select, obj, def){
 			}
 		});
 	}
-};
+}
+
 function prjSave(con){
-	var stat=document.getElementById("in_status");
-	if(!stat.value){
+	var stat=$("#in_status");
+	if(!stat.val()){
 		generalPopOk2("구분을 선택하세요.",function(){
 			stat.focus();
 		});
 		return;
 	}
 	
-	var pjcode=document.getElementById("in_pjcode");
-	if(stat.value==01&&!pjcode){
+	var pjcode=$("#in_pjcode");
+	if(stat.val()=="01" && !pjcode){
 		generalPopOk2("프로젝트 코드를 선택하세요.");
 		return;
 	}
 	
-	var in_pjid=document.getElementById("in_pjid");
-	
-	var pjname=document.getElementById("in_pjname");
-	if(!pjname.value){
+	var in_pjid=$("#in_pjid");	
+	var pjname=$("#in_pjname");
+	if(!pjname.val()){
 		generalPopOk2("프로젝트명을 입력하세요.",function(){
 			pjname.focus();
 		});
 		return;
 	}
 	
-	var companyid=document.getElementById("companyid");
-	if(stat==02&&!companyid){
+	var companyid=$("#companyid");
+	if(stat,val()=="02" && !companyid){
 		generalPopOk2("고객사를 선택하세요.");
 		return;
 	}
 	
-	var stay=document.getElementById("in_stay");
-	var start=document.getElementById("in_start");
-	var end=document.getElementById("in_end");
-	var contract=document.getElementById("in_contract");
-	var division=document.getElementById("in_division");
-	var operation=document.getElementById("in_opertaion_code");
-	var staffname=document.getElementById("in_staff_name");
-	var staffphone=document.getElementById("in_staff_phone_number");
+	var stay=$("#in_stay");
+	var start=$("#in_start");
+	var end=$("#in_end");
+	var contract=$("#in_contract");
+	var division=$("#in_division");
+	var operation=$("#in_opertaion_code");
+	var staffname=$("#in_staff_name");
+	var staffphone=$("#in_staff_phone_number");
 		
-	if(!companyid||!companyid.value){
+	if(!companyid||!companyid.val()){
 		generalPopOk2("고객사를 선택하세요.");
 		return;
-	}else if(!start.value){
+	}else if(!start.val()){
 		generalPopOk2("시작일을 선택하세요.",function(){
 			start.focus();
 		});
 		return;
-	}else if(!end.value){
+	}else if(!end.val()){
 		generalPopOk2("종료일을 선택하세요.",function(){
 			end.focus();
 		});
 		return;
-	}else if(!staffname.value){
+	}else if(!staffname.val()){
 		generalPopOk2("담당자를 입력하세요.",function(){
 			staffname.focus();
 		});
 		return;
-	}else if(!staffphone.value){
+	}else if(!staffphone.val()){
 		generalPopOk2("담당자 연락처를 입력하세요.",function(){
 			staffphone.focus();
 		});
 		return;
-	}else if(!contract.value){
+	}else if(!contract.val()){
 		generalPopOk2("계약금액을 입력하세요.",function(){
 			contract.focus();
 		});
 		return;
-	}else if(!division.value){
+	}else if(!division.val()){
 		generalPopOk2("부서를 선택하세요.",function(){
 			division.focus();
 		});
@@ -185,20 +166,20 @@ function prjSave(con){
 			url: "/prj/admin/projectAdminInsertAjax",
 			type: "POST",
 			data:{
-				"in_project_id"	: in_pjid.value,
-				"in_project_code" : pjcode.value,
-				"in_sale_dev_cd" : stat.value,
-				"in_staff_name" : staffname.value,
-				"in_staff_phone_number" : staffphone.value,
-				"in_project_name" : pjname.value,
-				"in_company_id" : companyid.value,
+				"in_project_id"	: in_pjid.val(),
+				"in_project_code" : pjcode.val(),
+				"in_sale_dev_cd" : stat.val(),
+				"in_staff_name" : staffname.val(),
+				"in_staff_phone_number" : staffphone.val(),
+				"in_project_name" : pjname.val(),
+				"in_company_id" : companyid.val(),
 				//"in_man_month" : mm.value,
-				"in_start_day" : start.value,
-				"in_end_day" : end.value,
-				"in_contract_price" : uncomma(contract.value)*10000,
+				"in_start_day" : start.val(),
+				"in_end_day" : end.val(),
+				"in_contract_price" : uncomma(contract.val())*10000,
 				//"in_customer_id" : respid.value,
-				"in_division_cd" : division.value,
-				"in_opertaion_code" : operation.value
+				"in_division_cd" : division.val(),
+				"in_opertaion_code" : operation.val()
 				//"in_mobile" : mobile
 			},
 			dataType: "text",
@@ -214,7 +195,8 @@ function prjSave(con){
 	   		}
 		});
 	});
-};
+}
+
 function prjDel(){
 	var temp = $("#pj_contents").find(":has(:checkbox:checked)").find("input").serialize();
 	var cnt=0;
@@ -249,12 +231,13 @@ function prjDel(){
 			});
 		});
 	}
-};
+}
+
 function pjcodeSave(con){
 	var ipt=document.createElement("input");
 	ipt.value=prev_pjcode.sales_project_code;
 	ipt.id="in_pjcode";
-	ipt.style.width=120+"px";
+	ipt.style.width="120px";
 	ipt.readOnly=true;
 	select_PJCODE.replaceChild(ipt,select_PJCODE.childNodes[0]);
 	ipt.onclick=getProductCodePop;
@@ -262,11 +245,8 @@ function pjcodeSave(con){
 	select_COMPANYNAME.childNodes[0].value=prev_pjcode.company_name;
 	select_COMPANYNAME.childNodes[0].readOnly=true;
 	
-	var in_pjname=document.getElementById("in_pjname");
-	in_pjname.value=prev_pjcode.module;
-	
-	var companyid=document.getElementById("companyid");
-	companyid.value=prev_pjcode.company_id;
+	$("#in_pjname").val(prev_pjcode.module);
+	$("#companyid").val(prev_pjcode.company_id);
 				
 	select_PAYMENT.childNodes[0].readOnly=true;
 	select_PAYMENT.childNodes[0].value=comma((prev_pjcode.contract_estimate_price/10000));
@@ -275,7 +255,7 @@ function pjcodeSave(con){
 	
 	var def=prev_pjcode.operation_cd_name;
 	var select=document.createElement("select");
-	select.style.width=120+"px";
+	select.style.width="120px";
 	mkSelect(select,DIVISIONS,def);
 	select.id="in_division";
 	select_DIVISION.replaceChild(select, select_DIVISION.childNodes[0]);
@@ -446,8 +426,9 @@ function companySave(prev_company_obj){
 	ipt.id="companyid";
 	ipt.value=prev_company_obj.company_id;
 
-	document.getElementById("my_closs").onclick();
-};
+	$("#my_closs").trigger("click");
+}
+
 function checkMode(e,opt){
 	if(!opt){
 		if(e.checked){
@@ -470,7 +451,8 @@ function checkMode(e,opt){
 			});
 		}
 	}
-};
+}
+
 function dateCheck(stat,endd,flag){
 	if(!stat.value){
 		generalPopOk2("시작일을 먼저 선택하세요");

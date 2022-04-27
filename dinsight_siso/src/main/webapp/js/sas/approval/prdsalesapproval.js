@@ -1,7 +1,5 @@
 var STATUS;
-
-function defaultLoadList(){	
-	
+var defaultLoadList = function(){		
 	$.ajax({
 		  url: "/sas/approval/prdSalesApprovalSearch",
 		  type: "POST",
@@ -13,8 +11,7 @@ function defaultLoadList(){
 	});
 	
 	//검색화면
-	mkSearch();
-	
+	mkSearch();	
 	//리스트
 	prdSalesApprovalList();
 };

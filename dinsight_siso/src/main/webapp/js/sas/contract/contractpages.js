@@ -1,8 +1,4 @@
-mkSearchDiv();
-mkBtnDiv();
-defaultLoadList();
-
-function mkSearchDiv(){
+var mkSearchDiv = function(){
 	var p=document.getElementById("mksearch");
 	p.innerHTML="";	
 	
@@ -15,9 +11,9 @@ function mkSearchDiv(){
 	select.name="sh_contract_year";
 	mkYearSelect(select);
 	span.innerHTML = "년";
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
-	cf.setCss(bx1,{width:197+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
+	cf.setCss(bx1,{width:"197px"});
 
 	var	select = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
@@ -25,8 +21,8 @@ function mkSearchDiv(){
 	select.name="sh_contract_month";
 	mkMonthSelect(select,CurrentDate[1],true);
 	span.innerHTML="월";
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
 	
 	var bx2 = cf.mkTag("div", line1),
 		span = cf.mkTag("span", bx2);
@@ -47,9 +43,9 @@ function mkSearchDiv(){
 	img.onclick=function(){
 		companyPopSrch(0);
 	};	
-	cf.setCss(searchString,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx2,{paddingLeft:21+"px",width:210+"px"});
+	cf.setCss(searchString,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx2,{paddingLeft:"21px",width:"210px"});
 	
 	var cl1=cf.mkTag("div",srch),
 		line2 = cf.mkTag("div",srch),
@@ -57,35 +53,35 @@ function mkSearchDiv(){
 		span = cf.mkTag("span", bx3);
 	span.innerHTML = "구분";
 	SELECT_type = cf.mkTag("select", bx3);
-	cf.setCss(SELECT_type,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
+	cf.setCss(SELECT_type,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
 	
 	var bx4 = cf.mkTag("div", line2),
 		span = cf.mkTag("span", bx4);
 	span.innerHTML = "영업현황";
 	SELECT_status = cf.mkTag("select", bx4);
 	SELECT_status.id="contract_sales_status_cd";
-	cf.setCss(SELECT_status,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx4,{paddingLeft:35+"px"});
+	cf.setCss(SELECT_status,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx4,{paddingLeft:"35px"});
 	
 	var bx5 = cf.mkTag("div", line2),
 		span = cf.mkTag("span", bx5);
 	span.innerHTML = "Type";
 	SELECT_brand = cf.mkTag("select", bx5);
 	SELECT_brand.id="contract_brand_cd";
-	cf.setCss(SELECT_brand,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx5,{paddingLeft:35+"px"});
+	cf.setCss(SELECT_brand,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx5,{paddingLeft:"35px"});
 	
 	var bx6 = cf.mkTag("div", line2),
 		span = cf.mkTag("span", bx6);
 	span.innerHTML = "담당영업";
 	SELECT_user = cf.mkTag("select", bx6);
 	SELECT_user.id="contract_user_id";
-	cf.setCss(SELECT_user,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx6,{paddingLeft:35+"px"});
+	cf.setCss(SELECT_user,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx6,{paddingLeft:"35px"});
 	
 	var bx7 = cf.mkTag("div", line2),
 		img_re=cf.mkTag("img",bx7);
@@ -108,18 +104,19 @@ function mkSearchDiv(){
 	img.style.cursor="pointer";
 	img.onclick=searchAdmin;
 	
-	cf.setCss(srch,{marginLeft:20+"px"});
+	cf.setCss(srch,{marginLeft:"20px"});
 	cf.setCss(cl1,{clear:"both"});
-	cf.setCss(line2,{marginTop:5+"px"});
+	cf.setCss(line2,{marginTop:"5px"});
 	cf.setCss(bx1,{float:"left"});
 	cf.setCss(bx2,{float:"left"});
 	cf.setCss(bx3,{float:"left"});
 	cf.setCss(bx4,{float:"left"});
 	cf.setCss(bx5,{float:"left"});
 	cf.setCss(bx6,{float:"left"});
-	cf.setCss(bx7,{float:"left",paddingLeft:20+"px"});
+	cf.setCss(bx7,{float:"left",paddingLeft:"20px"});
 };
-function mkBtnDiv(){
+
+var mkBtnDiv = function(){
 	var p=document.getElementById("mkbtn");
 	p.innerHTML="";
 	
@@ -141,7 +138,8 @@ function mkBtnDiv(){
 		//else contractPop("modi",prev.obj);
 	};
 };
-function mkSelect(select, obj, def){
+
+var mkSelect = function(select, obj, def){
 	var op;
 	
 	select.className="select_pop";
@@ -158,7 +156,8 @@ function mkSelect(select, obj, def){
 		}
 	});
 };
-function contractList(obj){
+
+var contractList = function(obj){
 	var p=document.getElementById("contractTb"),
 		box=document.getElementById("contract_contents");
 	box.innerHTML="";
@@ -171,7 +170,7 @@ function contractList(obj){
 		td.className="right";
 		td.colSpan="5";
 		td.innerHTML="조회된 데이터가 없습니다.";
-		cf.setCss(td,{borderTop:0+"px"});
+		cf.setCss(td,{borderTop:"0px"});
 	}else{
 		obj.trav(function(d,i){
 			var tr=cf.mkTag("tr",box);
@@ -213,44 +212,44 @@ function contractList(obj){
 			};
 			
 			var td1=cf.mkTag("td",tr);
-			td1.style.width=5+"%";
+			td1.style.width="5%";
 			td1.innerHTML=i+1;
 			
 			var td2=cf.mkTag("td",tr);
-			td2.style.width=15+"%";
+			td2.style.width="15%";
 			td2.innerHTML=d.contract_project_code;
 
 			var td3=cf.mkTag("td",tr);
-			td3.style.width=30+"%";
+			td3.style.width="30%";
 			td3.innerHTML=d.contract_name;
 			td3.className="txt_left pd10";
 			
 			var td4=cf.mkTag("td",tr);
-			td4.style.width=35+"%";
+			td4.style.width="35%";
 			td4.className="txt_left pd10";
 			
 			if(d.contract_file_name != '' && d.contract_file_name != null && d.contract_file_name != undefined){
 				var aTagImg = cf.mkTag("img", td4);
 				aTagImg.src = "/images/ico/ico_filedown.gif";
 				aTagImg.onclick = function(){
-					javascript:window.open(encodeURI("/sas/contract/contractDownloadAjax.do?sh_contract_id=" + d.contract_id));
+					window.open(encodeURI("/sas/contract/contractDownloadAjax?sh_contract_id=" + d.contract_id));
 				};
 			}
 			var aTag = cf.mkTag("a", td4);
 			//aTag.href = 'javascript:window.open(encodeURI("/sas/contract/contractDownloadAjax.do?sh_contract_id=' + d.contract_id + '"))';
 			aTag.onclick = function(){
-				javascript:window.open(encodeURI("/sas/contract/contractDownloadAjax.do?sh_contract_id=" + d.contract_id));
+				window.open(encodeURI("/sas/contract/contractDownloadAjax?sh_contract_id=" + d.contract_id));
 			};
 			aTag.textContent = d.contract_file_name; 
 			aTag.style.textDecoration="underline";
 			
 			var td5=cf.mkTag("td",tr);
-			td5.style.width=5+"%";
+			td5.style.width="5%";
 			td5.innerHTML=d.contract_rivision;
 			
 			var td6=cf.mkTag("td",tr);
 			td6.className="right";
-			td6.style.width=15+"%";
+			td6.style.width="15%";
 			td6.style.cursor="pointer";
 			td6.innerHTML="[버전이력상세]";
 			td6.onclick=function(){
@@ -268,14 +267,14 @@ function contractList(obj){
 				});
 			};
 			if(i==0){
-				cf.setCss(td1,{borderTop:0+"px"});
-				cf.setCss(td2,{borderTop:0+"px"});
-				cf.setCss(td3,{borderTop:0+"px"});
-				cf.setCss(td4,{borderTop:0+"px"});
-				cf.setCss(td5,{borderTop:0+"px"});
-				cf.setCss(td6,{borderTop:0+"px"});
+				cf.setCss(td1,{borderTop:"0px"});
+				cf.setCss(td2,{borderTop:"0px"});
+				cf.setCss(td3,{borderTop:"0px"});
+				cf.setCss(td4,{borderTop:"0px"});
+				cf.setCss(td5,{borderTop:"0px"});
+				cf.setCss(td6,{borderTop:"0px"});
 			}
 		});
 	}
-	cf.setCss(p,{height:cf.workareaheight*0.65+"px",minHeight:450+"px",maxHeight:600+"px"});
+	cf.setCss(p,{height:cf.workareaheight*0.65+"px",minHeight:"450px",maxHeight:"600px"});
 };

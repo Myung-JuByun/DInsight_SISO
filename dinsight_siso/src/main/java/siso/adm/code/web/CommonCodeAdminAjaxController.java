@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,10 +60,12 @@ public class CommonCodeAdminAjaxController {
 			try {
 				List<CodeAdminVO> codeList = codeAdminService.selectCmnGroupCodeList(searchVO);
 				
+				for(CodeAdminVO adminVO : codeList) {
+					System.out.println(adminVO.getGroup_id() + "/" + adminVO.getCode_id());
+				}
+				
 				ObjectMapper om = new ObjectMapper();
-			    str_resData = om.writeValueAsString(codeList);
-			    
-			    System.out.println(str_resData);
+			    str_resData = om.writeValueAsString(codeList);			    			    
 			    
 				model.addAttribute("codeList", codeList);
 				
@@ -90,10 +93,12 @@ public class CommonCodeAdminAjaxController {
 			try {
 				List<CodeAdminVO> codeList = codeAdminService.selectCmnCodeList(searchVO);
 				
+				for(CodeAdminVO adminVO : codeList) {
+					System.out.println(adminVO.getGroup_id() + "/" + adminVO.getCode_id());
+				}
+				
 				ObjectMapper om = new ObjectMapper();
 			    str_resData = om.writeValueAsString(codeList);
-			    
-			    System.out.println(str_resData);
 			    
 				model.addAttribute("codeList", codeList);
 				
@@ -126,11 +131,12 @@ public class CommonCodeAdminAjaxController {
 				resultMap.put("groupList", groupList);
 				resultMap.put("codeList", codeList);
 				
+				for(CodeAdminVO groupVo : groupList) {
+					System.out.println(groupVo.getGroup_id() + "/" + groupVo.getCode_id());
+				}
+								
 				ObjectMapper om = new ObjectMapper();
-			    str_resData = om.writeValueAsString(resultMap);
-			    
-			    
-			    System.out.println(str_resData);
+			    str_resData = om.writeValueAsString(resultMap);			    			    
 			    
 				model.addAttribute("codeList", codeList);
 				

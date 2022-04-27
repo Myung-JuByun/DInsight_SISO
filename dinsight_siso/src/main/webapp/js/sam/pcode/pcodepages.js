@@ -1,8 +1,4 @@
-
-mkSearchDiv();
-defaultLoadList();
-statusInfo();
-function mkSearchDiv() {
+var mkSearchDiv = function() {
 	var p=document.getElementById("searchDiv");
 	p.innerHTML = "";
 	
@@ -32,9 +28,9 @@ function mkSearchDiv() {
 		document.getElementById("sh_closing_month").value="";
 	};	
 	span.innerHTML = "년";
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
-	cf.setCss(bx1,{width:197+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
+	cf.setCss(bx1,{width:"197px"});
 	
 	var	select = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
@@ -46,9 +42,8 @@ function mkSearchDiv() {
 		document.getElementById("sh_closing_month").value="";
 	};	
 	span.innerHTML = "월";
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
-	
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});	
 	
 	var bx2 = cf.mkTag("div", line1),
 		span = cf.mkTag("span", bx2);
@@ -61,9 +56,9 @@ function mkSearchDiv() {
 			projectSearch();
 		}
 	};	
-	cf.setCss(searchString,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx2,{paddingLeft:21+"px",width:190+"px"});
+	cf.setCss(searchString,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx2,{paddingLeft:"21px",width:"190px"});
 	
 	var bx3 = cf.mkTag("div", line1),
 		span1 = cf.mkTag("span", bx3),
@@ -90,13 +85,12 @@ function mkSearchDiv() {
 		document.getElementById("sh_sales_project_month").value="";
 	};	
 	span3.innerHTML = "월";	
-	cf.setCss(select1,{width:70+"px"});
-	cf.setCss(select2,{width:70+"px"});
-	cf.setCss(span1,{paddingRight:12+"px"});
-	cf.setCss(span2,{paddingRight:12+"px",marginLeft:5+"px"});
-	cf.setCss(span3,{paddingRight:12+"px",marginLeft:5+"px"});
-	cf.setCss(bx3,{paddingLeft:31+"px"});
-	
+	cf.setCss(select1,{width:"70px"});
+	cf.setCss(select2,{width:"70px"});
+	cf.setCss(span1,{paddingRight:"12px"});
+	cf.setCss(span2,{paddingRight:"12px",marginLeft:"5px"});
+	cf.setCss(span3,{paddingRight:"12px",marginLeft:"5px"});
+	cf.setCss(bx3,{paddingLeft:"31px"});	
 	
 	var cl1=cf.mkTag("div",srch),
 		line2 = cf.mkTag("div",srch),
@@ -104,32 +98,32 @@ function mkSearchDiv() {
 		span = cf.mkTag("span", bx4);
 	span.innerHTML = "구분";
 	SELECT_type = cf.mkTag("select", bx4);
-	cf.setCss(SELECT_type,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
+	cf.setCss(SELECT_type,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
 
 	var bx5 = cf.mkTag("div", line2),
 		span = cf.mkTag("span", bx5);
 	span.innerHTML = "영업현황";
 	SELECT_status = cf.mkTag("select", bx5);
-	cf.setCss(SELECT_status,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx5,{paddingLeft:35+"px"});
+	cf.setCss(SELECT_status,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx5,{paddingLeft:"35px"});
 	
 	var bx6 = cf.mkTag("div", line2),
 		span = cf.mkTag("span", bx6);
 	span.innerHTML = "Type";
 	SELECT_brand = cf.mkTag("select", bx6);
-	cf.setCss(SELECT_brand,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx6,{paddingLeft:35+"px"});
+	cf.setCss(SELECT_brand,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx6,{paddingLeft:"35px"});
 	
 	var bx7 = cf.mkTag("div", line2),
 		span = cf.mkTag("span", bx7);
 	span.innerHTML = "담당영업";
 	SELECT_user = cf.mkTag("select", bx7);
-	cf.setCss(SELECT_user,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx7,{paddingLeft:35+"px"});
+	cf.setCss(SELECT_user,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx7,{paddingLeft:"35px"});
 
 	var bx8 = cf.mkTag("div", line2),
 		img_re=cf.mkTag("img",bx8);
@@ -153,9 +147,9 @@ function mkSearchDiv() {
 	img.src="/images/btn/btn_go3.gif";
 	img.onclick=projectSearch;
 	
-	cf.setCss(srch,{marginLeft:20+"px"});
+	cf.setCss(srch,{marginLeft:"20px"});
 	cf.setCss(cl1,{clear:"both"});
-	cf.setCss(line2,{marginTop:5+"px"});
+	cf.setCss(line2,{marginTop:"5px"});
 	cf.setCss(bx1,{float:"left"});
 	cf.setCss(bx2,{float:"left"});
 	cf.setCss(bx3,{float:"left"});
@@ -163,10 +157,11 @@ function mkSearchDiv() {
 	cf.setCss(bx5,{float:"left"});
 	cf.setCss(bx6,{float:"left"});
 	cf.setCss(bx7,{float:"left"});
-	cf.setCss(bx8,{float:"left",paddingLeft:20+"px"});
+	cf.setCss(bx8,{float:"left",paddingLeft:"20px"});
 };
+
 //리스트 출력
-function projectCodeList(data) {
+var projectCodeList = function(data) {
 	var p = document.getElementById("pCodeTable"),
 		obj = data.pCodeList;
 	arr_list = new Array();
@@ -210,10 +205,11 @@ function projectCodeList(data) {
 				d.profit_price, d.win_gb, d.creator_user_name, d.creator ]);
 	});
 	setInputValue(arr_list);
-	cf.setCss(p,{height:cf.workareaheight*0.65+"px",minHeight:450+"px",maxHeight:600+"px"});
+	cf.setCss(p,{height:cf.workareaheight*0.65+"px",minHeight:"450px",maxHeight:"600px"});
 	datePicker("input_date", "yy.mm.dd");
 };
-function setInputValue(arr) {
+
+var setInputValue = function(arr) {
 	var tbd = document.getElementById("pcodeView");
 	tbd.innerHTML = "";
 	checks = new Array();
@@ -249,21 +245,21 @@ function setInputValue(arr) {
 				}
 				if (j == 2) {
 					var select = cf.mkTag("select", td);
-					select.style.width = 95 + "%";
+					select.style.width = "95%";
 					select.name = "in_sales_project_year";
 					select.className = "in_sales_project_year select_pop2";
 					def1 = arr_list[i][j];
 				}
 				if (j == 3) {
 					var select = cf.mkTag("select", td);
-					select.style.width = 95 + "%";
+					select.style.width = "95%";
 					select.name = "in_sales_project_month";
 					select.className = "in_sales_project_month select_pop2";
 					def2 = arr_list[i][j];
 				}
 				if (j == 4) {
 					var select = cf.mkTag("select", td);
-					select.style.width = 95 + "%";
+					select.style.width = "95%";
 					select.name = "in_sales_type_cd";
 					var def = arr_list[i][j];
 					mkSelect(select, TYPELIST, def);
@@ -311,7 +307,7 @@ function setInputValue(arr) {
 				}
 				if (j == 9) {
 					var select = cf.mkTag("select", td);
-					select.style.width = 95 + "%";
+					select.style.width = "95%";
 					select.name = "in_brand_cd";
 					var def = arr_list[i][j];
 					mkSelect(select, BRANDLIST, def);
@@ -319,14 +315,14 @@ function setInputValue(arr) {
 				}
 				if (j == 10) {
 					var ipt = cf.mkTag("input", td);
-					ipt.style.width = 90 + "%";
+					ipt.style.width = "90%";
 					ipt.name = "in_module";
 					ipt.className="input_eng";
 					ipt.value = arr_list[i][j];
 				}
 				if (j == 11) {
 					var select = cf.mkTag("select", td);
-					select.style.width = 95 + "%";
+					select.style.width = "95%";
 					select.name = "in_sales_status_cd";
 					var def = arr_list[i][j];
 					mkSelect(select, STATUSLIST, def);
@@ -335,7 +331,7 @@ function setInputValue(arr) {
 				}
 				if (j == 12) {
 					var ipt = cf.mkTag("input", td);
-					ipt.style.width = 90 + "%";
+					ipt.style.width = "90%";
 					ipt.name = "in_closing";
 					ipt.className = "input_date";
 					ipt.readOnly = true;
@@ -349,7 +345,7 @@ function setInputValue(arr) {
 				}
 				if (j == 14) {
 					var select = cf.mkTag("select", td);
-					select.style.width = 95 + "%";
+					select.style.width = "95%";
 					select.name = "in_operation_cd";
 					var def = arr_list[i][j];
 					mkSelect(select, DIVISION, def);
@@ -357,7 +353,7 @@ function setInputValue(arr) {
 				}
 				if (j == 15) {
 					var select = cf.mkTag("select", td);
-					select.style.width = 95 + "%";
+					select.style.width = "95%";
 					select.name = "in_user_id";
 					var def = arr_list[i][j];
 					mkSelect(select, DIVISIONUSERS, def);
@@ -374,7 +370,7 @@ function setInputValue(arr) {
 				}
 				if (j == 17) {
 					var ipt2 = cf.mkTag("input", td);
-					ipt2.style.width = 90 + "%";
+					ipt2.style.width = "90%";
 					ipt2.style.textAlign = "right";
 					ipt2.name = "in_contract_estimate_price";
 					ipt2.value = comma(arr_list[i][j]);
@@ -386,7 +382,7 @@ function setInputValue(arr) {
 				}
 				if (j == 18) {
 					var ipt3 = cf.mkTag("input", td);
-					ipt3.style.width = 90 + "%";
+					ipt3.style.width = "90%";
 					ipt3.style.textAlign = "right";
 					ipt3.name = "in_cost_price";
 					ipt3.value = comma(arr_list[i][j]);
@@ -398,7 +394,7 @@ function setInputValue(arr) {
 				}
 				if (j == 19) {
 					var ipt4 = cf.mkTag("input", td);
-					ipt4.style.width = 90 + "%";
+					ipt4.style.width = "90%";
 					ipt4.style.textAlign = "right";
 					ipt4.name = "in_profit_price";
 					ipt4.readOnly = true;
@@ -449,19 +445,19 @@ function pcodeAdd() {
 
 	var td = cf.mkTag("td", tr);
 	var select = cf.mkTag("select", td);
-	select.style.width = 95 + "%";
+	select.style.width = "95%";
 	select.name = "in_sales_project_year";
 	select.className = "in_sales_project_year select_pop2";
 
 	var td = cf.mkTag("td", tr);
 	var select = cf.mkTag("select", td);
-	select.style.width = 95 + "%";
+	select.style.width = "95%";
 	select.name = "in_sales_project_month";
 	select.className = "in_sales_project_month select_pop2";
 
 	var td = cf.mkTag("td", tr);
 	var select = cf.mkTag("select", td);
-	select.style.width = 95 + "%";
+	select.style.width = "95%";
 	select.name = "in_sales_type_cd";
 	mkSelect(select, TYPELIST);
 	select.className = "select_pop2";
@@ -498,7 +494,7 @@ function pcodeAdd() {
 
 	var td = cf.mkTag("td", tr);
 	var select = cf.mkTag("select", td);
-	select.style.width = 95 + "%";
+	select.style.width = "95%";
 	select.name = "in_brand_cd";
 	mkSelect(select, BRANDLIST,"",true);
 	select.className = "select_pop2";
@@ -515,11 +511,11 @@ function pcodeAdd() {
 	var td = cf.mkTag("td", tr);
 	var ipt = cf.mkTag("input", td);
 	ipt.name = "in_module";
-	ipt.style.width = 90 + "%";
+	ipt.style.width = "90%";
 
 	var td = cf.mkTag("td", tr);
 	var select = cf.mkTag("select", td);
-	select.style.width = 95 + "%";
+	select.style.width = "95%";
 	select.name = "in_sales_status_cd";
 	mkSelect(select, STATUSLIST,"",true);
 	select.className = "select_pop2";
@@ -530,7 +526,7 @@ function pcodeAdd() {
 	ipt.name = "in_closing";
 	ipt.className = "input_date";
 	ipt.readOnly = true;
-	ipt.style.width = 90 + "%";
+	ipt.style.width = "90%";
 
 	var td = cf.mkTag("td", tr);
 	var ipt_op = cf.mkTag("input", td);
@@ -539,7 +535,7 @@ function pcodeAdd() {
 
 	var td = cf.mkTag("td", tr);
 	var select = cf.mkTag("select", td);
-	select.style.width = 95 + "%";
+	select.style.width = "95%";
 	select.name = "in_operation_cd";
 	/*if (DIVISION.length == 1) {
 		var def,ocd=document.getElementById("in_operation_cd_code");
@@ -559,7 +555,7 @@ function pcodeAdd() {
 
 	var td = cf.mkTag("td", tr);
 	var select = cf.mkTag("select", td);
-	select.style.width = 95 + "%";
+	select.style.width = "95%";
 	select.name = "in_user_id";
 	//var def = searchMem();
 	mkSelect(select, DIVISIONUSERS, LOGINFO.user_id);
@@ -569,12 +565,12 @@ function pcodeAdd() {
 	var ipt = cf.mkTag("input", td);
 	ipt.name = "in_sales_project_code";
 	ipt.disabled = true;
-	ipt.style.width = 95 + "%";
+	ipt.style.width = "95%";
 
 	var td = cf.mkTag("td", tr);
 	var ipt = cf.mkTag("input", td);
 	ipt.name = "in_contract_estimate_price";
-	ipt.style.width = 90 + "%";
+	ipt.style.width = "90%";
 	ipt.style.textAlign = "right";
 	ipt.onkeyup = function(e) {
 		this.value = comma(uncomma(e.target.value));
@@ -586,7 +582,7 @@ function pcodeAdd() {
 	var td = cf.mkTag("td", tr);
 	var ipt = cf.mkTag("input", td);
 	ipt.name = "in_cost_price";
-	ipt.style.width = 90 + "%";
+	ipt.style.width = "90%";
 	ipt.style.textAlign = "right";
 	ipt.onkeyup = function(e) {
 		this.value = comma(uncomma(e.target.value));
@@ -598,13 +594,12 @@ function pcodeAdd() {
 	var td = cf.mkTag("td", tr);
 	var ipt = cf.mkTag("input", td);
 	ipt.name = "in_profit_price";
-	ipt.style.width = 90 + "%";
+	ipt.style.width = "90%";
 	ipt.style.textAlign = "right";
 	ipt.readOnly = true;
 	ipt.value = 0;
 
 	var td = cf.mkTag("td", tr);
-
 	var td = cf.mkTag("td", tr);
 	td.className = "right";
 
@@ -613,7 +608,8 @@ function pcodeAdd() {
 	loadYearMonth(def1, def2);
 	rowCount = true;
 };
-function statusInfo() {
+
+var statusInfo = function() {
 	STATUS_info = document.getElementById("status_info").childNodes[0];
 	STATUS_info.className = "ico_info";
 	var img = cf.mkTag("img", STATUS_info);
@@ -621,54 +617,45 @@ function statusInfo() {
 	img.style.cursor = "pointer";
 	img.onclick = function() {
 		var con = document.createElement("div");
-		con.style.width = 400 + "px";
-		con.style.height = 280 + "px";
-		con.style.position = "absolute";
-		//con.style.backgroundColor="white";
-
-		con.innerHTML = "";
+		con.innerHTML = "";		
+		Object.assign(con.style, {width:"400px", height:"280px", position:"absolute"});		
 
 		var con0 = cf.mkTag("div", con);
 		con0.className = "pop-mypage";
 
 		var con1 = cf.mkTag("div", con0);
 		con1.id = "pop_my";
-		//con1.className="my_top";
-		con1.style.width = 400 + "px";
-		con1.style.height = 280 + "px";
-		con1.style.border = 2 + "px solid black";
-		con1.style.backgroundColor = "white";
-
+		Object.assign(con1.style, {width:"400px", height:"280px", border:"2px solid black", backgroundColor:"white"});
+		
 		var con2 = cf.mkTag("div", con1);
 		con2.className = "my_top";
 		var span = cf.mkTag("span", con2);
 		span.innerHTML = "영업 현황";
 
 		var con2_a = cf.mkTag("a", con2);
-		con2_a.href = "#";
+		con2_a.href = "javascript:;";
 		con2_a.className = "my_top_closs";
+		
 		var con2_img = cf.mkTag("img", con2_a);
 		con2_img.src = "/images/pop_btn/btn_pop_close.png";
 		con2_img.id = "my_closs";
 		con2_img.alt = "닫기";
 		con2_img.align = "right";
+		Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs", alt:"닫기", align:"right"});
+		
 		con2_img.onclick = function() {
 			cf.killTag(con.parentNode);
 		};
 
 		var con3 = cf.mkTag("div", con1);
-		con3.className = "my-container";
-		con3.style.height = 210 + "px";
-		con3.style.marginTop = 20 + "px";
-		con3.style.overflowY = "auto";
+		con3.className = "my-container";		
+		Object.assign(con3.style, {width:"210px", marginTop:"20px", overflowY:"auto"});
 
 		var con4 = cf.mkTag("div", con3);
 		con4.className = "Wrap_table";
 
-		var table = cf.mkTag("table", con4);
-		table.cellpadding = 0;
-		table.cellspacing = 0;
-		table.className = "Normal_table_pop";
+		var table = cf.mkTag("table", con4);		
+		Object.assign(table, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
 
 		STATUSLIST.trav(function(d, i) {
 			var tr = cf.mkTag("tr", table);
@@ -682,7 +669,8 @@ function statusInfo() {
 		callPop(con);
 	};
 };
-function profitCell() {
+
+var profitCell = function() {
 	var in_contract_price = document.getElementsByName("in_contract_estimate_price")
 		, in_cost_price = document.getElementsByName("in_cost_price")
 		, in_profit_price = document.getElementsByName("in_profit_price");
@@ -692,11 +680,14 @@ function profitCell() {
 		d.value = comma(a - b);
 	});
 };
-function searchMem() {
+
+var searchMem = function(){
 	var mem;
+	
 	DIVISIONUSERS.trav(function(d, i) {
 		if (d.code_id == LOGINFO.user_id)
 			mem = d.code_id;
 	});
+	
 	return mem;
 };

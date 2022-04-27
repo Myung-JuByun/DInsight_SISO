@@ -1,4 +1,24 @@
 var prev_tr, pop_prev_tr;
+var PLACEOFBUSINESS, SALESCUSTOMER, YN, SALES;
+
+function defaultLoadList(){		
+	$.ajax({
+		  url: "/alc/admin/alcSearchAdminListAjax",
+		  type: "POST",
+		  async: false,
+		  dataType: "json",
+		  success: function (data) {
+			  PLACEOFBUSINESS = data.placeOfBusiness;
+			  YN = data.yn;
+			  SALES = data.sales;
+		  }
+	});
+	
+	//검색화면
+	mkSearch();	
+	//자동완성
+	autocompleteCompanySearch();
+}
 
 //검색
 function mkSearch(){
@@ -115,73 +135,49 @@ function alcList(obj) {
 			};
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=18+"%";
+			td.style.width="18%";
 			td.innerHTML=d.portfolio;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			td.innerHTML=d.prd_number;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			td.innerHTML=d.prd_type;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			td.innerHTML=d.trigram;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=20+"%";
+			td.style.width="20%";
 			td.innerHTML=d.portfolio_item_name;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=5+"%";
+			td.style.width="5%";
 			td.innerHTML=d.qty;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
-			if(d.code_name==undefined) {
+			td.style.width="10%";
+			if(d.code_name==undefined)
 				td.innerHTML="";
-			}else{
+			else
 				td.innerHTML=d.code_name;
-			}
-			
+						
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
-			if(d.user_name==undefined){
+			td.style.width="10%";
+			if(d.user_name==undefined)
 				td.innerHTML="";
-			}else{
+			else
 				td.innerHTML=d.user_name;
-			}
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=7+"%";
+			td.style.width="7%";
 			td.innerHTML="[상세보기]";
 			td.onclick=function (){
 				alcAdminInstallCustomer(d);
-			};
-			
-			/*var td=cf.mkTag("td",tr);
-			td.style.width=15+"%";
-			td.innerHTML=d.ordering_start_day + " ~ " + d.ordering_end_day;
-			
-			var td=cf.mkTag("td",tr);
-			td.style.width=15+"%";
-			td.innerHTML=d.install_start_day + " ~ " + d.invoice_end_day;
-			
-			var td=cf.mkTag("td",tr);
-			td.style.width=5+"%";
-			if(d.install_identical_yn == '1') {
-				td.innerHTML="Y";	
-			} else{
-				td.innerHTML="N";
-				td.style.color="blue";
-				td.style.fontWeight="bold";
-				td.onclick=function (){
-					alcAdminInstallCustomer(d);
-				};
-			}*/
-			
+			};						
 		});
 	}
 }

@@ -6,6 +6,9 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>   
 <%@page import="java.util.*" %>
 
+<script src="/js/prd/prdfnc.js"></script>
+<script src="/js/prd/prdpages.js"></script>
+
 <script>
 	var login_userid = "<c:out value='${loginVO.user_id}' />";
 	
@@ -13,7 +16,7 @@
 		var input = $("<input></input>");
 		input.attr({type:"hidden", name:"selectedId"});		
 		input.appendTo("body");
+		
+		defaultLoadList();
 	});
 </script>
-<script src="/js/prd/prdfnc.js"></script>
-<script src="/js/prd/prdpages.js"></script>

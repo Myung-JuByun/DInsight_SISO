@@ -332,12 +332,12 @@ function setHeadTableValue(tbl,arr,opt){
 						var aTagImg = cf.mkTag("img", cell);
 						aTagImg.src = "/images/ico/ico_filedown.gif";
 						aTagImg.onclick = function(){
-							javascript:window.open(encodeURI("/cop/companyDownloadAjax.do?sh_company_id=" +prev.data[18]));
+							window.open(encodeURI("/cop/companyDownloadAjax?sh_company_id=" +prev.data[18]));
 						};			
 						var aTag = cf.mkTag("a", cell);
 						aTag.textContent = prev.data[16];
 						aTag.onclick = function(){
-							javascript:window.open(encodeURI("/cop/companyDownloadAjax.do?sh_company_id=" + prev.data[18]));
+							window.open(encodeURI("/cop/companyDownloadAjax?sh_company_id=" + prev.data[18]));
 						};
 						cf.setCss(aTag,{cursor:"pointer",textDecoration:"underline"});
 					}
@@ -926,7 +926,7 @@ function setInputValue(tbl,arr,opt){
 						var aTagImg = cf.mkTag("img", cell);
 						aTagImg.src = "/images/ico/ico_filedown.gif";
 						aTagImg.onclick = function(){
-							javascript:window.open(encodeURI("/cop/companyDownloadAjax.do?sh_company_id=" +prev.data[18]));
+							window.open(encodeURI("/cop/companyDownloadAjax?sh_company_id=" +prev.data[18]));
 						}
 						var aTag = cf.mkTag("a", cell);
 						//aTag.href = 'javascript:window.open(encodeURI("/cop/companyDownloadAjax.do?sh_company_id=' + prev.obj.company_id + '"))';
@@ -934,7 +934,7 @@ function setInputValue(tbl,arr,opt){
 						aTag.style.cursor="pointer";
 						aTag.textContent = prev.data[16];
 						aTag.onclick = function(){
-							javascript:window.open(encodeURI("/cop/companyDownloadAjax.do?sh_company_id=" + prev.data[18]));
+							window.open(encodeURI("/cop/companyDownloadAjax?sh_company_id=" + prev.data[18]));
 						}
 						var span= cf.mkTag("span", cell);
 						span.style.paddingLeft="5px";

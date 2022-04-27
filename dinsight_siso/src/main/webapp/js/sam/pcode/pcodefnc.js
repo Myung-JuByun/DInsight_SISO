@@ -30,7 +30,8 @@ function defaultLoadList() {
 		projectCodeList(data);
 	});
 	datePicker("input_date", "yy.mm.dd");
-};
+}
+
 function dateSelect(){
 	var year = document.getElementById("sh_sales_project_year");
 	var month = document.getElementById("sh_sales_project_month");
@@ -63,7 +64,8 @@ function dateSelect(){
 			op.selected = "selected";
 		}
 	}
-};
+}
+
 function projectSearch() {
 	var year = document.getElementById("sh_sales_project_year").value,
 		month = document.getElementById("sh_sales_project_month").value,
@@ -80,7 +82,8 @@ function projectSearch() {
 	callProjectCodeData(obj, function(data) {
 		projectCodeList(data);
 	});
-};
+}
+
 function pcodeSave() {
 	var type_cd = nullCheck("in_sales_type_cd");
 	var company_id = nullCheck("in_company_id");
@@ -208,7 +211,8 @@ function pcodeSave() {
 			}
 		});
 	});
-};
+}
+
 function pcodeDel() {
 	var inputDisabled = $("#pcodeView").find(":disabled");
 	inputDisabled.prop("disabled", false);
@@ -281,7 +285,8 @@ function pcodeDel() {
 			});
 		});
 	}
-};
+}
+
 function companySave(prev_com_obj) {
 	var companyname = pcode_prev;
 	var companyid = pcode_prev.previousSibling;
@@ -298,8 +303,9 @@ function companySave(prev_com_obj) {
 	companyid.style.display = "none";
 	//companyname.replaceChild(td,companyname.childNodes[0]);
 
-	document.getElementById("my_closs").onclick();
+	$("#my_closs").trigger("click");
 };
+
 function checkMode(e) {
 	if (e.checked) {
 		checks.trav(function(d, i) {
@@ -312,7 +318,7 @@ function checkMode(e) {
 				d.checked = false;
 		});
 	}
-};
+}
 
 function loadYearMonth(def1, def2) {
 	createCalendar("Y", -7, ".in_sales_project_year");
@@ -323,9 +329,8 @@ function loadYearMonth(def1, def2) {
 		var year = d.options;
 		for (var i = 0, lng = year.length; i < lng; i++) {
 			var f = year[i];
-			if (def1 == f.value) {
-				f.selected = "selected";
-			}
+			if (def1 == f.value)
+				f.selected = "selected";			
 		}
 	});
 	var setMonth = document
@@ -334,50 +339,12 @@ function loadYearMonth(def1, def2) {
 		var month = d.options;
 		for (var i = 0, lng = month.length; i < lng; i++) {
 			var f = month[i];
-			if (def2 == f.value) {
-				f.selected = "selected";
-			}
+			if (def2 == f.value)
+				f.selected = "selected";			
 		}
 	});
-};
-/*function mkSelect(select, obj, def) {
-	var op;
+}
 
-	select.className = "select_pop";
-	op = cf.mkTag("option", select);
-	op.value = "";
-	op.innerHTML = "선택안함";
-
-	if (obj == DIVISION) {
-		obj.trav(function(d, i) {
-			if (obj[i].code_id == "1501") {
-				op = cf.mkTag("option", select);
-				op.value = obj[i].code_id;
-				op.innerHTML = obj[i].code_name;
-				if (def && obj[i].code_id == def) {
-					op.selected = "selected";
-				}
-			}
-			if (obj[i].code_id == "1504") {
-				op = cf.mkTag("option", select);
-				op.value = obj[i].code_id;
-				op.innerHTML = obj[i].code_name;
-				if (def && obj[i].code_id == def) {
-					op.selected = "selected";
-				}
-			}
-		});
-		return;
-	}
-	obj.trav(function(d, i) {
-		op = cf.mkTag("option", select);
-		op.value = obj[i].code_id;
-		op.innerHTML = obj[i].code_name;
-		if (def && obj[i].code_id == def) {
-			op.selected = "selected";
-		}
-	});
-};*/
 function mkSearch() {
 	SELECT_type.innerHTML = "";
 	mkSelect(SELECT_type, TYPELIST,"",true);
@@ -390,7 +357,8 @@ function mkSearch() {
 
 	SELECT_user.innerHTML = "";
 	mkSelect(SELECT_user, DIVISIONUSERS,"",true);
-};
+}
+
 function mkFocus(obj) {
 	var data = document.getElementsByName(obj);
 	var a = [];
@@ -402,7 +370,8 @@ function mkFocus(obj) {
 		p : data,
 		op : a
 	};
-};
+}
+
 function nullCheck(obj) {
 	var data = document.getElementsByName(obj);
 	var a = false;
@@ -411,7 +380,7 @@ function nullCheck(obj) {
 			a = true;
 	});
 	return a;
-};
+}
 
 //월요일 기준 : 년월주 표시
 function realYearMonthWeek() {

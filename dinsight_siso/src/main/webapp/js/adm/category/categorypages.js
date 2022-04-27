@@ -1,4 +1,4 @@
-function mkLeaf(el,category_menu,cnt){
+var mkLeaf = function(el,category_menu,cnt){
 	a=cf.mkTag("div",category_menu);
 	a.style.backgroundColor="white";
 	a.className="wrap_depth";
@@ -40,8 +40,9 @@ function mkLeaf(el,category_menu,cnt){
 		span2.innerHTML=el.account_name;
 	}	
 	leaves.push(a);
-};
-function categoryAdd(){
+}
+
+var categoryAdd = function(){
 	var c_name,
 		parent_id;
 	
@@ -57,20 +58,15 @@ function categoryAdd(){
 	}
 	
 	var con=document.createElement("div");
-	con.style.width=400+"px";
-	con.style.height=225+"px";
-	con.style.position="absolute";
-	//con.style.backgroundColor="white";
+	Object.assign(con.style, {width:"400px", height:"225px", position:"absolute"});
 	
 	con.innerHTML="";
 	
 	var con0=cf.mkTag("div",con);
 	
 	var con1=cf.mkTag("div",con0);
-	con1.id="pop_group_add2";
-	//con1.className="my_top";
-	con1.style.border=2+"px solid black";tr
-	con1.style.backgroundColor="white";
+	con1.id="pop_group_add2";	
+	Object.assign(con1.style, {border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -90,16 +86,14 @@ function categoryAdd(){
 	var con6=cf.mkTag("div",con4);
 	con6.className="Wrap_table";
 	
-	var tb1=cf.mkTag("table",con6);
-	tb1.cellpadding=0;
-	tb1.cellspacing=0;
-	tb1.className="Normal_table_pop";
+	var tb1=cf.mkTag("table",con6);	
+	Object.assign(tb1, {cellpadding:0, cellspaceing:0, className:"Normal_table_pop"});
 	
 	var tbd=cf.mkTag("tbody",tb1);
 	var tr=cf.mkTag("tr",tbd),
 		th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr);
-	th.style.width=100+"px";
+	th.style.width="100px";
 	td.className="right pd10";
 	td.id="pcategory_id";
 	th.innerHTML="상위 분류";
@@ -140,17 +134,16 @@ function categoryAdd(){
 	
 	img1.onclick=function(){
 		//추가
-		var category_name=document.getElementById("category_name").value,
+		var category_name=$("#category_name").val(),
 			account_cd,
 			cate_level;
 		
-		if(prev&&CURRENT_CATEGORY.category_level=="2"){
-			account_cd=document.getElementById("title_account").value;
-		}else account_cd="";
+		if(prev&&CURRENT_CATEGORY.category_level=="2")	
+			account_cd = $("#title_account").val();
+		else account_cd="";
 		
-		if(CURRENT_CATEGORY){
-			cate_level=Number(CURRENT_CATEGORY.category_level)+1;
-		}else cate_level=1;
+		if(CURRENT_CATEGORY)	cate_level=Number(CURRENT_CATEGORY.category_level)+1;
+		else cate_level=1;
 			
 		generalPop("추가하시겠습니까?", function(){			
 			$.ajax({
@@ -184,14 +177,13 @@ function categoryAdd(){
 		cf.killTag(con.parentNode);
 	};
 	callPop(con);
-};
-function categoryModi(){
+}
+
+var categoryModi = function(){
 	if(!prev) generalPop("상위분류를 선택하세요.");
 	else{
 		var con=document.createElement("div");
-		con.style.width=400+"px";
-		con.style.height=225+"px";
-		con.style.position="absolute";
+		Object.assign(con.style, {width:"400px", height:"225px", position:"absolute"});
 		
 		con.innerHTML="";
 		
@@ -199,9 +191,7 @@ function categoryModi(){
 		
 		var con1=cf.mkTag("div",con0);
 		con1.id="pop_group_add2";
-		//con1.className="my_top";
-		con1.style.border=2+"px solid black";tr
-		con1.style.backgroundColor="white";
+		Object.assign(con1.style, {border:"2px solid black", backgroundColor:"white"});
 		
 		var con2=cf.mkTag("div",con1);
 		con2.className="my_top";
@@ -222,15 +212,13 @@ function categoryModi(){
 		con6.className="Wrap_table";
 		
 		var tb1=cf.mkTag("table",con6);
-		tb1.cellpadding=0;
-		tb1.cellspacing=0;
-		tb1.className="Normal_table_pop";
+		Object.assign(tb1, {cellpadding:0, cellspaceing:0, className:"Normal_table_pop"});
 		
 		var tbd=cf.mkTag("tbody",tb1);
 		var tr=cf.mkTag("tr",tbd),
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.width=100+"px";
+		th.style.width="100px";
 		td.className="right pd10";
 		td.id="pcategory_id";
 		th.innerHTML="상위 분류";
@@ -317,4 +305,4 @@ function categoryModi(){
 		};
 		callPop(con);
 	}
-};
+}

@@ -55,8 +55,8 @@ function dataProc(opt){
 	});
 };
 function mkDivision(srch,con){
-	tree_menu.style.width=100+"%";
-	tree_menu.style.height=340+"px";
+	tree_menu.style.width="100%";
+	tree_menu.style.height=+"340px";
 	tree_menu.style.overflowY="auto";
 	tree_menu.style.overflowX="hidden";
 		
@@ -75,12 +75,7 @@ function mkLeaf(el,tree_menu,cnt,srch,con){
 	//var str=el.parent_cd;
 			
 	var a=cf.mkTag("div",tree_menu);
-	a.style.paddingTop=8+"px";
-	a.style.paddingLeft=padLeft+"px";
-	a.style.marginRight=20+"px";
-	//a.style.backgroundColor="white";
-	a.style.whiteSpace="nowrap";
-	a.style.cursor="pointer";
+	cf.setCss(a, {paddingTop:"8px", paddingLeft:padLeft+"px", marginRight:"20px", whiteSpace:"nowrap", cursor:"pointer"});
 	
 	a.obj=el;
 	a.idx=cnt;
@@ -178,9 +173,9 @@ function mkOnlyDivision(){
 	tree_menu.style.width=100+"%";
 	tree_menu.style.height=360+"px";
 	tree_menu.style.overflowY="auto";
-	tree_menu.style.overflowX="hidden";
-		
+	tree_menu.style.overflowX="hidden";		
 	tree_menu.innerHTML="";
+	Object.assign(tree_menu.style, {width:"100%", height:"360px", overflowY:"auto", overflowX:"hidden"});
 	
 	var cnt=0;
 	cf.traverse(DIVISION_ROOT,function(el){
@@ -193,12 +188,8 @@ function mkDivisionLeaf(el,tree_menu,cnt){
 	var padLeft=(indent*el.division_level*1);
 	//var str=el.parent_cd;
 			
-	a=cf.mkTag("div",tree_menu);
-	a.style.paddingTop=8+"px";
-	a.style.paddingLeft=padLeft+"px";
-	a.style.marginRight=20+"px";
-	a.style.backgroundColor="white";
-	a.style.whiteSpace="nowrap";
+	a=cf.mkTag("div",tree_menu);	
+	cf.setCss(a, {paddingTop:"8px", paddingLeft:padLeft+"px", marginRight:"20px", whiteSpace:"nowrap", backgroundColor:"white"});
 	
 	a.obj=el;
 	a.idx=cnt;
@@ -261,7 +252,7 @@ function mkMemberTable(){
 		
 		var td=cf.mkTag("td",tr);
 		td.align="center";
-		td.width=5+"%";
+		td.width="5%";
 		
 		var ipt=cf.mkTag("input",td);
 		ipt.type="checkbox";
@@ -271,46 +262,46 @@ function mkMemberTable(){
 		
 		var td=cf.mkTag("td",tr);
 		td.align="center";
-		td.width=5+"%";
+		td.width="5%";
 		td.innerHTML=cnt+1;
 		
 		var td=cf.mkTag("td",tr);
-		td.width=10+"%";
+		td.width="10%";
 		td.align="center";
 		td.innerHTML=d.user_name;
 		
 		var td=cf.mkTag("td",tr);
 		td.align="center";
-		td.width=14+"%";
+		td.width="14%";
 		td.innerHTML=d.name_english;
 		
 		var td=cf.mkTag("td",tr);
-		td.width=10+"%";
+		td.width="10%";
 		td.align="center";
 		td.innerHTML=d.login_id;
 		
 		var td=cf.mkTag("td",tr);
-		td.width=14+"%";
+		td.width="14%";
 		td.align="center";
 		td.innerHTML=d.division_name;
 		
 		var td=cf.mkTag("td",tr);
 		td.align="center";
-		td.width=7+"%";
+		td.width="7%";
 		var strJob=d.job_title_name;
 		if(strJob && strJob.length>3) strJob=strJob.substring(0,2);
 		td.innerHTML=strJob;
 		
 		var td=cf.mkTag("td",tr);
-		td.width=20+"%";
+		td.width="20%";
 		td.align="center";
 		var span=cf.mkTag("span",td);
 		span.innerHTML=d.email;
-		span.style.width=95+"%";
+		span.style.width="95%";
 		
 		var td=cf.mkTag("td",tr);
 		td.align="center";
-		td.width=7+"%";
+		td.width="7%";
 		if(d.activate_yn=="0"){
 			td.innerHTML="N";
 		}else{
@@ -319,7 +310,7 @@ function mkMemberTable(){
 		
 		var td=cf.mkTag("td",tr);
 		td.align="center";
-		td.width=7+"%";
+		td.width="7%";
 		td.className="right";
 		if(d.delete_yn=="0"){
 			td.innerHTML="N";
@@ -365,18 +356,13 @@ function divisionPop(opt){
 	});	*/
 	function callDiviPopCont(opt){
 		var con=document.createElement("div");
-		con.style.width=350+"px";
-		con.style.height=494+"px";
-		con.style.position="absolute";
 		con.innerHTML="";
 		con.id="divisionpop";
+		Object.assign(con.style, {width:"350px", height:"494px", position:"absolute"});
 		
 		var con0=cf.mkTag("div",con),		
 			con1=cf.mkTag("div",con0);
-		con1.style.width=350+"px";
-		con1.style.height=494+"px";
-		con1.style.border=2+"px solid black";
-		con1.style.backgroundColor="white";
+		Object.assign(con1.style, {width:"350px", height:"494px", border:"2px solid black", backgroundColor:"white"});	
 		
 		var con2=cf.mkTag("div",con1);
 		con2.className="my_top";
@@ -397,7 +383,7 @@ function divisionPop(opt){
 		
 		var con3=cf.mkTag("div",con1);
 		con3.className="my-container";
-		cf.setCss(con3,{paddingBottom:0+"px"});
+		cf.setCss(con3,{paddingBottom:"0px"});
 		
 		var con4=cf.mkTag("div",con3);
 		con4.className="con_table";
@@ -414,8 +400,8 @@ function divisionPop(opt){
 		};
 		dirSrch.className="input_han";
 		dirSrch.type="text";
-		cf.setCss(srch,{marginBottom:10+"px"});
-		cf.setCss(dirSrch,{width:240+"px",border:1+"px solid #dbdbdb",marginRight:12+"px"});
+		cf.setCss(srch,{marginBottom:"10px"});
+		cf.setCss(dirSrch,{width:"240px",border:"1px solid #dbdbdb",marginRight:"12px"});
 		
 		var img=cf.mkTag("img",srch1);
 		img.src="/images/btn/btn_search_small.gif";
@@ -464,17 +450,13 @@ function fold(l){
 		var cmp=l.depth-d.depth;
 		if(cmp>=0) return true;
 		if(l.chk){
-			d.style.height=0+"px";
-			d.style.paddingTop=0+"px";
-			d.style.overflow="hidden";
+			Object.assign(d.style, {height:"0px", paddingTop:"0px", overflow:"hidden"});
 		}else{
 			var memSrch=d.obj.division_cd.substr(0,3);
 			
 			if(memSrch=="mem") d.childNodes[0].src="/images/ico/img_dot.gif";
-			else d.childNodes[0].src="/images/exp_payment/tree_minus.gif";
-			d.style.height=14+"px";
-			d.style.paddingTop=8+"px";
-			d.style.overflow="";
+			else d.childNodes[0].src="/images/exp_payment/tree_minus.gif";			
+			Object.assign(d.style, {height:"14px", paddingTop:"8px", overflow:""});
 		}
 	};
 };

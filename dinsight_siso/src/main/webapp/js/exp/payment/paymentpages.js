@@ -1,7 +1,7 @@
 defaultLoadList();
 
 //부서 리스트 출력
-function divisionList(opt) {
+var divisionList = function(opt) {
 	debugger;
 	if(!opt){
 		box=document.getElementById("userListView");
@@ -25,8 +25,8 @@ function divisionList(opt) {
 		}
 	});
 };
-function pageInit(data){
-	
+
+var pageInit = function(data){	
 	DIVISIONS=data.divisionList;
 	MEMBERS=data.userList;
 	GETTERS=data.receiveList;
@@ -45,7 +45,8 @@ function pageInit(data){
 	dataProc();
 	mkDivision();
 };
-function dataProc(){
+
+var dataProc = function(){
 	var dt=DIVISIONS;
 	//make recursive data structure/////////////////
 	var obj={};
@@ -61,12 +62,9 @@ function dataProc(){
 	});
 	///////////////////////////////////////////////
 };
-function mkDivision(){
-	tree_menu.style.width=225+"px";
-	tree_menu.style.height=288+"px";
-	tree_menu.style.overflowY="auto";
-	tree_menu.style.overflowX="hidden";
-		
+
+var mkDivision = function(){
+	Object.assign(tree_menu.style, {width:"225px", height:"288px", overflowY:"auto", overflowX:"hidden"});	
 	tree_menu.innerHTML="";
 	
 	var cnt=0;
@@ -77,17 +75,14 @@ function mkDivision(){
 	
 	
 };
-function mkLeaf(el,tree_menu,cnt){
+
+var mkLeaf = function(el,tree_menu,cnt){
 	var indent=15;
 	var padLeft=(indent*el.division_level*1);
 	var str=el.parent_cd;
 			
-	a=cf.mkTag("div",tree_menu);
-	a.style.paddingTop=8+"px";
-	a.style.paddingLeft=padLeft+"px";
-	a.style.marginRight=20+"px";
-	a.style.backgroundColor="white";
-	a.style.whiteSpace="nowrap";
+	a=cf.mkTag("div",tree_menu);	
+	cf.setCss(a, {paddingTop:"8px", paddingLeft:padLeft+"px", marginRight:"20px", backgroundColor:"white", whiteSpace:"nowrap"});
 	
 	a.obj=el;
 	a.idx=cnt;
@@ -132,7 +127,8 @@ function mkLeaf(el,tree_menu,cnt){
 	span.innerHTML=" "+"<img src='/images/exp_payment/folder.gif' />"+" "+el.division_name+"&nbsp;&nbsp;&nbsp;&nbsp;";
 	leaves.push(a);
 };
-function getMem(el){
+
+var getMem = function(el){
 	var obj=el.obj;
 	var arr=MEMBERS;
 	CURRENT_DIVISION=el.obj;
@@ -141,7 +137,8 @@ function getMem(el){
 		if(d.division_cd==obj.division_cd) CURRENT_DIVISION_MEMBERS.push(d);
 	});
 };
-function mkMemberTable(){
+
+var mkMemberTable = function(){
 	box.innerHTML="";
 	checks=new Array();
 	
@@ -149,13 +146,14 @@ function mkMemberTable(){
 	ar.trav(function(d,i){
 		mkTr(d);
 	});
+	
 	function mkTr(d){
 		var tr=cf.mkTag("tr",box);
 		tr.style.cursor="pointer";
 		
 		var td=cf.mkTag("td",tr);
 		td.align="center";
-		td.width=30+"px";
+		td.width="30px";
 		
 		var ipt=cf.mkTag("input",td);
 		ipt.type="checkbox";
@@ -164,12 +162,12 @@ function mkMemberTable(){
 		checks.push(ipt);
 		
 		var td=cf.mkTag("td",tr);
-		td.width=59+"px";
+		td.width="59px";
 		td.align="center";
 		td.innerHTML=d.user_name;
 		
 		var td=cf.mkTag("td",tr);
-		td.width=49+"px";
+		td.width="49px";
 		td.align="center";
 		var strJob=d.job_title_name;
 		if(strJob && strJob.length>3) strJob=strJob.substring(0,2);
@@ -181,26 +179,23 @@ function mkMemberTable(){
 		td.innerHTML=d.division_name;
 	};
 };
-function fold(l){
+
+var fold = function(l){
 	var btn_tree=l.getElementsByClassName("btn_tree");
 	leaves.trav(function(d,i){
 		if(i>l.idx) return doFold(d,i);
 	});
+	
 	function doFold(d,i){
 		var cmp=l.depth-d.depth;
 		if(cmp>=0) return true;
 		if(l.chk){
-			d.style.height=0+"px";
-			d.style.paddingTop=0+"px";
-			d.style.overflow="hidden";
+			Object.assign(d.style, {height:"0px", paddingTop:"0px", overflow:"hidden"});
 		}else{
-			if(btn_tree){
+			if(btn_tree)
 				d.childNodes[0].src="/images/exp_payment/tree_minus.gif";
-				}
-			d.style.height=14+"px";
-			d.style.paddingTop=8+"px";
-			d.style.overflow="";
-			
+							
+			Object.assign(d.style, {height:"14px", paddingTop:"8px", overflow:""});
 		}
 	};
 };

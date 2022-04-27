@@ -1,6 +1,3 @@
-mkSearchDiv();
-defaultLoadList("0");
-
 function mkSearchDiv(){
 	var p=document.getElementById("searchDiv");
 	p.innerHTML = "";
@@ -13,9 +10,9 @@ function mkSearchDiv(){
 	select.id = "sh_project_year";
 	select.name = "sh_project_year";
 	span.innerHTML = "년";
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
-	cf.setCss(bx1,{width:280+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
+	cf.setCss(bx1,{width:"280px"});
 	
 	var	select = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
@@ -23,16 +20,16 @@ function mkSearchDiv(){
 	select.name = "sh_project_month";
 	mkMonthSelect(select,CurrentDate[1]);
 	span.innerHTML = "월";
-	cf.setCss(select,{width:60+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
+	cf.setCss(select,{width:"60px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
 	
 	var	select = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
 	select.id = "sh_project_week";
 	select.name = "sh_project_week";
 	span.innerHTML = "주차";
-	cf.setCss(select,{width:50+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
+	cf.setCss(select,{width:"50px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
 
 	var bx2 = cf.mkTag("div", line1);
 	bx2.id = "weekDate";
@@ -45,10 +42,11 @@ function mkSearchDiv(){
 		searchAdmin();
 	};
 	
-	cf.setCss(srch,{marginLeft:20+"px"});
+	cf.setCss(srch,{marginLeft:"20px"});
 	cf.setCss(bx1,{float:"left"});
-	cf.setCss(bx2,{float:"left",paddingTop:5+"px",paddingLeft:12+"px"});
-};
+	cf.setCss(bx2,{float:"left",paddingTop:"5px",paddingLeft:"12px"});
+}
+
 function reportList(obj){	
 	select_mon=new Array();
 	select_tue=new Array();
@@ -61,7 +59,7 @@ function reportList(obj){
 	var dv=document.getElementById("reporttb2"),
 		box=document.getElementById("mm_contents");
 	box.innerHTML="";
-	cf.setCss(dv,{height:cf.workareaheight-386+"px",minHeight:499+"px",overflowY:"scroll",overflowX:"hidden"});
+	cf.setCss(dv,{height:cf.workareaheight-386+"px",minHeight:"499px",overflowY:"scroll",overflowX:"hidden"});
 	
 	var len=obj.length;
 	if(len==0){
@@ -72,7 +70,7 @@ function reportList(obj){
 		td.className="right";
 		td.colSpan="12";
 		td.innerHTML="조회된 데이터가 없습니다.";
-		cf.setCss(td,{borderTop:0+"px"});
+		cf.setCss(td,{borderTop:"0px"});
 	}else{
 		var week=document.getElementById("weekDate"),
 			searchDay=saveDate(week.innerHTML.substring(14,24));
@@ -86,7 +84,7 @@ function reportList(obj){
 				};
 			}			
 			var td1=cf.mkTag("td",tr);
-			td1.style.width=39+"px";
+			td1.style.width="39px";
 			td1.innerHTML=i+1;
 			var ipt=cf.mkTag("input",td1);
 			ipt.className="iptCenter";
@@ -109,7 +107,7 @@ function reportList(obj){
 			ipt.type="hidden";
 			
 			var td3=cf.mkTag("td",tr);
-			td3.style.width=84+"px";
+			td3.style.width="84px";
 			var ipt=cf.mkTag("input",td3);
 			ipt.name="in_mon_status_cd";
 			ipt.value=d.mon_status_cd;
@@ -150,7 +148,7 @@ function reportList(obj){
 			};
 			
 			var td4=cf.mkTag("td",tr);
-			td4.style.width=84+"px";
+			td4.style.width="84px";
 			var ipt=cf.mkTag("input",td4);
 			ipt.name="in_tue_status_cd";
 			ipt.value=d.tue_status_cd;
@@ -191,7 +189,7 @@ function reportList(obj){
 			};
 			
 			var td5=cf.mkTag("td",tr);
-			td5.style.width=84+"px";
+			td5.style.width="84px";
 			var ipt=cf.mkTag("input",td5);
 			ipt.name="in_wed_status_cd";
 			ipt.value=d.wed_status_cd;
@@ -232,7 +230,7 @@ function reportList(obj){
 			};
 			
 			var td6=cf.mkTag("td",tr);
-			td6.style.width=84+"px";
+			td6.style.width="84px";
 			var ipt=cf.mkTag("input",td6);
 			ipt.name="in_thu_status_cd";
 			ipt.value=d.thu_status_cd;
@@ -273,7 +271,7 @@ function reportList(obj){
 			};
 			
 			var td7=cf.mkTag("td",tr);
-			td7.style.width=84+"px";
+			td7.style.width="84px";
 			var ipt=cf.mkTag("input",td7);
 			ipt.name="in_fri_status_cd";
 			ipt.value=d.fri_status_cd;
@@ -314,7 +312,7 @@ function reportList(obj){
 			};
 			
 			var td8=cf.mkTag("td",tr);
-			td8.style.width=84+"px";
+			td8.style.width="84px";
 			var ipt=cf.mkTag("input",td8);
 			ipt.name="in_sat_status_cd";
 			ipt.value=d.sat_status_cd;
@@ -355,7 +353,7 @@ function reportList(obj){
 			};
 			
 			var td9=cf.mkTag("td",tr);
-			td9.style.width=84+"px";
+			td9.style.width="84px";
 			var ipt=cf.mkTag("input",td9);
 			ipt.name="in_sun_status_cd";
 			ipt.value=d.sun_status_cd;
@@ -403,35 +401,35 @@ function reportList(obj){
 			ipt.size=10;
 			if(!d.man_hour) ipt.value="0.0";
 			else ipt.value=(d.man_hour*1).toFixed(1);
-			cf.setCss(ipt,{backgroundColor:"#fffeed",border:0+"px",fontWeight:600});
-			cf.setCss(td10,{width:84+"px",backgroundColor:"#fffeed"});
+			cf.setCss(ipt,{backgroundColor:"#fffeed",border:"0px",fontWeight:600});
+			cf.setCss(td10,{width:"84px",backgroundColor:"#fffeed"});
 			
 			var td11=cf.mkTag("td",tr);
-			td11.style.width=139+"px";
+			td11.style.width="139px";
 			var ipt=cf.mkTag("input",td11);
 			ipt.name="in_issue_report";
 			ipt.value=d.issue_report;
 			ipt.onchange=manhourSum;
-			cf.setCss(ipt,{width:95+"%"});
+			cf.setCss(ipt,{width:"95%"});
 			
 			var td12=cf.mkTag("td",tr);
-			td12.style.width=62+"px";
+			td12.style.width="62px";
 			td12.className="right";
 			td12.innerHTML=d.status_cd_name;
 			
 			if(i==0){
-				cf.setCss(td1,{borderTop:0+"px"});
-				cf.setCss(td2,{borderTop:0+"px"});
-				cf.setCss(td3,{borderTop:0+"px"});
-				cf.setCss(td4,{borderTop:0+"px"});
-				cf.setCss(td5,{borderTop:0+"px"});
-				cf.setCss(td6,{borderTop:0+"px"});
-				cf.setCss(td7,{borderTop:0+"px"});
-				cf.setCss(td8,{borderTop:0+"px"});
-				cf.setCss(td9,{borderTop:0+"px"});
-				cf.setCss(td10,{borderTop:0+"px"});
-				cf.setCss(td11,{borderTop:0+"px"});
-				cf.setCss(td12,{borderTop:0+"px"});
+				cf.setCss(td1,{borderTop:"0px"});
+				cf.setCss(td2,{borderTop:"0px"});
+				cf.setCss(td3,{borderTop:"0px"});
+				cf.setCss(td4,{borderTop:"0px"});
+				cf.setCss(td5,{borderTop:"0px"});
+				cf.setCss(td6,{borderTop:"0px"});
+				cf.setCss(td7,{borderTop:"0px"});
+				cf.setCss(td8,{borderTop:"0px"});
+				cf.setCss(td9,{borderTop:"0px"});
+				cf.setCss(td10,{borderTop:"0px"});
+				cf.setCss(td11,{borderTop:"0px"});
+				cf.setCss(td12,{borderTop:"0px"});
 			}
 		});
 		if(obj.length!=0){
@@ -463,23 +461,24 @@ function mkSumTb(){
 		});
 	});
 	
-	function commonstyle(row,i,col,j){
+	var commonstyle = function(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
 			tb.cellPadding="0px";
 			tb.cellSpacing="0px";
 			tb.className="project_table Normal_table";
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all"});
 		}
 		col.className="txtclr";
-		if(j==0)cf.setCss(col,{width:39+"px",borderRight:0+"px"});
-		else if(j==2||j==3||j==4||j==5||j==6||j==7||j==8)cf.setCss(col,{width:84+"px"});
-		else if(j==9)cf.setCss(col,{width:84+"px",borderRight:0+"px"});
-		else if(j==10)cf.setCss(col,{width:140+"px",borderRight:0+"px"});
-		else if(j==11)cf.setCss(col,{width:80+"px",borderRight:0+"px"});
+		if(j==0)cf.setCss(col,{width:"39px",borderRight:"0px"});
+		else if(j==2||j==3||j==4||j==5||j==6||j==7||j==8)cf.setCss(col,{width:"84px"});
+		else if(j==9)cf.setCss(col,{width:"84px",borderRight:"0px"});
+		else if(j==10)cf.setCss(col,{width:"140px",borderRight:"0px"});
+		else if(j==11)cf.setCss(col,{width:"80px",borderRight:"0px"});
 	};
 	//cf.setCss(p,{height:31+"px"});
-};
+}
+
 function sumTb_tablecellaction(tds,data,row,i,col,j){
 	var txt=col.innerHTML;
 	col.innerHTML="";
@@ -516,7 +515,8 @@ function sumTb_tablecellaction(tds,data,row,i,col,j){
 		var hour=manSum("in_man_hour");
 		col.innerHTML=hour.sum.toFixed(1);
 	}else col.innerHTML=txt;
-};
+}
+
 function mkBtn(data){
 	var btnDiv=document.getElementById("btn_check");
 	btnDiv.innerHTML="";

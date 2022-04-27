@@ -1,7 +1,5 @@
 var codeList;
 
-defaultLoadList();
-
 //페이지 갱신할때 호출해야 하는 항목을 함수에 등록시킴
 function defaultLoadList(){	
 	var target = document.body;
@@ -25,11 +23,11 @@ function defaultLoadList(){
 			td2.className="txt_center right";
 			tr.style.cursor="pointer";
 			tr.style.backgroundColor="white";
-			td1.style.width=100+"px";
+			td1.style.width="100px";
 			
 			if(i==0){
-				cf.setCss(td1,{borderTop:0+"px"});
-				cf.setCss(td2,{borderTop:0+"px"});
+				cf.setCss(td1,{borderTop:"0px"});
+				cf.setCss(td2,{borderTop:"0px"});
 			}
 			
 			td1.innerHTML=data.groupList[i].group_id;
@@ -39,10 +37,10 @@ function defaultLoadList(){
 				groupname=data.groupList[i].group_name,
 				groupex=data.groupList[i].etc_explain;
 			
-			tr.group_id=groupid;
-			tr.group_name=groupname;
-			tr.etc_explain=groupex;
-			tr.idx=i;
+			tr.dataset.group_id=groupid;
+			tr.dataset.group_name=groupname;
+			tr.dataset.etc_explain=groupex;
+			tr.dataset.idx=i;
 			
 			tr.onclick=function(){					
 				if(prev_g==null) this.style.backgroundColor="#edfafb";
@@ -52,12 +50,13 @@ function defaultLoadList(){
 				}
 				prev_g=this;
 				
-				var obj={group_id : this.group_id,group_name : this.group_name,etc_explain : this.etc_explain};
+				var obj={group_id : this.dataset["group_id"], group_name : this.dataset["group_name"], etc_explain : this.dataset["etc_explain"]};				
 				codelist(codeList, obj);
 			};
 		}
 	})
-};
+}
+
 function groupDel(){
 	if(!prev_g) generalPop("삭제할 그룹을 선택하세요.");
 	else if(group_del) generalPop("코드 정보가 있습니다.");
@@ -80,7 +79,8 @@ function groupDel(){
 			});
 		});
 	}//else
-};
+}
+
 function codeDel(){
 	if(!prev_c) generalPop("삭제할 코드를 선택하세요.");
 	else{
@@ -104,7 +104,8 @@ function codeDel(){
 			});
 		});
 	}//else
-};
+}
+
 function searchRESP(){
 	callSubCustomerAdminData(obj, function (data){
 		dir(data);

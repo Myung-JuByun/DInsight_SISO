@@ -40,13 +40,13 @@
                left outer join tb_expanse_category c2 ON (c1.parent_id = c2.category_id)
             WHERE	c1.delete_yn = 0
          <choose>
-         	<when test="groupLevel=='0'.toString()">
+         	<when test="group_level!='0'.toString()">
          		AND	c1.category_level = #{group_level}
          	</when>
-         	<when test="groupLevel=='2'.toString()">
+         	<when test="group_level=='2'.toString()">
 		   		AND	c1.parent_id = #{group_id}
 		 	</when>
-		 	<when test="groupLevel=='2'.toString()">
+		 	<when test="group_level=='3'.toString()">
 		 		AND	c1.parent_id = #{group_id}
 		 	</when>
 		 	<otherwise>

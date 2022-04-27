@@ -426,7 +426,7 @@ function alcStatusInstallCustomerFileDetailList(con, obj){
 			var td=cf.mkTag("td",tr);
 			td.innerHTML=d.file_name;
 			td.onclick=function(){
-				window.open(encodeURI("/sas/contract/contractDownloadAjax.do?sh_contract_id=" + d.id));
+				window.open(encodeURI("/sas/contract/contractDownloadAjax?sh_contract_id=" + d.id));
 			};
 			td.style.cursor="pointer";
 			td.style.textDecoration="underline";

@@ -6,6 +6,9 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>   
 <%@page import="java.util.*" %>
 
+<script src="/js/cop/coppages.js"></script>
+<script src="/js/cop/copfnc.js"></script>
+<script src="/js/cop/coppop.js"></script>
 <script>
 	var login_userid = "<c:out value='${loginVO.user_id}' />";
 	
@@ -13,9 +16,8 @@
 		var input = $("<input></input>");
 		input.attr({type:"hidden", name:"selectedId"});		
 		input.appendTo("body");
+		
+		defaultLoadList();
 	});	
 </script>
-<script src="/js/cop/coppages.js"></script>
-<script src="/js/cop/copfnc.js"></script>
-<script src="/js/cop/coppop.js"></script>
-<script src="/js/cop/cop.js"></script>
+

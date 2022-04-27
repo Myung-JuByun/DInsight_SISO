@@ -1,5 +1,3 @@
-mkSearchDiv();
-defaultLoadList();
 function mkSearchDiv(){
 	var p=document.getElementById("searchDiv");
 	p.innerHTML = "";
@@ -15,10 +13,10 @@ function mkSearchDiv(){
 	select1.id = "sh_report_yy";
 	select1.name = "sh_report_yy";
 	mkYearSelect(select1,CurrentDate[0]);
-	cf.setCss(select1,{width:70+"px"});
-	cf.setCss(span1,{paddingRight:12+"px"});
-	cf.setCss(span2,{paddingRight:12+"px",marginLeft:5+"px"});
-	cf.setCss(bx1,{width:337+"px"});
+	cf.setCss(select1,{width:"70px"});
+	cf.setCss(span1,{paddingRight:"12px"});
+	cf.setCss(span2,{paddingRight:"12px",marginLeft:"5px"});
+	cf.setCss(bx1,{width:"337px"});
 	
 	var	select2 = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
@@ -26,16 +24,16 @@ function mkSearchDiv(){
 	select2.name = "sh_report_mm";
 	mkMonthSelect(select2,CurrentDate[1]);
 	span.innerHTML = "월";
-	cf.setCss(select2,{width:60+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
+	cf.setCss(select2,{width:"60px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
 	
 	var	select3 = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
 	select3.id = "sh_report_week";
 	select3.name = "sh_report_week";
 	span.innerHTML = "주차";
-	cf.setCss(select3,{width:50+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});	
+	cf.setCss(select3,{width:"50px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});	
 	
 	var bx2 = cf.mkTag("div", line1);
 	//bx2.id = "weekDate";
@@ -53,9 +51,9 @@ function mkSearchDiv(){
 			getProjectStatusList();
 		}
 	};
-	cf.setCss(ipt,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx3,{paddingLeft:21+"px"});
+	cf.setCss(ipt,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx3,{paddingLeft:"21px"});
 	
 	var bx4=cf.mkTag("div", line1),
 		span=cf.mkTag("span", bx4),
@@ -71,9 +69,9 @@ function mkSearchDiv(){
 			getProjectStatusList();
 		}
 	};
-	cf.setCss(ipt,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx4,{paddingLeft:35+"px"});
+	cf.setCss(ipt,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx4,{paddingLeft:"35px"});
 
 	var cl1=cf.mkTag("div",srch),
 		line2 = cf.mkTag("div",srch),
@@ -96,12 +94,12 @@ function mkSearchDiv(){
 	select5.id="sh_stay_type";
 	select5.name="sh_stay_type";
 	
-	cf.setCss(select1,{width:100+"px",marginRight:12+"px"});
-	cf.setCss(select2,{width:80+"px",marginRight:12+"px"});	
-	cf.setCss(select3,{width:80+"px",marginRight:12+"px"});
-	cf.setCss(select4,{width:80+"px",marginRight:12+"px"});
-	cf.setCss(select5,{width:80+"px"});
-	cf.setCss(span,{paddingRight:12+"px"});
+	cf.setCss(select1,{width:"100px",marginRight:"12px"});
+	cf.setCss(select2,{width:"80px",marginRight:"12px"});	
+	cf.setCss(select3,{width:"80px",marginRight:"12px"});
+	cf.setCss(select4,{width:"80px",marginRight:"12px"});
+	cf.setCss(select5,{width:"80px"});
+	cf.setCss(span,{paddingRight:"12px"});
 	
 	var bx6=cf.mkTag("div", line2),
 		span=cf.mkTag("span", bx6),
@@ -112,25 +110,25 @@ function mkSearchDiv(){
 	mkSelectYN(select);
 	
 	//cf.setCss(select,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx6,{paddingLeft:35+"px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx6,{paddingLeft:"35px"});
 	
 	var bx7=cf.mkTag("div", line2),
 		img_re=cf.mkTag("img",bx7);
 	img_re.src="/images/btn/btn_refresh_icon.gif";
 	bx7.className="cursor";
 	bx7.onclick=function(){
-		document.getElementById("sh_report_yy").value=CurrentDate[0];
-		document.getElementById("sh_report_mm").value=CurrentDate[1];
+		$("#sh_report_yy").val(CurrentDate[0]);
+		$("#sh_report_mm").val(CurrentDate[1]);
 		initView();
-		document.getElementById("sh_project_name").value="";
-		document.getElementById("sh_company_name").value="";
-		document.getElementById("sh_project_member_id").value="";
-		document.getElementById("sh_job_type").value="";
-		document.getElementById("sh_employee_type").value="";
-		document.getElementById("sh_role_type").value="";
-		document.getElementById("sh_stay_type").value="";
-		document.getElementById("sh_manday_zero").value="0";
+		$("#sh_project_name").val("");
+		$("#sh_company_name").val("");
+		$("#sh_project_member_id").val("");
+		$("#sh_job_type").val("");
+		$("#sh_employee_type").val("");
+		$("#sh_role_type").val("");
+		$("#sh_stay_type").val("");
+		$("#sh_manday_zero").val("0");
 	};
 	
 	var div = cf.mkTag("div", srch),
@@ -139,21 +137,22 @@ function mkSearchDiv(){
 	img.src = "/images/btn/btn_go3.gif";
 	img.onclick = getProjectStatusList;
 	
-	cf.setCss(srch,{marginLeft:20+"px"});
+	cf.setCss(srch,{marginLeft:"20px"});
 	cf.setCss(cl1,{clear:"both"});
-	cf.setCss(line2,{marginTop:5+"px"});
+	cf.setCss(line2,{marginTop:"5px"});
 	cf.setCss(bx1,{float:"left"});
 	cf.setCss(bx2,{float:"left"});
 	cf.setCss(bx3,{float:"left"});
 	cf.setCss(bx4,{float:"left"});
 	cf.setCss(bx5,{float:"left"});
 	cf.setCss(bx6,{float:"left"});
-	cf.setCss(bx7,{float:"left",paddingLeft:20+"px"});
-};
+	cf.setCss(bx7,{float:"left",paddingLeft:"20px"});
+}
+
 function setResultData ( data ) {
 	var dv=document.getElementById("statustb2"),
 		dataList = data.projectStatusList,obj = [0],HTML = "",prevProjectName = "";
-	cf.setCss(dv,{height:cf.workareaheight-355+"px",minHeight:530+"px",overflowY:"scroll",overflowX:"hidden"});
+	cf.setCss(dv,{height:cf.workareaheight-355+"px",minHeight:"530px",overflowY:"scroll",overflowX:"hidden"});
 	
 	if ( dataList.length == 0 ) {
 		HTML = "<tr><td colspan='19' class='right' align='center'>조회된 데이터가 없습니다.</td></tr>";
@@ -207,10 +206,12 @@ function setResultData ( data ) {
 		}
 	}
 	$("#projectStatusDataTable").append(HTML);
-};
+}
+
 function reSetDataArea() {
 	$("#projectStatusDataTable")[0].innerHTML = "";
-};
+}
+
 function searchMemberHTML( eleName, data) {
 	var jsonLength = data.length;
 	$(eleName).find("option").remove();
@@ -218,7 +219,7 @@ function searchMemberHTML( eleName, data) {
 	for ( var cnt = 0 ; cnt < jsonLength ; cnt ++ ) {
 		$(eleName).append ( "<option value='" + data[cnt].sh_project_member_id + "'>" + data[cnt].sh_project_member_name + "</option>" );
 	}
-};
+}
 function searchCodeHTML( eleName, defaultValue, data) {
 	var jsonLength = data.length;
 	$(eleName).find("option").remove();
@@ -226,7 +227,8 @@ function searchCodeHTML( eleName, defaultValue, data) {
 	for ( var cnt = 0 ; cnt < jsonLength ; cnt ++ ) {
 		$(eleName).append ( "<option value='" + data[cnt].code_id + "'>" + data[cnt].code_name + "</option>" );
 	}
-};
+}
+
 function excelDownload() {
 	var searchArray = $("input, select").serializeArray();
 	var dataArray 	= 	new Array();
@@ -313,9 +315,9 @@ function excelDownload() {
 	var outData = JSON.stringify(ptrData);
 	var searchData = JSON.stringify(schData);
 
-    var form = "<form id='excelForm' action='/prj/status/projectStatusExcelDown.do' method='post'>";
+    var form = "<form id='excelForm' action='/prj/status/projectStatusExcelDown' method='post'>";
     form += "<input type='hidden' name='searchParam' value='"+searchData+"' />";
     form += "<input type='hidden' name='data' value='"+outData+"' />";    
     form += "</form>"; 
     jQuery(form).appendTo("body").submit().remove();	
-};
+}

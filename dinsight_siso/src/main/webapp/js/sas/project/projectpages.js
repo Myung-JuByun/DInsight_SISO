@@ -1,6 +1,3 @@
-mkSearchDiv();
-defaultLoadList();
-
 function mkSearchDiv() {
 	var p=document.getElementById("searchDiv");
 	p.innerHTML = "";

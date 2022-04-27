@@ -5,36 +5,27 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>   
 <%@page import="java.util.*" %>
-
-<div class="search3" id="mksearch"></div>
-<div class="btn_action" id="mkbtn"></div>
-
-<!-- top table start -->
-<div class="con_table">
-	<div class="Wrap_table">
-		<div style="overflow-y:scroll;">
-			<table class="Normal_table">
-				<thead>
-					<tr>
-						<th width="5%">No.</th>
-						<th width="15%">Project Code</th>
-						<th width="30%">견적서명</th>
-						<th width="35%">파일</th>
-						<th width="5%">버전</th>
-						<th width="15%" class="right">보기</th>
-					</tr>
-
-				</thead>
-			</table>
-		</div>
-		<div class="codeTable" id="quoteTb" style="overflow-y:scroll;">
-			<table class="Normal_table">
-				<tbody id="quote_contents" class="txtclr"></tbody>
-			</table>
-		</div>
-	</div>
-</div>
-<!-- top table end -->
+<%@ include file="/template/sas/quoteAdmin" %>
 
 <script src="/js/sas/quote/quotefnc.js"></script>
 <script src="/js/sas/quote/quotepages.js"></script>
+<script>
+	$(document).ready(function(){
+		new Vue({
+			el : ".con_table",
+			data : {
+				scroll : "overflow-y:scroll;",
+				no : "No.",
+				pCode : "Project Code",
+				estimateNm : "견적서명",
+				file : "파일",
+				version : "버전",
+				watch : "보기"	
+			}			
+		});
+		
+		mkSearchDiv();
+		mkBtnDiv();
+		defaultLoadListInit();
+	});
+</script>

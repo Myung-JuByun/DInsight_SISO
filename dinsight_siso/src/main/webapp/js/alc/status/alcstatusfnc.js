@@ -1,16 +1,10 @@
 //검색
-function alcStatusSearchList() {
-	
-	if($("#sh_license_year").val() != "" && $("#sh_license_month").val() == "") {
-		
-		generalPop(" License Date 월을 선택하세요.");
-				
-	} else if($("#sh_license_year").val() == "" && $("#sh_license_month").val() != "") {
-		
-		generalPop(" License Date 년도를 선택하세요.");
-			
+function alcStatusSearchList() {	
+	if($("#sh_license_year").val() != "" && $("#sh_license_month").val() == "") {	
+		generalPop(" License Date 월을 선택하세요.");				
+	} else if($("#sh_license_year").val() == "" && $("#sh_license_month").val() != "") {		
+		generalPop(" License Date 년도를 선택하세요.");			
 	} else {
-
 		var temp = $("#searchDiv").find("input, select").serializeArray();
 		//dir(temp);
 	
@@ -28,14 +22,9 @@ function alcStatusSearchList() {
 
 //설치사
 function alcStatusDetail(obj){
-	
-	//dir(obj);
-
 	var temp = "company_id=" + obj.company_id + "&sh_year=" + obj.alc_year;
 	temp += "&contract_number_id=" + obj.contract_number_id;
 	temp += "&portfolio=" + obj.portfolio.replace("&","%26") + "&prd_number=" + obj.prd_number.replace("&","%26") + "&prd_type=" + obj.prd_type.replace("&","%26") + "&trigram=" + obj.trigram.replace("&","%26");
-	
-	//dir(temp);
 	
 	$.ajax({
 		  url: "/alc/status/alcStatusDetailList",
@@ -49,8 +38,7 @@ function alcStatusDetail(obj){
 }
 
 //고객사 검색에 검색값 넣기
-function companySave(obj){
-	
+function companySave(obj){	
 	if(!obj) generalPop("고객사를 선택하세요.");
 	else {
 		document.getElementById("sh_company_id").value=obj.company_id;
@@ -71,8 +59,7 @@ function pjcodeSave(con){
 };
 
 //자동완성 기능(고객사, 설치사)
-function autocompleteCompanySearch(){
-	
+function autocompleteCompanySearch(){	
 	$("#sh_company_name, #company_name, #install_company_name").autocomplete({
 		source : function( request, response ) {
 			
@@ -134,8 +121,7 @@ function autocompleteCompanySearch(){
 }
 
 //계약서 파일 리스트
-function alcStatusFileList(searchString){
-	
+function alcStatusFileList(searchString){	
 	var url = "/alc/status/alcStatusDetailContractFileList";
 	
 	$.ajax({

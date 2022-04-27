@@ -1,5 +1,3 @@
-mkSearchDiv();
-defaultLoadList();
 function mkSearchDiv(){
 	var p=document.getElementById("searchDiv");
 	p.innerHTML = "";
@@ -13,9 +11,9 @@ function mkSearchDiv(){
 	select.name = "sh_project_year";
 	mkYearSelect(select,CurrentDate[0]);
 	span.innerHTML = "년";
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
-	cf.setCss(bx1,{width:197+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
+	cf.setCss(bx1,{width:"197px"});
 	
 	var	select = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
@@ -23,8 +21,8 @@ function mkSearchDiv(){
 	select.name = "sh_project_month";
 	mkMonthSelect(select,CurrentDate[1]);
 	span.innerHTML = "월";
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
 
 	var bx2=cf.mkTag("div", line1),
 		span=cf.mkTag("span", bx2),
@@ -38,9 +36,9 @@ function mkSearchDiv(){
 			searchAdmin();
 		}
 	};
-	cf.setCss(ipt,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx2,{paddingLeft:21+"px"});
+	cf.setCss(ipt,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx2,{paddingLeft:"21px"});
 	
 	var bx3=cf.mkTag("div", line1),
 		span=cf.mkTag("span", bx3),
@@ -55,9 +53,9 @@ function mkSearchDiv(){
 			searchAdmin();
 		}
 	};
-	cf.setCss(ipt,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx3,{paddingLeft:35+"px"});
+	cf.setCss(ipt,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx3,{paddingLeft:"35px"});
 
 	var bx4=cf.mkTag("div", line1),
 		img_re=cf.mkTag("img",bx4);
@@ -76,12 +74,13 @@ function mkSearchDiv(){
 	img.src = "/images/btn/btn_go.gif";
 	img.onclick = searchAdmin;
 	
-	cf.setCss(srch,{marginLeft:20+"px"});
+	cf.setCss(srch,{marginLeft:"20px"});
 	cf.setCss(bx1,{float:"left"});
 	cf.setCss(bx2,{float:"left"});
 	cf.setCss(bx3,{float:"left"});
-	cf.setCss(bx4,{float:"left",paddingLeft:20+"px"});
-};
+	cf.setCss(bx4,{float:"left",paddingLeft:"20px"});
+}
+
 function prjList(data){
 	checks=new Array();
 	var div=document.getElementById("pj_contents");
@@ -98,7 +97,7 @@ function prjList(data){
 		td.className="right";
 		td.colSpan="19";
 		td.innerHTML="조회된 데이터가 없습니다.";
-		cf.setCss(td,{borderTop:0+"px"});
+		cf.setCss(td,{borderTop:"0px"});
 	}else{
 		data.trav(function(d,i){
 			var tr=cf.mkTag("tr",div);
@@ -189,23 +188,24 @@ function prjList(data){
 			td13.innerHTML=comma(d.contract_price/10000);
 			
 			if(i==0){
-				cf.setCss(td1,{borderTop:0+"px"});
-				cf.setCss(td2,{borderTop:0+"px"});
-				cf.setCss(td3,{borderTop:0+"px"});
-				cf.setCss(td4,{borderTop:0+"px"});
-				cf.setCss(td5,{borderTop:0+"px"});
-				cf.setCss(td6,{borderTop:0+"px"});
-				cf.setCss(td7,{borderTop:0+"px"});
-				cf.setCss(td8,{borderTop:0+"px"});
-				cf.setCss(td9,{borderTop:0+"px"});
-				cf.setCss(td10,{borderTop:0+"px"});
-				cf.setCss(td11,{borderTop:0+"px"});
-				cf.setCss(td12,{borderTop:0+"px"});
-				cf.setCss(td13,{borderTop:0+"px"});
+				cf.setCss(td1,{borderTop:"0px"});
+				cf.setCss(td2,{borderTop:"0px"});
+				cf.setCss(td3,{borderTop:"0px"});
+				cf.setCss(td4,{borderTop:"0px"});
+				cf.setCss(td5,{borderTop:"0px"});
+				cf.setCss(td6,{borderTop:"0px"});
+				cf.setCss(td7,{borderTop:"0px"});
+				cf.setCss(td8,{borderTop:"0px"});
+				cf.setCss(td9,{borderTop:"0px"});
+				cf.setCss(td10,{borderTop:"0px"});
+				cf.setCss(td11,{borderTop:"0px"});
+				cf.setCss(td12,{borderTop:"0px"});
+				cf.setCss(td13,{borderTop:"0px"});
 			}
 		});
 	}
-};
+}
+
 function prjInfoList(data){
 	info_checks=new Array();	
 	var div=document.getElementById("pj_info_contents");
@@ -222,7 +222,7 @@ function prjInfoList(data){
 		td.className="right";
 		td.colSpan="7";
 		td.innerHTML="조회된 데이터가 없습니다.";
-		cf.setCss(td,{borderTop:0+"px"});
+		cf.setCss(td,{borderTop:"0px"});
 		rowCount=false;
 	}else{
 		data.trav(function(d,i){
@@ -238,7 +238,7 @@ function prjInfoList(data){
 			var tr=cf.mkTag("tr",div);
 			tr.style.textAlign="center";
 			var td1=cf.mkTag("td",tr);
-			td1.style.width=5+"%";
+			td1.style.width="5%";
 			var ipt=cf.mkTag("input",td1);
 			ipt.type="checkbox";
 			info_checks.push(ipt); 
@@ -248,7 +248,7 @@ function prjInfoList(data){
 			ipt.value=d.member_id;
 			
 			var td2=cf.mkTag("td",tr);
-			td2.style.width=5+"%";
+			td2.style.width="5%";
 			td2.innerHTML=i+1;
 			var ipt=cf.mkTag("input",td2);
 			ipt.type="hidden";
@@ -256,7 +256,7 @@ function prjInfoList(data){
 			ipt.name="din_project_id";
 			
 			var td3=cf.mkTag("td",tr);
-			td3.style.width=15+"%";
+			td3.style.width="15%";
 			td3.innerHTML=d.user_name;
 			var ipt=cf.mkTag("input",td3);
 			ipt.type="hidden";
@@ -264,34 +264,34 @@ function prjInfoList(data){
 			ipt.name="din_user_id";
 			
 			var td4=cf.mkTag("td",tr);
-			td4.style.width=10+"%";
+			td4.style.width="10%";
 			var select=cf.mkTag("select",td4);
-			select.style.width=90+"%";
+			select.style.width="90%";
 			select.name="din_role_cd";
 			var def=d.role_cd;
 			mkSelect(select,ROLELIST,def);
 			
 			var td5=cf.mkTag("td",tr);
-			td5.style.width=15+"%";
+			td5.style.width="15%";
 			var select=cf.mkTag("select",td5);
-			select.style.width=90+"%";
+			select.style.width="90%";
 			select.name="din_stay_status_cd";
 			var def=d.stay_status_cd;
 			mkSelect(select,STAY,def);
 			
 			var td6=cf.mkTag("td",tr);
-			td6.style.width=20+"%";
+			td6.style.width="20%";
 			var ipt_s=cf.mkTag("input",td6);
-			ipt_s.style.width=95+"%";
+			ipt_s.style.width="95%";
 			ipt_s.name="din_job_start_day";
 			ipt_s.className="input_date";
 			ipt_s.readOnly=true;
 			ipt_s.value=modiDate(d.job_start_day);
 					
 			var td7=cf.mkTag("td",tr);
-			td7.style.width=20+"%";
+			td7.style.width="20%";
 			var ipt_e=cf.mkTag("input",td7);
-			ipt_e.style.width=95+"%";
+			ipt_e.style.width="95%";
 			ipt_e.name="din_job_end_day";
 			ipt_e.className="input_date";
 			ipt_e.readOnly=true;
@@ -305,10 +305,10 @@ function prjInfoList(data){
 			};
 			
 			var td8=cf.mkTag("td",tr);
-			td8.style.width=10+"%";
+			td8.style.width="10%";
 			td8.className="right";
 			var ipt=cf.mkTag("input",td8);
-			ipt.style.width=90+"%";
+			ipt.style.width="90%";
 			ipt.value=d.man_month;
 			ipt.name="din_man_month";
 			ipt.placeholder="0.0";
@@ -322,20 +322,21 @@ function prjInfoList(data){
 			};
 			
 			if(i==0){
-				cf.setCss(td1,{borderTop:0+"px"});
-				cf.setCss(td2,{borderTop:0+"px"});
-				cf.setCss(td3,{borderTop:0+"px"});
-				cf.setCss(td4,{borderTop:0+"px"});
-				cf.setCss(td5,{borderTop:0+"px"});
-				cf.setCss(td6,{borderTop:0+"px"});
-				cf.setCss(td7,{borderTop:0+"px"});
-				cf.setCss(td8,{borderTop:0+"px"});
+				cf.setCss(td1,{borderTop:"0px"});
+				cf.setCss(td2,{borderTop:"0px"});
+				cf.setCss(td3,{borderTop:"0px"});
+				cf.setCss(td4,{borderTop:"0px"});
+				cf.setCss(td5,{borderTop:"0px"});
+				cf.setCss(td6,{borderTop:"0px"});
+				cf.setCss(td7,{borderTop:"0px"});
+				cf.setCss(td8,{borderTop:"0px"});
 			}
 		});
 		datePicker("input_date", "yy-mm-dd");
 		rowCount=true;
 	}
-};
+}
+
 function memberInsert(con){
 	var userid=document.getElementsByName("din_user_id"),
 		memchk=true;
@@ -354,7 +355,7 @@ function memberInsert(con){
 		var tr=cf.mkTag("tr",div);
 		tr.style.textAlign="center";
 		var td=cf.mkTag("td",tr);
-		td.style.width=5+"%";
+		td.style.width="5%";
 		var ipt=cf.mkTag("input",td);
 		ipt.type="checkbox";
 		info_checks.push(ipt);
@@ -363,7 +364,7 @@ function memberInsert(con){
 		ipt.name="member_id";
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=5+"%";
+		td.style.width="5%";
 		td.innerHTML=div.childNodes.length;
 		var ipt=cf.mkTag("input",td);
 		ipt.type="hidden";
@@ -371,7 +372,7 @@ function memberInsert(con){
 		ipt.name="din_project_id";
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=15+"%";
+		td.style.width="15%";
 		td.innerHTML=user.division_name;
 		var ipt=cf.mkTag("input",td);
 		ipt.type="hidden";
@@ -379,32 +380,32 @@ function memberInsert(con){
 		ipt.value=user.user_id;
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=10+"%";
+		td.style.width="10%";
 		var select=cf.mkTag("select",td);
-		select.style.width=90+"%";
+		select.style.width="90%";
 		select.name="din_role_cd";
 		mkSelect(select,ROLELIST);
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=15+"%";
+		td.style.width="15%";
 		var select=cf.mkTag("select",td);
-		select.style.width=90+"%";
+		select.style.width="90%";
 		select.name="din_stay_status_cd";
 		mkSelect(select,STAY);
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=20+"%";
+		td.style.width="20%";
 		var ipt_s=cf.mkTag("input",td);
-		ipt_s.style.width=95+"%";
+		ipt_s.style.width="95%";
 		ipt_s.name="din_job_start_day";
 		ipt_s.className="input_date";
 		ipt_s.value=modiDate(prev.obj.start_day);
 		ipt_s.readOnly=true;
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=20+"%";
+		td.style.width="20%";
 		var ipt_e=cf.mkTag("input",td);
-		ipt_e.style.width=95+"%";
+		ipt_e.style.width="95%";
 		ipt_e.name="din_job_end_day";
 		ipt_e.className="input_date";
 		ipt_e.value=modiDate(prev.obj.end_day);
@@ -418,10 +419,10 @@ function memberInsert(con){
 		};
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=10+"%";
+		td.style.width="10%";
 		td.className="right";
 		var ipt=cf.mkTag("input",td);
-		ipt.style.width=90+"%";
+		ipt.style.width="90%";
 		ipt.name="din_man_month";
 		ipt.placeholder="0.0";
 		ipt.className="iptpadl0 iptCenter";
@@ -438,7 +439,8 @@ function memberInsert(con){
 	datePicker("input_date", "yy-mm-dd");
 	rowCount=true;
 	prev_user="";
-};
+}
+
 function btnOn(){
 	var btn=document.getElementById("btn_info");
 	btn.innerHTML="";
@@ -473,4 +475,4 @@ function btnOn(){
 //	var title=document.getElementById("pj_info_title");
 //	title.innerHTML="";
 //	title.innerHTML=prev.obj.project_name;
-};
+}

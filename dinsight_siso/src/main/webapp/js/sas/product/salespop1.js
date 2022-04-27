@@ -16,8 +16,8 @@ function productDetailPop(obj){
 	var con=document.createElement("div"),
 		con0=cf.mkTag("div",con),
 		con1=cf.mkTag("div",con0);
-	cf.setCss(con,{position:"absolute",width:600+"px",height:350+"px"});
-	cf.setCss(con1,{border:2+"px solid black",backgroundColor:"#fff",width:600+"px",height:350+"px"});
+	cf.setCss(con,{position:"absolute",width:"600px",height:"350px"});
+	cf.setCss(con1,{border:2+"px solid black",backgroundColor:"#fff",width:"600px",height:"350px"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -38,7 +38,7 @@ function productDetailPop(obj){
 	
 	var con3=cf.mkTag("div",con1);
 	con3.className="my-container";
-	cf.setCss(con3,{overflowY:"auto",height:275+"px"});
+	cf.setCss(con3,{overflowY:"auto",height:"275px"});
 	
 	var con4=cf.mkTag("div",con3);
 	con4.className="con_table";
@@ -59,20 +59,20 @@ function mkProductDetailTable(son,obj){
 	
 	var tr=cf.mkTag("tr",table),
 		th=cf.mkTag("th",tr);
-	th.style.width=25+"%";
+	th.style.width="25%";
 	th.innerHTML="작성일";
 	
 	var th=cf.mkTag("th",tr);
-	th.style.width=35+"%";
+	th.style.width="35%";
 	th.innerHTML="Project Code";
 	
 	var th=cf.mkTag("th",tr);
-	th.style.width=20+"%";
+	th.style.width="20%";
 	th.innerHTML="버전";
 	
 	var th=cf.mkTag("th",tr);
 	th.className="right";
-	th.style.width=20+"%";
+	th.style.width="20%";
 	th.innerHTML="보기";
 		
 	var div=cf.mkTag("div",son),
@@ -86,20 +86,20 @@ function mkProductDetailTable(son,obj){
 		tr.style.textAlign="center";
 
 		var td1=cf.mkTag("td",tr);
-		td1.style.width=25+"%";
+		td1.style.width="25%";
 		td1.innerHTML=modiDate(d.insert_date, ".");
 		
 		var td2=cf.mkTag("td",tr);
-		td2.style.width=35+"%";
+		td2.style.width="35%";
 		td2.innerHTML=d.contract_number;
 				
 		var td3=cf.mkTag("td",tr);
-		td3.style.width=20+"%";
+		td3.style.width="20%";
 		td3.innerHTML=d.degree;
 				
 		var td4=cf.mkTag("td",tr);
 		td4.className="right";
-		td4.style.width=20+"%";
+		td4.style.width="20%";
 		td4.style.cursor="pointer";
 		td4.innerHTML="[상세보기]";
 		tr.onclick=function(){
@@ -109,35 +109,23 @@ function mkProductDetailTable(son,obj){
 			});
 		};
 		if(i==0){
-			cf.setCss(td1,{borderTop:0+"px"});
-			cf.setCss(td2,{borderTop:0+"px"});
-			cf.setCss(td3,{borderTop:0+"px"});
-			cf.setCss(td4,{borderTop:0+"px"});
+			cf.setCss(td1,{borderTop:"0px"});
+			cf.setCss(td2,{borderTop:"0px"});
+			cf.setCss(td3,{borderTop:"0px"});
+			cf.setCss(td4,{borderTop:"0px"});
 		}
 	});	
 };
 //보기
 function productPop(obj){
 	var con=document.createElement("div");
-	con.style.width=1150+"px";
-	con.style.height=cf.workareaheight-150+"px";
-	//con.style.height=720+"px";
-	con.style.position="absolute";
-	//con.style.backgroundColor="white";
-	
+	Object.assign(con.style, {width:"1150px", height:(cf.workareaheight-150)+"px", position:"absolute"});	
 	con.innerHTML="";
 	
 	var con0=cf.mkTag("div",con);
-	//con0.className="pop-mypage";
-	
 	var con1=cf.mkTag("div",con0);
-	con1.id="pop_my";
-	//con1.className="my_top";
-	con1.style.width=1150+"px";
-	con1.style.height=cf.workareaheight-150+"px";
-	//con1.style.height=720+"px";
-	con1.style.border=2+"px solid black";
-	con1.style.backgroundColor="white";
+	con1.id="pop_my";	
+	Object.assign(con.style, {width:"1150px", height:(cf.workareaheight-150)+"px", border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -145,13 +133,11 @@ function productPop(obj){
 	span.innerHTML="매출/매입 품의서";
 	
 	var con2_a=cf.mkTag("a",con2);
-	con2_a.href="#";
+	con2_a.href="javascript:;";
 	con2_a.className="my_top_closs";
-	var con2_img=cf.mkTag("img",con2_a);
-	con2_img.src="/images/pop_btn/btn_pop_close.png";
-	con2_img.id="my_closs";
-	con2_img.alt="닫기";
-	con2_img.align="right";
+	
+	var con2_img=cf.mkTag("img",con2_a);	
+	Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs", alt:"닫기", align:"right"});	
 	con2_img.onclick=function(){
 		cf.killTag(con.parentNode);
 	};
@@ -165,17 +151,13 @@ function productPop(obj){
 	con3.style.overflowY="auto";
 	
 	var con3_title=cf.mkTag("div",con3);
-	con3_title.style.fontWeight="bold";
-	con3_title.style.fontSize=24+"px";
-	con3_title.style.color="#000";
-	con3_title.style.margin="0 auto";
-	con3_title.style.width=300+"px";
-	con3_title.style.textAlign="center";
-	con3_title.style.paddingTop=15+"px";
+	Object.assign(con3_title.style, {
+		width:"300px", margin:"0 auto", paddingTop:"15px", textAlign:"center", fontSize:"24px", fontWeight:"bold", color:"#000"
+	});
 	con3_title.innerHTML="매출 / 매입 품 의 서";
 	
 	var con4=cf.mkTag("div",con3);
-	con4.style.height=40+"px";
+	con4.style.height="40px";
 	con4.className="sales_wrap";
 	mkTitleTable(con4,obj);
 	

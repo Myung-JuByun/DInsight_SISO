@@ -28,9 +28,9 @@ function mkSearch(){
 	img.onclick=function(){
 		companyPopSrch(0);
 	};	
-	cf.setCss(ipt,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx1,{width:210+"px"});
+	cf.setCss(ipt,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx1,{width:"210px"});
 	
 	var bx2 = cf.mkTag("div", line1),
 		span=cf.mkTag("span", bx2),
@@ -57,9 +57,9 @@ function mkSearch(){
 	img.onclick=function(){
 		getProductCodePop("SUCCESS_Y");
 	};	
-	cf.setCss(ipt,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx2,{paddingLeft:35+"px",width:240+"px"});
+	cf.setCss(ipt,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx2,{paddingLeft:"35px",width:"240px"});
 		
 	var bx3 = cf.mkTag("div", line1),
 		span = cf.mkTag("span", bx3),
@@ -68,9 +68,9 @@ function mkSearch(){
 	select.id = "sh_sales_customer";
 	select.name = "sh_sales_customer";
 	mkSelect(select, SALES,"","Y");
-	cf.setCss(select,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx3,{paddingLeft:35+"px"});	
+	cf.setCss(select,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx3,{paddingLeft:"35px"});	
 	
 	var cl1=cf.mkTag("div",srch),
 		line2 = cf.mkTag("div",srch),
@@ -81,9 +81,9 @@ function mkSearch(){
 	select.id = "sh_year";
 	select.name = "sh_year";
 	mkYearSelect(select,CurrentDate[0],true);
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px"});
-	cf.setCss(bx4,{width:110+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px"});
+	cf.setCss(bx4,{width:"110px"});
 	
 	var bx5 = cf.mkTag("div", line2),
 		span1 = cf.mkTag("span", bx5),
@@ -95,10 +95,10 @@ function mkSearch(){
 	select.name = "sh_license_year";
 	mkYearSelect(select,CurrentDate[0],true);
 	select.value="";
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span1,{paddingRight:5+"px"});
-	cf.setCss(span2,{paddingLeft:5+"px"});
-	cf.setCss(bx5,{paddingLeft:35+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span1,{paddingRight:"5px"});
+	cf.setCss(span2,{paddingLeft:"5px"});
+	cf.setCss(bx5,{paddingLeft:"35px"});
 	
 	var select2 = cf.mkTag("select", bx5),
 		span = cf.mkTag("span", bx5);
@@ -107,8 +107,8 @@ function mkSearch(){
 	select2.name = "sh_license_month";
 	mkMonthSelect(select2,CurrentDate[1],true);
 	select2.value="";
-	cf.setCss(select2,{width:70+"px",marginLeft:12+"px"});
-	cf.setCss(span,{paddingLeft:5+"px"});
+	cf.setCss(select2,{width:"70px",marginLeft:"12px"});
+	cf.setCss(span,{paddingLeft:"5px"});
 
 	var bx6=cf.mkTag("div", line2),
 		img_re=cf.mkTag("img",bx6);
@@ -131,15 +131,15 @@ function mkSearch(){
 	img.src = "/images/btn/btn_go3.gif";
 	img.onclick = alcStatusSearchList;
 	
-	cf.setCss(srch,{marginLeft:20+"px"});
+	cf.setCss(srch,{marginLeft:"20px"});
 	cf.setCss(cl1,{clear:"both"});
-	cf.setCss(line2,{marginTop:5+"px"});
+	cf.setCss(line2,{marginTop:"5px"});
 	cf.setCss(bx1,{float:"left"});
 	cf.setCss(bx2,{float:"left"});
 	cf.setCss(bx3,{float:"left"});
 	cf.setCss(bx4,{float:"left"});
 	cf.setCss(bx5,{float:"left"});
-	cf.setCss(bx6,{float:"left",paddingLeft:20+"px"});
+	cf.setCss(bx6,{float:"left",paddingLeft:"20px"});
 };
 //리스트
 function alcStatusList(obj) {
@@ -156,7 +156,7 @@ function alcStatusList(obj) {
 		td.className="right";
 		td.colSpan="7";
 		td.innerHTML="조회된 데이터가 없습니다.";
-		cf.setCss(td,{borderTop:0+"px"});
+		cf.setCss(td,{borderTop:"0px"});
 	}else{
 	
 		obj.trav(function(d,i){
@@ -178,11 +178,11 @@ function alcStatusList(obj) {
 			};
 			
 			var td1=cf.mkTag("td",tr);
-			td1.style.width=5+"%";
+			td1.style.width="5%";
 			td1.innerHTML=i+1;
 			
 			var td2=cf.mkTag("td",tr);
-			td2.style.width=10+"%";
+			td2.style.width="10%";
 			if(d.company_name==undefined){
 				td2.innerHTML="";
 			}else{
@@ -190,7 +190,7 @@ function alcStatusList(obj) {
 			}
 			
 			var td3=cf.mkTag("td",tr);
-			td3.style.width=10+"%";
+			td3.style.width="10%";
 			if(d.sales_project_code==undefined){
 				td3.innerHTML="";
 			}else{
@@ -198,47 +198,47 @@ function alcStatusList(obj) {
 			}
 			
 			var td4=cf.mkTag("td",tr);
-			td4.style.width=15+"%";
+			td4.style.width="15%";
 			td4.innerHTML=d.portfolio;
 			
 			var td5=cf.mkTag("td",tr);
-			td5.style.width=10+"%";
+			td5.style.width="10%";
 			td5.innerHTML=d.prd_number;
 			
 			var td6=cf.mkTag("td",tr);
-			td6.style.width=10+"%";
+			td6.style.width="10%";
 			td6.innerHTML=d.prd_type;
 			
 			var td7=cf.mkTag("td",tr);
-			td7.style.width=10+"%";
+			td7.style.width="10%";
 			td7.innerHTML=d.trigram;
 			
 			var td8=cf.mkTag("td",tr);
-			td8.style.width=15+"%";
+			td8.style.width="15%";
 			td8.innerHTML=d.portfolio_item_name;
 			
 			var td9=cf.mkTag("td",tr);
-			td9.style.width=5+"%";
+			td9.style.width="5%";
 			td9.innerHTML=d.qty;
 			
 			var td10=cf.mkTag("td",tr);
-			td10.style.width=10+"%";
+			td10.style.width="10%";
 			td10.innerHTML="[상세보기]";
 			td10.onclick=function (){
 				alcStatusDetail(d);
 			};
 			
 			if(i==0){
-				cf.setCss(td1,{borderTop:0+"px"});
-				cf.setCss(td2,{borderTop:0+"px"});
-				cf.setCss(td3,{borderTop:0+"px"});
-				cf.setCss(td4,{borderTop:0+"px"});
-				cf.setCss(td5,{borderTop:0+"px"});
-				cf.setCss(td6,{borderTop:0+"px"});
-				cf.setCss(td7,{borderTop:0+"px"});
-				cf.setCss(td8,{borderTop:0+"px"});
-				cf.setCss(td9,{borderTop:0+"px"});
-				cf.setCss(td10,{borderTop:0+"px"});				
+				cf.setCss(td1,{borderTop:"0px"});
+				cf.setCss(td2,{borderTop:"0px"});
+				cf.setCss(td3,{borderTop:"0px"});
+				cf.setCss(td4,{borderTop:"0px"});
+				cf.setCss(td5,{borderTop:"0px"});
+				cf.setCss(td6,{borderTop:"0px"});
+				cf.setCss(td7,{borderTop:"0px"});
+				cf.setCss(td8,{borderTop:"0px"});
+				cf.setCss(td9,{borderTop:"0px"});
+				cf.setCss(td10,{borderTop:"0px"});				
 			}
 		});
 	}

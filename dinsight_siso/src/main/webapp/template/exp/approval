@@ -1,0 +1,34 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<div class="search4" id="searchDiv"></div>
+<!--// search end -->
+
+<!--  table start -->
+<div class="con_table">
+	<div class="Wrap_table">
+		<div :style="scroll">
+			<table class="Normal_table">
+				<thead>
+					<tr>
+						<th width="5%" v-text="no"></th>
+						<th width="45%" v-text="title"></th>
+						<th width="10%" v-text="state"></th>
+						<th width="10%" v-text="draft"></th>
+						<th width="20%" v-text="draftDate"></th>
+						<th width="10%" class="right" v-text="seeDetail"></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		
+		<div class="codeTable" :style="scroll">
+			<table class="Normal_table">
+			<!-- 리스트 시작 -->
+				<tbody id="listView" class="txtclr">
+				</tbody>
+				<!-- 리스트 끝 -->
+			</table>
+		</div>
+	</div>
+</div>
+<!--  //table end -->

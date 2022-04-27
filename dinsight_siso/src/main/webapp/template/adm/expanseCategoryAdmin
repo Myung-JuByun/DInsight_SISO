@@ -1,0 +1,27 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<div id="categoryAdmin" class="">
+	<div class="btn_action">
+		<ul>
+			<li v-for="item in btnList">
+				<a href="javascript:;" :onclick="item.func"><img :src="item.btnImg" :alt="item.altText"/></a>
+			</li>			
+		</ul>
+	</div>
+
+	<!--  table start -->
+	<div class="center_table">
+		<table class="Normal_table">
+			<thead>
+			<tr>
+				<th width="398px" v-text="categoryNm"></th>
+				<th class="right" v-text="accountClass"></th>
+			</tr>
+			</thead>
+		</table>
+		<div class="scrolltest">
+			<div class="category_menu" id="category_menu">
+			</div>
+		</div>
+	</div>
+</div>

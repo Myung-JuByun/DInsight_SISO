@@ -1,190 +1,234 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <style type="text/css">
 	#detailList td {word-wrap:break-word;}
 </style>
 
-<form:form commandName="searchVO" method="post" id="searchForm" name="searchForm">
-	<div class="search4" id="searchDiv"></div>
-	<div class="search_detail">					
-		<div class="group_wrap"> 
-			<div class="Wrap_table" style="margin-bottom:32px;">
-				<table style="width:100%">
-					<tr>
-						<th class="right">사업부</th>
-						<th width="40px" class="right">
-							<input type="checkbox" name="CheckMode1" class="CheckMode1" onclick="GroupCheck('CheckMode1', 'sh_division_cd')">
-						</th>
-					</tr>
-				</table>
-				<div id="searchDivision" style="height:96px; overflow-y:scroll; background:#fff;">
-					<!-- 사업부 시작 -->
-					<!-- 사업부 끝 -->
-				</div>
-			</div>
-			<div class="Wrap_table">
-				<table style="width:100%">
-					<tr>
-						<th class="right">구분</th>
-						<th width="25px" class="right">
-							<input type="checkbox" name="CheckMode2" class="CheckMode2" onclick="GroupCheck('CheckMode2', 'sh_sales_type_cd')">
-						</th>
-					</tr>
-				</table>
-				<div id="searchSalesType">
-					<!-- 구분 시작 -->
-					<!-- 구분 끝 -->
-				</div>
-			</div>			
-		</div>		
-		<div class="group_wrap">
-			<div class="Wrap_table" style="margin-bottom:32px;">
-				<table style="width:100%">
-					<tr>
-						<th class="right">계약시점</th>
-						<th width="40px" class="right">
-							<input type="checkbox" name="CheckMode3" class="CheckMode3" onclick="GroupCheck('CheckMode3', 'sh_contract_ym')">
-						</th>
-					</tr>
-				</table>
-				<div id="searchContractYm" style="height:96px; overflow-y:scroll;">
-					<!-- 계약시점 시작 -->
-					<!-- 계약시점 끝 -->
-				</div>
-			</div>
-			<div class="Wrap_table" >
-				<table style="width:100%">
-					<tr>
-						<th class="right">이슈여부</th>
-						<th width="25px" class="right">
-							<input type="checkbox" name="CheckMode4" class="CheckMode4" onclick="GroupCheck('CheckMode4', 'sh_issue_yn')">
-						</th>
-					</tr>
-				</table>
-				<div id="searchIssueYn">
-					<!-- 이슈여부 시작 -->
-					<!-- 이슈여부 끝 -->
-				</div>
-			</div>
-		</div>
-      	<div class="group_wrap">
-			<div class="Wrap_table">
-				<table style="width:100%">
-					<tr>
-						<th class="right">영업 Status</th>
-						<th width="25px" class="right">
-							<input type="checkbox" name="CheckMode5" class="CheckMode5" onclick="GroupCheck('CheckMode5', 'sh_sales_status_cd')">
-						</th>
-					</tr>
-				</table>
-				<div id="searchSalesStatus">
-					<!-- 영업 Status 시작 -->
-					<!-- 영업 Status 끝 -->
-				</div>
-			</div>		
-		</div>						
-      	<div class="group_wrap"> 
-			<div class="Wrap_table">
-				<table style="width:100%">
-					<tr>
-						<th class="right">담당영업</th>
-						<th width="40px" class="right">
-							<input type="checkbox" name="CheckMode6" class="CheckMode6" onclick="GroupCheck('CheckMode6', 'sh_user_id')">
-						</th>
-					</tr>
-				</table>
-				<div id="searchDivisionUser" style="height:232px; overflow-y:scroll; background:#fff;">
-					<!-- 담당영업 시작 -->
-					<!-- 담당영업 끝 -->
-				</div>
-			</div>
-		
-		</div>
-	</div>
-	<div class="btn_action">
-		<div class="infobot" style="font-size: 13px; padding-left:5px;font-weight: bold;"><span>Sales Status</span></div>
-		<ul>
-			<li><a href="javascript:excelDataSend()"><img src="/images/btn/excel_down.gif" alt="엑셀 다운로드" /></a></li>
-		</ul>
-	</div>
-	<div class="con_table">
-		<!--  table start -->
-		<div class="Wrap_table" >
-			<!--  top -->
-			<!--  scroll area -->
-			<div id="mainTitle" style="overflow-y:scroll;">
-				<table class="Normal_table">
-					<tr>
-						<th width="13%">사업부</th>
-						<th width="12%">담당영업</th>
-						<th width="20%">계약 금액</th>
-						<th width="15%">영업 이익</th>
-						<th width="12%">영업 이익률(%)</th>					   
-						<th width="12%">전체 매출대비(%)</th>
-						<th width="16%" class="right">전체 영업 이익 대비(%)</th>
-					</tr>
-				</table>
-			</div>
-			<div id="mainList" class="txtclr" style="height:297px; overflow-y:scroll;">
-				<!-- Sales Status 시작 -->
-				<!-- Sales Status 끝 -->
-			</div>
-			<!--  bottom -->
-			<div id="mainSumList" class="txtclr" style="overflow-y:scroll; height:34px;">
-				<!-- Sales Status 합계 시작 -->
-				<!-- Sales Status 합계 끝 -->
-			</div>
-		</div>
-	</div>
-	<!--  //table end -->		
-	<div class="btn_action alignright" style="height:45px;">
-		<a href="javascript:;" onclick="showDetail(); return false;"><img src="/images/btn/btn_detail_open.gif" id="detailShowImg" alt="show"/></a>
-	</div>
-	<!--상세보기 테이블 -->
-	<div class="Show_detail hide">
-		<!--  table start -->
-		<div class="Wrap_table" >
-			<div class="detail_title">Sales Status 현황</div>
-			<!--  top -->
-			<!--  scroll area -->
-			<div id="detailTitle" style="overflow-y:scroll;">
-				<table class="Normal_table">
-					<tr>
-						<th width="10%">사업부</th>
-						<th width="10%">담당영업</th>
-						<th width="8%">계약시점</th>
-						<th width="5%">ALC</th>
-						<th width="12%">영업현황</th>					   
-						<th width="5%">구분</th>
-						<th width="8%">고객사명</th>
-						<th width="7%">Type</th>
-						<th width="10%">제품</th>
-						<th width="5%">수량</th>
-						<th width="10%">계약 금액</th>
-						<th width="10%" class="right">영업 이익</th>
-					</tr>
-				</table>
-			</div>
-			
-			<div id="detailList" class="txtclr" style="height:297px; overflow-y:scroll;">
-				<!-- Sales Status 현황 시작 -->
-				<!-- Sales Status 현황 끝 -->
-			</div>
-			
-			<div id="detailSumList" class="txtclr" style="overflow-y:scroll; height:34px;">
-				<!-- Sales Status 현황 합계 시작 -->
-				<!-- Sales Status 현황 합계 끝 -->
-			</div>			
-		</div>
-		
-		<div style="height:30px"></div>		
-	</div>
-	<!--//상세보기 테이블 -->	
-</form:form>
+<%@ include file="/template/sam/foreCastingStatus" %>
 
 <script src="/js/sam/fcastingstatus/fcastingstatusfnc.js"></script>
 <script src="/js/sam/fcastingstatus/fcastingstatuspages.js"></script>
+<script>
+	$(document).ready(function(){
+		new Vue({
+			el : ".search_detail",
+			data() {
+				return {
+					marginBottom : "margin-bottom:32px;",
+					width100 : "width:100%;",
+					checkBoxNm : "CheckMode",
+					checkF : "GroupCheck",
+					businessDept : "사업부",
+					division : "구분",
+					contractPoint : "계약시점",
+					issueYn : "이슈여부",
+					salesStatus : "영업 현황",
+					chargeSale : "담당 영업",
+					funcParam : [
+						"sh_division_cd", "sh_sales_type_cd", "sh_contract_ym", "sh_issue_yn", "sh_sales_status_cd", "sh_user_id"
+					]
+				};
+			},
+			computed : {
+				cMode() {
+					return (num) => {
+						return this.checkBoxNm + num;
+					};	
+				},
+				checkFunc() {
+					return (num) => {
+						var idx = num - 1;
+						return this.checkF + "('" + this.cMode(num) + "', '" + this.funcParam[idx] + "');";
+					};
+				}
+			}
+		});
+		
+		new Vue({
+			el : ".btn_action",
+			data() {
+				return {
+					infobotStyle : "font-size: 13px; padding-left:5px;font-weight: bold;",
+					salesStatus : "영업 현황",
+					downGif : "/images/btn/excel_down.gif",
+					xlsDownload : "엑셀 다운로드"
+				};
+			},
+			methods : {
+				excelDataSend : function() {
+					formSearch();
+					
+					var searchArray = new Array();
+					//search
+					$(".search_detail .Wrap_table").each(function(i){		
+						var search = $(this);
+						var searchInfo = new Object();		
+						searchInfo["codeName0"] = search.find("th").first().text();
+						
+						var cnt=1;
+						search.find("div tr").each(function(j, k){			
+							var searchSub = $(this);			
+							if(searchSub.find("input:checked").val()) {
+								searchInfo["codeName" + cnt] = k.innerText;
+								cnt++;
+							}
+						});
+						searchArray.push(searchInfo);
+					});
+					
+					var titleArray = new Array();
+					
+					//Sales Status
+					var titleInfo = new Object();
+					$("#mainTitle th").each(function(i) {
+						titleInfo["codeName" + i] = $(this).text();
+					});	
+					titleArray.push(titleInfo);
+					
+					$("#mainList tr").each(function(i) {
+						var tr = $(this);
+						
+						var titleInfo = new Object();
+						tr.find("td").each(function(j,k) {
+							titleInfo["codeName" + j] = k.innerText;
+						});		
+						titleArray.push(titleInfo);
+					});
+					
+					var titleInfo = new Object();
+					$("#mainSumList td").each(function(i){
+						titleInfo["codeName" + i] = $(this).text();
+					});
+					titleArray.push(titleInfo);
+					
+					var issueArray = new Array();
+					
+					//Sales Status 현황
+					var issueInfo = new Object();
+					$("#detailTitle th").each(function(i){
+						issueInfo["codeName" + i] = $(this).text();
+					});
+					issueArray.push(issueInfo);
+					
+					$("#detailList tr").each(function(){
+						var tr = $(this);
+						
+						var issueInfo = new Object();	
+						tr.find("td").each(function(j,k) {
+							issueInfo["codeName" + j] = k.innerText;
+						});		
+						issueArray.push(issueInfo);
+					});
+					
+					var issueInfo = new Object();
+					$("#detailSumList td").each(function(i){
+						issueInfo["codeName" + i] = $(this).text();
+					});
+					issueArray.push(issueInfo);
+					
+					//전체
+					var totalInfoSearch = new Object();
+					totalInfoSearch.search = searchArray;
+					
+					var totalInfo = new Object();
+				    totalInfo.main = titleArray;
+				    totalInfo.issue = issueArray;
+				    
+				    var tempSearch 	= JSON.stringify(totalInfoSearch);
+				    var temp 		= JSON.stringify(totalInfo);
+				    
+				  	//데이터 검색
+				  	var form = $("<form></form").attr({
+				  		id:"excelForm",
+				  		action:"/sam/fcastingstatus/foreCastingStatusExcelDown",
+				  		method:"post"
+				  	});
+				  	
+				  	form.append("<input type='hidden' name='dataSearch' value='"+tempSearch+"' />");
+				  	form.append("<input type='hidden' name='data' value='"+temp+"' />");
+				    form.appendTo("body").submit().remove();				    
+				}
+			}
+		});
+		
+		new Vue({
+			el : ".con_table",
+			data() {
+				return {
+					scroll : "overflow-y:scroll;",
+					businessDept : "사업부",
+					chargeSales : "담당영업",
+					contractPrice : "계약 금액",
+					salesProfit : "영업 이익",
+					salesProfitRates : "영업 이익률(%)",
+					totSalesRates : "전체 매출대비(%)",
+					totSalesProfitRates : "전체 영업 이익 대비(%)"					
+				};
+			},
+			computed : {
+				scrollList : function() {
+					return this.scroll + "height:297px;";
+				},
+				scrollSumList: function() {
+					return this.scroll + "height:34px;";
+				}
+			}
+		});
+		
+		new Vue({
+			el : "#detailBtn",
+			data() {
+				return {
+					btnRight : "btn_action alignright",
+					detailOpenGif : "/images/btn/btn_detail_open.gif"
+				};
+			},
+			methods : {
+				showDetail : function() {	
+					if($("#detailShowImg").attr("alt") == "show") {
+						$(".Show_detail").show();
+						$("#detailShowImg").attr("alt","hide");
+						$("#detailShowImg").attr("src","/images/btn/btn_detail_close.gif");
+					} else {
+						$(".Show_detail").hide();
+						$("#detailShowImg").attr("alt","show");
+						$("#detailShowImg").attr("src","/images/btn/btn_detail_open.gif");
+					}
+					autoHeight();
+				}
+			}
+		});
+		
+		new Vue({
+			el : ".Show_detail",
+			data() {
+				return {
+					scroll : "overflow-y:scroll;",
+					salesDetail : "영업 현황 상세",
+					businessDept : "사업부",
+					chargeSales : "담당영업",
+					contractPoint : "계약시점",
+					salesStatus : "영업현황",
+					division : "구분",
+					customerCompany : "고객사명",
+					product : "제품",
+					count : "수량",
+					contractPrice : "계약금액",
+					salesProfit : "영업이익"					
+				};
+			},
+			computed : {
+				scrollList : function() {
+					return this.scroll + "height:297px;";
+				},
+				scrollSumList: function() {
+					return this.scroll + "height:34px;";
+				}
+			}
+		});				
+		
+		mkSearchDiv();
+		defaultLoadList();	
+		autoHeight();
+	});
+</script>

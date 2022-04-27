@@ -1,7 +1,7 @@
 var prev_g,prev_c,group_del;
-
-function codelist(data, obj){
-	var target = document.body,table;	
+var codelist = function(data, obj){	
+	var target = document.body; 
+	var table;	
 	cf.traverse(target,function(el){
 		if(el.tagName){					
 			if(el.id == "codeView")
@@ -12,10 +12,12 @@ function codelist(data, obj){
 	group_del=false;
 	
 	var ar=[];
-	codeList.trav(function(d,i){
-		if(d.group_id==obj.group_id) ar.push(d);
+	
+	codeList.trav(function(d, i){
+		if(d!=null && (d.group_id == obj.group_id)) ar.push(d);
 	});
-	ar.trav(function(d,i){
+	
+	ar.trav(function(d,i){		
 		var tr=cf.mkTag("tr",table),
 			td1=cf.mkTag("td",tr),
 			td2=cf.mkTag("td",tr),
@@ -27,15 +29,15 @@ function codelist(data, obj){
 		td3.className="txt_center";
 		td4.className="txt_center right";
 	
-		td1.style.width=80+"px";
-		td2.style.width=170+"px";
-		td3.style.width=310+"px";
+		td1.style.width="80px";
+		td2.style.width="170px";
+		td3.style.width="310px";
 		
 		if(i==0){
-			cf.setCss(td1,{borderTop:0+"px"});
-			cf.setCss(td2,{borderTop:0+"px"});
-			cf.setCss(td3,{borderTop:0+"px"});
-			cf.setCss(td4,{borderTop:0+"px"});
+			cf.setCss(td1,{borderTop:"0px"});
+			cf.setCss(td2,{borderTop:"0px"});
+			cf.setCss(td3,{borderTop:"0px"});
+			cf.setCss(td4,{borderTop:"0px"});
 		}
 		
 		td1.innerHTML=d.code_id;
@@ -50,11 +52,11 @@ function codelist(data, obj){
 			codeetc=d.etc1,
 		    orderseq=d.order_seq;
 		
-		tr.group_id=prev_g.group_id;
-		tr.code_id=codeid;
-		tr.code_name=codename;
-		tr.etc1=codeetc;
-		tr.order_seq=orderseq;
+		tr.dataset.group_id=prev_g.group_id;
+		tr.dataset.code_id=codeid;
+		tr.dataset.code_name=codename;
+		tr.dataset.etc1=codeetc;
+		tr.dataset.order_seq=orderseq;
 		
 		tr.onclick=function(){
 			if(prev_c==null) this.style.backgroundColor="#edfafb";

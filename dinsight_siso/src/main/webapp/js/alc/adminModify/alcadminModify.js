@@ -1,22 +1,26 @@
-var PLACEOFBUSINESS, SALESCUSTOMER, YN, SALES;
-
-function defaultLoadList(){	
-	
-	$.ajax({
-		  url: "/alc/admin/alcSearchAdminListAjax",
-		  type: "POST",
-		  async: false,
-		  dataType: "json",
-		  success: function (data) {
-			  PLACEOFBUSINESS = data.placeOfBusiness;
-			  YN = data.yn;
-			  SALES = data.sales;
-		  }
+$(document).ready(function(){
+	new Vue({
+		el : ".con_table",
+		data : {
+			customerCompany : "고객사",
+			pf : "Portfolio",
+			prdNo : "Prd.Number",
+			itemNm : "Item Name",
+			breakYn : "파훼여부",
+			orderPeriod : "발주기간",
+			installCompany : "설치사",
+			installPeriod : "설치기간",
+			unifiedYn : "통일여부"
+		},
+		computed : {
+			pfItemNm : function(){
+				return this.pf + "<br />" + this.itemNm;
+			},
+			comUnifiedYn : function(){
+				return this.installCompany + "<br />" + this.unifiedYn;
+			}
+		}
 	});
 	
-	//검색화면
-	mkSearch();
-	
-	//자동완성
-	autocompleteCompanySearch();
-};
+	defaultLoadList();
+});

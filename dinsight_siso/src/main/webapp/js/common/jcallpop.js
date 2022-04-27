@@ -5,11 +5,8 @@ function callPop(con){
 	con.className="movePopup";
 	
 	var w=SCREEN_SIZE_WIDTH, h=SCREEN_SIZE_HEIGHT;
-	var cvr=cf.mkAbsoluteDiv(0,0,w,h,document.body);
-	cvr.style.position="fixed";
-	cvr.style.backgroundColor="rgba(0,0,0,0.5)";
-	cvr.style.zIndex=10000;
-	cvr.style.overflow="hidden";
+	var cvr=cf.mkAbsoluteDiv(0,0,w,h,document.body);	
+	cf.setCss(cvr, {position:"fixed", backgroundColor:"rgba(0,0,0,0.5)", zIndex:10000, overflow:"hidden"});
 	
 	var nf=cf.getxywhfromdiv(con);
 	con.style.left=(w/2-nf.w/2)+"px";
@@ -61,9 +58,9 @@ function generalPop(msg,fnc,opt){
 		cf.killTag(con.parentNode);
 	};
 
-	cf.setCss(con3,{margin:0+" auto",textAlign:"center"});
-	cf.setCss(con2,{borderRadius:5+"px",backgroundColor:"#fff"});
-	cf.setCss(con,{position:"absolute",width:300+"px",height:151+"px"});
+	cf.setCss(con3,{margin:"0 auto",textAlign:"center"});
+	cf.setCss(con2,{borderRadius:"5px",backgroundColor:"#fff"});
+	cf.setCss(con,{position:"absolute",width:"300px",height:"151px"});
 	callPop(con);
 	keydefault();
 };
@@ -107,11 +104,11 @@ function generalPop2(msg,str1,str2,fnc1,fnc2){
 		cf.killTag(pcon.parentNode);
 	};
 	
-	cf.setCss(con2_a,{position: "absolute",top:0,right:0,padding:10+"px",cursor:"pointer",});
-	cf.setCss(con3,{textAlign:"center",paddingTop:20+"px",height:50+"px",lineHeight:1});
-	cf.setCss(con2,{borderRadius:7+"px",backgroundColor:"#fff",border:1+"px solid #626262"});
-	cf.setCss(pcon,{position:"absolute",width:300+"px",height:151+"px"});
-	cf.setCss(cen,{paddingBottom:20+"px",textAlign:"center",});	
+	cf.setCss(con2_a,{position: "absolute",top:0,right:0,padding:"10px",cursor:"pointer",});
+	cf.setCss(con3,{textAlign:"center",paddingTop:"20px",height:"50px",lineHeight:1});
+	cf.setCss(con2,{borderRadius:"7px",backgroundColor:"#fff",border:"1px solid #626262"});
+	cf.setCss(pcon,{position:"absolute",width:"300px",height:"151px"});
+	cf.setCss(cen,{paddingBottom:"20px",textAlign:"center",});	
 	callPop(pcon);
 	keydefault();
 };
@@ -134,9 +131,9 @@ function generalPopOk(msg,fnc){
 		cf.killTag(con.parentNode);
 	};
 
-	cf.setCss(con3,{margin:0+" auto"});
-	cf.setCss(con2,{borderRadius:7+"px",backgroundColor:"#fff"});
-	cf.setCss(con,{position:"absolute",width:300+"px",height:151+"px"});
+	cf.setCss(con3,{margin:"0 auto"});
+	cf.setCss(con2,{borderRadius:"7px",backgroundColor:"#fff"});
+	cf.setCss(con,{position:"absolute",width:"300px",height:"151px"});
 	callPop(con);
 	keydefault();
 };
@@ -159,9 +156,9 @@ function generalPopOk2(msg,fnc){
 		cf.killTag(con.parentNode);
 	};
 
-	cf.setCss(con3,{margin:0+" auto"});
-	cf.setCss(con2,{borderRadius:7+"px",backgroundColor:"#fff"});
-	cf.setCss(con,{position:"absolute",width:300+"px",height:151+"px"});
+	cf.setCss(con3,{margin:"0 auto"});
+	cf.setCss(con2,{borderRadius:"7px",backgroundColor:"#fff"});
+	cf.setCss(con,{position:"absolute",width:"300px",height:"151px"});
 	callPop(con);
 	keydefault();
 };

@@ -1,0 +1,89 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<div class="search4" id="searchDiv"></div>
+<!-- button start -->
+<div class="btn_action">
+	<ul>
+		<li v-for="(item, index) in btnList" :class="{'last':index == btnList.length - 1}">
+			<a href="javascript:;" :onclick="item.func"><img :src="item.btnImg" :alt="item.altText" /></a>
+		</li>
+	</ul>
+</div>
+<!--// button end -->
+
+<!-- top table start -->
+<div class="con_table">
+	<div class="Wrap_table">
+		<div style="overflow-y:scroll;">
+			<table class="Normal_table" :style="tblStyle">
+				<thead>
+					<tr>
+						<th width="3%" rowspan="2"><input type="checkbox" class="CheckMode" onclick="checkMode(this)"></th>
+						<th width="3%" rowspan="2" v-text="no"></th>
+						<th width="10%" rowspan="2" v-text="pCode"></th>
+						<th width="10%" rowspan="2" v-text="projectNm"></th>							
+						<th width="6%" rowspan="2" v-text="division"></th>
+						<th width="14%" colspan="2" v-text="project"></th>
+						<th width="5%" v-text="contract"></th>
+						<th width="21%" colspan="3" v-text="customerCompany"></th>
+						<th width="10%" rowspan="2" v-text="relatedDept"></th>
+						<th width="10%" rowspan="2" class="right" v-text="contractPrice"></th>
+					</tr>
+					<tr>
+						<th width="7%" v-text="startDate"></th>
+						<th width="7%" v-text="endDate"></th>
+						<th v-text="mm"></th>
+						<th width="7%" v-text="customerCompanyNm"></th>
+						<th width="7%" v-text="charger"></th>					   
+						<th width="7%" v-text="contact"></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div style="overflow-y:scroll; height:250px;">
+			<table class="Normal_table" :style="tblStyle">
+				<tbody id="pj_contents" class="txtclr"></tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- top table end -->
+
+<!-- button start -->
+<div class="btn_action" id="btn_info">
+	<div class="descript asterisk infobot" v-text="requiredMsg"></div>
+	<ul>
+		<li v-for="item in btnBottomList">
+			<img :src="item.btnImg" :alt="item.altText" /></a>
+		</li>		 
+	</ul>
+</div>
+<!--// button end -->
+
+<!-- bottom table start -->
+<div class="con_table" id="bottom_table">
+	<div class="Wrap_table">
+		<div class="Project_info_title" id="pj_info_title" v-text="assignInfo"></div>
+		<div style="overflow-y:scroll;">
+			<table class="Normal_table">
+				<thead>
+					<tr>
+						<th width="5%"><input type="checkbox" class="CheckMode" onclick="checkMode(this,true)"></th>
+						<th width="5%" v-text="no"></th>
+						<th width="15%">{{ employee }}<span class="asterisk">*</span></th>
+						<th width="10%">{{ role }}<span class="asterisk">*</span></th>
+						<th width="15%">{{ stayState }}<span class="asterisk">*</span></th>
+						<th width="20%">{{ assignStart }}<span class="asterisk">*</span></th>
+						<th width="20%">{{ assignEnd }}<span class="asterisk">*</span></th>
+						<th width="10%" class="right" v-text="contractMM"></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div style="overflow-y:scroll; min-height:100px;" id="contents">
+			<table class="Normal_table">
+				<tbody id="pj_info_contents" class="txtclr"></tbody>
+			</table>
+		</div>
+	</div>
+</div>

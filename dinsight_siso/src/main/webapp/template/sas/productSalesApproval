@@ -1,0 +1,30 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<div class="search4" id="searchDiv"></div>
+
+<!--  table start -->
+<div class="con_table">
+	<div class="Wrap_table">
+		<div :style="scroll">
+			<table :style="tblWidth" :class="normalTbl">
+				<thead>
+					<tr>
+						<th width="5%" v-text="no"></th>
+						<th width="30%" v-text="title"></th>
+						<th width="14%" v-text="state"></th>
+						<th width="18%" v-text="draft"></th>
+						<th width="18%" v-text="draftDate"></th>
+						<th width="15%" class="right" v-text="seeDetail"></th>
+					</tr>
+				</thead>	
+			</table>
+		</div>
+		<div class="codeTable" :style="scroll">
+			<table :style="tblWidth" :class="normalTbl">
+				<tbody id="approvalView" class="txtclr">
+				</tbody>
+			</table>
+		</div>		
+	</div>
+</div>
+<!--  //table end -->

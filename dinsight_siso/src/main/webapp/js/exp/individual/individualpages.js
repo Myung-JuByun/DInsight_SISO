@@ -1,7 +1,4 @@
-mkSearchDiv();
-defaultLoadList();
-
-function setDate(){
+var setDate = function(){
 	var year=document.getElementById("sh_expanse_year");
 	if(srch_obj){
 		mkYearSelect(year,srch_obj.year);
@@ -9,7 +6,8 @@ function setDate(){
 		mkYearSelect(year);
 	}
 };
-function mkSearchDiv(){
+
+var mkSearchDiv = function(){
 	var p=document.getElementById("searchDiv");
 	p.innerHTML = "";
 	
@@ -31,8 +29,9 @@ function mkSearchDiv(){
 	cf.setCss(srch,{marginLeft:20+"px"});
 	cf.setCss(bx1,{float:"left"});
 };
+
 //ajax 처리후 결과 처리
-function defaultAutoCompleteResult(json) {
+var defaultAutoCompleteResult = function(json) {
 	var cnt, mainCnt, expanse_month;
 	var arr_total = new Array();
 	var	arr_payment = new Array();
@@ -77,14 +76,12 @@ function defaultAutoCompleteResult(json) {
 		if (mainCnt.toString().length == 1) 	mainCntView = "0" + mainCnt;
 		else									mainCntView = mainCnt;
 
-		if(typeof arr_payment[mainCntView] !== "undefined") {
-			
+		if(typeof arr_payment[mainCntView] !== "undefined") {			
 			payment_302 	= convertNull(arr_payment[mainCntView]['302'], '0');
 			payment_301 	= convertNull(arr_payment[mainCntView]['301'], '0');
 			payment_303 	= convertNull(arr_payment[mainCntView]['303'], '0');
 			payment_304 	= convertNull(arr_payment[mainCntView]['304'], '0');
-			payment_mileage = convertNull(arr_payment[mainCntView]['mileage'], '0');
-			
+			payment_mileage = convertNull(arr_payment[mainCntView]['mileage'], '0');			
 		} else {
 			payment_302 	= 0;
 			payment_301 	= 0;
@@ -92,6 +89,7 @@ function defaultAutoCompleteResult(json) {
 			payment_304 	= 0;
 			payment_mileage = 0;				
 		}
+		
 		if(typeof payment_302 === "undefined")		payment_302 = 0;			
 		if(typeof payment_301 === "undefined")		payment_301 = 0;			
 		if(typeof payment_303 === "undefined")		payment_303 = 0;			
@@ -117,8 +115,7 @@ function defaultAutoCompleteResult(json) {
 			sum3Q_303 		+= parseInt(payment_303);
 			sum3Q_304 		+= parseInt(payment_304);
 			sum3Q_mileage 	+= parseInt(payment_mileage);
-		} else if (mainCnt >= 10 && mainCnt <=12) {
-			
+		} else if (mainCnt >= 10 && mainCnt <=12) {			
 			sum4Q_302 		+= parseInt(payment_302);
 			sum4Q_301 		+= parseInt(payment_301);
 			sum4Q_303 		+= parseInt(payment_303);

@@ -1,3 +1,5 @@
+var prev_salespop01;
+
 //검색
 function prdSalesApprovalList(){
 	var temp = $("#searchDiv").find("input, select").serializeArray();
@@ -14,8 +16,8 @@ function prdSalesApprovalList(){
 			$('.wrap-loading').show();
 		}
 	});
-};
-var prev_salespop01;
+}
+
 function callpopup(flag,num){
 	if(flag !="view"){
 		if(num) num=(num*1)+1;
@@ -30,4 +32,4 @@ function callpopup(flag,num){
 		prev_salespop01.pop.location.href="../product/productSalesPop";
 		prev_salespop01.pop.focus();
 	}else window.open("../product/productSalesPop","_blank","fullscreen=yes,scrollbars=yes,resizable=yes, height=" + screen.height + ",width=" + screen.width);
-};
+}

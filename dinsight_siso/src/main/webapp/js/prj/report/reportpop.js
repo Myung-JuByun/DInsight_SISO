@@ -5,12 +5,11 @@ function statusPop(son){
 		current=son.parentNode;		
 		dropdown.style.display="";
 	}
-};
+}
+
 function statusTable(son,con){
-	var table=cf.mkTag("table",son);
-	table.cellpadding=0;
-	table.cellspacing=0;
-	table.className="Normal_table";
+	var table=cf.mkTag("table",son);	
+	Object.assign(table, {cellpadding:0, cellspacing:0, className:"Normal_table"})
 		
 	STATUSLIST.trav(function(d,i){
 		var tr=cf.mkTag("tr",table);
@@ -31,7 +30,8 @@ function statusTable(son,con){
 			statusSave(con);			
 		};
 	});
-};
+}
+
 function autoMHPop(){	
 	var date = new Date();
 	var year = date.getFullYear() + "";
@@ -158,27 +158,26 @@ function autoMHPop(){
 		setPopStatus();
 	}	
 	dropdown=mkDropDown();
-};
+}
+
 function popList(ele){		
 	var div=document.createElement("div");
-	cf.setCss(div,{marginTop:15+"px",width:850+"px"});
+	cf.setCss(div,{marginTop:"15px",width:"850px"});
 	
 	var popDiv=cf.mkTag("div", div);
 	popDiv.id="mm_pop_head";
 	popDiv.className="Wrap_table";
 	
 	var table=cf.mkTag("table", popDiv);
-	table.cellPadding="0";
-	table.cellSpacing="0";
-	table.className="Normal_table";	
-	cf.setCss(table,{width:100+"%"});
+	Object.assign(table, {cellpadding:0, cellspacing:0, className:"Normal_table"})	
+	cf.setCss(table,{width:"100%"});
 	
 	var thead=cf.mkTag("thead", table),
 		tr=cf.mkTag("tr", thead),	
 		th=cf.mkTag("th", tr);
 	th.rowSpan="2";
 	th.innerHTML="NO.";	
-	cf.setCss(th,{width:39+"px",height:50+"px"});
+	cf.setCss(th,{width:"39px",height:"50px"});
 	
 	var th=cf.mkTag("th", tr);
 	th.rowSpan="2";
@@ -186,37 +185,37 @@ function popList(ele){
 	
 	var th=cf.mkTag("th", tr);
 	th.innerHTML="월";
-	cf.setCss(th,{width:74+"px"});
+	cf.setCss(th,{width:"74px"});
 	
 	var th=cf.mkTag("th", tr);
 	th.innerHTML="화";
-	cf.setCss(th,{width:74+"px"});
+	cf.setCss(th,{width:"74px"});
 	
 	var th=cf.mkTag("th", tr);
 	th.innerHTML="수";
-	cf.setCss(th,{width:74+"px"});
+	cf.setCss(th,{width:"74px"});
 	
 	var th=cf.mkTag("th", tr);
 	th.innerHTML="목";
-	cf.setCss(th,{width:74+"px"});
+	cf.setCss(th,{width:"74px"});
 	
 	var th=cf.mkTag("th", tr);
 	th.innerHTML="금";
-	cf.setCss(th,{width:74+"px"});
+	cf.setCss(th,{width:"74px"});
 	
 	var th=cf.mkTag("th", tr);
 	th.innerHTML="토";
-	cf.setCss(th,{width:74+"px"});
+	cf.setCss(th,{width:"74px"});
 	
 	var th=cf.mkTag("th", tr);
 	th.innerHTML="일";
-	cf.setCss(th,{width:74+"px"});
+	cf.setCss(th,{width:"74px"});
 	
 	var th=cf.mkTag("th", tr);
 	th.rowSpan="2";
 	th.className="right";
 	th.innerHTML="합";
-	cf.setCss(th,{width:69+"px"});
+	cf.setCss(th,{width:"69px"});
 	
 	var tr=cf.mkTag("tr", thead),
 		th=cf.mkTag("th", tr),
@@ -293,16 +292,15 @@ function popList(ele){
 		table=cf.mkTag("table", subDiv),
 		tbody=cf.mkTag("tbody", table),
 		tbddv=cf.mkTag("div",tbody);
-	table.cellPadding="0";
-	table.cellSpacing="0";
-	table.className="Normal_table";
+	Object.assign(table, {cellpadding:0, cellspacing:0, className:"Normal_table"})
 	tbody.id="mm_pop_contents";
 	
 	cf.setCss(subDiv,{overflowY:"scroll",height:317+"px"});
 	
 	ele.appendChild(div);	
 	reportPopList(tbody, popListData);
-};
+}
+
 function reportPopList(box, obj){
 	select_pop_mon=new Array();
 	select_pop_tue=new Array();
@@ -340,7 +338,7 @@ function reportPopList(box, obj){
 			ipt.name="in_pop_commute_id";
 			ipt.value=d.commute_id;
 			ipt.type="hidden";
-			cf.setCss(td,{width:39+"px"});
+			cf.setCss(td,{width:"39px"});
 
 			var td=cf.mkTag("td",tr),
 				str=cf.mkTag("div",td),
@@ -369,8 +367,8 @@ function reportPopList(box, obj){
 			ipt2.onkeypress=function(e){
 				checkChar(e,this);
 			};
-			cf.setCss(ipt2,{width:60+"%"});
-			cf.setCss(td,{width:74+"px"});
+			cf.setCss(ipt2,{width:"60%"});
+			cf.setCss(td,{width:"74px"});
 			
 			var td=cf.mkTag("td",tr),
 				ipt1=cf.mkTag("input",td),
@@ -386,8 +384,8 @@ function reportPopList(box, obj){
 			ipt2.onkeypress=function(e){
 				checkChar(e,this);
 			};
-			cf.setCss(ipt2,{width:60+"%"});
-			cf.setCss(td,{width:74+"px"});
+			cf.setCss(ipt2,{width:"60%"});
+			cf.setCss(td,{width:"74px"});
 			
 			var td=cf.mkTag("td",tr),
 				ipt1=cf.mkTag("input",td),
@@ -403,8 +401,8 @@ function reportPopList(box, obj){
 			ipt2.onkeypress=function(e){
 				checkChar(e,this);
 			};
-			cf.setCss(ipt2,{width:60+"%"});
-			cf.setCss(td,{width:74+"px"});
+			cf.setCss(ipt2,{width:"60%"});
+			cf.setCss(td,{width:"74px"});
 			
 			var td=cf.mkTag("td",tr),
 				ipt1=cf.mkTag("input",td),
@@ -420,8 +418,8 @@ function reportPopList(box, obj){
 			ipt2.onkeypress=function(e){
 				checkChar(e,this);
 			};
-			cf.setCss(ipt2,{width:60+"%"});
-			cf.setCss(td,{width:74+"px"});
+			cf.setCss(ipt2,{width:"60%"});
+			cf.setCss(td,{width:"74px"});
 			
 			var td=cf.mkTag("td",tr),
 				ipt1=cf.mkTag("input",td),
@@ -437,8 +435,8 @@ function reportPopList(box, obj){
 			ipt2.onkeypress=function(e){
 				checkChar(e,this);
 			};
-			cf.setCss(ipt2,{width:60+"%"});
-			cf.setCss(td,{width:74+"px"});
+			cf.setCss(ipt2,{width:"60%"});
+			cf.setCss(td,{width:"74px"});
 			
 			var td=cf.mkTag("td",tr),
 				ipt1=cf.mkTag("input",td),
@@ -454,8 +452,8 @@ function reportPopList(box, obj){
 			ipt2.onkeypress=function(e){
 				checkChar(e,this);
 			};
-			cf.setCss(ipt2,{width:60+"%"});
-			cf.setCss(td,{width:74+"px"});	
+			cf.setCss(ipt2,{width:"60%"});
+			cf.setCss(td,{width:"74px"});	
 			
 			var td=cf.mkTag("td",tr),
 				ipt1=cf.mkTag("input",td),
@@ -471,8 +469,8 @@ function reportPopList(box, obj){
 			ipt2.onkeypress=function(e){
 				checkChar(e,this);
 			};
-			cf.setCss(ipt2,{width:60+"%"});
-			cf.setCss(td,{width:74+"px"});	
+			cf.setCss(ipt2,{width:"60%"});
+			cf.setCss(td,{width:"74px"});	
 			
 			var td=cf.mkTag("td",tr),
 				ipt=cf.mkTag("input",td);
@@ -482,11 +480,12 @@ function reportPopList(box, obj){
 			ipt.readOnly=true;
 			if(!d.man_hour) ipt.value=0;
 			else ipt.value=d.man_hour;
-			cf.setCss(ipt,{width:60+"%",backgroundColor:"#eee"});
-			cf.setCss(td,{width:52+"px"});
+			cf.setCss(ipt,{width:"60%",backgroundColor:"#eee"});
+			cf.setCss(td,{width:"52px"});
 		});
 	}
-};
+}
+
 function mkPopStatus(){
 	var mon=document.getElementById("pop_status_mon"),
 		tue=document.getElementById("pop_status_tue"),
@@ -579,7 +578,8 @@ function mkPopStatus(){
 			d.value="02";
 		});
 	}
-};
+}
+
 function setPopStatus(){
 	var mon=document.getElementById("pop_status_mon"),
 		tue=document.getElementById("pop_status_tue"),

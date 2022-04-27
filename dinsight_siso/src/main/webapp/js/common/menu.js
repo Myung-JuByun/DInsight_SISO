@@ -9,10 +9,8 @@ $.ajax({
 	  }
 });
 
-function dataMenuProc(){
-	
-	var dt=MENU;
-	
+function dataMenuProc(){	
+	var dt=MENU;	
 	var rootMenu={
 		menuId:"9999",
 		menuName:"ROOT",
@@ -21,8 +19,8 @@ function dataMenuProc(){
 		menuLevel:"0",
 		level1Id:""
 	};
-	dt.unshift(rootMenu);
-		
+	
+	dt.unshift(rootMenu);		
 	
 	var obj={};
 	dt.trav(function(d,i){
@@ -44,13 +42,7 @@ function dataMenuProc(){
 
 function mkMenu(){
 	var checkbox_menu_tree = $("#checkbox_menu_tree")[0];
-	
-	checkbox_menu_tree.style.width=100+"%";
-	checkbox_menu_tree.style.height=460+"px";
-	checkbox_menu_tree.style.overflowY="auto";
-	checkbox_menu_tree.style.overflowX="hidden";
-	checkbox_menu_tree.style.border="none";
-		
+	Object.assign(checkbox_menu_tree.style, {width:"100%", height:"460px", overflowY:"auto", overflowX:"hidden", border:"none"});	
 	checkbox_menu_tree.innerHTML="";
 	
 	var cnt=0;
@@ -60,19 +52,14 @@ function mkMenu(){
 		}
 		cnt++;
 	});
-};
+}
 
-function mkMenuLeaf(el,tree_menu,cnt){
-	
+function mkMenuLeaf(el,tree_menu,cnt){	
 	var indent=25;
 	var padLeft=(indent*el.menuLevel*1);
 			
-	a=cf.mkTag("div",tree_menu);
-	a.style.paddingTop=2+"px";
-	a.style.paddingLeft=padLeft+"px";
-	a.style.marginRight=20+"px";
-	a.style.backgroundColor="white";
-	a.style.whiteSpace="nowrap";
+	a=cf.mkTag("div",tree_menu);	
+	cf.setCss(a, {paddingTop:"2px", paddingLeft:padLeft+"px", marginRight:"20px", backgroundColor:"white", whiteSpace:"nowrap"});
 	
 	a.obj=el;
 	a.idx=cnt;

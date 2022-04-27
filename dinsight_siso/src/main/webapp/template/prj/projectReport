@@ -1,0 +1,38 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<div class="search4" id="searchDiv"></div>
+<!-- button start -->
+<div class="btn_action" id="btn_check"></div>
+<!--// button end -->
+
+<!-- top table start -->
+<div class="con_table">
+	<div class="Wrap_table">
+		<table style="width:100%" class="Normal_table" id="mm_head">
+			<thead>
+				<tr>
+					<th width="39px" style="height:50px;" rowspan="2" v-text="no"></th>
+					<th width="" rowspan="2" v-text="projectNm"></th>
+					<th width="84px" v-for="item in dayTh">
+						{{ item.day }}<span :style="dayStyle" :id="item.id"></span>
+					</th>	 
+					<th width="84px" rowspan="2" v-text="sum"></th>
+					<th width="139x" rowspan="2" v-text="issue"></th>
+					<th width="79px" class="right" rowspan="2" v-text="state"></th>
+				</tr>
+				<tr>
+					<th width="84px" v-for="value in statusDayTh">
+						<div class="pointer" onclick="statusPop(this);">▼</div><div :id="value"></div>
+					</th>
+				</tr>
+			</thead>
+		</table>
+		<div id="reporttb2" class="">
+			<table style="width:100%" class="Normal_table">
+				<tbody id="mm_contents" class="txtclr"></tbody>
+			</table>
+		</div>
+		<div id="reporttb2_sum" class=""></div>
+	</div>
+</div>
+<!-- top table end -->

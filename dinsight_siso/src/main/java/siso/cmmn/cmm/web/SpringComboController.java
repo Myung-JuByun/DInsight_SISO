@@ -3,6 +3,7 @@ package siso.cmmn.cmm.web;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -102,7 +103,7 @@ public class SpringComboController {
 					 String[] msg_param = new String[1];
 					 msg_param[0] = groupName;
 					 
-					 return_msg = springMessageSource.getMessage("result.combo.noData", msg_param , null);
+					 return_msg = springMessageSource.getMessage("result.combo.noData", msg_param , Locale.getDefault());
 					 
 			    	 map_d.put(str_json_return_msg,"Error : " + return_msg);
 				 }
@@ -191,7 +192,7 @@ public class SpringComboController {
 						 String[] msg_param = new String[1];
 						 msg_param[0] = groupName;
 						 
-						 return_msg = springMessageSource.getMessage("result.combo.noData", msg_param , null);
+						 return_msg = springMessageSource.getMessage("result.combo.noData", msg_param , Locale.getDefault());
 						 
 				    	 map_d.put(str_json_return_msg,"Error : " + return_msg);
 					 }
@@ -280,7 +281,7 @@ public class SpringComboController {
 							 String[] msg_param = new String[1];
 							 msg_param[0] = groupName;
 							 
-							 return_msg = springMessageSource.getMessage("result.combo.noData", msg_param , null);
+							 return_msg = springMessageSource.getMessage("result.combo.noData", msg_param , Locale.getDefault());
 							 
 					    	 map_d.put(str_json_return_msg,"Error : " + return_msg);
 						 }

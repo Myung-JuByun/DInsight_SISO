@@ -1,4 +1,25 @@
 var prev_tr, pop_prev_tr;
+var PLACEOFBUSINESS, SALESCUSTOMER, YN, SALES;
+
+function defaultLoadList(){	
+	
+	$.ajax({
+		  url: "/alc/admin/alcSearchAdminListAjax",
+		  type: "POST",
+		  async: false,
+		  dataType: "json",
+		  success: function (data) {
+			  PLACEOFBUSINESS = data.placeOfBusiness;
+			  YN = data.yn;
+			  SALES = data.sales;
+		  }
+	});
+	
+	//검색화면
+	mkSearch();	
+	//자동완성
+	autocompleteCompanySearch();
+}
 
 //검색
 function mkSearch(data){
@@ -145,35 +166,35 @@ function alcModifyList(obj) {
 			input.value=d.alc_id;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			td.innerHTML=d.company_name;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			td.innerHTML=d.portfolio;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=7+"%";
+			td.style.width="7%";
 			td.innerHTML=d.prd_number;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=5+"%";
+			td.style.width="5%";
 			td.innerHTML=d.prd_type;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			td.innerHTML=d.trigram;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			td.innerHTML=d.portfolio_item_name;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=5+"%";
+			td.style.width="5%";
 			td.innerHTML=d.destruction_yn;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			if(d.ordering_start_day==undefined) {
 				td.innerHTML="";
 			}else{
@@ -181,15 +202,15 @@ function alcModifyList(obj) {
 			}
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			td.innerHTML=d.install_company_id;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=5+"%";
+			td.style.width="5%";
 			td.innerHTML=d.qty;
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			if(d.install_start_day==undefined) {
 				td.innerHTML="";
 			}else{
@@ -197,7 +218,7 @@ function alcModifyList(obj) {
 			}
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=5+"%";
+			td.style.width="5%";
 			if(d.install_identical_yn == '1') {
 				td.innerHTML="Y";	
 			} else{

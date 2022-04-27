@@ -1,9 +1,6 @@
 var DIVISIONS,MEMBERS,DIVISION_ROOT,CURRENT_DIVISION,CURRENT_DIVISION_MEMBERS=new Array(),
 	APPROVAL,APPROVAL_MILEAGE,CURRENT_APPROVAL=new Array(),CURRENT_MILEAGE=new Array(),leaves=[],prev;
 
-mkSearchDiv();
-defaultLoadList();
-
 function mkSearchDiv(){
 	var p=document.getElementById("searchDiv");
 	p.innerHTML = "";
@@ -20,9 +17,9 @@ function mkSearchDiv(){
 	select.onchange=function(){
 		expanseSearch();
 	};
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
-	cf.setCss(bx1,{width:187+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
+	cf.setCss(bx1,{width:"187px"});
 	
 	var	select = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
@@ -33,25 +30,28 @@ function mkSearchDiv(){
 		expanseSearch();
 	};	
 	span.innerHTML = "월";
-	cf.setCss(select,{width:60+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
+	cf.setCss(select,{width:"60px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
 	
-	cf.setCss(srch,{marginLeft:20+"px"});
+	cf.setCss(srch,{marginLeft:"20px"});
 	cf.setCss(bx1,{float:"left"});
-};
+}
+
 function defaultLoadList(){	
 	var obj = {year :CurrentDate[0],month :CurrentDate[1]};	
 	callexApprovalData(obj, function (data){
 		approvalList(data);
 	});
-};
+}
+
 //검색
 function expanseSearch() {
 	var obj = {year : $("#sh_expanse_year").val(),month :$("#sh_expanse_month").val()};	
 	callexApprovalData(obj, function (data){
 		approvalList(data);
 	});
-};
+}
+
 //리스트 출력
 function approvalList(data) {
 	DIVISIONS=data.divisionList;
@@ -61,7 +61,8 @@ function approvalList(data) {
 	
 	dataProc(true);
 	mkDivision();	
-};
+}
+
 function dataProc(opt){
 	if(opt){
 		var dt=[];
@@ -97,7 +98,8 @@ function dataProc(opt){
 			d.division_level=(obj[str].division_level*1)+1;
 		}else DIVISION_ROOT=d;
 	});
-};	
+}
+	
 function mkDivision(){
 	var tree_menu=document.getElementById("tree_menu");
 	tree_menu.innerHTML="";
@@ -107,20 +109,15 @@ function mkDivision(){
 		mkLeaf(el,tree_menu,cnt);
 		cnt++;
 	});
-};	
+}
+
 function mkLeaf(el,tree_menu,cnt){
 	var indent=15;
 	var padLeft=(indent*el.division_level*1);
 	var str=el.parent_cd;
 			
 	var a=cf.mkTag("div",tree_menu);
-	a.style.paddingTop=8+"px";
-	a.style.paddingLeft=padLeft+"px";
-	a.style.marginRight=20+"px";
-	//a.style.backgroundColor="white";
-	a.style.whiteSpace="nowrap";
-	a.style.cursor="pointer";
-	
+	cf.setCss(a, {paddingTop:"8px", paddingLeft:padLeft+"px", marginRight:"20px", whiteSpace:"nowrap", cursor:"pointer"});
 	a.obj=el;
 	a.idx=cnt;
 	a.depth=el.division_level;
@@ -133,10 +130,8 @@ function mkLeaf(el,tree_menu,cnt){
 		img.src="/images/ico/img_dot.gif";
 		
 	}else{
-		var img=cf.mkTag("img",a);
-		img.className="btn_tree";
-		img.id="btn_tree";
-		img.src="/images/exp_payment/tree_minus.gif";
+		var img=cf.mkTag("img",a);		
+		Object.assign(img, {className:"btn_tree", id:"btn_tree", src:"/images/exp_payment/tree_minus.gif"});
 		img.onclick=function(){
 			var trg=this.parentNode;
 			fold(trg);
@@ -148,8 +143,10 @@ function mkLeaf(el,tree_menu,cnt){
 				trg.chk=true;
 			}
 		};
+		
 		var span=cf.mkTag("span",a);
 		span.innerHTML=" ";
+		
 		var img=cf.mkTag("img",a);
 		img.src="/images/exp_payment/folder.gif";
 	}
@@ -177,7 +174,8 @@ function mkLeaf(el,tree_menu,cnt){
 		prev.idx=cnt;
 	};
 	leaves.push(a);
-};	
+}
+	
 function getMem(el){
 	var obj=el.obj;
 	var arr=MEMBERS;
@@ -186,7 +184,8 @@ function getMem(el){
 	arr.trav(function(d,i){
 		if(d.division_cd==obj.division_cd) CURRENT_DIVISION_MEMBERS.push(d);
 	});
-};
+}
+
 function getAprooval(data){
 	var current_d=data.obj;
 	var app=APPROVAL;
@@ -204,7 +203,8 @@ function getAprooval(data){
 	mile.trav(function(d,i){
 		if(d.creator==current_d.user_id) CURRENT_MILEAGE.push(d);
 	});
-};
+}
+
 function mkApprovalTable(){
 	var approvalView=document.getElementById("approvalView");
 	approvalView.innerHTML="";
@@ -223,34 +223,35 @@ function mkApprovalTable(){
 		td.className="right";
 		td.colSpan="7";
 		td.innerHTML="조회된 데이터가 없습니다.";
-		cf.setCss(td,{borderTop:0+"px"});
+		cf.setCss(td,{borderTop:"0px"});
 	}	
+	
 	function mkTr(d,i){
 		var tr=cf.mkTag("tr",approvalView);
 				
 		var td1=cf.mkTag("td",tr);
 		td1.align="center";
-		td1.width=40+"px";
+		td1.width="40px";
 		td1.innerHTML=cnt+1;
 		
 		var td2=cf.mkTag("td",tr);
 		td2.align="center";
-		td2.width=80+"px";
+		td2.width="80px";
 		td2.innerHTML=d.pay_day;
 		
 		var td3=cf.mkTag("td",tr);
 		td3.align="center";
-		td3.width=90+"px";
+		td3.width="90px";
 		td3.innerHTML=d.expanse_type_name;
 		
 		var td4=cf.mkTag("td",tr);
-		td4.width=80+"px";
+		td4.width="80px";
 		td4.align="center";
 		td4.innerHTML=d.category_name;
 		
 		var td5=cf.mkTag("td",tr);
 		td5.align="right";
-		td5.width=80+"px";
+		td5.width="80px";
 		td5.style.paddingRight="10px"
 		td5.innerHTML=comma(d.payment);
 		
@@ -259,64 +260,56 @@ function mkApprovalTable(){
 		td6.innerHTML=d.expanse_name;
 		
 		var td7=cf.mkTag("td",tr);
-		td7.width=63+"px";
+		td7.width="63px";
 		td7.align="center";
 		td7.innerHTML=d.code_name;
 		td7.className="right";
 		
 		if(i==0){
-			cf.setCss(td1,{borderTop:0+"px"});
-			cf.setCss(td2,{borderTop:0+"px"});
-			cf.setCss(td3,{borderTop:0+"px"});
-			cf.setCss(td4,{borderTop:0+"px"});
-			cf.setCss(td5,{borderTop:0+"px"});
-			cf.setCss(td6,{borderTop:0+"px"});
-			cf.setCss(td7,{borderTop:0+"px"});
+			cf.setCss(td1,{borderTop:"0px"});
+			cf.setCss(td2,{borderTop:"0px"});
+			cf.setCss(td3,{borderTop:"0px"});
+			cf.setCss(td4,{borderTop:"0px"});
+			cf.setCss(td5,{borderTop:"0px"});
+			cf.setCss(td6,{borderTop:"0px"});
+			cf.setCss(td7,{borderTop:"0px"});
 		}
 	};
-};
+}
+
 function fold(l){
 	leaves.trav(function(d,i){
 		if(i>l.idx) return doFold(d,i);
 	});
+	
 	function doFold(d,i){
 		var cmp=l.depth-d.depth;
 		if(cmp>=0) return true;
-		if(l.chk){
-			d.style.height=0+"px";
-			d.style.paddingTop=0+"px";
-			d.style.overflow="hidden";
+		if(l.chk){			
+			Object.assign(d.style, {height:"0px", paddingTop:"0px", overflow:"hidden"});
 		}else{
 			var memSrch=d.obj.division_cd.substr(0,3);
 			
 			if(memSrch=="mem") d.childNodes[0].src="/images/ico/img_dot.gif";
 			else d.childNodes[0].src="/images/exp_payment/tree_minus.gif";
-			d.style.height=14+"px";
-			d.style.paddingTop=8+"px";
-			d.style.overflow="";
+			Object.assign(d.style, {height:"14px", paddingTop:"8px", overflow:""});
 		}
 	};
-};
+}
+
 function mileagePop(){
 	if(CURRENT_MILEAGE.length==0) generalPop("마일리지가 없습니다.");
 	else{
 		var con=document.createElement("div");
-		con.style.width=800+"px";
-		con.style.height=600+"px";
-		con.style.position="absolute";
-		//con.style.backgroundColor="white";
-		
 		con.innerHTML="";
+		Object.assign(con.style, {width:"800px", height:"600px", position:"absolute"});
 		
 		var con0=cf.mkTag("div",con);
 		
 		var con1=cf.mkTag("div",con0);
 		con1.id="mileage_pop";
-		con1.className="pop-layer2";
-		con1.style.border=2+"px solid black";
-		con1.style.width=800+"px";
-		con1.style.height=600+"px";
-		con1.style.backgroundColor="white";
+		con1.className="pop-layer2";		
+		Object.assign(con1.style, {width:"800px", height:"600px", border:"2px solid black", backgroundColor:"white"});
 		
 		var con2=cf.mkTag("div",con1);
 		con2.className="mil_top";
@@ -326,11 +319,10 @@ function mileagePop(){
 		var con2_a=cf.mkTag("a",con2);
 		con2_a.href="#";
 		con2_a.className="layerClose";
-		var con2_img=cf.mkTag("img",con2_a);
-		con2_img.src="/images/pop_btn/btn_pop_close.png";
-		con2_img.style.paddingRight=5+"px";
-		con2_img.alt="닫기";
-		con2_img.align="right";
+		var con2_img=cf.mkTag("img",con2_a);		
+		con2_img.style.paddingRight="5px";
+		Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", alt:"닫기", align:"right"});
+		
 		con2_img.onclick=function(){
 			cf.killTag(con.parentNode);
 		};
@@ -338,7 +330,7 @@ function mileagePop(){
 		var con3=cf.mkTag("div",con1);
 		con3.className="mil-container";
 		con3.style.overflowY="auto";
-		con3.style.height=525+"px";
+		con3.style.height="525px";
 		
 		var con4=cf.mkTag("div",con3);
 		con4.className="con_table div_overflow_mileage";
@@ -346,47 +338,49 @@ function mileagePop(){
 		var con5=cf.mkTag("div",con4);
 		con5.className="Wrap_table";
 						
-		var tb1=cf.mkTag("table",con5);
-		tb1.cellpadding=0;
-		tb1.cellspacing=0;
-		tb1.className="Normal_table";
+		var tb1=cf.mkTag("table",con5);		
+		Object.assign(tb1, {cellpadding:0, cellspacing:0, className:"Normal_table"});
+		
 		var tr=cf.mkTag("tr",tb1);
 		var th=cf.mkTag("th",tr);
-		th.style.width=5+"%";
+		th.style.width="5%";
 		th.innerHTML="No.";
+		
 		var th=cf.mkTag("th",tr);
-		th.style.width=10+"%";
+		th.style.width="10%";
 		th.innerHTML="날짜";
+		
 		var th=cf.mkTag("th",tr);
-		th.style.width=15+"%";
+		th.style.width="15%";
 		th.innerHTML="이동목적";
+		
 		var th=cf.mkTag("th",tr);
-		th.style.width=15+"%";
+		th.style.width="15%";
 		th.innerHTML="출발지";
+		
 		var th=cf.mkTag("th",tr);
-		th.style.width=15+"%";
+		th.style.width="15%";
 		th.innerHTML="경유지";
+		
 		var th=cf.mkTag("th",tr);
-		th.style.width=15+"%";
+		th.style.width="15%";
 		th.innerHTML="도착지";
+		
 		var th=cf.mkTag("th",tr);
-		th.style.width=10+"%";
+		th.style.width="10%";
 		th.innerHTML="유종";
+		
 		var th=cf.mkTag("th",tr);
-		th.style.width=7+"%";
+		th.style.width="7%";
 		th.innerHTML="거리";
+		
 		var th=cf.mkTag("th",tr);
-		th.style.width=8+"%";
+		th.style.width="8%";
 		th.className="right";
 		th.innerHTML="합계";
-		
-		//var con6=cf.mkTag("div",con5);
-	//	con6.className="";
-		
+				
 		var tb2=cf.mkTag("table",con5);
-		tb2.cellpadding=0;
-		tb2.cellspacing=0;
-		tb2.className="Normal_table";
+		Object.assign(tb2, {cellpadding:0, cellspacing:0, className:"Normal_table"});
 		
 		var sum_cost=0;
 		var sum_distance=0;
@@ -398,52 +392,52 @@ function mileagePop(){
 			var tr=cf.mkTag("tr",tb2);
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=5+"%";
+			td.style.width="5%";
 			td.innerHTML=cnt;
 			td.className="txt_center mileageListIndex"
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			td.innerHTML=d.drive_day;
 			td.className="txt_center"
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=15+"%";
+			td.style.width="15%";
 			td.innerHTML=d.purpose;
 			td.className="txt_center"
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=15+"%";
+			td.style.width="15%";
 			td.innerHTML=d.start_point;
 			td.className="txt_center"
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=15+"%";
+			td.style.width="15%";
 			td.innerHTML=d.via_point;
 			td.className="txt_center"
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=15+"%";
+			td.style.width="15%";
 			td.innerHTML=d.end_point;
 			td.className="txt_center"
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=10+"%";
+			td.style.width="10%";
 			td.innerHTML=d.oil_cd_name;
 			td.className="txt_center"
 			
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=7+"%";
+			td.style.width="7%";
 			td.innerHTML=d.distance;
 			td.align="right";
-			td.style.paddingRight=5+"px";
+			td.style.paddingRight="5px";
 			
 			var td=cf.mkTag("td",tr);
-			td.style.width=8+"%";
+			td.style.width="8%";
 			td.align="right";
 			td.className="right";
-			td.style.paddingRight=5+"px";
+			td.style.paddingRight="5px";
 			td.innerHTML=comma(d.cost);
 			
 			sum_cost=sum_cost+d.cost*1;
@@ -461,18 +455,19 @@ function mileagePop(){
 		td.innerHTML="합계";
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=7+"%";
+		td.style.width="7%";
 		td.className="sum_cost";
 		td.innerHTML=sum_distance;
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=8+"%";
+		td.style.width="8%";
 		td.className="sum_cost";
 		td.innerHTML=comma(sum_cost);
 		
 		callPop(con);
 	}
-};	
+}
+	
 function approvalRecall(){
 	if(!prev){
 		generalPop("회수할 사원을 선택하세요.");
@@ -523,7 +518,8 @@ function approvalRecall(){
 			});
 		});
 	}
-};
+}
+
 function approvalPermit(){
 	if(CURRENT_APPROVAL.length==0&&CURRENT_MILEAGE.length==0) generalPop("승인할 내역이 없습니다.");
 	else{
@@ -561,15 +557,13 @@ function approvalPermit(){
 			});
 		});
 	}
-};	
+}
+
 function openPrint(){
 	if(CURRENT_APPROVAL.length==0&&CURRENT_MILEAGE.length==0) generalPop("내역이 없습니다.");
 	else{
 		var con=document.createElement("div");
-		con.style.width=820+"px";
-		con.style.height=cf.workareaheight-60+"px";
-		con.style.position="absolute";
-		con.style.backgroundColor="white";
+		Object.assign(con.style, {height:"820px", height:cf.workareaheight-60+"px", position:"absolute", backgroundColor:"white"});
 		
 		var creator,
 			monthlyid;
@@ -604,7 +598,8 @@ function openPrint(){
 		mkPrint(con, false, obj);
 		callPop(con);
 	}//else
-};	
+}
+
 function mileageYN(){
 	var mile=document.getElementById("mile");
 	mile.innerHTML="";
@@ -620,8 +615,9 @@ function mileageYN(){
 		img.src="/images/btn/btn_mil_on.gif";
 		img.style.cursor="pointer";
 	}
-};
+}
+
 function comma(str) {
     str = String(str);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-};
+}

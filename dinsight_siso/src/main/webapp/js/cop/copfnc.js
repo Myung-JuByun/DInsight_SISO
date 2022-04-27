@@ -22,7 +22,7 @@ function companyLoadList(){
 			$('.wrap-loading').show();
 		}
 	});
-	function calldataset(){
+	var calldataset = function(){
 		companyDataSet();
 		if(MAX_PAGE){
 			for(var i=0;i<MAX_PAGE;i++){
@@ -57,7 +57,8 @@ function companyLoadList(){
 	});
 	companyDataSet();
 	*/
-};
+}
+
 function companySearchList(){
 	cop_page=new Array();
 	CUR_PAGE="";
@@ -82,7 +83,7 @@ function companySearchList(){
 			$('.wrap-loading').show();
 		}
 	});
-	function calldataset(){
+	var calldataset = function(){
 		companyDataSet();
 		if(MAX_PAGE){
 			for(var i=0;i<MAX_PAGE;i++){
@@ -139,7 +140,8 @@ function companySearchList(){
 	}
 	mkList_body(dv);
 	mkcop_page(pdv);*/
-};
+}
+
 function copSrchPageList01(){
 	var cop_name=document.getElementById("searchString"),
 		dv=document.getElementById("copTb01"),
@@ -161,7 +163,7 @@ function copSrchPageList01(){
 			$('.wrap-loading').show();
 		}
 	});
-	function calldataset(){
+	var calldataset = function(){
 		companyDataSet();
 		var res=q.parse("select * from companylist01;");
 			pdv=document.getElementById("cop_page");
@@ -173,7 +175,8 @@ function copSrchPageList01(){
 	});
 	mkList_body(dv);
 	mkcop_page(pdv);*/
-};
+}
+
 function companyDataSet(){
 	var ar=[];
 	if(list_obj01&&list_obj01.length>0){
@@ -220,10 +223,12 @@ function companyDataSet(){
 		meta:["string","string","string","string","string","string","string","string","string","string","string","string","string","string","string","string","string"
 		      ,"string","string","string","string","string","string","number","string","string","string"]
 	});
-};
+}
+
 function delOffMessage(){
 	generalPopOk("삭제 권한이 없습니다.");
-};
+}
+
 function companyDel(){	
 	if(!prev){
 		generalPop("삭제할 고객사를 선택하세요.");
@@ -255,7 +260,8 @@ function companyDel(){
 			});
 		});
 	}
-};
+}
+
 function checkMode(e){
 	if(e.checked){
 		com_checks.trav(function(d,i){

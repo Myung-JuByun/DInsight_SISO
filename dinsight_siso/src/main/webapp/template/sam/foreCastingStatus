@@ -1,0 +1,181 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<form:form commandName="searchVO" method="post" id="searchForm" name="searchForm">
+	<div class="search4" id="searchDiv"></div>
+	<div class="search_detail">					
+		<div class="group_wrap"> 
+			<div class="Wrap_table" :style="marginBottom">
+				<table :style="width100">
+					<tr>
+						<th class="right" v-text="businessDept"></th>
+						<th width="40px" class="right">
+							<input type="checkbox" :name="cMode(1)" :class="cMode(1)" :onclick="checkFunc(1)">
+						</th>
+					</tr>
+				</table>
+				<div id="searchDivision" style="height:96px; overflow-y:scroll; background:#fff;">
+					<!-- {{ businessDept }} 시작 -->
+					<!-- {{ businessDept }} 끝 -->
+				</div>
+			</div>
+			<div class="Wrap_table">
+				<table :style="width100">
+					<tr>
+						<th class="right" v-text="division"></th>
+						<th width="25px" class="right">
+							<input type="checkbox" :name="cMode(2)" class="cMode(2)" :onclick="checkFunc(2)">
+						</th>
+					</tr>
+				</table>
+				<div id="searchSalesType">
+					<!-- {{ division }} 시작 -->
+					<!-- {{ division }} 끝 -->
+				</div>
+			</div>			
+		</div>		
+		<div class="group_wrap">
+			<div class="Wrap_table" :style="marginBottom">
+				<table :style="width100">
+					<tr>
+						<th class="right" v-text="contractPoint"></th>
+						<th width="40px" class="right">
+							<input type="checkbox" name="cMode(3)" class="cMode(3)" :onclick="checkFunc(3)">
+						</th>
+					</tr>
+				</table>
+				<div id="searchContractYm" style="height:96px; overflow-y:scroll;">
+					<!-- {{ contractPoint }} 시작 -->
+					<!-- {{ contractPoint }} 끝 -->
+				</div>
+			</div>
+			<div class="Wrap_table" >
+				<table :style="width100">
+					<tr>
+						<th class="right" v-text="issueYn"></th>
+						<th width="25px" class="right">
+							<input type="checkbox" name="cMode(4)" class="cMode(4)" :onclick="checkFunc(4)">
+						</th>
+					</tr>
+				</table>
+				<div id="searchIssueYn">
+					<!-- {{ issueYn }} 시작 -->
+					<!-- {{ issueYn }} 끝 -->
+				</div>
+			</div>
+		</div>
+      	<div class="group_wrap">
+			<div class="Wrap_table">
+				<table :style="width100">
+					<tr>
+						<th class="right" v-text="salesStatus"></th>
+						<th width="25px" class="right">
+							<input type="checkbox" name="cMode(5)" class="cMode(5)" :onclick="checkFunc(5)">
+						</th>
+					</tr>
+				</table>
+				<div id="searchSalesStatus">
+					<!-- {{ salesStatus }} 시작 -->
+					<!-- {{ salesStatus }} 끝 -->
+				</div>
+			</div>		
+		</div>						
+      	<div class="group_wrap"> 
+			<div class="Wrap_table">
+				<table :style="width100">
+					<tr>
+						<th class="right" v-text="chargeSale"></th>
+						<th width="40px" class="right">
+							<input type="checkbox" name="cMode(6)" class="cMode(6)" :onclick="checkFunc(6)">
+						</th>
+					</tr>
+				</table>
+				<div id="searchDivisionUser" style="height:232px; overflow-y:scroll; background:#fff;">
+					<!-- {{ chargeSale }} 시작 -->
+					<!-- {{ chargeSale }} 끝 -->
+				</div>
+			</div>
+		
+		</div>
+	</div>
+	<div class="btn_action">
+		<div class="infobot" :style="infobotStyle"><span v-text="salesStatus"></span></div>
+		<ul>
+			<li><a href="javascript:;" @click="excelDataSend"><img :src="downGif" :alt="xlsDownload" /></a></li>
+		</ul>
+	</div>
+	<div class="con_table">
+		<!--  table start -->
+		<div class="Wrap_table" >
+			<!--  top -->
+			<!--  scroll area -->
+			<div id="mainTitle" :style="scroll">
+				<table class="Normal_table">
+					<tr>
+						<th width="13%" v-text="businessDept"></th>
+						<th width="12%" v-text="chargeSales"></th>
+						<th width="20%" v-text="contractPrice"></th>
+						<th width="15%" v-text="salesProfit"></th>
+						<th width="12%" v-text="salesProfitRates"></th>					   
+						<th width="12%" v-text="totSalesRates"></th>
+						<th width="16%" class="right" v-text="totSalesProfitRates"></th>
+					</tr>
+				</table>
+			</div>
+			<div id="mainList" class="txtclr" :style="scrollList">
+				<!-- Sales Status 시작 -->
+				<!-- Sales Status 끝 -->
+			</div>
+			<!--  bottom -->
+			<div id="mainSumList" class="txtclr" :style="scrollSumList">
+				<!-- Sales Status 합계 시작 -->
+				<!-- Sales Status 합계 끝 -->
+			</div>
+		</div>
+	</div>
+	<!--  //table end -->		
+	<div id="detailBtn" :class="btnRight" style="height:45px;">
+		<a href="javascript:;" @click="showDetail"><img id="detailShowImg" :src="detailOpenGif" alt="show"/></a>
+	</div>
+	<!--상세보기 테이블 -->
+	<div class="Show_detail hide">
+		<!--  table start -->
+		<div class="Wrap_table" >
+			<div class="detail_title" v-text="salesDetail"></div>
+			<!--  top -->
+			<!--  scroll area -->
+			<div id="detailTitle" :style="scroll">
+				<table class="Normal_table">
+					<tr>
+						<th width="10%" v-text="businessDept"></th>
+						<th width="10%" v-text="chargeSales"></th>
+						<th width="8%" v-text="contractPoint"></th>
+						<th width="5%">ALC</th>
+						<th width="12%" v-text="salesStatus"></th>					   
+						<th width="5%" v-text="division"></th>
+						<th width="8%" v-text="customerCompany"></th>
+						<th width="7%">Type</th>
+						<th width="10%" v-text="product"></th>
+						<th width="5%" v-text="count"></th>
+						<th width="10%" v-text="contractPrice"></th>
+						<th width="10%" class="right" v-text="salesProfit"></th>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="detailList" class="txtclr" :style="scrollList">
+				<!-- Sales Status 현황 시작 -->
+				<!-- Sales Status 현황 끝 -->
+			</div>
+			
+			<div id="detailSumList" class="txtclr" :style="scrollSumList">
+				<!-- Sales Status 현황 합계 시작 -->
+				<!-- Sales Status 현황 합계 끝 -->
+			</div>			
+		</div>
+		
+		<div style="height:30px"></div>		
+	</div>
+	<!--//상세보기 테이블 -->	
+</form:form>

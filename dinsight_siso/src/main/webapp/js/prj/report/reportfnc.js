@@ -49,7 +49,8 @@ function defaultLoadList(initCode){
 	reportList(popListData);
 	mkSumTb();
 	dropdown=mkDropDown();
-};
+}
+
 function searchAdmin(){
 	setDay();
 	var obj={year : document.getElementById("sh_project_year").value,month :document.getElementById("sh_project_month").value,week : document.getElementById("sh_project_week").value};
@@ -82,7 +83,8 @@ function searchAdmin(){
 	});
 	reportList(popListData);
 	mkSumTb();
-};
+}
+
 function initView(){
 	var date = new Date(),
 		year = date.getFullYear() + "",
@@ -183,7 +185,8 @@ function initView(){
 	
 	//선택한 주의 기간 표시
 	getWeekDate(document.getElementById("sh_project_year").value, document.getElementById("sh_project_month").value, document.getElementById("sh_project_week").value, "#weekDate");
-};
+}
+
 function setDay(){
 	var week=document.getElementById("weekDate"),
 		st=week.innerHTML.substring(1,11),
@@ -207,7 +210,8 @@ function setDay(){
 			sday=ar3[idx].getDate();		
 		span.innerHTML="("+smonth+"/"+sday+")";
 	});
-};
+}
+
 function reportSave(fnc){	
 	var week=["mon","tue","wed","thu","fri","sat","sun"];
 	week.trav(function(day,idx){
@@ -241,7 +245,8 @@ function reportSave(fnc){
 	   		}
 		});
 	});
-};
+}
+
 function reportSubmit(){
 	//결제선 입력유무
 	$.ajax({
@@ -384,7 +389,8 @@ function reportSubmit(){
 	   		}
 		});
 	});
-};
+}
+
 function manhourSum(){
 	var mon=document.getElementsByName("in_mon_working_hour"),
 		tue=document.getElementsByName("in_tue_working_hour"),
@@ -399,26 +405,18 @@ function manhourSum(){
 		sum[i].value=(mon[i].value*1+tue[i].value*1+wed[i].value*1+thu[i].value*1+fri[i].value*1+sat[i].value*1+sun[i].value*1).toFixed(1);
 		sum[i].readOnly=true;
 	}
-};
+}
+
 function mkDropDown(){
-	var con=document.createElement("div");
-	con.style.width=200+"px";
-	con.style.height=310+"px";
-	con.style.position="absolute";
-	con.style.left=0+"px";
-	con.style.top=32+"px";
-	con.style.display="none";
-	con.style.zIndex=10000;
+	var con=document.createElement("div");	
+	Object.assign(con.style, {width:"200px", height:"310px", position:"absolute", left:"0px", top:"32px", display:"none", zIndex:10000});
 	
 	var con1=cf.mkTag("div",con);
 	con1.className="pop-mypage";
 	
-	var con2=cf.mkTag("div",con1);
-	con2.style.width=200+"px";
-	con2.style.height=310+"px";
-	con2.style.backgroundColor="white";
-	con2.style.border=2+"px solid black";
+	var con2=cf.mkTag("div",con1);	
 	con2.id="pop-my";
+	Object.assign(con2.style, {width:"200px", height:"310px", backgroundColor:"white", border:"2px solid black"});
 	
 	var con3=cf.mkTag("div",con2);
 	con3.className="my_top";
@@ -428,28 +426,24 @@ function mkDropDown(){
 	var con3_a=cf.mkTag("a",con3);
 	con3_a.href="#";
 	con3_a.className="my_top_closs";
-	var con3_img=cf.mkTag("img",con3_a);
-	con3_img.src="/images/pop_btn/btn_pop_close.png";
-	con3_img.id="my_closs";
-	con3_img.alt="닫기";
-	con3_img.align="right";
+	
+	var con3_img=cf.mkTag("img",con3_a);	
+	Object.assign(con3_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs", alt:"닫기", align:"right"});
 	con3_img.onclick=function(){
 		dropdown.style.display="none";
 	};
 	
 	var con4=cf.mkTag("div",con2);
-	con4.className="my-container";
-	con4.style.height=285+"px";
-	con4.style.marginTop=20+"px";
-	con4.style.overflowY="auto";
+	con4.className="my-container";	
+	Object.assign(con4.style, {width:"285px", height:"20px", overflowY:"auto"});
 	
 	var con5=cf.mkTag("div",con4);
 	con5.className="Wrap_table";
 			
-	statusTable(con5,con);
-	
+	statusTable(con5,con);	
 	return con;
-};
+}
+
 function statusSave(con){
 	if(!prev) generalPopOk2("상태를 선택하세요");
 	else{
@@ -469,7 +463,8 @@ function statusSave(con){
 		prev.parentNode.style.backgroundColor="white";		
 		setCode();
 	}
-};
+}
+
 function setCode(){
 	var a=current.childNodes[1].id;	
 	var day=a.substring(7,10);
@@ -478,7 +473,8 @@ function setCode(){
 	ar.trav(function(d,i){
 		d.value=prev.obj.code_id;
 	});
-};
+}
+
 function setStatus(){
 	var mon=document.getElementById("status_mon"),
 		tue=document.getElementById("status_tue"),
@@ -825,7 +821,8 @@ function mkStatus(){
 			d.value="02";
 		});
 	}
-};
+}
+
 function popSubmit(obj){	
 	var sDate = document.getElementById("pop_start_week").value,
 		eDate = document.getElementById("pop_end_week").value,
@@ -888,7 +885,8 @@ function popSubmit(obj){
 	   		}
 		});
 	});
-};
+}
+
 function manhourPopSum(){
 	var mon=document.getElementsByName("in_pop_mon_working_hour");
 	var tue=document.getElementsByName("in_pop_tue_working_hour");
@@ -903,17 +901,20 @@ function manhourPopSum(){
 		sum[i].value=(mon[i].value*1+tue[i].value*1+wed[i].value*1+thu[i].value*1+fri[i].value*1+sat[i].value*1+sun[i].value*1).toFixed(1);
 		sum[i].readOnly=true;
 	}
-};
+}
+
 function manSum(str){
-	var arr=document.getElementsByName(str),
-		sum=0;
+	var arr=document.getElementsByName(str);
+	var	sum=0;
+		
 	arr.trav(function(d,i){
-		if(d.value){
+		if(d.value)
 			sum+=(d.value)*1;
-		}else sum +=0;
+		else sum +=0;
 	});
 	return {sum:sum};
-};
+}
+
 function manRowSum(idx){
 	var mon=document.getElementsByName("in_mon_working_hour"),
 		tue=document.getElementsByName("in_tue_working_hour"),
@@ -927,4 +928,4 @@ function manRowSum(idx){
 	sum=(mon[idx].value*1)+(tue[idx].value*1)+(wed[idx].value*1)+(thu[idx].value*1)+(fri[idx].value*1)+(sat[idx].value*1)+(sun[idx].value*1);
 	
 	return {sum:sum};
-};
+}

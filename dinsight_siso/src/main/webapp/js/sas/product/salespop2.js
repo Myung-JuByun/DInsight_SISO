@@ -1,5 +1,5 @@
 callPrdSalesList();
-function callPrdSalesList(){
+var callPrdSalesList = function(){
 	defaulCodeList();
 	dsTb_ar=new Array();
 	dsTb_ar2=new Array();
@@ -36,15 +36,15 @@ function callPrdSalesList(){
 		}else window.close();
 	};
 	
-	cf.setCss(topdv,{padding:10+"px 6px 6px 6px",height:26+"px",textAlign:"center"});
-	cf.setCss(exit_dv,{position:"absolute",right:10+"px",top:10+"px",zIndex:99});
-	cf.setCss(bx.header,{width:100+"%",position:"relative",height:42+"px",fontSize:16+"px",fontWeight:"bold",backgroundColor:"#575757",color:"#fff"});
-	cf.setCss(bx.body,{height:"auto",width:100+"%",paddingBottom:50+"px"});//,backgroundColor:"#fbfbfb",borderBottom:1+"px solid #b9b9b9"
-	cf.setCss(bx.footer,{height:"auto",paddingLeft:20+"px",paddingRight:20+"px",paddingBottom:50+"px",width:"auto"});
+	cf.setCss(topdv,{padding:"10px 6px 6px 6px",height:"26px",textAlign:"center"});
+	cf.setCss(exit_dv,{position:"absolute",right:"10px",top:"10px",zIndex:99});
+	cf.setCss(bx.header,{width:"100%",position:"relative",height:"42px",fontSize:"16px",fontWeight:"bold",backgroundColor:"#575757",color:"#fff"});
+	cf.setCss(bx.body,{height:"auto",width:"100%",paddingBottom:"50px"});//,backgroundColor:"#fbfbfb",borderBottom:1+"px solid #b9b9b9"
+	cf.setCss(bx.footer,{height:"auto",paddingLeft:"20px",paddingRight:"20px",paddingBottom:"50px",width:"auto"});
 	cf.setCss(p,{height:"auto",width:"100%"});
 	
-	if(opener.prev_salespop01.flag=="view"||opener.prev_salespop01.flag=="approval")cf.setCss(p,{minWidth:1800+"px"});
-	else cf.setCss(p,{minWidth:1500+"px"});
+	if(opener.prev_salespop01.flag=="view"||opener.prev_salespop01.flag=="approval")cf.setCss(p,{minWidth:"1800px"});
+	else cf.setCss(p,{minWidth:"1500px"});
 	
 	callPrdSalesTitle(bx.body,opener.prev_salespop01.flag,opener.prev_salespop01.num);
 	callPrdSalesCont(bx.footer,opener.prev_salespop01.flag,opener.prev_salespop01.num);
@@ -110,7 +110,7 @@ function callPrdSalesList(){
 				});
 			}else generalPopOk2("매입 및 매출 품의 결재선이 지정되지 않았습니다.");
 		};
-		cf.setCss(btndv,{marginBottom:35+"px"});
+		cf.setCss(btndv,{marginBottom:"35px"});
 	}else if(opener.prev_salespop01.flag=="modi"){
 		if(pop_main.status_cd!="702"){
 			var btn1=cf.mkTag("buttom",btndv),
@@ -177,7 +177,7 @@ function callPrdSalesList(){
 					});
 				}else generalPopOk2("매입 및 매출 품의 결재선이 지정되지 않았습니다.");
 			};
-			cf.setCss(btndv,{marginBottom:35+"px"});
+			cf.setCss(btndv,{marginBottom:"35px"});
 		}
 	}else if(opener.prev_salespop01.flag=="approval"){
 		var btn1=cf.mkTag("buttom",btndv),
@@ -195,11 +195,12 @@ function callPrdSalesList(){
 		btn2.onclick=function(){
 			productReject(window.close);
 		};
-		cf.setCss(btndv,{marginBottom:35+"px"});
+		cf.setCss(btndv,{marginBottom:"35px"});
 	};
 	window.onbeforeunload=closePage;
 };
-function callPrdSalesTitle(p,flag,num){
+
+var callPrdSalesTitle = function(p,flag,num){
 	p.innerHTML="";
 	var t_dv=cf.mkTag("div",p),
 		cl=cf.mkTag("div",p),
@@ -227,7 +228,7 @@ function callPrdSalesTitle(p,flag,num){
 		var tr=cf.mkTag("tr",ltb),
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.borderLeft=1+"px solid #e3e3e3";
+		th.style.borderLeft="1px solid #e3e3e3";
 		th.style.width="100px";
 		th.innerHTML="작성일자";
 		td.className="pd10";
@@ -238,7 +239,7 @@ function callPrdSalesTitle(p,flag,num){
 		var tr=cf.mkTag("tr",ltb),
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.borderLeft=1+"px solid #e3e3e3";
+		th.style.borderLeft="1px solid #e3e3e3";
 		th.innerHTML="담당자";
 		td.style.textAlign="center";
 		td.style.width="100px";
@@ -262,10 +263,10 @@ function callPrdSalesTitle(p,flag,num){
 				contractDetailPop(data.salesContractRivisionList);
 			});
 		};
-		cf.setCss(th1,{width:100+"px",borderLeft:1+"px solid #e3e3e3"});
-		cf.setCss(th2,{borderLeft:1+"px solid #e3e3e3"});
-		cf.setCss(td2,{cursor:"pointer",width:200+"px"});
-		cf.setCss(kind,{marginLeft:40+"px",paddingTop:4+"px"});
+		cf.setCss(th1,{width:"100px",borderLeft:"1px solid #e3e3e3"});
+		cf.setCss(th2,{borderLeft:"1px solid #e3e3e3"});
+		cf.setCss(td2,{cursor:"pointer",width:"200px"});
+		cf.setCss(kind,{marginLeft:"40px",paddingTop:"4px"});
 	}else{
 		//추가,수정시
 		var select=cf.mkTag("select",kind);
@@ -293,7 +294,7 @@ function callPrdSalesTitle(p,flag,num){
 				}
 			}//else setBtndv(true);
 		};
-		cf.setCss(select,{width:60+"px",marginLeft:30+"px"});
+		cf.setCss(select,{width:"60px",marginLeft:"30px"});
 		
 		str1.innerHTML="* 표시는 필수 입력 항목입니다.";
 		str1.className="asterisk pd2";
@@ -305,7 +306,7 @@ function callPrdSalesTitle(p,flag,num){
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr),
 			ipt=cf.mkTag("input",td);
-		th.style.borderLeft=1+"px solid #e3e3e3";
+		th.style.borderLeft="1px solid #e3e3e3";
 		th.style.width="100px";
 		th.innerHTML="작성일자";
 		ipt.readOnly=true;
@@ -314,12 +315,12 @@ function callPrdSalesTitle(p,flag,num){
 		ipt.name="insert_date";
 		if(flag=="modi")ipt.value=modiDate(pop_main.insert_date,"-");
 		else ipt.value=CurrentDate[0]+"-"+CurrentDate[1]+"-"+CurrentDate[2];
-		cf.setCss(td,{width:150+"px",textAlign:"center"});
+		cf.setCss(td,{width:"150px",textAlign:"center"});
 		
 		var tr=cf.mkTag("tr",ltb),
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.borderLeft=1+"px solid #e3e3e3";
+		th.style.borderLeft="1px solid #e3e3e3";
 		th.innerHTML="담당자";
 		var span=cf.mkTag("span",th);
 		span.className="asterisk pd2";
@@ -340,8 +341,8 @@ function callPrdSalesTitle(p,flag,num){
 			ipt2.value=LOGINFO.name;
 		}
 		ipt2.onclick=divisionPop;
-		cf.setCss(ipt2,{width:95+"%",textAlign:"center",cursor:"pointer"});
-		cf.setCss(td,{width:150+"px",textAlign:"center"});
+		cf.setCss(ipt2,{width:"95%",textAlign:"center",cursor:"pointer"});
+		cf.setCss(td,{width:"150px",textAlign:"center"});
 
 		var tr1=cf.mkTag("tr",rtb),
 			tr2=cf.mkTag("tr",rtb),
@@ -349,8 +350,8 @@ function callPrdSalesTitle(p,flag,num){
 			td1=cf.mkTag("td",tr1),
 			th2=cf.mkTag("th",tr2),
 			td2=cf.mkTag("td",tr2);
-		th1.style.borderLeft=1+"px solid #e3e3e3";
-		th2.style.borderLeft=1+"px solid #e3e3e3";
+		th1.style.borderLeft="1px solid #e3e3e3";
+		th2.style.borderLeft="1px solid #e3e3e3";
 		th1.style.width="100px";
 		th1.innerHTML="Project Code";
 		th2.innerHTML="계약서";
@@ -401,10 +402,10 @@ function callPrdSalesTitle(p,flag,num){
 				});
 			}
 		};		
-		cf.setCss(ipt4,{width:95+"%",cursor:"pointer"});
-		cf.setCss(ipt6,{width:95+"%",cursor:"pointer"});
-		cf.setCss(td2,{width:200+"px",textAlign:"center"});
-		cf.setCss(td1,{width:200+"px",textAlign:"center"});		
+		cf.setCss(ipt4,{width:"95%",cursor:"pointer"});
+		cf.setCss(ipt6,{width:"95%",cursor:"pointer"});
+		cf.setCss(td2,{width:"200px",textAlign:"center"});
+		cf.setCss(td1,{width:"200px",textAlign:"center"});		
 		
 		mkHidden("","sales_confer_monthly_id",p);
 		
@@ -417,18 +418,19 @@ function callPrdSalesTitle(p,flag,num){
 		}
 	}
 	
-	cf.setCss(str1,{height:15+"px",paddingBottom:5+"px"});
-	cf.setCss(ltb,{width:250+"px",float:"left"});
-	cf.setCss(rtb,{width:300+"px",float:"right"});
+	cf.setCss(str1,{height:"15px",paddingBottom:"5px"});
+	cf.setCss(ltb,{width:"250px",float:"left"});
+	cf.setCss(rtb,{width:"300px",float:"right"});
 	cf.setCss(cl,{clear:"both"});
-	cf.setCss(rdv,{marginTop:-35+"px"});
-	cf.setCss(kind,{position:"relative",float:"left",textAlign:"center",fontWeight:"bold",fontSize:13+"px"});
-	cf.setCss(ver,{position:"relative",float:"left",textAlign:"center",fontWeight:"bold",fontSize:13+"px",marginLeft:15+"px",paddingTop:4+"px"});
-	cf.setCss(cdv,{position:"relative",top:20+"px",width:190+"px",height:24+"px",padding:3+"px",border:2+"px solid black",margin:"auto"});
-	cf.setCss(t_dv,{position:"relative",width:300+"px",textAlign:"center",paddingTop:15+"px",fontWeight:"bold",fontSize:24+"px",color:"#000",margin:0+" auto",height:43+"px"});
-	cf.setCss(b_dv,{position:"relative",paddingLeft:35+"px",paddingRight:35+"px",height:70+"px"});
+	cf.setCss(rdv,{marginTop:"-35px"});
+	cf.setCss(kind,{position:"relative",float:"left",textAlign:"center",fontWeight:"bold",fontSize:"13px"});
+	cf.setCss(ver,{position:"relative",float:"left",textAlign:"center",fontWeight:"bold",fontSize:"13px",marginLeft:"15px",paddingTop:"4px"});
+	cf.setCss(cdv,{position:"relative",top:"20px",width:"190px",height:"24px",padding:"3px",border:"2px solid black",margin:"auto"});
+	cf.setCss(t_dv,{position:"relative",width:"300px",textAlign:"center",paddingTop:"15px",fontWeight:"bold",fontSize:"24px",color:"#000",margin:"0 auto",height:"43px"});
+	cf.setCss(b_dv,{position:"relative",paddingLeft:"35px",paddingRight:"35px",height:"70px"});
 };
-function callPrdSalesCont(p,flag,num){
+
+var callPrdSalesCont = function(p,flag,num){
 	p.innerHTML="";
 	var topdv=cf.mkTag("div",p),
 		cl1=cf.mkTag("div",p),
@@ -512,21 +514,22 @@ function callPrdSalesCont(p,flag,num){
 		if(pop_buy.length>0)mkPurchaseTable(purdv,flag,pop_buy);
 	}
 };
-function addCompanyTable(tb,data){
+
+var addCompanyTable = function(tb,data){
 	var tr=cf.mkTag("tr",tb),
 		td=cf.mkTag("td",tr);
 	td.colSpan=11;
 	td.style.borderTop="#fff";
 	var th=cf.mkTag("th",tr);
 	th.rowSpan=3;
-	th.style.width=70+"px";
+	th.style.width="70px";
 	th.style.backgroundColor="#eeeeee";
 	th.innerHTML="결제조건";
 	
 	var td=cf.mkTag("td",tr),
 		span1=cf.mkTag("span",td),
 		span2=cf.mkTag("span",td);
-	td.style.width=299+"px";
+	td.style.width="299px";
 	td.className="pd10";
 	span1.innerHTML="현금 : ";
 	span2.id="method_cash";
@@ -542,11 +545,11 @@ function addCompanyTable(tb,data){
 		th1=cf.mkTag("th",tr),
 		th2=cf.mkTag("th",tr);
 	th1.rowSpan=4;
-	th1.style.width=42+"px";
+	th1.style.width=+"42px";
 	th1.style.backgroundColor="#eeeeee";
-	th1.style.borderLeft=1+"px solid #e3e3e3";
+	th1.style.borderLeft="1px solid #e3e3e3";
 	th1.innerHTML=" 매<br/><br/>출<br/><br/>처 ";
-	th2.style.width=69+"px";
+	th2.style.width="69px";
 	th2.innerHTML="회사명";
 	
 	var td=cf.mkTag("td",tr),
@@ -554,7 +557,7 @@ function addCompanyTable(tb,data){
 		ipt2=cf.mkTag("input",td);
 	td.colSpan=3;
 	td.style.textAlign="center";
-	td.style.width=248+"px";
+	td.style.width="248px";
 	ipt1.id="companyname";
 	ipt1.readOnly=true;
 	ipt2.id="companyid";
@@ -564,19 +567,19 @@ function addCompanyTable(tb,data){
 		ipt1.value=data.company_name;
 		ipt2.value=data.company_id;
 	}
-	cf.setCss(ipt1,{width:95+"%",backgroundColor:"#eee"});
+	cf.setCss(ipt1,{width:"95%",backgroundColor:"#eee"});
 	
 	var th=cf.mkTag("th",tr);
 	th.colSpan=2;
 	th.style.backgroundColor="#eeeeee";
 	th.innerHTML="총계약금";
-	th.style.width=200+"px";
+	th.style.width="200px";
 	
 	var th=cf.mkTag("th",tr);
 	th.colSpan=2;
 	th.style.backgroundColor="#eeeeee";
 	th.innerHTML="매입가";
-	th.style.width=200+"px";
+	th.style.width="200px";
 	
 	var th=cf.mkTag("th",tr);
 	th.colSpan=2;
@@ -602,11 +605,11 @@ function addCompanyTable(tb,data){
 		th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr),
 		ipt=cf.mkTag("input",td);
-	th.style.width=69+"px";
+	th.style.width="69px";
 	th.innerHTML="주소";
 	td.colSpan=3;
 	td.style.textAlign="center";
-	td.style.width=248+"px";
+	td.style.width="248px";
 	ipt.id="address";
 	ipt.name="address";
 	ipt.style.width="95%";
@@ -662,7 +665,7 @@ function addCompanyTable(tb,data){
 	var tr=cf.mkTag("tr",tb),
 		th=cf.mkTag("th",tr);
 	th.innerHTML="부서";
-	th.style.width=68+"px";
+	th.style.width="68px";
 	
 	var td=cf.mkTag("td",tr),
 		ipt=cf.mkTag("input",td);
@@ -670,12 +673,12 @@ function addCompanyTable(tb,data){
 	td.style.textAlign="center";
 	ipt.id="cus_division";
 	ipt.readOnly=true;
-	ipt.style.width=90+"%";
+	ipt.style.width="90%";
 	if(data)ipt.value=data.customer_division;
 	
 	var th=cf.mkTag("th",tr);		
 	th.innerHTML="고객 담당자";
-	th.style.width=99+"px";
+	th.style.width="99px";
 	var span=cf.mkTag("span",th);
 	span.className="asterisk pd2";
 	span.innerHTML="*";
@@ -685,18 +688,20 @@ function addCompanyTable(tb,data){
 		ipt2=cf.mkTag("input",td),
 		img=cf.mkTag("img",td);
 	td.className="pd10";
-	td.style.width=129+"px";
+	td.style.width="129px";
 	ipt1.id="cus_id";
 	ipt1.name="customer_id";
 	ipt1.type="hidden";
 	ipt2.style.textAlign="center";
 	ipt2.id="cus_name";
 	ipt2.readOnly=true;
-	ipt2.style.width=70+"%";
+	ipt2.style.width="70%";
+	
 	if(data){
 		ipt1.value=data.customer_id;
 		ipt2.value=data.customer_name;
 	}
+	
 	img.src="/images/ico/btn_search_small.png";
 	img.style.verticalAlign="middle";
 	img.style.cursor="pointer";
@@ -706,7 +711,7 @@ function addCompanyTable(tb,data){
 	var th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr),
 		ipt=cf.mkTag("input",td);
-	th.style.width=69+"px";
+	th.style.width="69px";
 	th.innerHTML="TEL";	
 	td.style.textAlign="center";
 	td.colSpan=2;
@@ -725,11 +730,11 @@ function addCompanyTable(tb,data){
 	var th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr),
 		ipt=cf.mkTag("input",td);
-	th.style.width=69+"px";
+	th.style.width="69px";
 	th.innerHTML="HP";	
 	td.className="pd10";
 	td.colSpan=2;
-	td.style.width=190+"px";
+	td.style.width="190px";
 	ipt.id="cus_mobile";
 	ipt.readOnly=true;
 	ipt.style.width="95%";
@@ -759,11 +764,11 @@ function addCompanyTable(tb,data){
 		td=cf.mkTag("td",tr),
 		ipt=cf.mkTag("input",td);
 	th.innerHTML="부서";
-	th.style.width=68+"px";
+	th.style.width="68px";
 	td.style.textAlign="center";
 	ipt.id="tax_division";
 	ipt.readOnly=true;
-	ipt.style.width=90+"%";
+	ipt.style.width="90%";
 	if(data)ipt.value=data.invoice_division;
 	
 	var th=cf.mkTag("th",tr);
@@ -777,18 +782,20 @@ function addCompanyTable(tb,data){
 		ipt2=cf.mkTag("input",td),
 		img=cf.mkTag("img",td);
 	td.className="pd10";
-	td.style.width=129+"px";
+	td.style.width="129px";
 	ipt1.id="tax_id";
 	ipt1.name="invoice_id";
 	ipt1.type="hidden";
 	ipt2.style.textAlign="center";
 	ipt2.id="tax_name";
 	ipt2.readOnly=true;
-	ipt2.style.width=70+"%";
+	ipt2.style.width="70%";
+	
 	if(data){
 		ipt1.value=data.invoice_id;
 		ipt2.value=data.invoice_id_name;
 	}
+	
 	img.src="/images/ico/btn_search_small.png";
 	img.style.verticalAlign="middle";
 	img.style.cursor="pointer";
@@ -799,7 +806,7 @@ function addCompanyTable(tb,data){
 	var th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr),
 		ipt=cf.mkTag("input",td);
-	th.style.width=69+"px";
+	th.style.width="69px";
 	th.innerHTML="TEL";
 	td.style.textAlign="center";
 	td.className="pd10";
@@ -817,7 +824,7 @@ function addCompanyTable(tb,data){
 	var th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr),
 		ipt=cf.mkTag("input",td);
-	th.style.width=36+"px";
+	th.style.width="36px";
 	th.innerHTML="HP";
 	td.colSpan=2;
 	td.className="pd10";
@@ -845,7 +852,8 @@ function addCompanyTable(tb,data){
 		chk_email(e.target,this);
 	};
 };
-function addDsSalesDetailTable(p,flag,gb,data){
+
+var addDsSalesDetailTable = function(p,flag,gb,data){
 	p.innerHTML="";
 	p.id="dsTb01";
 	var str=cf.mkTag("p",p),
@@ -883,17 +891,19 @@ function addDsSalesDetailTable(p,flag,gb,data){
 				if(i<2)headerstyle(row,i,col,j);
 				else if(i==collen){
 					col.className="sum";
-					cf.setCss(col,{borderRight:1+"px solid #e3e3e3"});
+					cf.setCss(col,{borderRight:"1px solid #e3e3e3"});
 				}else salespop01_tablecellaction_view(tds,data,row,i,col,j);				
 				commonstyle(row,i,col,j);
 			}				
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
 		if(j==13||j==14||j==15||j==16||j==17||j==18)cf.setCss(col,{backgroundColor:"#eeeeee"});
 		else cf.setCss(col,{backgroundColor:"#fafafa"});
-		cf.setCss(col,{height:32+"px",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
-	};
+		cf.setCss(col,{height:"32px",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
+	}
+	
 	function commonstyle(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
@@ -904,19 +914,20 @@ function addDsSalesDetailTable(p,flag,gb,data){
 			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
 			//cf.setCss(col,{borderTop:0+"px"});
 		}
-		if(j==0)cf.setCss(col,{width:31+"px"});
+		if(j==0)cf.setCss(col,{width:"31px"});
 		//else if(j==1)cf.setCss(col,{width:109+"px"});
-		else if(j==2||j==4||j==17)cf.setCss(col,{width:89+"px"});
-		else if(j==3)cf.setCss(col,{width:59+"px"});
-		else if(j==5||j==6||j==15||j==16)cf.setCss(col,{width:84+"px"});
-		else if(j==8||j==12||j==18)cf.setCss(col,{width:99+"px"});
-		else if(j==7)cf.setCss(col,{width:59+"px"});
-		else if(j==9||j==10||j==11||j==13||j==14)cf.setCss(col,{width:49+"px"});
-		else if(j==19)cf.setCss(col,{width:79+"px"});
-		else if(j==20)cf.setCss(col,{width:149+"px"});
-	};
+		else if(j==2||j==4||j==17)cf.setCss(col,{width:"89px"});
+		else if(j==3)cf.setCss(col,{width:"59px"});
+		else if(j==5||j==6||j==15||j==16)cf.setCss(col,{width:"84px"});
+		else if(j==8||j==12||j==18)cf.setCss(col,{width:"99px"});
+		else if(j==7)cf.setCss(col,{width:"59px"});
+		else if(j==9||j==10||j==11||j==13||j==14)cf.setCss(col,{width:"49px"});
+		else if(j==19)cf.setCss(col,{width:"79px"});
+		else if(j==20)cf.setCss(col,{width:"149px"});
+	}
 };
-function salespop01_tablecellaction_view(tds,data,row,i,col,j){
+
+var salespop01_tablecellaction_view = function(tds,data,row,i,col,j){
 	var txt=col.innerHTML;
 	col.innerHTML="";
 	if(j==0){
@@ -950,8 +961,9 @@ function salespop01_tablecellaction_view(tds,data,row,i,col,j){
 		}else col.innerHTML="-";
 	}else col.innerHTML=txt;
 };
+
 //DS 추가 시 팝업 형식으로 변경
-function mkTab_record(p,cnt,flag){
+var mkTab_record = function(p,cnt,flag){
 	p.innerHTML="";	
 	var TabArr=["DS 매입 및 매출내역","ETC 매입 및 매출내역","변경 매출"],
 		pages=new PAGES({p:p}),
@@ -973,14 +985,15 @@ function mkTab_record(p,cnt,flag){
 	});
 	if(cnt) pages.focus(cnt);
 	else pages.focus(0);
-	cf.setCss(p,{marginTop:30+"px",paddingLeft:15+"px",paddingRight:15+"px"});
+	cf.setCss(p,{marginTop:"30px",paddingLeft:"15px",paddingRight:"15px"});
 	
 	if(flag=="new")mkHidden("","sales_confer_id",p);
 	else mkHidden(prev_pop.ds_sales_confer_id,"sales_confer_id",p);	
 };
-function tabclick_record(obj,i,d,p,flag){
+
+var tabclick_record = function(obj,i,d,p,flag){
 	obj.innerHTML="";
-	cf.setCss(obj,{minHeight:150+"px",border:0+"px",margin:0+" auto",paddingLeft:0+"px",paddingRight:0+"px"});
+	cf.setCss(obj,{minHeight:"150px",border:"0px",margin:"0 auto",paddingLeft:"0px",paddingRight:"0px"});
 	obj.className="sales_wrap";
 	if(i==0){
 		addDsSalesDetailTable2(obj,flag,dsTb_ar);
@@ -999,7 +1012,8 @@ function tabclick_record(obj,i,d,p,flag){
 		cf.setCss(obj,{height:a+50+"px"});
 	}
 };
-function addDsSalesDetailTable2(p,flag,data){
+
+var addDsSalesDetailTable2 = function(p,flag,data){
 	p.innerHTML="";
 	p.id="dsTb01";
 	var str=cf.mkTag("p",p),
@@ -1007,7 +1021,7 @@ function addDsSalesDetailTable2(p,flag,data){
 		tbdv=cf.mkTag("p",p);
 	str.className="mini_title2";
 	str.innerHTML="DS 매입 및 매출내역";
-	cf.setCss(str,{paddingBottom:5+"px"});
+	cf.setCss(str,{paddingBottom:"5px"});
 	
 	if(flag=="new"||flag=="modi"){
 		var con=cf.mkTag("div",btndv),
@@ -1063,11 +1077,13 @@ function addDsSalesDetailTable2(p,flag,data){
 			}				
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
 		if(j==5)cf.setCss(col,{backgroundColor:"#eeeeee"});
 		else cf.setCss(col,{backgroundColor:"#fafafa"});
-		cf.setCss(col,{height:32+"px",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
+		cf.setCss(col,{height:"32px",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
 	};
+	
 	function commonstyle(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
@@ -1075,17 +1091,18 @@ function addDsSalesDetailTable2(p,flag,data){
 			tb.cellSpacing="0px";
 			tb.className="Normal_table";
 			tb.id="ds_salesDetail_contents";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 			//cf.setCss(col,{borderTop:0+"px"});
 		}
-		if(j==1)cf.setCss(col,{width:149+"px"});
-		else if(j==2||j==3||j==8||j==9||j==10)cf.setCss(col,{width:109+"px"});
-		else if(j==4)cf.setCss(col,{width:69+"px"});
-		else if(j==5||j==11)cf.setCss(col,{width:129+"px"});
-		else if(j==6||j==7)cf.setCss(col,{width:89+"px"});
-	};
+		if(j==1)cf.setCss(col,{width:"149px"});
+		else if(j==2||j==3||j==8||j==9||j==10)cf.setCss(col,{width:"109px"});
+		else if(j==4)cf.setCss(col,{width:"69px"});
+		else if(j==5||j==11)cf.setCss(col,{width:"129px"});
+		else if(j==6||j==7)cf.setCss(col,{width:"89px"});
+	}
 };
-function salespop01_tablecellaction_add2_ds(tds,data,row,i,col,j,flag){
+
+var salespop01_tablecellaction_add2_ds = function(tds,data,row,i,col,j,flag){
 	var txt=col.innerHTML;
 	col.innerHTML="";
 	col.onclick=function(){
@@ -1170,7 +1187,8 @@ function salespop01_tablecellaction_add2_ds(tds,data,row,i,col,j,flag){
 		if(txt)col.innerHTML=txt+"%";
 	}else col.innerHTML=txt;
 };
-function addEtcSalesDetailTable(son,flag,obj){
+
+var addEtcSalesDetailTable = function(son,flag,obj){
 	var p=cf.mkTag("p",son);
 	p.className="mini_title2";
 	p.innerHTML="ETC 매입 및 매출내역";
@@ -1198,7 +1216,7 @@ function addEtcSalesDetailTable(son,flag,obj){
 	
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
-	th.style.borderLeft=1+"px solid #e3e3e3";
+	th.style.borderLeft="1px solid #e3e3e3";
 	th.style.width="25px";
 	th.innerHTML="No";
 	
@@ -1295,13 +1313,13 @@ function addEtcSalesDetailTable(son,flag,obj){
 		td=cf.mkTag("td",tr);
 	td.colSpan=5;
 	td.className="sum payment_input";
-	td.style.borderLeft=1+"px solid #e3e3e3";
+	td.style.borderLeft="1px solid #e3e3e3";
 	td.innerHTML="합계";
 	
 	var td=cf.mkTag("td",tr);
 	td.colSpan=4;
 	td.className="sum";
-	td.style.borderLeft=1+"px solid #e3e3e3";
+	td.style.borderLeft="1px solid #e3e3e3";
 	var ipt=cf.mkTag("input",td);
 	ipt.className="payment_input";
 	cf.setCss(ipt,{
@@ -1319,7 +1337,7 @@ function addEtcSalesDetailTable(son,flag,obj){
 	var td=cf.mkTag("td",tr);
 	td.colSpan=3;
 	td.className="sum";
-	td.style.borderLeft=1+"px solid #e3e3e3";
+	td.style.borderLeft="1px solid #e3e3e3";
 	var ipt=cf.mkTag("input",td);
 	ipt.className="payment_input";
 	cf.setCss(ipt,{width:"95%",border:"solid 0px",background:"#fffeed",fontWeight:600,textAlign:"center"});
@@ -1331,9 +1349,10 @@ function addEtcSalesDetailTable(son,flag,obj){
 	var td=cf.mkTag("td",tr);
 	td.colSpan=2;
 	td.className="sum";
-	td.style.border=1+"px solid #e3e3e3";
+	td.style.border="1px solid #e3e3e3";
 };
-function salesDetailList(son,obj){
+
+var salesDetailList = function(son,obj){
 	obj.trav(function(d,i){
 		var tr=cf.mkTag("tr",son);
 		tr.idx=i;
@@ -1349,13 +1368,13 @@ function salesDetailList(son,obj){
 		};
 		
 		var td=cf.mkTag("td",tr);
-		td.style.borderLeft=1+"px solid #e3e3e3";
+		td.style.borderLeft="1px solid #e3e3e3";
 		var span=cf.mkTag("span",td)
 		span.innerHTML=i+1;
 		
 		var td=cf.mkTag("td",tr);
 		var select=cf.mkTag("select",td);
-		select.style.width=95+"px";
+		select.style.width="95px";
 		select.name="in_sales_gb";
 		mkSelect(select,BRANDLIST,d.sales_gb);
 		
@@ -1390,7 +1409,7 @@ function salesDetailList(son,obj){
 		var td=cf.mkTag("td",tr);
 		var ipt=cf.mkTag("input",td);
 		ipt.style.textAlign="center";
-		ipt.style.width=85+"%";
+		ipt.style.width="85%";
 		ipt.name="in_qty";
 		ipt.value=d.qty;
 		ipt.onkeyup=function(e){
@@ -1403,7 +1422,7 @@ function salesDetailList(son,obj){
 		var td=cf.mkTag("td",tr);
 		var ipt=cf.mkTag("input",td);
 		ipt.className="payment_input";
-		ipt.style.width=85+"%";
+		ipt.style.width="85%";
 		ipt.name="in_list_price";
 		ipt.value=comma(uncomma(d.list_price));
 		ipt.onkeyup=function(e){
@@ -1414,7 +1433,7 @@ function salesDetailList(son,obj){
 		var td=cf.mkTag("td",tr);
 		var ipt=cf.mkTag("input",td);
 		ipt.className="payment_input";
-		ipt.style.width=85+"%";
+		ipt.style.width="85%";
 		ipt.name="in_sales_unit_price";
 		ipt.value=comma(uncomma(d.sales_unit_price));
 		ipt.onkeyup=function(e){
@@ -1427,7 +1446,7 @@ function salesDetailList(son,obj){
 		var td=cf.mkTag("td",tr);
 		var ipt=cf.mkTag("input",td);
 		ipt.className="payment_input";
-		ipt.style.width=85+"%";
+		ipt.style.width="85%";
 		ipt.name="in_sales_price";
 		ipt.readOnly=true;
 		ipt.value=comma(uncomma(d.sales_price));
@@ -1435,7 +1454,7 @@ function salesDetailList(son,obj){
 		var td=cf.mkTag("td",tr);
 		var ipt=cf.mkTag("input",td);
 		ipt.style.textAlign="right";
-		ipt.style.width=95+"%";
+		ipt.style.width="95%";
 		ipt.readOnly=true;
 		ipt.name="in_sales_dc";
 		ipt.value=d.sales_dc;
@@ -1446,7 +1465,7 @@ function salesDetailList(son,obj){
 		var td=cf.mkTag("td",tr);
 		var ipt=cf.mkTag("input",td);
 		ipt.className="payment_input";
-		ipt.style.width=85+"%";
+		ipt.style.width="85%";
 		ipt.name="in_purchase_unit_price";
 		ipt.value=comma(uncomma(d.purchase_unit_price));
 		ipt.onkeyup=function(e){
@@ -1459,7 +1478,7 @@ function salesDetailList(son,obj){
 		var td=cf.mkTag("td",tr);
 		var ipt=cf.mkTag("input",td);
 		ipt.className="payment_input";
-		ipt.style.width=85+"%";
+		ipt.style.width="85%";
 		ipt.readOnly=true;
 		ipt.name="in_purchase_price";
 		ipt.value=comma(uncomma(d.purchase_price));
@@ -1467,7 +1486,7 @@ function salesDetailList(son,obj){
 		var td=cf.mkTag("td",tr);
 		var ipt=cf.mkTag("input",td);
 		ipt.style.textAlign="right";
-		ipt.style.width=95+"%";
+		ipt.style.width="95%";
 		ipt.name="in_purchase_dc";
 		ipt.value=d.purchase_dc;
 		ipt.onkeyup=function(e){
@@ -1476,13 +1495,13 @@ function salesDetailList(son,obj){
 		
 		var td=cf.mkTag("td",tr);
 		var ipt=cf.mkTag("input",td);
-		ipt.style.width=95+"%";
+		ipt.style.width="95%";
 		ipt.name="in_supplier";
 		ipt.value=d.supplier;
 		
 		var td=cf.mkTag("td",tr);
 		var select=cf.mkTag("select",td);
-		select.style.width=60+"px";
+		select.style.width="60px";
 		select.name="in_purchase_pay_code";
 		mkSelect(select,PAYLIST,d.purchase_pay_code);
 		select.onchane=payMethod;
@@ -1490,11 +1509,12 @@ function salesDetailList(son,obj){
 		ipt.name="in_purchase_pay_method";
 		ipt.value=d.purchase_pay_method;
 		ipt.onblur=payMethod;
-		cf.setCss(ipt,{width:50+"%",marginLeft:5+"px"});		
+		cf.setCss(ipt,{width:"50%",marginLeft:"5px"});		
 	});
 	datePicker("input_date", "yy-mm-dd");
 };
-function addEtcSalesDetailTable2(p,flag,data){
+
+var addEtcSalesDetailTable2 = function(p,flag,data){
 	p.innerHTML="";
 	p.id="dsTb02";
 	var str=cf.mkTag("p",p),
@@ -1502,7 +1522,7 @@ function addEtcSalesDetailTable2(p,flag,data){
 		tbdv=cf.mkTag("p",p);
 	str.className="mini_title2";
 	str.innerHTML="ETC 매입 및 매출내역";
-	cf.setCss(str,{paddingBottom:5+"px"});
+	cf.setCss(str,{paddingBottom:"5px"});
 	
 	if(flag!="view"){
 		var con=cf.mkTag("div",btndv),
@@ -1554,12 +1574,14 @@ function addEtcSalesDetailTable2(p,flag,data){
 			}				
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
 		if(i==0&&j==5)cf.setCss(col,{backgroundColor:"#eeeeee"});
 		else if(i==1&&j==6)cf.setCss(col,{backgroundColor:"#eeeeee"});
 		else cf.setCss(col,{backgroundColor:"#fafafa"});
-		cf.setCss(col,{height:32+"px",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
-	};
+		cf.setCss(col,{height:"32px",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
+	}
+	
 	function commonstyle(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
@@ -1567,20 +1589,21 @@ function addEtcSalesDetailTable2(p,flag,data){
 			tb.cellSpacing="0px";
 			tb.className="Normal_table";
 			tb.id="etc_salesDetail_contents";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 		}else{
-			if(j==0)cf.setCss(col,{width:109+"px"});
-			else if(j==1)cf.setCss(col,{width:199+"px"});
-			else if(j==2)cf.setCss(col,{width:219+"px"});
+			if(j==0)cf.setCss(col,{width:"109px"});
+			else if(j==1)cf.setCss(col,{width:"199px"});
+			else if(j==2)cf.setCss(col,{width:"219px"});
 			else if(j==3)cf.setCss(col,{display:"none"});
-			else if(j==4||j==8)cf.setCss(col,{width:89+"px"});
-			else if(j==5||j==6||j==7)cf.setCss(col,{width:139+"px"});
-			else if(j==9)cf.setCss(col,{width:129+"px"});
-			else if(j==10)cf.setCss(col,{width:219+"px"});
+			else if(j==4||j==8)cf.setCss(col,{width:"89px"});
+			else if(j==5||j==6||j==7)cf.setCss(col,{width:"139px"});
+			else if(j==9)cf.setCss(col,{width:"129px"});
+			else if(j==10)cf.setCss(col,{width:"219px"});
 		}
-	};
+	}
 };
-function salespop01_tablecellaction_add2_etc(tds,data,row,i,col,j,flag){
+
+var salespop01_tablecellaction_add2_etc = function(tds,data,row,i,col,j,flag){
 	var txt=col.innerHTML;
 	col.innerHTML="";
 	col.onclick=function(){
@@ -1653,7 +1676,8 @@ function salespop01_tablecellaction_add2_etc(tds,data,row,i,col,j,flag){
 		col.innerHTML=name+"&nbsp;&nbsp;"+data[i-2][11];
 	}else col.innerHTML=txt;
 };
-function addAlcSalesDetailTable2(p,flag,data){
+
+var addAlcSalesDetailTable2 = function(p,flag,data){
 	p.innerHTML="";
 	p.id="dsTb03";
 	var str=cf.mkTag("p",p),
@@ -1661,7 +1685,7 @@ function addAlcSalesDetailTable2(p,flag,data){
 		tbdv=cf.mkTag("p",p);
 	str.className="mini_title2";
 	str.innerHTML="변경 매입 및 매출내역";
-	cf.setCss(str,{paddingBottom:5+"px"});
+	cf.setCss(str,{paddingBottom:"5px"});
 	
 	if(flag=="new"||flag=="modi"){
 		var con=cf.mkTag("div",btndv),
@@ -1710,11 +1734,13 @@ function addAlcSalesDetailTable2(p,flag,data){
 			}				
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
 		if(j==5)cf.setCss(col,{backgroundColor:"#eeeeee"});
 		else cf.setCss(col,{backgroundColor:"#fafafa"});
-		cf.setCss(col,{height:32+"px",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
+		cf.setCss(col,{height:"32px",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
 	};
+	
 	function commonstyle(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
@@ -1722,17 +1748,18 @@ function addAlcSalesDetailTable2(p,flag,data){
 			tb.cellSpacing="0px";
 			tb.className="Normal_table";
 			tb.id="alc_salesDetail_contents";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 			//cf.setCss(col,{borderTop:0+"px"});
 		}
 		if(j==1)cf.setCss(col,{width:149+"px"});
-		else if(j==2||j==3||j==8||j==9||j==10)cf.setCss(col,{width:109+"px"});
-		else if(j==4)cf.setCss(col,{width:69+"px"});
-		else if(j==5||j==11)cf.setCss(col,{width:129+"px"});
-		else if(j==6||j==7)cf.setCss(col,{width:89+"px"});
+		else if(j==2||j==3||j==8||j==9||j==10)cf.setCss(col,{width:"109px"});
+		else if(j==4)cf.setCss(col,{width:"69px"});
+		else if(j==5||j==11)cf.setCss(col,{width:"129px"});
+		else if(j==6||j==7)cf.setCss(col,{width:"89px"});
 	};
 };
-function salespop01_tablecellaction_add2_alc(tds,data,row,i,col,j,flag){
+
+var salespop01_tablecellaction_add2_alc = function(tds,data,row,i,col,j,flag){
 	var txt=col.innerHTML;
 	col.innerHTML="";
 	col.onclick=function(){
@@ -1848,7 +1875,8 @@ function salespop01_tablecellaction_add2_alc(tds,data,row,i,col,j,flag){
 		if(txt)col.innerHTML=txt+"%";
 	}else col.innerHTML=txt;
 };
-function addSalesTable(son,flag,obj){
+
+var addSalesTable = function(son,flag,obj){
 	var p=cf.mkTag("p",son);
 	p.className="mini_title2";
 	p.innerHTML="매출 세금계산서";
@@ -1873,7 +1901,7 @@ function addSalesTable(son,flag,obj){
 	
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
-	th.style.borderLeft=1+"px solid #e3e3e3";
+	th.style.borderLeft="1px solid #e3e3e3";
 	th.style.backgroundColor="#eeeeee";
 	th.style.width="94px";
 	th.innerHTML="분할";
@@ -1930,10 +1958,10 @@ function addSalesTable(son,flag,obj){
 		tr=cf.mkTag("tr",tf),
 		td=cf.mkTag("td",tr);
 	td.colSpan=3;
-	td.style.borderLeft=1+"px solid #e3e3e3";
+	td.style.borderLeft="1px solid #e3e3e3";
 	//td.innerHTML="비고(사양,납기 등 특이사항)";
 	var textarea=cf.mkTag("textarea",td);
-	textarea.style.width=95+"%";
+	textarea.style.width="95%";
 	textarea.name="invoice_content";
 	if(flag=="modi"){
 		obj.trav(function(d,i){
@@ -1945,7 +1973,8 @@ function addSalesTable(son,flag,obj){
 	td.className="right";
 	td.style.borderBottom="#fff";
 };
-function salesList(son,obj){
+
+var salesList = function(son,obj){
 	obj.trav(function(d,i){
 		var tr=cf.mkTag("tr",son);
 		tr.idx=i;
@@ -1962,11 +1991,11 @@ function salesList(son,obj){
 		};
 		
 		var td=cf.mkTag("td",tr);
-		td.style.borderLeft=1+"px solid #e3e3e3";
+		td.style.borderLeft="1px solid #e3e3e3";
 		var ipt=cf.mkTag("input",td);
 		ipt.name="in_split";
 		ipt.value=d.split;
-		cf.setCss(ipt,{textAlign:"center",width:85+"%"});
+		cf.setCss(ipt,{textAlign:"center",width:"85%"});
 		mkHidden(d.invoice_id,"in_invoice_id",td);
 		
 		var td=cf.mkTag("td",tr);
@@ -1985,7 +2014,7 @@ function salesList(son,obj){
 		
 		var td=cf.mkTag("td",tr);
 		var select=cf.mkTag("select",td);
-		select.style.width=100+"px";
+		select.style.width="100px";
 		select.name="in_method";
 		if(d.method)mkSelect(select,METHODLIST,d.method);
 		else mkSelect(select,METHODLIST,"02");
@@ -1993,7 +2022,7 @@ function salesList(son,obj){
 		var td=cf.mkTag("td",tr);
 		var ipt=cf.mkTag("input",td);
 		ipt.className="payment_input";
-		ipt.style.width=90+"%";
+		ipt.style.width="90%";
 		ipt.name="in_price";
 		ipt.value=comma(uncomma(d.price));
 		ipt.onkeyup=function(e){
@@ -2017,7 +2046,8 @@ function salesList(son,obj){
 	});
 	datePicker("input_date", "yy-mm-dd");
 };
-function addPurchaseTable(son,flag,obj){
+
+var addPurchaseTable = function(son,flag,obj){
 	var p=cf.mkTag("p",son);
 	p.className="mini_title2";
 	p.innerHTML="매입 세금계산서";
@@ -2042,7 +2072,7 @@ function addPurchaseTable(son,flag,obj){
 	
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
-	th.style.borderLeft=1+"px solid #e3e3e3";
+	th.style.borderLeft="1px solid #e3e3e3";
 	th.style.backgroundColor="#eeeeee";
 	th.style.width="94px";
 	th.innerHTML="분할";
@@ -2075,11 +2105,11 @@ function addPurchaseTable(son,flag,obj){
 	var tr=cf.mkTag("tr",tf);
 	var td=cf.mkTag("td",tr);
 	td.colSpan=3;
-	td.style.borderLeft=1+"px solid #e3e3e3";
+	td.style.borderLeft="1px solid #e3e3e3";
 	//td.innerHTML="비고(사양,납기 등 특이사항)";
 	//invoice_contents , buy_invoice_contents
 	var textarea=cf.mkTag("textarea",td);
-	textarea.style.width=95+"%";
+	textarea.style.width="95%";
 	textarea.name="buy_invoice_content";
 	if(flag=="modi"){
 		obj.trav(function(d,i){
@@ -2092,7 +2122,8 @@ function addPurchaseTable(son,flag,obj){
 	td.className="right";
 	td.style.borderBottom="#fff";
 };
-function purchaseList(son,obj){
+
+var purchaseList = function(son,obj){
 	obj.trav(function(d,i){
 		var tr=cf.mkTag("tr",son);
 		tr.idx=i;
@@ -2109,7 +2140,7 @@ function purchaseList(son,obj){
 		};
 		
 		var td=cf.mkTag("td",tr);
-		td.style.borderLeft=1+"px solid #e3e3e3";
+		td.style.borderLeft="1px solid #e3e3e3";
 		var ipt=cf.mkTag("input",td);
 		ipt.style.textAlign="center";
 		ipt.size=10;
@@ -2133,7 +2164,7 @@ function purchaseList(son,obj){
 		
 		var td=cf.mkTag("td",tr);
 		var select=cf.mkTag("select",td);
-		select.style.width=100+"px";
+		select.style.width="100px";
 		select.name="in_buy_method";
 		if(d.method)mkSelect(select,METHODLIST,d.method);
 		else mkSelect(select,METHODLIST,"02");
@@ -2142,7 +2173,7 @@ function purchaseList(son,obj){
 		var td=cf.mkTag("td",tr);
 		var ipt=cf.mkTag("input",td);
 		ipt.className="payment_input";
-		ipt.style.width=90+"%";
+		ipt.style.width="90%";
 		ipt.name="in_buy_price";
 		ipt.value=comma(uncomma(d.price));
 		ipt.onkeyup=function(e){
@@ -2167,7 +2198,7 @@ function purchaseList(son,obj){
 	datePicker("input_date", "yy-mm-dd");
 };
 //viewpop
-function mkCompanyTable(tb,data){	
+var mkCompanyTable = function(tb,data){	
 	var tr=cf.mkTag("tr",tb),
 		td=cf.mkTag("td",tr);
 	td.colSpan=11;
@@ -2178,10 +2209,10 @@ function mkCompanyTable(tb,data){
 		span1=cf.mkTag("span",td),
 		span2=cf.mkTag("span",td);
 	th.rowSpan=3;
-	th.style.width=70+"px";
+	th.style.width="70px";
 	th.style.backgroundColor="#eeeeee";
 	th.innerHTML="결제조건";
-	td.style.width=299+"px";
+	td.style.width="299px";
 	td.className="pd10";
 	td.style.textAlign="left";
 	span1.innerHTML="현금 : ";
@@ -2196,27 +2227,27 @@ function mkCompanyTable(tb,data){
 		th2=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr);
 	th1.rowSpan=4;
-	th1.style.width=42+"px";
+	th1.style.width="42px";
 	th1.style.backgroundColor="#eeeeee";
-	th1.style.borderLeft=1+"px solid #e3e3e3";
+	th1.style.borderLeft="1px solid #e3e3e3";
 	th1.innerHTML=" 매<br/><br/>출<br/><br/>처 ";
-	th2.style.width=69+"px";
+	th2.style.width="69px";
 	th2.innerHTML="회사명";
 	td.colSpan=3;
 	td.className="pd10";
-	td.style.width=248+"px";
+	td.style.width="248px";
 	td.innerHTML=data.company_name;
 	
 	var th=cf.mkTag("th",tr);
 	th.colSpan=2;	
 	th.style.backgroundColor="#eeeeee";
-	th.style.width=300+"px";
+	th.style.width="300px";
 	th.innerHTML="총계약금";	
 	var th=cf.mkTag("th",tr);
 	th.colSpan=2;
 	th.style.backgroundColor="#eeeeee";	
 	th.innerHTML="매입가";
-	th.style.width=300+"px";
+	th.style.width="300px";
 	var th=cf.mkTag("th",tr);
 	th.colSpan=2;	
 	th.style.backgroundColor="#eeeeee";
@@ -2237,7 +2268,7 @@ function mkCompanyTable(tb,data){
 		th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr);
 	th.innerHTML="주소";
-	th.style.width=69+"px";
+	th.style.width="69px";
 	td.colSpan=3;
 	td.className="pd10";
 	td.innerHTML=data.address;
@@ -2246,19 +2277,19 @@ function mkCompanyTable(tb,data){
 	td.colSpan=2;
 	td.className="sum payment_input";
 	td.innerHTML=comma(data.total_contract_price);
-	cf.setCss(td,{textAlign:"right",marginright:5+"px",borderRight:1+"px solid #e3e3e3"});
+	cf.setCss(td,{textAlign:"right",marginright:"5px",borderRight:"1px solid #e3e3e3"});
 	
 	var td=cf.mkTag("td",tr);
 	td.colSpan=2;
 	td.className="sum payment_input";
 	td.innerHTML=comma(data.purchase_price);
-	cf.setCss(td,{textAlign:"right",marginright:5+"px",borderRight:1+"px solid #e3e3e3"});
+	cf.setCss(td,{textAlign:"right",marginright:"5px",borderRight:"1px solid #e3e3e3"});
 	
 	var td=cf.mkTag("td",tr);
 	td.colSpan=2;
 	td.className="sum payment_input";
 	td.innerHTML=comma(data.profit_price);
-	cf.setCss(td,{textAlign:"right",marginright:5+"px",borderRight:1+"px solid #e3e3e3"});
+	cf.setCss(td,{textAlign:"right",marginright:"5px",borderRight:"1px solid #e3e3e3"});
 	
 	var td=cf.mkTag("td",tr),
 		span1=cf.mkTag("span",td),
@@ -2275,34 +2306,34 @@ function mkCompanyTable(tb,data){
 		th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr);
 	th.innerHTML="부서";
-	th.style.width=68+"px";
+	th.style.width="68px";
 	td.style.textAlign="center";
-	td.style.width=129+"px";
+	td.style.width="129px";
 	td.innerHTML=data.customer_division;
 	
 	var th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr);
 	th.innerHTML="고객담당자";
-	th.style.width=99+"px";
+	th.style.width="99px";
 	td.style.textAlign="center";
-	td.style.width=129+"px";
+	td.style.width="129px";
 	td.innerHTML=data.customer_name;
 	
 	var th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr);
-	th.style.width=69+"px";
+	th.style.width="69px";
 	th.innerHTML="TEL";
 	td.colSpan=2;
-	td.style.width=265+"px";
+	td.style.width="265px";
 	td.className="pd10";
 	td.innerHTML=data.customer_tel;
 	
 	var th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr);
-	th.style.width=69+"px";
+	th.style.width="69px";
 	th.innerHTML="HP";
 	td.className="pd10";
-	td.style.width=190+"px";
+	td.style.width="190px";
 	td.colSpan=2;
 	td.innerHTML=data.customer_hp;
 	
@@ -2330,10 +2361,10 @@ function mkCompanyTable(tb,data){
 	
 	var th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr);
-	th.style.width=69+"px";
+	th.style.width="69px";
 	th.innerHTML="TEL";
 	td.colSpan=2;
-	td.style.width=265+"px";
+	td.style.width="265px";
 	td.className="pd10";
 	td.innerHTML=data.invoice_tel;
 	
@@ -2351,7 +2382,8 @@ function mkCompanyTable(tb,data){
 	td.style.textAlign="left";
 	td.innerHTML=data.invoice_email;
 };
-function mkSalesDetailTable(son,flag,data){
+
+var mkSalesDetailTable = function(son,flag,data){
 	var p=cf.mkTag("p",son);
 	p.className="mini_title";
 	p.innerHTML="ETC 매입 및 매출내역";
@@ -2362,7 +2394,7 @@ function mkSalesDetailTable(son,flag,data){
 	
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
-	th.style.borderLeft=1+"px solid #e3e3e3";
+	th.style.borderLeft="1px solid #e3e3e3";
 	th.innerHTML="No";
 	th.style.width="25px";
 	
@@ -2429,32 +2461,33 @@ function mkSalesDetailTable(son,flag,data){
 		td=cf.mkTag("td",tr);
 	td.colSpan=5;
 	td.className="sum payment_input";
-	td.style.borderLeft=1+"px solid #e3e3e3";
+	td.style.borderLeft="1px solid #e3e3e3";
 	td.innerHTML="합계";
 	
 	var td=cf.mkTag("td",tr);
 	td.colSpan=4;
 	td.className="sum payment_input";
 	td.innerHTML=comma(pop_main.total_contract_price);
-	cf.setCss(td,{textAlign:"right",marginright:5+"px",borderLeft:1+"px solid #e3e3e3"});
+	cf.setCss(td,{textAlign:"right",marginright:"5px",borderLeft:"1px solid #e3e3e3"});
 	
 	var td=cf.mkTag("td",tr);
 	td.colSpan=3;
 	td.className="sum payment_input";
-	td.style.borderLeft=1+"px solid #e3e3e3";
+	td.style.borderLeft="1px solid #e3e3e3";
 	td.innerHTML=comma(pop_main.purchase_price);
-	cf.setCss(td,{textAlign:"right",marginright:5+"px"});
+	cf.setCss(td,{textAlign:"right",marginright:"5px"});
 		
 	var td=cf.mkTag("td",tr);
 	td.colSpan=2;
 	td.className="sum";
-	td.style.border=1+"px solid #e3e3e3";
+	td.style.border="1px solid #e3e3e3";
 };
-function salesDetailView(son,obj){
+
+var salesDetailView = function(son,obj){
 	obj.trav(function(d,i){
 		var tr=cf.mkTag("tr",son);		
 		var td=cf.mkTag("td",tr);
-		td.style.borderLeft=1+"px solid #e3e3e3";
+		td.style.borderLeft="1px solid #e3e3e3";
 		var span=cf.mkTag("span",td)
 		span.innerHTML=i+1;
 		
@@ -2513,7 +2546,8 @@ function salesDetailView(son,obj){
 		td.className="pd10 alignleft";
 	});
 };
-function mkSalesTable(son,flag,data){
+
+var mkSalesTable = function(son,flag,data){
 	var p=cf.mkTag("p",son);
 	p.className="mini_title";
 	p.innerHTML="매출 세금계산서";
@@ -2524,7 +2558,7 @@ function mkSalesTable(son,flag,data){
 	
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
-	th.style.borderLeft=1+"px solid #e3e3e3";
+	th.style.borderLeft="1px solid #e3e3e3";
 	th.style.backgroundColor="#eeeeee";
 	th.style.width="94px";
 	th.innerHTML="분할";
@@ -2556,7 +2590,7 @@ function mkSalesTable(son,flag,data){
 	var tr=cf.mkTag("tr",tf);
 	var td=cf.mkTag("td",tr);
 	td.colSpan=3;
-	td.style.borderLeft=1+"px solid #e3e3e3";
+	td.style.borderLeft="1px solid #e3e3e3";
 	//td.innerHTML="비고(사양,납기 등 특이사항)";
 	data.trav(function(d,i){
 		if(d.invoice_content){
@@ -2570,12 +2604,13 @@ function mkSalesTable(son,flag,data){
 	td.className="right";
 	td.style.borderBottom="#fff";
 };
-function salesView(son, obj){
+
+var salesView = function(son, obj){
 	obj.trav(function(d,i){
 		var tr=cf.mkTag("tr",son);
 				
 		var td=cf.mkTag("td",tr);
-		td.style.borderLeft=1+"px solid #e3e3e3";
+		td.style.borderLeft="1px solid #e3e3e3";
 		td.style.textAlign="center";
 		td.innerHTML=d.split;
 		
@@ -2601,7 +2636,8 @@ function salesView(son, obj){
 		td.innerHTML=d.contract_number;
 	});
 };
-function mkPurchaseTable(son,flag,data){
+
+var mkPurchaseTable = function(son,flag,data){
 	var p=cf.mkTag("p",son);
 	p.className="mini_title";
 	p.innerHTML="매입 세금계산서";
@@ -2612,7 +2648,7 @@ function mkPurchaseTable(son,flag,data){
 	
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
-	th.style.borderLeft=1+"px solid #e3e3e3";
+	th.style.borderLeft="1px solid #e3e3e3";
 	th.style.backgroundColor="#eeeeee";
 	th.style.width="94px";
 	th.innerHTML="분할";
@@ -2644,7 +2680,7 @@ function mkPurchaseTable(son,flag,data){
 	var tr=cf.mkTag("tr",tf);
 	var td=cf.mkTag("td",tr);
 	td.colSpan=3;
-	td.style.borderLeft=1+"px solid #e3e3e3";
+	td.style.borderLeft="1px solid #e3e3e3";
 	//td.innerHTML="비고(사양,납기 등 특이사항)";
 	data.trav(function(d,i){
 		if(d.invoice_content)td.innerHTML+=d.invoice_content;
@@ -2655,12 +2691,13 @@ function mkPurchaseTable(son,flag,data){
 	td.className="right";
 	td.style.borderBottom="#fff";
 };
-function purchaseView(son,obj){
+
+var purchaseView = function(son,obj){
 	obj.trav(function(d,i){
 		var tr=cf.mkTag("tr",son);
 		
 		var td=cf.mkTag("td",tr);
-		td.style.borderLeft=1+"px solid #e3e3e3";
+		td.style.borderLeft="1px solid #e3e3e3";
 		td.style.textAlign="center";
 		td.innerHTML=d.split;
 		
@@ -2686,7 +2723,8 @@ function purchaseView(son,obj){
 		td.innerHTML=d.contract_number;
 	});
 };
-function respPop(obj,opt){
+
+var respPop = function(obj,opt){
 	var con=document.createElement("div"),	
 		con0=cf.mkTag("div",con),	
 		con1=cf.mkTag("div",con0),
@@ -2706,14 +2744,14 @@ function respPop(obj,opt){
 	con2_img.onclick=function(){
 		cf.killTag(con.parentNode);
 	};
-	cf.setCss(con,{position:"absolute",width:600+"px",height:300+"px"});
-	cf.setCss(con1,{width:600+"px",height:300+"px",border:2+"px solid black",backgroundColor:"#fff"});	
+	cf.setCss(con,{position:"absolute",width:"600px",height:"300px"});
+	cf.setCss(con1,{width:"600px",height:"300px",border:"2px solid black",backgroundColor:"#fff"});	
 	
 	var con3=cf.mkTag("div",con1),
 		con4=cf.mkTag("div",con3),
 		con5=cf.mkTag("div",con4);
 	con3.className="my-container";
-	con3.style.height=190+"px";
+	con3.style.height="190px";
 	con3.style.overflowY="auto";	
 	con4.className="con_table";
 	con5.className="Wrap_table";	
@@ -2737,7 +2775,8 @@ function respPop(obj,opt){
 	};
 	callPop(con);
 };
-function mkRespTable(son,con,opt,obj){
+
+var mkRespTable = function(son,con,opt,obj){
 	var div=cf.mkTag("div",son),		
 		table=cf.mkTag("table",div);
 	table.cellpadding=0;
@@ -2746,28 +2785,28 @@ function mkRespTable(son,con,opt,obj){
 	
 	var tr=cf.mkTag("tr",table),
 		th=cf.mkTag("th",tr);
-	th.style.width=10+"%";
+	th.style.width="10%";
 	th.innerHTML="이름";
 	
 	var th=cf.mkTag("th",tr);
-	th.style.width=13+"%";
+	th.style.width="13%";
 	th.innerHTML="부서";
 	
 	var th=cf.mkTag("th",tr);
-	th.style.width=20+"%";
+	th.style.width="20%";
 	th.innerHTML="전화번호";
 	
 	var th=cf.mkTag("th",tr);
-	th.style.width=20+"%";
+	th.style.width="20%";
 	th.innerHTML="휴대폰번호";
 	
 	var th=cf.mkTag("th",tr);
-	th.style.width=30+"%";
+	th.style.width="30%";
 	th.innerHTML="e-mail";
 	
 	var th=cf.mkTag("th",tr);
 	th.className="right";
-	th.style.width=7+"%";
+	th.style.width="7%";
 	th.innerHTML="세금<br/>계산서";
 	
 	var div=cf.mkTag("div",son),	
@@ -2804,32 +2843,33 @@ function mkRespTable(son,con,opt,obj){
 		};
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=10+"%";
+		td.style.width="10%";
 		td.innerHTML=d.customer_name;
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=13+"%";
+		td.style.width="13%";
 		td.innerHTML=d.division;
 				
 		var td=cf.mkTag("td",tr);
-		td.style.width=20+"%";
+		td.style.width="20%";
 		td.innerHTML=d.sub_phone_number;
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=20+"%";
+		td.style.width="20%";
 		td.innerHTML=d.mobile;
 		
 		var td=cf.mkTag("td",tr);
-		td.style.width=30+"%";
+		td.style.width="30%";
 		td.innerHTML=d.email;
 		
 		var td=cf.mkTag("td",tr);
 		td.className="right";
-		td.style.width=7+"%";
+		td.style.width="7%";
 		td.innerHTML=d.invoice_gb_nm;
 	});
 };
-function recordAddPop(str,flag,data){
+
+var recordAddPop = function(str,flag,data){
 	var wh=cf.workareaheight,
 		con=document.createElement("div"),
 		con0=cf.mkTag("div",con),	
@@ -2850,8 +2890,8 @@ function recordAddPop(str,flag,data){
 	con2_img.onclick=function(){
 		cf.killTag(con.parentNode);
 	};
-	cf.setCss(con,{position:"absolute",width:1000+"px"});
-	cf.setCss(con1,{width:1000+"px",border:2+"px solid black",backgroundColor:"#fff"});	
+	cf.setCss(con,{position:"absolute",width:"1000px"});
+	cf.setCss(con1,{width:"1000px",border:"2px solid black",backgroundColor:"#fff"});	
 	
 	var con3=cf.mkTag("div",con1),
 		con4=cf.mkTag("div",con3),
@@ -2861,19 +2901,19 @@ function recordAddPop(str,flag,data){
 	//con5.className="Wrap_table";
 	
 	if(str=="DS 매입 및 매출내역"){
-		cf.setCss(con,{height:cf.workareaheight-118+"px",maxHeight:688+"px"});
-		cf.setCss(con1,{height:cf.workareaheight-118+"px",maxHeight:688+"px"});
-		cf.setCss(con3,{height:cf.workareaheight-215+"px",maxHeight:588+"px",overflowY:"auto",paddingBottom:0+"px"});
+		cf.setCss(con,{height:cf.workareaheight-118+"px",maxHeight:"688px"});
+		cf.setCss(con1,{height:cf.workareaheight-118+"px",maxHeight:"688px"});
+		cf.setCss(con3,{height:cf.workareaheight-215+"px",maxHeight:"588px",overflowY:"auto",paddingBottom:"0px"});
 		recordAddPopTb01(con5,flag,"ds",data);
 	}else if(str=="변경 매입 및 매출내역"){
-		cf.setCss(con,{height:cf.workareaheight-118+"px",maxHeight:688+"px"});
-		cf.setCss(con1,{height:cf.workareaheight-118+"px",maxHeight:688+"px"});
-		cf.setCss(con3,{height:cf.workareaheight-215+"px",maxHeight:588+"px",overflowY:"auto",paddingBottom:0+"px"});
+		cf.setCss(con,{height:cf.workareaheight-118+"px",maxHeight:"688px"});
+		cf.setCss(con1,{height:cf.workareaheight-118+"px",maxHeight:"688px"});
+		cf.setCss(con3,{height:cf.workareaheight-215+"px",maxHeight:"588px",overflowY:"auto",paddingBottom:"0px"});
 		recordAddPopTb01(con5,flag,"alc",data);
 	}else{
-		cf.setCss(con,{height:476+"px"});
-		cf.setCss(con1,{height:476+"px"});
-		cf.setCss(con3,{height:363+"px"});
+		cf.setCss(con,{height:"476px"});
+		cf.setCss(con1,{height:"476px"});
+		cf.setCss(con3,{height:"363px"});
 		recordAddPopTb02(con5,flag,data);
 	}
 	
@@ -2901,7 +2941,7 @@ function recordAddPop(str,flag,data){
 	datePicker("input_date", "yy-mm-dd");
 };
 //DS 추가
-function recordAddPopTb01(p,flag,gb,data){
+var recordAddPopTb01 = function(p,flag,gb,data){
 	p.innerHTML="";
 	var tit01=cf.mkTag("div",p),
 		tbdv01=cf.mkTag("div",p),
@@ -2938,18 +2978,19 @@ function recordAddPopTb01(p,flag,gb,data){
 	callRecordAddTb04(tbdv04,flag,gb,data);
 	callRecordAddTb09(tbdv05,flag,gb,data);
 	
-	cf.setCss(tit01,{height:20+"px",marginTop:15+"px"});
-	cf.setCss(tit02,{height:20+"px",marginTop:15+"px"});
-	cf.setCss(tit03,{height:20+"px",marginTop:15+"px"});
-	cf.setCss(tit04,{height:20+"px",marginTop:15+"px"});
-	cf.setCss(tit05,{height:20+"px",marginTop:15+"px"});
+	cf.setCss(tit01,{height:"20px",marginTop:"15px"});
+	cf.setCss(tit02,{height:"20px",marginTop:"15px"});
+	cf.setCss(tit03,{height:"20px",marginTop:"15px"});
+	cf.setCss(tit04,{height:"20px",marginTop:"15px"});
+	cf.setCss(tit05,{height:"20px",marginTop:"15px"});
 	cf.setCss(cl1,{clear:"both"});
 	cf.setCss(cl2,{clear:"both"});
 	cf.setCss(cl3,{clear:"both"});
 	cf.setCss(cl4,{clear:"both"});
 	//cf.setCss(p,{paddingBottom:20+"px"});
 };
-function callRecordAddTb01(p,flag,gb,data){
+
+var callRecordAddTb01 = function(p,flag,gb,data){
 	p.innerHTML="";
 	if(flag=="add")var tbar=[["Portfolio","","","","Prd.Number",""],["Trigram","","","","Type",""],["ETC","","PLC","","ALC",""],["List Price","","","","수량",""]];
 	else var tbar=[["Portfolio",data[0],"","","Prd.Number",data[3]],["Trigram",data[1],"","","Type",data[2]],["ETC",data[6],"PLC",data[4],"ALC",data[5]],["List Price",data[7],"","","수량",data[8]]];
@@ -2977,9 +3018,11 @@ function callRecordAddTb01(p,flag,gb,data){
 			}				
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
-		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
-	};
+		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
+	}
+	
 	function commonstyle(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
@@ -2987,13 +3030,14 @@ function callRecordAddTb01(p,flag,gb,data){
 			tb.cellSpacing="0px";
 			tb.className="Normal_table";
 			tb.id="";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 		}
-		if(j==0||j==2||j==4)cf.setCss(col,{width:109+"px"});
-		else if(j==1)cf.setCss(col,{width:119+"px"});
-	};	
+		if(j==0||j==2||j==4)cf.setCss(col,{width:"109px"});
+		else if(j==1)cf.setCss(col,{width:"119px"});
+	}
 };
-function salespop02_tablecellaction_addtb01(tds,data,row,i,col,j,flag){
+
+var salespop02_tablecellaction_addtb01 = function(tds,data,row,i,col,j,flag){
 	var txt=col.innerHTML;
 	col.innerHTML="";
 	
@@ -3006,9 +3050,9 @@ function salespop02_tablecellaction_addtb01(tds,data,row,i,col,j,flag){
 			ipt.name="portfolio";
 			ipt.value=txt.replace("&amp;","&");
 			str.innerHTML="&nbsp;(2자이상입력)";
-			cf.setCss(ipt,{float:"left",width:255+"px"});
-			cf.setCss(str,{float:"left",paddingTop:6+"px"});
-			cf.setCss(dv,{paddingLeft:6+"px"});
+			cf.setCss(ipt,{float:"left",width:"255px"});
+			cf.setCss(str,{float:"left",paddingTop:"6px"});
+			cf.setCss(dv,{paddingLeft:"6px"});
 			if(flag=="modi"){
 				mkHidden(dsTb_ar2[prev_ds.idx][30],"pop_sales_record_ds_id",col);
 				mkHidden(dsTb_ar2[prev_ds.idx][31],"pop_in_price_list_date",col);
@@ -3029,7 +3073,7 @@ function salespop02_tablecellaction_addtb01(tds,data,row,i,col,j,flag){
 			ipt.readOnly=true;
 			ipt.id="pop_prd_number";
 			ipt.value=txt;
-			cf.setCss(ipt,{width:238+"px",backgroundColor:"#eee"});
+			cf.setCss(ipt,{width:"238px",backgroundColor:"#eee"});
 		}
 	}else if(i==1){
 		if(j==1){
@@ -3039,15 +3083,15 @@ function salespop02_tablecellaction_addtb01(tds,data,row,i,col,j,flag){
 			ipt.id="pop_trigram";
 			ipt.value=txt;
 			str.innerHTML="&nbsp;(2자이상입력)";
-			cf.setCss(ipt,{float:"left",width:255+"px"});
-			cf.setCss(str,{float:"left",paddingTop:6+"px"});
-			cf.setCss(dv,{paddingLeft:6+"px"});
+			cf.setCss(ipt,{float:"left",width:"255px"});
+			cf.setCss(str,{float:"left",paddingTop:"6px"});
+			cf.setCss(dv,{paddingLeft:"6px"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col);
 			ipt.readOnly=true;
 			ipt.id="pop_prd_type";
 			ipt.value=txt;
-			cf.setCss(ipt,{width:238+"px",backgroundColor:"#eee"});
+			cf.setCss(ipt,{width:"238px",backgroundColor:"#eee"});
 		}
 	}else if(i==2){
 		if(j==1){
@@ -3255,7 +3299,8 @@ function salespop02_tablecellaction_addtb01(tds,data,row,i,col,j,flag){
 		}
 	}
 };
-function salespop02_tablecellaction_addtb01_alc(tds,data,row,i,col,j,flag){
+
+var salespop02_tablecellaction_addtb01_alc = function(tds,data,row,i,col,j,flag){
 	var txt=col.innerHTML;
 	col.innerHTML="";
 	
@@ -3269,9 +3314,9 @@ function salespop02_tablecellaction_addtb01_alc(tds,data,row,i,col,j,flag){
 			ipt.readOnly=true;
 			ipt.value=txt.replace("&amp;","&");
 			str.innerHTML="&nbsp;(2자이상입력)";
-			cf.setCss(ipt,{float:"left",width:255+"px",backgroundColor:"#eee"});
-			cf.setCss(str,{float:"left",paddingTop:6+"px"});
-			cf.setCss(dv,{paddingLeft:6+"px"});
+			cf.setCss(ipt,{float:"left",width:"255px",backgroundColor:"#eee"});
+			cf.setCss(str,{float:"left",paddingTop:"6px"});
+			cf.setCss(dv,{paddingLeft:"6px"});
 			if(flag=="modi"){
 				mkHidden(alcTb_ar2[prev_alc.idx][30],"pop_sales_record_ds_id",col);
 				mkHidden(alcTb_ar2[prev_alc.idx][31],"pop_in_price_list_date",col);
@@ -3293,7 +3338,7 @@ function salespop02_tablecellaction_addtb01_alc(tds,data,row,i,col,j,flag){
 			ipt.readOnly=true;
 			ipt.id="pop_prd_number";
 			ipt.value=txt;
-			cf.setCss(ipt,{width:238+"px",backgroundColor:"#eee"});
+			cf.setCss(ipt,{width:"238px",backgroundColor:"#eee"});
 		}
 	}else if(i==1){
 		if(j==1){
@@ -3304,15 +3349,15 @@ function salespop02_tablecellaction_addtb01_alc(tds,data,row,i,col,j,flag){
 			ipt.value=txt;
 			ipt.readOnly=true;
 			str.innerHTML="&nbsp;(2자이상입력)";
-			cf.setCss(ipt,{float:"left",width:255+"px",backgroundColor:"#eee"});
-			cf.setCss(str,{float:"left",paddingTop:6+"px"});
-			cf.setCss(dv,{paddingLeft:6+"px"});
+			cf.setCss(ipt,{float:"left",width:"255px",backgroundColor:"#eee"});
+			cf.setCss(str,{float:"left",paddingTop:"6px"});
+			cf.setCss(dv,{paddingLeft:"6px"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col);
 			ipt.readOnly=true;
 			ipt.id="pop_prd_type";
 			ipt.value=txt;
-			cf.setCss(ipt,{width:238+"px",backgroundColor:"#eee"});
+			cf.setCss(ipt,{width:"238px",backgroundColor:"#eee"});
 		}
 	}else if(i==2){
 		if(j==1){
@@ -3463,22 +3508,22 @@ function salespop02_tablecellaction_addtb01_alc(tds,data,row,i,col,j,flag){
 					}
 				}
 			};
-			cf.setCss(select,{width:100+"px"});
+			cf.setCss(select,{width:"100px"});
 		}else if(j==3){
 			var ipt=cf.mkTag("input",col);
 			ipt.readOnly=true;
 			ipt.id="pop_plc";
 			ipt.value=comma(txt);
 			ipt.className="price";
-			cf.setCss(ipt,{width:228+"px",backgroundColor:"#eee"});
+			cf.setCss(ipt,{width:"228px",backgroundColor:"#eee"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col);
 			ipt.readOnly=true;
 			ipt.id="pop_alc";
 			ipt.value=comma(txt);
 			ipt.className="price";
-			cf.setCss(ipt,{width:238+"px",backgroundColor:"#eee"});
-			cf.setCss(col,{paddingLeft:3+"px"});
+			cf.setCss(ipt,{width:"238px",backgroundColor:"#eee"});
+			cf.setCss(col,{paddingLeft:"3px"});
 		}
 	}else if(i==3){
 		if(j==1){
@@ -3498,8 +3543,8 @@ function salespop02_tablecellaction_addtb01_alc(tds,data,row,i,col,j,flag){
 				}			
 				ipt.value=comma(plc_price+alc_price);
 			}
-			cf.setCss(ipt,{width:455+"px",backgroundColor:"#eee"});
-			cf.setCss(col,{paddingLeft:3+"px"});
+			cf.setCss(ipt,{width:"455px",backgroundColor:"#eee"});
+			cf.setCss(col,{paddingLeft:"3px"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col);
 			ipt.id="pop_qty";
@@ -3528,11 +3573,12 @@ function salespop02_tablecellaction_addtb01_alc(tds,data,row,i,col,j,flag){
 				pur_sum.value=sum2;
 				pur_sum_str.innerHTML=comma(sum2);
 			};
-			cf.setCss(ipt,{width:238+"px",backgroundColor:"#eee"});
+			cf.setCss(ipt,{width:"238px",backgroundColor:"#eee"});
 		}
 	}
 };
-function callRecordAddTb02(p,flag,gb,data){
+
+var callRecordAddTb02 = function(p,flag,gb,data){
 	p.innerHTML="";
 	if(flag=="add")var tbar=[["개별 DC 여부","","PLC DC Rate","","ALC DC Rate","","",""],["합","","PLC DC Price","","ALC DC Price","","",""]];
 	else var tbar=[["개별 DC 여부",data[9],"PLC DC Rate",data[10],"ALC DC Rate",data[11],"",""],["합",data[14],"PLC DC Price",data[12],"ALC DC Price",data[13],"",""]];
@@ -3563,9 +3609,11 @@ function callRecordAddTb02(p,flag,gb,data){
 			}				
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
-		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
-	};
+		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
+	}
+	
 	function commonstyle(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
@@ -3573,14 +3621,15 @@ function callRecordAddTb02(p,flag,gb,data){
 			tb.cellSpacing="0px";
 			tb.className="Normal_table";
 			tb.id="";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 		}
-		if(j==0||j==2||j==4)cf.setCss(col,{width:109+"px"});
-		else if(j==1)cf.setCss(col,{width:204+"px"});
-		else if(j==3)cf.setCss(col,{width:204+"px"});
-	};	
+		if(j==0||j==2||j==4)cf.setCss(col,{width:"109px"});
+		else if(j==1)cf.setCss(col,{width:"204px"});
+		else if(j==3)cf.setCss(col,{width:"204px"});
+	}	
 };
-function salespop02_tablecellaction_addtb02(tds,data,row,i,col,j,flag){
+
+var salespop02_tablecellaction_addtb02 = function(tds,data,row,i,col,j,flag){
 	var txt=col.innerHTML;
 	col.innerHTML="";	
 	if(i==0){
@@ -3600,7 +3649,7 @@ function salespop02_tablecellaction_addtb02(tds,data,row,i,col,j,flag){
 					else mkSelectYN(select,txt);
 				}
 			}
-			cf.setCss(select,{width:120+"px"});
+			cf.setCss(select,{width:"120px"});
 			select.onchange=function(e){
 				if(e.target.value==0){
 					var sales_plc_dc=document.getElementById("pop_sales_plc_dc"),
@@ -3669,9 +3718,9 @@ function salespop02_tablecellaction_addtb02(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:100+"px",float:"left",marginLeft:10+"px"});
-			cf.setCss(span,{float:"left",paddingTop:7+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"100px",float:"left",marginLeft:"10px"});
+			cf.setCss(span,{float:"left",paddingTop:"7px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col),
 				span=cf.mkTag("span",col),
@@ -3731,9 +3780,9 @@ function salespop02_tablecellaction_addtb02(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:100+"px",float:"left",marginLeft:10+"px"});
-			cf.setCss(span,{float:"left",paddingTop:7+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"100px",float:"left",marginLeft:"10px"});
+			cf.setCss(span,{float:"left",paddingTop:"7px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}
 	}else{
 		if(j==1){
@@ -3795,8 +3844,8 @@ function salespop02_tablecellaction_addtb02(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:75+"%",float:"left",marginLeft:10+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"75%",float:"left",marginLeft:"10px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col),
 				ipt2=cf.mkTag("input",col);
@@ -3837,12 +3886,13 @@ function salespop02_tablecellaction_addtb02(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:75+"%",float:"left",marginLeft:10+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"75%",float:"left",marginLeft:"10px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}
 	}
 };
-function salespop02_tablecellaction_addtb02_alc(tds,data,row,i,col,j,flag){
+
+var salespop02_tablecellaction_addtb02_alc = function(tds,data,row,i,col,j,flag){
 	var txt=col.innerHTML;
 	col.innerHTML="";	
 	if(i==0){
@@ -3929,9 +3979,9 @@ function salespop02_tablecellaction_addtb02_alc(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:100+"px",float:"left",marginLeft:10+"px"});
-			cf.setCss(span,{float:"left",paddingTop:7+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"100px",float:"left",marginLeft:"10px"});
+			cf.setCss(span,{float:"left",paddingTop:"7px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col),
 				span=cf.mkTag("span",col),
@@ -3990,9 +4040,9 @@ function salespop02_tablecellaction_addtb02_alc(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:100+"px",float:"left",marginLeft:10+"px"});
-			cf.setCss(span,{float:"left",paddingTop:7+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"100px",float:"left",marginLeft:"10px"});
+			cf.setCss(span,{float:"left",paddingTop:"7px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}
 	}else{
 		if(j==1){
@@ -4048,8 +4098,8 @@ function salespop02_tablecellaction_addtb02_alc(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:75+"%",float:"left",marginLeft:10+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"75%",float:"left",marginLeft:"10px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col),
 				ipt2=cf.mkTag("input",col);
@@ -4084,12 +4134,13 @@ function salespop02_tablecellaction_addtb02_alc(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:75+"%",float:"left",marginLeft:10+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"75%",float:"left",marginLeft:"10px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}
 	}
 };
-function callRecordAddTb03(p,flag,gb,data){
+
+var callRecordAddTb03 = function(p,flag,gb,data){
 	p.innerHTML="";
 	if(flag=="add")var tbar=[["단가","","PLC DC","","ALC DC",""],["합","","PLC DC Price","","ALC DC Price",""]];
 	else var tbar=[["단가",data[19],"PLC DC",data[15],"ALC DC",data[16]],["합",data[20],"PLC DC Price",data[17],"ALC DC Price",data[18]]];
@@ -4119,9 +4170,11 @@ function callRecordAddTb03(p,flag,gb,data){
 			}				
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
-		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
-	};
+		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
+	}
+	
 	function commonstyle(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
@@ -4129,14 +4182,15 @@ function callRecordAddTb03(p,flag,gb,data){
 			tb.cellSpacing="0px";
 			tb.className="Normal_table";
 			tb.id="";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 		}
-		if(j==0||j==2||j==4)cf.setCss(col,{width:109+"px"});
-		else if(j==1)cf.setCss(col,{width:204+"px"});
-		else if(j==3)cf.setCss(col,{width:204+"px"});
-	};	
+		
+		if(j==0||j==2||j==4)cf.setCss(col,{width:"109px"});
+		else if(j==1)cf.setCss(col,{width:"204px"});
+		else if(j==3)cf.setCss(col,{width:"204px"});
+	}	
 };
-function salespop02_tablecellaction_addtb03(tds,data,row,i,col,j,flag){
+var salespop02_tablecellaction_addtb03 = function(tds,data,row,i,col,j,flag){
 	var txt=col.innerHTML;
 	col.innerHTML="";	
 	if(i==0){
@@ -4208,9 +4262,9 @@ function salespop02_tablecellaction_addtb03(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:100+"px",float:"left",marginLeft:10+"px"});
-			cf.setCss(span,{float:"left",paddingTop:7+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"100px",float:"left",marginLeft:"10px"});
+			cf.setCss(span,{float:"left",paddingTop:"7px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col),
 				span=cf.mkTag("span",col),
@@ -4260,9 +4314,9 @@ function salespop02_tablecellaction_addtb03(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:100+"px",float:"left",marginLeft:10+"px"});
-			cf.setCss(span,{float:"left",paddingTop:7+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"100px",float:"left",marginLeft:"10px"});
+			cf.setCss(span,{float:"left",paddingTop:"7px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}
 	}if(i==1){
 		if(j==1){
@@ -4331,8 +4385,8 @@ function salespop02_tablecellaction_addtb03(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:75+"%",float:"left",marginLeft:10+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"75%",float:"left",marginLeft:"10px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col),
 				ipt2=cf.mkTag("input",col);
@@ -4385,12 +4439,13 @@ function salespop02_tablecellaction_addtb03(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:75+"%",float:"left",marginLeft:10+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"75%",float:"left",marginLeft:"10px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}
 	}
 };
-function salespop02_tablecellaction_addtb03_alc(tds,data,row,i,col,j,flag){
+
+var salespop02_tablecellaction_addtb03_alc = function(tds,data,row,i,col,j,flag){
 	var txt=col.innerHTML;
 	col.innerHTML="";	
 	if(i==0){
@@ -4462,9 +4517,9 @@ function salespop02_tablecellaction_addtb03_alc(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:100+"px",float:"left",marginLeft:10+"px"});
-			cf.setCss(span,{float:"left",paddingTop:7+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"100px",float:"left",marginLeft:"10px"});
+			cf.setCss(span,{float:"left",paddingTop:"7px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col),
 				span=cf.mkTag("span",col),
@@ -4514,9 +4569,9 @@ function salespop02_tablecellaction_addtb03_alc(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:100+"px",float:"left",marginLeft:10+"px"});
-			cf.setCss(span,{float:"left",paddingTop:7+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"100px",float:"left",marginLeft:"10px"});
+			cf.setCss(span,{float:"left",paddingTop:"7px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}
 	}if(i==1){
 		if(j==1){
@@ -4582,8 +4637,8 @@ function salespop02_tablecellaction_addtb03_alc(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:75+"%",float:"left",marginLeft:10+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"75%",float:"left",marginLeft:"10px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}else if(j==5){
 			var ipt=cf.mkTag("input",col),
 				ipt2=cf.mkTag("input",col);
@@ -4636,12 +4691,13 @@ function salespop02_tablecellaction_addtb03_alc(tds,data,row,i,col,j,flag){
 					cf.setCss(ipt,{backgroundColor:"#fff"});
 				}
 			};
-			cf.setCss(ipt,{width:75+"%",float:"left",marginLeft:10+"px"});
-			cf.setCss(ipt2,{float:"right",marginRight:5+"px"});
+			cf.setCss(ipt,{width:"75%",float:"left",marginLeft:"10px"});
+			cf.setCss(ipt2,{float:"right",marginRight:"5px"});
 		}
 	}
 };
-function callRecordAddTb04(p,flag,gb,data){
+
+var callRecordAddTb04 = function(p,flag,gb,data){
 	p.innerHTML="";
 	if(flag=="add")var tbar=[["DS Po 일자","","","","설치일자","","",""],["발주일자","","","","License Date","","",""]];
 	else var tbar=[["DS Po 일자",data[21],"","","설치일자",data[22],"",""],["발주일자",data[23],"","","License Date",data[24],data[25],""]];
@@ -4668,9 +4724,11 @@ function callRecordAddTb04(p,flag,gb,data){
 			}				
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
 		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
-	};
+	}
+	
 	function commonstyle(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
@@ -4678,13 +4736,14 @@ function callRecordAddTb04(p,flag,gb,data){
 			tb.cellSpacing="0px";
 			tb.className="Normal_table";
 			tb.id="";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 		}
-		if(j==0||j==2||j==4)cf.setCss(col,{width:109+"px"});
-		else if(j==1)cf.setCss(col,{width:220+"px"});
-	};
+		if(j==0||j==2||j==4)cf.setCss(col,{width:"109px"});
+		else if(j==1)cf.setCss(col,{width:"220px"});
+	}
 };
-function salespop02_tablecellaction_addtb04(tds,data,row,i,col,j,flag){
+
+var salespop02_tablecellaction_addtb04 = function(tds,data,row,i,col,j,flag){
 	var txt=col.innerHTML;
 	col.innerHTML="";	
 	if(i==0){
@@ -4695,7 +4754,7 @@ function salespop02_tablecellaction_addtb04(tds,data,row,i,col,j,flag){
 			if(flag=="modi"&&txt){
 				ipt1.value=modiDate(txt,"-");		
 			}
-			cf.setCss(ipt1,{width:109+"px"});
+			cf.setCss(ipt1,{width:"109px"});
 		}else if(j==5){
 			var ipt1=cf.mkTag("input",col);
 			ipt1.className="input_date";
@@ -4703,7 +4762,7 @@ function salespop02_tablecellaction_addtb04(tds,data,row,i,col,j,flag){
 			if(flag=="modi"&&txt){
 				ipt1.value=modiDate(txt,"-");		
 			}
-			cf.setCss(ipt1,{width:109+"px"});
+			cf.setCss(ipt1,{width:"109px"});
 		}
 	}else{
 		if(j==1){
@@ -4713,7 +4772,7 @@ function salespop02_tablecellaction_addtb04(tds,data,row,i,col,j,flag){
 			if(flag=="modi"&&txt){
 				ipt1.value=modiDate(txt,"-");		
 			}
-			cf.setCss(ipt1,{width:109+"px"});
+			cf.setCss(ipt1,{width:"109px"});
 		}else if(j==5){
 			var ipt1=cf.mkTag("input",col),
 				span=cf.mkTag("span",col),
@@ -4777,12 +4836,13 @@ function salespop02_tablecellaction_addtb04(tds,data,row,i,col,j,flag){
 					}
 				}
 			};
-			cf.setCss(ipt1,{width:109+"px"});
-			cf.setCss(ipt2,{width:109+"px"});
+			cf.setCss(ipt1,{width:"109px"});
+			cf.setCss(ipt2,{width:"109px"});
 		}
 	}
 };
-function callRecordAddTb09(p,flag,gb,data){
+
+var callRecordAddTb09 = function(p,flag,gb,data){
 	p.innerHTML="";
 	if(flag=="add")var tbar=[["Target ID","","사업장","","",""]];
 	else var tbar=[["Target ID",data[28],"사업장",data[29],"",""]];
@@ -4794,6 +4854,7 @@ function callRecordAddTb09(p,flag,gb,data){
 		colspans:[{y:0, x:3, howmany:3}],
 		rowspans:[]
 	});
+	
 	tds.trav(function(row,i){
 		row.trav(function(col,j){
 			if(col!=undefined){
@@ -4809,39 +4870,43 @@ function callRecordAddTb09(p,flag,gb,data){
 			}
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
-		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
+		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
 	};
-	function commonstyle(row,i,col,j){
+	
+	var commonstyle = function(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
 			tb.cellPadding="0px";
 			tb.cellSpacing="0px";
 			tb.className="Normal_table";
 			tb.id="";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 		}
-		if(j==0||j==2)cf.setCss(col,{width:109+"px"});
-		if(j==1)cf.setCss(col,{width:351+"px"});
+		if(j==0||j==2)cf.setCss(col,{width:"109px"});
+		if(j==1)cf.setCss(col,{width:"351px"});
 	};
 };
-function salespop02_tablecellaction_addtb09(tds,data,row,i,col,j){
+
+var salespop02_tablecellaction_addtb09 = function(tds,data,row,i,col,j){
 	var txt=col.innerHTML;
 	col.innerHTML="";	
 	if(j==1){
 		var ipt=cf.mkTag("input",col);
 		ipt.id="pop_in_target_id";
 		ipt.value=txt;
-		cf.setCss(ipt,{width:90+"%"});
+		cf.setCss(ipt,{width:"90%"});
 	}else if(j==3){
 		var ipt=cf.mkTag("input",col);
 		ipt.id="pop_in_place_of_business";
 		ipt.value=txt;
-		cf.setCss(ipt,{width:90+"%"});
+		cf.setCss(ipt,{width:"90%"});
 	}
 };
+
 //ETC 추가
-function recordAddPopTb02(p,flag,data){
+var recordAddPopTb02 = function(p,flag,data){
 	p.innerHTML="";
 	var tit01=cf.mkTag("div",p),
 		tbdv01=cf.mkTag("div",p),
@@ -4871,19 +4936,21 @@ function recordAddPopTb02(p,flag,data){
 	callRecordAddTb07(tbdv03,flag,data);
 	callRecordAddTb08(tbdv04,flag,data);
 	
-	cf.setCss(tit01,{height:20+"px",marginTop:15+"px"});
-	cf.setCss(tit02,{height:20+"px",marginTop:15+"px"});
-	cf.setCss(tit03,{height:20+"px",marginTop:15+"px"});
-	cf.setCss(tit04,{height:20+"px",marginTop:15+"px"});
+	cf.setCss(tit01,{height:"20px",marginTop:"15px"});
+	cf.setCss(tit02,{height:"20px",marginTop:"15px"});
+	cf.setCss(tit03,{height:"20px",marginTop:"15px"});
+	cf.setCss(tit04,{height:"20px",marginTop:"15px"});
 	cf.setCss(cl1,{clear:"both"});
 	cf.setCss(cl2,{clear:"both"});
 	cf.setCss(cl3,{clear:"both"});
 	//cf.setCss(p,{paddingBottom:20+"px"});
 };
-function callRecordAddTb05(p,flag,data){
+
+var callRecordAddTb05 = function(p,flag,data){
 	p.innerHTML="";
 	if(flag=="add")var tbar=[["구분","","모델명","","",""],["Description(기간)","","","","수량",""],["List Price","","","","",""]];
 	else var tbar=[["구분",data[0],"모델명",data[1],"",""],["Description(기간)",data[2],"","","수량",data[4]],["List Price",data[5],"","","",""]];
+	
 	var tds=new TABLE({
 		p:p,
 		arr:tbar,
@@ -4892,6 +4959,7 @@ function callRecordAddTb05(p,flag,data){
 		colspans:[{y:0, x:3, howmany:3},{y:1, x:1, howmany:3},{y:2, x:1, howmany:5}],
 		rowspans:[]
 	});
+	
 	tds.trav(function(row,i){
 		row.trav(function(col,j){
 			if(col!=undefined){
@@ -4905,24 +4973,27 @@ function callRecordAddTb05(p,flag,data){
 			}				
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
-		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
+		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
 	};
-	function commonstyle(row,i,col,j){
+	
+	var commonstyle = function(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
 			tb.cellPadding="0px";
 			tb.cellSpacing="0px";
 			tb.className="Normal_table";
 			tb.id="";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 		}
-		if(j==0||j==2||j==4)cf.setCss(col,{width:109+"px"});
-		else if(i==0&&j==1)cf.setCss(col,{width:159+"px"});
-		else if(i==1&&j==5)cf.setCss(col,{width:219+"px"});
+		if(j==0||j==2||j==4)cf.setCss(col,{width:"109px"});
+		else if(i==0&&j==1)cf.setCss(col,{width:"159px"});
+		else if(i==1&&j==5)cf.setCss(col,{width:"219px"});
 	};	
 };
-function salespop02_tablecellaction_addtb05(tds,data,row,i,col,j,flag){
+
+var salespop02_tablecellaction_addtb05 = function(tds,data,row,i,col,j,flag){
 	var txt=col.innerHTML;
 	col.innerHTML="";
 	
@@ -4932,14 +5003,14 @@ function salespop02_tablecellaction_addtb05(tds,data,row,i,col,j,flag){
 			select.style.width=95+"px";
 			select.id="pop_in_sales_gb";
 			mkSelect(select,BRANDLIST,txt);
-			cf.setCss(select,{width:130+"px"});			
+			cf.setCss(select,{width:"130px"});			
 			if(flag=="modi")mkHidden(data[16],"pop_sales_record_id",col);
 			else mkHidden("","pop_sales_record_id",col);
 		}else if(j==3){
 			var ipt=cf.mkTag("input",col);
 			ipt.id="pop_in_model";
 			ipt.value=txt;
-			cf.setCss(ipt,{width:95+"%"});
+			cf.setCss(ipt,{width:"95%"});
 		}else col.innerHTML=txt;
 	}else if(i==1){
 		if(j==1){
@@ -5005,9 +5076,9 @@ function salespop02_tablecellaction_addtb05(tds,data,row,i,col,j,flag){
 					}
 				}
 			};
-			cf.setCss(span,{marginLeft:20+"px",marginRight:20+"px"});
-			cf.setCss(ipt1,{width:129+"px"});
-			cf.setCss(ipt2,{width:129+"px"});
+			cf.setCss(span,{marginLeft:"20px",marginRight:"20px"});
+			cf.setCss(ipt1,{width:"129px"});
+			cf.setCss(ipt2,{width:"129px"});
 		}else if(j==5){
 			col.className="txt_left pd10";
 			var ipt=cf.mkTag("input",col);
@@ -5051,7 +5122,7 @@ function salespop02_tablecellaction_addtb05(tds,data,row,i,col,j,flag){
 					}else dc.value=purchase_dc.toFixed(2);
 				}
 			};
-			cf.setCss(ipt,{width:119+"px"});
+			cf.setCss(ipt,{width:"119px"});
 		}else col.innerHTML=txt;
 	}else if(i==2){
 		if(j==1){
@@ -5083,11 +5154,12 @@ function salespop02_tablecellaction_addtb05(tds,data,row,i,col,j,flag){
 					dc.value=purchase_dc.toFixed(2);
 				}
 			};
-			cf.setCss(ipt,{width:470+"px"});
+			cf.setCss(ipt,{width:"470px"});
 		}
 	}else col.innerHTML=txt;
 };
-function callRecordAddTb06(p,flag,data){
+
+var callRecordAddTb06 = function(p,flag,data){
 	p.innerHTML="";
 	if(flag=="add")var tbar=[["단가","","매출액","","DC Rate",""]];
 	else var tbar=[["단가",data[6],"매출액",data[7],"DC Rate",data[8]]];
@@ -5100,6 +5172,7 @@ function callRecordAddTb06(p,flag,data){
 		colspans:[],
 		rowspans:[]
 	});
+	
 	tds.trav(function(row,i){
 		row.trav(function(col,j){
 			if(col!=undefined){
@@ -5115,9 +5188,11 @@ function callRecordAddTb06(p,flag,data){
 			}				
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
-		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
-	};
+		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
+	}
+	
 	function commonstyle(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
@@ -5125,14 +5200,15 @@ function callRecordAddTb06(p,flag,data){
 			tb.cellSpacing="0px";
 			tb.className="Normal_table";
 			tb.id="";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 		}
-		if(j==0||j==2||j==4)cf.setCss(col,{width:109+"px"});
-		else if(j==1)cf.setCss(col,{width:159+"px"});
-		else if(j==5)cf.setCss(col,{width:219+"px"});
-	};	
+		if(j==0||j==2||j==4)cf.setCss(col,{width:"109px"});
+		else if(j==1)cf.setCss(col,{width:"159px"});
+		else if(j==5)cf.setCss(col,{width:"219px"});
+	}
 };
-function salespop02_tablecellaction_addtb06(tds,data,row,i,col,j){
+
+var salespop02_tablecellaction_addtb06 = function(tds,data,row,i,col,j){
 	var txt=col.innerHTML;
 	col.innerHTML="";	
 	if(j==1){
@@ -5153,7 +5229,7 @@ function salespop02_tablecellaction_addtb06(tds,data,row,i,col,j){
 			price.value=sum.toFixed(0);
 			str.innerHTML=comma(sum.toFixed(0));
 		};
-		cf.setCss(ipt,{width:90+"%"});
+		cf.setCss(ipt,{width:"90%"});
 	}else if(j==3){
 		var dv=cf.mkTag("div",col),
 			str=cf.mkTag("div",dv),
@@ -5189,13 +5265,15 @@ function salespop02_tablecellaction_addtb06(tds,data,row,i,col,j){
 			this.value=comma(uncomma(e.target.value));
 			checkChar(e,this);
 		};
-		cf.setCss(ipt,{width:99+"px"});
+		cf.setCss(ipt,{width:"99px"});
 	}
 };
-function callRecordAddTb07(p,flag,data){
+
+var callRecordAddTb07 = function(p,flag,data){
 	p.innerHTML="";
 	if(flag=="add")var tbar=[["단가","","매입가","","DC Rate",""]];
 	else var tbar=[["단가",data[9],"매입가",data[10],"DC Rate",data[11]]];
+	
 	var tds=new TABLE({
 		p:p,
 		arr:tbar,
@@ -5204,6 +5282,7 @@ function callRecordAddTb07(p,flag,data){
 		colspans:[],
 		rowspans:[]
 	});
+	
 	tds.trav(function(row,i){
 		row.trav(function(col,j){
 			if(col!=undefined){
@@ -5219,24 +5298,25 @@ function callRecordAddTb07(p,flag,data){
 			}				
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
-		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
-	};
+		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
+	}
+	
 	function commonstyle(row,i,col,j){
 		if(i==0){
 			var tb=col.parentNode.parentNode;
-			tb.cellPadding="0px";
-			tb.cellSpacing="0px";
-			tb.className="Normal_table";
-			tb.id="";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			Object.assign(tb, {cellpadding:0, cellspacing:0, className:"Normal_table"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 		}
-		if(j==0||j==2||j==4)cf.setCss(col,{width:109+"px"});
-		else if(j==1)cf.setCss(col,{width:159+"px"});
-		else if(j==5)cf.setCss(col,{width:219+"px"});
-	};	
+		
+		if(j==0||j==2||j==4)cf.setCss(col,{width:"109px"});
+		else if(j==1)cf.setCss(col,{width:"159px"});
+		else if(j==5)cf.setCss(col,{width:"219px"});
+	}	
 };
-function salespop02_tablecellaction_addtb07(tds,data,row,i,col,j){
+
+var salespop02_tablecellaction_addtb07 = function(tds,data,row,i,col,j){
 	var txt=col.innerHTML;
 	col.innerHTML="";	
 	if(j==1){
@@ -5273,7 +5353,7 @@ function salespop02_tablecellaction_addtb07(tds,data,row,i,col,j){
 				if(isNumber(dc.value)==true)dc.value=purchase_dc.toFixed(2);
 			}
 		};
-		cf.setCss(ipt,{width:90+"%"});
+		cf.setCss(ipt,{width:"90%"});
 	}else if(j==3){
 		var dv=cf.mkTag("div",col),
 			str=cf.mkTag("div",dv),
@@ -5306,13 +5386,15 @@ function salespop02_tablecellaction_addtb07(tds,data,row,i,col,j){
 		ipt.readOnly=true;
 		span.innerHTML="%";
 		ipt.value=txt;
-		cf.setCss(ipt,{width:99+"px",backgroundColor:"#eee"});
+		cf.setCss(ipt,{width:"99px",backgroundColor:"#eee"});
 	}
 };
-function callRecordAddTb08(p,flag,data){
+
+var callRecordAddTb08 = function(p,flag,data){
 	p.innerHTML="";
 	if(flag=="add")var tbar=[["구매처","","결재조건","","",""]];
 	else var tbar=[["구매처",data[12],"결재조건",data[13],"",""]];
+	
 	var tds=new TABLE({
 		p:p,
 		arr:tbar,
@@ -5321,6 +5403,7 @@ function callRecordAddTb08(p,flag,data){
 		colspans:[{y:0, x:3, howmany:3}],
 		rowspans:[]
 	});
+	
 	tds.trav(function(row,i){
 		row.trav(function(col,j){
 			if(col!=undefined){
@@ -5334,30 +5417,31 @@ function callRecordAddTb08(p,flag,data){
 			}
 		});
 	});
+	
 	function headerstyle(row,i,col,j){
-		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:1+"px solid #e3e3e3",borderRight:1+"px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:12+"px"});
-	};
+		cf.setCss(col,{backgroundColor:"#fafafa",borderLeft:"1px solid #e3e3e3",borderRight:"1px solid #e3e3e3",fontWeight:"600",textAlign:"center",fontSize:"12px"});
+	}
+	
 	function commonstyle(row,i,col,j){
 		if(i==0){
-			var tb=col.parentNode.parentNode;
-			tb.cellPadding="0px";
-			tb.cellSpacing="0px";
-			tb.className="Normal_table";
-			tb.id="";			
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all",borderLeft:1+"px solid #e3e3e3"});
+			var tb=col.parentNode.parentNode;			
+			Object.assign(tb, {cellpadding:0, cellspacing:0, className:"Normal_table"});			
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all",borderLeft:"1px solid #e3e3e3"});
 		}
-		if(j==0||j==2)cf.setCss(col,{width:109+"px"});
-		if(j==1)cf.setCss(col,{width:159+"px"});
-	};
+		
+		if(j==0||j==2)cf.setCss(col,{width:"109px"});
+		if(j==1)cf.setCss(col,{width:"159px"});
+	}
 };
-function salespop02_tablecellaction_addtb08(tds,data,row,i,col,j){
+
+var salespop02_tablecellaction_addtb08 = function(tds,data,row,i,col,j){
 	var txt=col.innerHTML;
 	col.innerHTML="";	
 	if(j==1){
 		var ipt=cf.mkTag("input",col);
 		ipt.id="pop_in_supplier";
 		ipt.value=txt;
-		cf.setCss(ipt,{width:90+"%"});
+		cf.setCss(ipt,{width:"90%"});
 	}else if(j==3){
 		col.className="txt_left pd10";
 		var select=cf.mkTag("select",col),
@@ -5368,7 +5452,7 @@ function salespop02_tablecellaction_addtb08(tds,data,row,i,col,j){
 		ipt.id="pop_in_purchase_pay_method";
 		if(data)ipt.value=data[14];
 		ipt.onblur=payMethod;
-		cf.setCss(select,{width:100+"px"});
-		cf.setCss(ipt,{width:300+"px",marginLeft:5+"px"});
+		cf.setCss(select,{width:"100px"});
+		cf.setCss(ipt,{width:"300px",marginLeft:"5px"});
 	}
 };

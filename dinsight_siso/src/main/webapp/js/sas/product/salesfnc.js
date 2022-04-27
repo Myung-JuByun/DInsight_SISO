@@ -1,6 +1,6 @@
 var BRANDLIST,METHODLIST,PAYLIST,ETCLIST,SELECT_brand,saleslist,paymentlist,searchCompany,searchContract,prev,prev_resp;
 
-function defaultLoadList(){
+var defaultLoadList = function(){
 	var obj={year:CurrentDate[0],month:CurrentDate[1],companyname:"",pjcode:"",brandcd:""};	
 	callProductSalesData(obj, function(data){
 		paymentlist=data.paymentList;
@@ -27,17 +27,21 @@ function defaultLoadList(){
 		});
 	};
 };
-function searchAdmin(){
+
+var searchAdmin = function(){
 	prev=null;	
 	var obj={year:$("#sh_product_sales_year").val(),month:$("#sh_product_sales_month").val(),companyname:searchCompany.value,
 			pjcode:searchContract.value,brandcd:SELECT_brand.value};
+			
 	callProductSalesData(obj, function(data){
 		paymentlist=data.paymentList;
 		saleslist=data.salesList;
 	});
+	
 	dataset();
 	productAdminList(saleslist);
-	function dataset(){
+	
+	var dataset = function(){
 		saleslist.trav(function(d,i){
 			if(!d.insert_date)d.insert_date="";
 			if(!d.contract_number)d.contract_number="";
@@ -51,10 +55,10 @@ function searchAdmin(){
 		});
 	};
 };
-function pjcodeSave(con,opt){
+
+var pjcodeSave = function(con,opt){
 	if(opt){
-		var pjcode=document.getElementById("searchPjtCode");
-		pjcode.value=prev_pjcode.sales_project_code;
+		$("#searchPjtCode").val(prev_pjcode.sales_project_code);
 		cf.killTag(con);
 	}else{
 		var chk=false,chklist,salesname="매입/매출";
@@ -85,140 +89,86 @@ function pjcodeSave(con,opt){
 			});	
 		}
 		if(chk){
-			var pjcode=document.getElementById("pjcode");
-			pjcode.value=prev_pjcode.sales_project_code;
+			$("#pjcode").val(prev_pjcode.sales_project_code);
+			$("#pjcode_id").val(prev_pjcode.sales_project_id);
+			$("#contract_id").val(prev_pjcode.contract_id);
+			$("#companyname").val(prev_pjcode.company_name);
+			$("#companyid").val(prev_pjcode.company_id);
+			$("#address").val(prev_pjcode.company_address);
+			$("#cus_division").val(prev_pjcode.customer_division);
+			$("#cus_name").val(prev_pjcode.customer_name);
+			$("#cus_id").val(prev_pjcode.customer_id);
+			$("#cus_tel").val(prev_pjcode.customer_tel);
+			$("#cus_mobile").val(prev_pjcode.customer_hp);
+			$("#cus_email").val(prev_pjcode.customer_email);
+			$("#tax_division").val(prev_pjcode.invoice_division);
+			$("#tax_name").val(prev_pjcode.invoice_name);
+			$("#tax_id").val(prev_pjcode.invoice_id);
+			$("#tax_tel").val(prev_pjcode.invoice_tel);
+			$("#tax_mobile").val(prev_pjcode.invoice_hp);
+			$("#tax_email").val(prev_pjcode.invoice_email);
 			
-			var pjcode_id=document.getElementById("pjcode_id");
-			pjcode_id.value=prev_pjcode.sales_project_id;
-			
-			var contract_id=document.getElementById("contract_id");
-			contract_id.value=prev_pjcode.contract_id;
-			
-			var companyname=document.getElementById("companyname");
-			companyname.value=prev_pjcode.company_name;
-			
-			var companyid=document.getElementById("companyid");
-			companyid.value=prev_pjcode.company_id;
-			
-			var address=document.getElementById("address");
-			address.value=prev_pjcode.company_address;
-			
-			var cus_division=document.getElementById("cus_division");
-			cus_division.value=prev_pjcode.customer_division;
-			
-			var cus_name=document.getElementById("cus_name");
-			cus_name.value=prev_pjcode.customer_name;
-			
-			var cus_id=document.getElementById("cus_id");
-			cus_id.value=prev_pjcode.customer_id;
-			
-			var cus_tel=document.getElementById("cus_tel");
-			cus_tel.value=prev_pjcode.customer_tel;
-			
-			var cus_mobile=document.getElementById("cus_mobile");
-			cus_mobile.value=prev_pjcode.customer_hp;
-			
-			var cus_email=document.getElementById("cus_email");
-			cus_email.value=prev_pjcode.customer_email;
-			
-			var tax_division=document.getElementById("tax_division");
-			tax_division.value=prev_pjcode.invoice_division;
-			
-			var tax_name=document.getElementById("tax_name");
-			tax_name.value=prev_pjcode.invoice_name;
-			
-			var tax_id=document.getElementById("tax_id");
-			tax_id.value=prev_pjcode.invoice_id;
-			
-			var tax_tel=document.getElementById("tax_tel");
-			tax_tel.value=prev_pjcode.invoice_tel;
-			
-			var tax_mobile=document.getElementById("tax_mobile");
-			tax_mobile.value=prev_pjcode.invoice_hp;
-			
-			var tax_email=document.getElementById("tax_email");
-			tax_email.value=prev_pjcode.invoice_email;
-			
-			var contract_name=document.getElementById("contract_name"),
-				contractList;			
+			var contract_name=$("#contract_name");
+			var contractList;			
 			callContractDetailData({pjcode:prev_pjcode.sales_project_code}, function(data){
 				contractList=data.salesContractRivisionList;
 			});
-			if(contractList.length>0){
-				contract_name.value=contractList[0].contract_name;
-			}else contract_name.value="선택하세요.";
+			
+			if(contractList.length>0)	contract_name.val(contractList[0].contract_name);
+			else contract_name.val("선택하세요.");
 			
 			cf.killTag(con);
 		}else generalPopOk2("해당 프로젝트는 </br>제출된 "+salesname+" 품의서가 있습니다.",function(){return;});
 	}	
 };
-function companySave(prev_com_obj){
+
+var companySave = function(prev_com_obj){
 	if(!prev_com_obj) generalPopOk2("고객사를 선택하세요.");
 	else searchCompany.value=prev_com_obj.company_name;
 	
-	document.getElementById("my_closs").onclick();
+	$("#my_closs").trigger("click");
 };
-function mkSearch(){
+
+var mkSearch = function(){
 	SELECT_brand.innerHTML="";
 	mkSelect(SELECT_brand, BRANDLIST,"",true);
 };
-function respSave(con,opt){
+
+var respSave = function(con,opt){
 	if(!prev_resp){
 		generalPopOk2("담당자를 선택하세요.");
 	}else{
 		if(opt){
-			var tax_division=document.getElementById("tax_division");
-			tax_division.value=prev_resp.obj.division;
-			
-			var tax_name=document.getElementById("tax_name");
-			tax_name.value=prev_resp.obj.customer_name;
-			
-			var tax_id=document.getElementById("tax_id");
-			tax_id.value=prev_resp.obj.customer_id;
-			
-			var tax_tel=document.getElementById("tax_tel");
-			tax_tel.value=prev_resp.obj.sub_phone_number;
-			
-			var tax_mobile=document.getElementById("tax_mobile");
-			tax_mobile.value=prev_resp.obj.mobile;
-			
-			var tax_email=document.getElementById("tax_email");
-			tax_email.value=prev_resp.obj.email;
+			$("#tax_division").val(prev_resp.obj.division);
+			$("#tax_name").val(prev_resp.obj.customer_name);
+			$("#tax_id").val(prev_resp.obj.customer_id);
+			$("#tax_tel").val(prev_resp.obj.sub_phone_number);
+			$("#tax_mobile").val(prev_resp.obj.mobile);
+			$("#tax_email").val(prev_resp.obj.email);
 		}else{
-			var cus_division=document.getElementById("cus_division");
-			cus_division.value=prev_resp.obj.division;
-			
-			var cus_name=document.getElementById("cus_name");
-			cus_name.value=prev_resp.obj.customer_name;
-			
-			var cus_id=document.getElementById("cus_id");
-			cus_id.value=prev_resp.obj.customer_id;
-			
-			var cus_tel=document.getElementById("cus_tel");
-			cus_tel.value=prev_resp.obj.sub_phone_number;
-			
-			var cus_mobile=document.getElementById("cus_mobile");
-			cus_mobile.value=prev_resp.obj.mobile;
-			
-			var cus_email=document.getElementById("cus_email");
-			cus_email.value=prev_resp.obj.email;
+			$("#cus_division").val(prev_resp.obj.division);
+			$("#cus_name").val(prev_resp.obj.customer_name);
+			$("#cus_id").val(prev_resp.obj.customer_id);
+			$("#cus_tel").val(prev_resp.obj.sub_phone_number);
+			$("#cus_mobile").val(prev_resp.obj.mobile);
+			$("#cus_email").val(prev_resp.obj.email);
 		}
+		
 		cf.killTag(con.parentNode);
 	}
 };
-function memberInsert(con){
+
+var memberInsert = function(con){
 	if(!prev_user) generalPopOk2("사원을 선택하세요.");
 	else{
-		var name=document.getElementById("staff_name");
-		var id=document.getElementById("staff_id");
-		
-		name.value=prev_user.obj.division_name;
-		id.value=prev_user.obj.division_cd.substring(4,7);
+		$("#staff_name").val(prev_user.obj.division_name);
+		$("#staff_id").val(prev_user.obj.division_cd.substring(4,7));
 		
 		cf.killTag(con.parentNode);
 	}
 };
-function modiDateTen(data,opt){
+
+var modiDateTen = function(data,opt){
 	var y=data.substring(0,4);
 	var m=data.substring(5,7);
 	var d=data.substring(8,10);
@@ -227,9 +177,9 @@ function modiDateTen(data,opt){
 	else var date=y+"-"+m+"-"+d;
 	return date;
 };
-function productSalesPrint(con){
-	function goPrint(){
-		
+
+var productSalesPrint = function(con){
+	var goPrint = function(){		
 		cf.traverse(document.body,function(el){
 			if(el.className=="my-container2")
 				el.style.overflow="";
@@ -253,11 +203,12 @@ function productSalesPrint(con){
 	        prepend : ""
 	    });
 	}
-	goPrint();
 	
+	goPrint();	
 	con.style.overflowY="visble";
 };
-function dateCheck(stat,endd,flag){
+
+var dateCheck = function(stat,endd,flag){
 	if(!stat.value){
 		generalPopOk2("시작일을 먼저 선택하세요");
 		endd.value="";
@@ -300,7 +251,8 @@ function dateCheck(stat,endd,flag){
 		}
 	} 
 };
-function idxList(table,p){
+
+var idxList = function(table,p){
 	var idx;	
 	table.childNodes.trav(function(d,i){
 		if(d==p) cf.killTag(d);
@@ -319,7 +271,8 @@ function idxList(table,p){
 	else if(dv3)prev_pop.alcTemp=$("#alc_salesDetail_contents").find("select, input").serializeArray();
 	
 };
-function idxReturn(table,p){
+
+var idxReturn = function(table,p){
 	var idx;
 	
 	table.childNodes.trav(function(d,i){
@@ -328,14 +281,13 @@ function idxReturn(table,p){
 	
 	return idx;
 };
+
 //분할 자동계산
-function splitAutoCount(table, elemName, delimiter) {
-	var val;
-	
+var splitAutoCount = function(table, elemName, delimiter) {
+	var val;	
 	var tableLength = table.childNodes.length;
 	
-	table.childNodes.trav(function(d, i){
-	
+	table.childNodes.trav(function(d, i){	
 		val=(i+1) + delimiter + tableLength;
 		
 		//d.childNodes[0].childNodes[0].value=val;
@@ -343,23 +295,3 @@ function splitAutoCount(table, elemName, delimiter) {
 		document.getElementsByName(elemName)[i].value=val;		
 	});
 };
-
-/*
-function mkSelect(select, obj, def){
-var op;
-
-select.className="select_pop";
-op=cf.mkTag("option",select);
-op.value="";
-op.innerHTML="선택안함";
-
-obj.trav(function(d,i){
-	op=cf.mkTag("option",select);
-	op.value=obj[i].codeId;
-	op.innerHTML=obj[i].codeName;
-	if(def && obj[i].codeId==def){
-		op.selected="selected";
-	}
-});
-};
-*/

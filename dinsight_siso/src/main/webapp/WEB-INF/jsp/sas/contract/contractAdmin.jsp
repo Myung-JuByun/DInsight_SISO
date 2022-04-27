@@ -2,39 +2,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>   
-<%@page import="java.util.*" %>
-
-<div class="search3" id="mksearch"></div>
-<div class="btn_action" id="mkbtn"></div>
-
-<!-- top table start -->
-<div class="con_table">
-	<div class="Wrap_table">
-		<div style="overflow-y:scroll;">
-			<table class="Normal_table">
-				<thead>
-					<tr>
-						<th width="5%">No.</th>
-						<th width="15%">Project Code</th>
-						<th width="30%">계약서명</th>
-						<th width="35%">파일</th>
-						<th width="5%">버전</th>
-						<th width="15%" class="right">보기</th>
-					</tr>
-				</thead>
-			</table>
-		</div>
-		<div class="codeTable" id="contractTb" style="overflow-y:scroll;">
-			<table class="Normal_table">
-				<tbody id="contract_contents" class="txtclr"></tbody>
-			</table>
-		</div>
-	</div>
-</div>
-<!-- top table end -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>   
+<%@ page import="java.util.*" %>
+<%@ include file="/template/sas/contractAdmin" %>
 
 <script src="/js/sas/contract/contractfnc.js"></script>
 <script src="/js/sas/contract/contractpages.js"></script>
 <script src="/js/sas/contract/contractpop.js"></script>
+<script>
+	$(document).ready(function(){
+		new Vue({
+			el : ".con_table",
+			data : {
+				scroll : "overflow-y:scroll;",
+				no : "No.",
+				pCode : "Project Code",
+				contractName : "계약서명",
+				file : "파일",
+				version : "버전",
+				watch : "보기"
+			}
+		});
+		
+		mkSearchDiv();
+		mkBtnDiv();
+		defaultLoadList();
+	});
+</script>

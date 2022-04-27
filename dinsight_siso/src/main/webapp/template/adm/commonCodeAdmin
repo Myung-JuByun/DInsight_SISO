@@ -1,0 +1,66 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<div id="codeAdmin">
+	<div class="Left_group2">
+		<div class="btn_action">
+			<ul>
+				<li v-for="item in leftBtnList">
+					<a href="javascript:;" :onclick="item.func"><img :src="item.btnImg" :alt="item.altText"/></a>
+				</li>								
+			</ul>
+		</div>	
+		<!--// button end -->
+		<!--  table start -->
+		<div class="left_table2">
+			<div class="">
+				<table style="width:100%" class="Normal_table">
+					<thead>
+					<tr>
+						<th width="100" v-text="groupCode"></th>
+						<th class="right" v-text="groupNm"></th>
+					</tr>
+					</thead>
+				</table>
+				<div class="codeTable">
+					<table style="width:100%" class="Normal_table">
+						<tbody id="groupView">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="Right_group2">
+		<div class="btn_action">
+			<ul>
+				<li v-for="item in rightBtnList">
+					<a href="javascript:;" :onclick="item.func"><img :src="item.btnImg" :alt="item.altText"/></a>
+				</li>								
+			</ul>
+		</div>
+		<!--// button end -->
+		<!--  table start -->
+		<div class="Right_table2">
+			<div class="">
+				<table class="Normal_table">
+					<thead>
+						<tr>
+							<th width="80px" v-text="code"></th>
+							<th width="170px" v-text="codeNm"></th>
+							<th width="310px" v-text="attr1">1</th>
+							<th class="right" width="" v-text="sortOrder"></th>
+						</tr>
+					</thead>
+				</table>
+				<div class="codeTable">
+					<table class="Normal_table">
+						<tbody id="codeView">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!--  //table end -->
+	</div>
+</div>

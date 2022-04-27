@@ -1,15 +1,13 @@
 var DIVISIONS,MEMBERS,DIVISION_ROOT,CURRENT_DIVISION,CURRENT_DIVISION_MEMBERS=new Array(),ROLELIST,EMPLOYTYPELIST,JOBTITLELIST,btnConfirm=false,
 	leaves=[],tree_menu,box,dirSrch,btnDirSrch,checks,prev,prev_mem;
 
-getEls();
-defaultLoadList();
-
 function getEls(){
 	box=document.getElementById("userListView");
 	cf.traverse(document.body,function(el){
 		if(el.className=="tree_menu") tree_menu=el;			
 	});
-};
+}
+
 function defaultLoadList(){
 	callUserDivisionData(function (data){
 		DIVISIONS=data.divisionList;
@@ -152,16 +150,14 @@ function userAdd(){
 	if(!CURRENT_DIVISION){
 		generalPop("부서 선택 후 추가하세요.");
 	}else{
-		var con=document.createElement("div");
-		con.style.width=880+"px";
-		con.style.height=464+"px";
-		con.style.position="absolute";
-		//con.style.backgroundColor="white";
+		var con=$("<div></div>");
+		con.css({width:"880px", height:"464px", position:"absolute"});
 		
 		mkUserinfo(con);
 		callPop(con);
 	}
-};	
+}
+	
 function userModi(){
 	var cnt=0,
 		obj;
@@ -181,11 +177,8 @@ function userModi(){
 		generalPop("한 명만 선택하세요.");
 	}else{
 		//수정가능
-		var con=document.createElement("div");
-		con.style.width=880+"px";
-		con.style.height=464+"px";
-		con.style.position="absolute";
-		con.style.backgroundColor="white";
+		var con=$("<div></div>");
+		con.css({width:"880px", height:"464px", position:"absolute", "background-color":"white"});
 	
 		$.ajax({
 			  url: "/adm/user/userInfo",
@@ -205,7 +198,8 @@ function userModi(){
 		//mkUserinfo(con, obj);
 		callPop(con);
 	}
-};
+}
+
 function userDel(){
 	var cnt=0,
 		del=[];
@@ -241,7 +235,8 @@ function userDel(){
 			prev.onclick();
 		});
 	}
-};
+}
+
 function mksave(son, obj){		
 	var con10=cf.mkTag("div",son),
 		btn1=cf.mkTag("button",con10),

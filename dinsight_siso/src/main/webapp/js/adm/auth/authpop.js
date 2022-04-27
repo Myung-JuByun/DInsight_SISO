@@ -2,20 +2,15 @@ var PREV_TR, CURRENT_AUTH;
 
 //메뉴 권한설정
 function authPop(){	
-	var con=document.createElement("div");
-	con.style.width=1000+"px";
-	con.style.height=660+"px";
-	con.style.position="absolute";	
-	con.innerHTML="";
+	var con=$("<div></div>");
+	con.html("");
+	con.css({width:"1000px", height:"660px", position:"absolute"});	
 	
 	var con0=cf.mkTag("div",con),
 		con1=cf.mkTag("div",con0);
 	con0.className="pop-mypage";
-	con1.id="pop_my";
-	con1.style.width=1000+"px";
-	con1.style.height=660+"px";
-	con1.style.border=2+"px solid black";
-	con1.style.backgroundColor="white";
+	con1.id="pop_my";	
+	cf.setCss(con1, {width:"1000px", height:"660px", border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1),
 		span=cf.mkTag("span",con2);
@@ -25,11 +20,9 @@ function authPop(){
 	var con2_a=cf.mkTag("a",con2);
 	con2_a.href="#";
 	con2_a.className="my_top_closs";
-	var con2_img=cf.mkTag("img",con2_a);
-	con2_img.src="/images/pop_btn/btn_pop_close.png";
-	con2_img.id="my_closs1";
-	con2_img.alt="닫기";
-	con2_img.align="right";
+	
+	var con2_img=cf.mkTag("img",con2_a);	
+	Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs1", alt:"닫기", align:"right"});
 	con2_img.onmousedown=function(e){
 		CURRENT_AUTH=null;
 		cf.killTag(con.parentNode);
@@ -45,38 +38,28 @@ function authPop(){
 	con4.id="con_table";
 	
 	//상세화면 그리기
-	authViewPop(con4);
-	
+	authViewPop(con4);	
 	callPop(con);
 	
 	//메뉴 트리 생성
 	dataMenuProc();
 	mkMenu();
-};
+}
+
 function authViewPop(con){	
 	//권한
-	var authDiv=cf.mkTag("div",con);
-	authDiv.style.float="left";
-	authDiv.style.width="32%";
-	authDiv.style.position="relative";
+	var authDiv=cf.mkTag("div",con);	
+	cf.setCss(authDiv, {float:"left", width:"32%", position:"relative"});
 	
 	var div=cf.mkTag("div",authDiv);
 	div.className="title2";
 	div.innerHTML="권한";
 	
-	var div=cf.mkTag("div",authDiv);
-	div.style.width="100%";
-	div.style.height="500px";
-	div.style.borderTop="2px solid black";
-	div.style.borderBottom="2px solid black";
-	div.style.marginTop="10px";
-	div.style.overflow="auto";
+	var div=cf.mkTag("div",authDiv);	
+	cf.setCss(div, {width:"100%", height:"500px", borderTop:"2px solid black", borderBottom:"2px solid black", marginTop:"10px", overflow:"auto"});
 	
-	var table=cf.mkTag("table", div);
-	table.cellPadding="0";
-	table.cellSpacing="0";
-	table.width="260";
-	table.className="Normal_table";
+	var table=cf.mkTag("table", div);	
+	Object.assign(table, {cellPadding:0, cellSpacing:0, width:"260px", className:"Normal_table"});
 	
 	var thead=cf.mkTag("thead", table);
 	var tr=cf.mkTag("tr", thead);
@@ -150,28 +133,18 @@ function authViewPop(con){
 	span.innerHTML="&nbsp;";
 	
 	//메뉴 트리
-	var treeDiv=cf.mkTag("div",con);
-	treeDiv.style.float="left";
-	treeDiv.style.width="32%";
-	treeDiv.style.position="relative";
+	var treeDiv=cf.mkTag("div",con);	
+	cf.setCss(treeDiv, {float:"left", width:"32%", position:"relative"});
 	
 	var div=cf.mkTag("div",treeDiv);
 	div.className="title2";
 	div.innerHTML="&nbsp;";
 	
 	var div=cf.mkTag("div",treeDiv);
-	div.style.width="100%";
-	div.style.height="500px";
-	div.style.borderTop="2px solid black";
-	div.style.borderBottom="2px solid black";
-	div.style.marginTop="10px";
-	div.style.overflow="auto";
+	cf.setCss(div, {width:"100%", height:"500px", borderTop:"2px solid black", borderBottom:"2px solid black", marginTop:"10px", overflow:"auto"});
 	
 	var table=cf.mkTag("table", div);
-	table.cellPadding="0";
-	table.cellSpacing="0";
-	table.width="260";
-	table.className="Normal_table";
+	Object.assign(table, {cellPadding:0, cellSpacing:0, width:"260px", className:"Normal_table"});
 	
 	var tr=cf.mkTag("tr", table);
 	var th=cf.mkTag("th", tr);
@@ -199,27 +172,17 @@ function authViewPop(con){
 	
 	//메뉴 권한 리스트
 	var menuDiv=cf.mkTag("div",con);
-	menuDiv.style.float="left";
-	menuDiv.style.width="32%";
-	menuDiv.style.position="relative";
+	cf.setCss(menuDiv, {float:"left", width:"32%", position:"relative"});
 	
 	var div=cf.mkTag("div",menuDiv);
 	div.className="title2";
 	div.innerHTML="권한 리스트";
 	
-	var div=cf.mkTag("div",menuDiv);
-	div.style.width="100%";
-	div.style.height="500px";
-	div.style.borderTop="2px solid black";
-	div.style.borderBottom="2px solid black";
-	div.style.marginTop="10px";
-	div.style.overflow="auto";
+	var div=cf.mkTag("div",menuDiv);	
+	cf.setCss(div, {width:"100%", height:"500px", borderTop:"2px solid black", borderBottom:"2px solid black", marginTop:"10px", overflow:"auto"});
 	
 	var table=cf.mkTag("table", div);
-	table.cellPadding="0";
-	table.cellSpacing="0";
-	table.width="260";
-	table.className="Normal_table";
+	Object.assign(table, {cellPadding:0, cellSpacing:0, width:"260px", className:"Normal_table"});
 	
 	var thead=cf.mkTag("thead", table);
 	var tr=cf.mkTag("tr", thead);
@@ -256,7 +219,8 @@ function authViewPop(con){
 	button.onclick=function(){
 		delMenuAuth(CURRENT_AUTH);
 	};
-};
+}
+
 //권한리스트 테이블
 function authList(obj){	
 	var tbody=document.getElementById("authPopList");
@@ -293,7 +257,8 @@ function authList(obj){
 		td.className="right";
 		td.innerHTML=d.etc1;
 	});
-};
+}
+
 //메뉴권한 설정 리스트
 function viewMenuAuth(obj){	
 	var tbody=document.getElementById("viewSaveMenuAtuhList");
@@ -333,21 +298,14 @@ function viewMenuAuth(obj){
 //권한추가 팝업
 function authAddPop(){
 	var con=document.createElement("div");
-	con.style.width=400+"px";
-	con.style.height=cf.workareaheight-480+"px";
-	con.style.position="absolute";
-	
-	con.innerHTML="";
+	con.html("");
+	con.css({width:"400px", height:cf.workareaheight-480+"px", position:"absolute"});	
 	
 	var con0=cf.mkTag("div",con);
 	con0.className="pop-mypage";
 	
-	var con1=cf.mkTag("div",con0);
-	//con1.id="pop_my1";
-	con1.style.width=400+"px";
-	//con1.style.height=cf.workareaheight-380+"px";
-	con1.style.border=2+"px solid black";
-	con1.style.backgroundColor="white";
+	var con1=cf.mkTag("div",con0);	
+	con1.css({width:"400px", border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -357,11 +315,9 @@ function authAddPop(){
 	var con2_a=cf.mkTag("a",con2);
 	con2_a.href="#";
 	con2_a.className="my_top_closs";
+	
 	var con2_img=cf.mkTag("img",con2_a);
-	con2_img.src="/images/pop_btn/btn_pop_close.png";
-	con2_img.id="my_closs2";
-	con2_img.alt="닫기";
-	con2_img.align="right";
+	Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs2", alt:"닫기", align:"right"});
 	con2_img.onmousedown=function(e){
 		cf.killTag(con.parentNode);
 	};
@@ -399,13 +355,12 @@ function authAddPop(){
 	};	
 	
 	callPop(con);
-};
+}
+
 //상세보기 - 권한추가
 function authAddViewTable(con) {	
-	var table=cf.mkTag("table",con);
-	table.cellpadding=0;
-	table.cellspacing=0;
-	table.className="Normal_table_pop";
+	var table=cf.mkTag("table",con);	
+	Object.assign(table, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
 	
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);

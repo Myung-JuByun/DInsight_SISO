@@ -6,7 +6,7 @@
 	   <div class="search" style="width:990px;">
 	      <table>
 	         <tr>
-	            <td style="font-weight: bold">{{ paymentRequestDiv }}</td>
+	            <td style="font-weight: bold" v-text="paymentRequestDiv"></td>
 	            <td>
 	            	<select name="sh_payment_type" class="sh_payment_type select2"></select>
 	            </td>
@@ -17,7 +17,7 @@
 	   <div class="Left_wrap2">
 	      <!--  table start -->			
 	      <div class="Left_group4_3">
-	         <div class="title2">{{ organizationMap }}</div>
+	         <div class="title2" v-text="organizationMap"></div>
 	         <div class="left_table4">
 	            <table class="Normal_table">
 	               <tr height="138px">
@@ -48,9 +48,9 @@
 	            <table class='Normal_table'>
 	               <tr>
 	                  <th width='31px'></th>
-	                  <th width='60px'>{{ name }}</th>
-	                  <th width='50px'>{{ position }} </th>
-	                  <th width='90px' class='right'>{{ department }}</th>
+	                  <th width='60px' v-text="name"></th>
+	                  <th width='50px' v-text="position"></th>
+	                  <th width='90px' class='right' v-text="department"></th>
 	                  <th width='10px' class='right'>&nbsp;</th>
 	               </tr>
 	               <tr height='150px'>
@@ -85,7 +85,7 @@
 	   </div>
 	   <!--//left end -->		<!--결재선 순서 지정 -->	
 	   <div class="Right_group4">
-	      <div class="title2">{{ paymentLine }}</div>
+	      <div class="title2" v-text="paymentLine"></div>
 	      <div class="POP_confirm_div">
 	         <ul></ul>
 	      </div>
@@ -103,7 +103,7 @@
 	      <table class="Normal_table">
 	         <tbody>
 	            <tr>
-	               <th width="80"> {{ payment }} </th>
+	               <th width="80" v-text="payment"></th>
 	               <td class="right pd10">
 	                  <table style="height:60px" class="in_table">
 	                     <tr></tr>
@@ -112,7 +112,7 @@
 	               </td>
 	            </tr>
 	            <tr>
-	               <th width="80" class="non-bt"> {{ receive }} </th>
+	               <th width="80" class="non-bt" v-text="receive"></th>
 	               <td class="right pd10" style="border-bottom:none;">
 	                  <table style="height:60px" class="in_table">
 	                     <tr></tr>

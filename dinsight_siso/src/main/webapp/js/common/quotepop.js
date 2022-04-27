@@ -76,12 +76,9 @@ function quoteSrchPop(fnc){
 	con1.id="pop_my";
 	con2.className="my_top";
 	con2_tit.innerHTML="견적서 조회";
-	con2_a.href="#";
-	con2_a.className="my_top_closs";
-	con2_img.src="/images/pop_btn/btn_pop_close.png";
-	con2_img.id="my_closs";
-	con2_img.alt="닫기";
-	con2_img.align="right";
+	con2_a.href="javascript:;";
+	con2_a.className="my_top_closs";	
+	Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs", alt:"닫기", align:"right"});
 	con2_img.onclick=function(){
 		cf.killTag(con.parentNode);
 	};
@@ -95,11 +92,11 @@ function quoteSrchPop(fnc){
 	mkDiv_QuoteSrch(con4);
 	mkDiv_Quote(con5,res.arr,fnc);
 	
-	cf.setCss(con,{width:1150+"px",height:cf.workareaheight-100+"px",position:"absolute"});
-	cf.setCss(con1,{width:1150+"px",height:cf.workareaheight-100+"px",border:2+"px solid black",backgroundColor:"#fff"});
-	cf.setCss(con3,{height:cf.workareaheight-230+"px",paddingTop:25+"px"});
+	cf.setCss(con,{width:"1150px",height:cf.workareaheight-100+"px",position:"absolute"});
+	cf.setCss(con1,{width:"1150px",height:cf.workareaheight-100+"px",border:"2px solid black",backgroundColor:"#fff"});
+	cf.setCss(con3,{height:cf.workareaheight-230+"px",paddingTop:"25px"});
 	cf.setCss(con5,{height:cf.workareaheight-362+"px",overflowY:"auto"});
-	cf.setCss(title,{paddingTop:20+"px"});
+	cf.setCss(title,{paddingTop:"20px"});
 	
 	var con7=cf.mkTag("div",con1),
 		btn1=cf.mkTag("button",con7),
@@ -117,7 +114,7 @@ function quoteSrchPop(fnc){
 	btn2.onclick=function(){
 		cf.killTag(con.parentNode);	
 	};
-	cf.setCss(btn1,{marginRight:5+"px"});
+	cf.setCss(btn1,{marginRight:"5px"});
 	callPop(con);
 };
 function mkDiv_QuoteSrch(p){
@@ -133,9 +130,9 @@ function mkDiv_QuoteSrch(p){
 	select.name="sh_quote_year";
 	mkYearSelect(select);
 	span.innerHTML = "년";
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
-	cf.setCss(bx1,{width:197+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
+	cf.setCss(bx1,{width:"197px"});
 	
 	var	select = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
@@ -143,8 +140,8 @@ function mkDiv_QuoteSrch(p){
 	select.name="sh_quote_month";
 	mkMonthSelect(select,CurrentDate[1],true);
 	span.innerHTML="월";
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
 	
 	var bx2 = cf.mkTag("div", line1),
 		span = cf.mkTag("span", bx2),
@@ -165,9 +162,9 @@ function mkDiv_QuoteSrch(p){
 	img.onclick=function(){
 		companyPopSrch(0,quoteComSave);
 	};	
-	cf.setCss(ipt,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx2,{paddingLeft:21+"px",width:210+"px"});
+	cf.setCss(ipt,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx2,{paddingLeft:"21px",width:"210px"});
 	
 	var cl1=cf.mkTag("div",srch),
 		line2 = cf.mkTag("div",srch),
@@ -177,8 +174,8 @@ function mkDiv_QuoteSrch(p){
 	span.innerHTML = "구분";
 	select.id="quote_sales_type_cd";
 	mkSelect(select,quotepop_brand,"",true);
-	cf.setCss(select,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
+	cf.setCss(select,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
 	
 	var bx4 = cf.mkTag("div", line2),
 		span = cf.mkTag("span", bx4),
@@ -186,9 +183,9 @@ function mkDiv_QuoteSrch(p){
 	span.innerHTML = "영업현황";
 	select.id="quote_sales_status_cd";
 	mkSelect(select,quotepop_status,"",true);
-	cf.setCss(select,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx4,{paddingLeft:35+"px"});
+	cf.setCss(select,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx4,{paddingLeft:"35px"});
 	
 	var bx5 = cf.mkTag("div", line2),
 		span = cf.mkTag("span", bx5),
@@ -196,9 +193,9 @@ function mkDiv_QuoteSrch(p){
 	span.innerHTML = "Type";
 	select.id="quote_brand_cd";
 	mkSelect(select,quotepop_type,"",true);
-	cf.setCss(select,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx5,{paddingLeft:35+"px"});
+	cf.setCss(select,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx5,{paddingLeft:"35px"});
 	
 	var bx6 = cf.mkTag("div", line2),
 		span = cf.mkTag("span", bx6),
@@ -206,9 +203,9 @@ function mkDiv_QuoteSrch(p){
 	span.innerHTML = "담당영업";
 	select.id="quote_user_id";
 	mkSelect(select,quotepop_user,"",true);
-	cf.setCss(select,{width:130+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
-	cf.setCss(bx6,{paddingLeft:35+"px"});
+	cf.setCss(select,{width:"130px"});
+	cf.setCss(span,{paddingRight:"5px"});
+	cf.setCss(bx6,{paddingLeft:"35px"});
 	
 	var bx7 = cf.mkTag("div", line2),
 		img_re=cf.mkTag("img",bx7);
@@ -231,9 +228,9 @@ function mkDiv_QuoteSrch(p){
 	img.style.cursor="pointer";
 	img.onclick=quotePopSrch;
 	
-	cf.setCss(srch,{marginLeft:20+"px"});
+	cf.setCss(srch,{marginLeft:"20px"});
 	cf.setCss(cl1,{clear:"both"});
-	cf.setCss(line2,{marginTop:5+"px"});
+	cf.setCss(line2,{marginTop:"5px"});
 	cf.setCss(div,{position:"absolute",top:0,right:0});
 	cf.setCss(bx1,{float:"left"});
 	cf.setCss(bx2,{float:"left"});
@@ -241,7 +238,7 @@ function mkDiv_QuoteSrch(p){
 	cf.setCss(bx4,{float:"left"});
 	cf.setCss(bx5,{float:"left"});
 	cf.setCss(bx6,{float:"left"});
-	cf.setCss(bx7,{float:"left",paddingLeft:20+"px"});
+	cf.setCss(bx7,{float:"left",paddingLeft:"20px"});
 };
 function mkDiv_Quote(p,data,fnc){
 	prev_qpop="";
@@ -293,12 +290,12 @@ function mkDiv_Quote(p,data,fnc){
 			tb.cellPadding="0px";
 			tb.cellSpacing="0px";
 			tb.className="Normal_table";
-			cf.setCss(tb,{width:100+"%",wordBreak:"break-all"});
+			cf.setCss(tb,{width:"100%",wordBreak:"break-all"});
 		}
-		if(j==0)cf.setCss(col,{width:249+"px"});
-		else if(j==1)cf.setCss(col,{width:269+"px"});
+		if(j==0)cf.setCss(col,{width:"249px"});
+		else if(j==1)cf.setCss(col,{width:"269px"});
 		else if(j==3){
-			cf.setCss(col,{width:99+"px"});
+			cf.setCss(col,{width:"99px"});
 			col.className="right";
 		}
 	};
@@ -315,9 +312,9 @@ function quote01_tablecellaction(tds,data,row,i,col,j,fnc){
 		img.src="/images/ico/ico_filedown.gif";
 		str.innerHTML=txt;
 		div.onclick=function(){
-			window.open(encodeURI("/sas/quote/quoteDownloadAjax.do?sh_quote_id=" + data[i-1][4]));
+			window.open(encodeURI("/sas/quote/quoteDownloadAjax?sh_quote_id=" + data[i-1][4]));
 		};
-		cf.setCss(img,{float:"left",marginRight:3+"px",marginLeft:3+"px"});
+		cf.setCss(img,{float:"left",marginRight:"3px",marginLeft:"3px"});
 		cf.setCss(str,{float:"left",textDecoration:"underline",cursor:"pointer"});
 	}else col.innerHTML=txt;
 	

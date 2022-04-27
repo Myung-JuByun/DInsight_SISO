@@ -9,7 +9,8 @@ function defaultLoadList(){
 	setDate();
 	//리스트, 검색 출력
 	individualList();		
-};	
+}
+	
 //리스트 출력
 function individualList(){	
 	//데이터 검색
@@ -26,15 +27,17 @@ function individualList(){
 			$('.wrap-loading').show();
 		}
 	});
-};
+}
+
 //엑셀다운로드
 function excelDown() {
 	$(location).attr("href","<c:url value='/exp/individual/excelDownload.do?sh_expanse_year=" + $("#sh_expanse_year").val() + "'/>");
-};	
+}
+	
 //년 검색
 function individualSearch() {
 	//$("#searchForm").submit();
 	var obj = {year : $("#sh_expanse_year").val(),month :$("#sh_expanse_month").val(),status : $("#sh_status_cd").val()};
 	srch_obj=obj;
 	individualList();
-};
+}

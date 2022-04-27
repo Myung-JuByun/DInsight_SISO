@@ -1,4 +1,19 @@
 var PREV_BUTTON;
+var GRANT;
+
+function defaultLoadList(){		
+	callDivisionMemberData(function(data){
+		DIVISIONS=data.divisionList;
+		MEMBERS=data.divisionUserList;
+		GRANT=data.grantList;
+		
+		getEls();
+		dataDivisionProc();
+		mkOnlyDivision();
+		authButtonDiv();
+	});
+	tree_menu.style.height="466px";
+}
 
 //멤버 리스트
 function mkMemberTable(){
@@ -13,13 +28,14 @@ function mkMemberTable(){
 			cnt++;
 		}
 	});
+	
 	function mkTr(d,idx){
 		var tr=cf.mkTag("tr",box);
 		tr.style.cursor="pointer";
 		
 		var td1=cf.mkTag("td",tr);
 		td1.align="center";
-		td1.width=27+"px";
+		td1.width="27px";
 		
 		var ipt=cf.mkTag("input",td1);
 		ipt.type="checkbox";
@@ -36,29 +52,30 @@ function mkMemberTable(){
 		
 		var td3=cf.mkTag("td",tr);
 		td3.align="center";
-		td3.width=79+"px";
+		td3.width="79px";
 		var strJob=d.job_title_name;
 		if(strJob && strJob.length>3) strJob=strJob.substring(0,2);
 		td3.innerHTML=strJob;
 				
 		var td4=cf.mkTag("td",tr);
-		td4.width=97+"px";
+		td4.width="97px";
 		td4.align="center";
 		td4.className="right";
 		td4.innerHTML=d.division_name;
 		
 		if(idx==0){
-			cf.setCss(td1,{borderTop:0+"px"});
-			cf.setCss(td2,{borderTop:0+"px"});
-			cf.setCss(td3,{borderTop:0+"px"});
-			cf.setCss(td4,{borderTop:0+"px"});
+			cf.setCss(td1,{borderTop:"0px"});
+			cf.setCss(td2,{borderTop:"0px"});
+			cf.setCss(td3,{borderTop:"0px"});
+			cf.setCss(td4,{borderTop:"0px"});
 		}
 	};
 	
 	if($("input:checkbox[name='UserCheckMode']").is(":checked")){
 		viewAuth(true);
 	}
-};
+}
+
 //권한버튼
 function authButtonDiv(){
 	var div=document.getElementById("authBtn");
@@ -68,7 +85,7 @@ function authButtonDiv(){
 	if(!isNumber(ch))ch=140;
 	
 	cf.setCss(topDiv,{overflow:"auto",paddingTop:ch-20+"px"});
-	cf.setCss(div,{width:100+"%",height:545+"px",textAlign:"center",paddingTop:20+"px"});
+	cf.setCss(div,{width:"100%",height:"545px",textAlign:"center",paddingTop:"20px"});
 	
 	GRANT.trav(function(d){
 		if(d.code_name != "일반") {
@@ -99,9 +116,10 @@ function authButtonDiv(){
 	button.className="ct-btn red normal";
 	button.innerHTML="메뉴 권한설정";
 	button.onclick=authPop;
-	cf.setCss(button,{width:130+"px"});
-	cf.setCss(bottomDiv,{width:100+"%",paddingTop:36+"px",position:"absolute",bottom:0,textAlign:"center"});
-};
+	cf.setCss(button,{width:"130px"});
+	cf.setCss(bottomDiv,{width:"100%",paddingTop:"36px",position:"absolute",bottom:0,textAlign:"center"});
+}
+
 //설정 권한 리스트
 function authViewTable(obj){
 	$("input:checkbox[name='AuthCheckMode']").prop("checked", false);
@@ -113,13 +131,14 @@ function authViewTable(obj){
 		mkTr(d,i);
 		cnt++;
 	});
+	
 	function mkTr(d,idx){
 		var tr=cf.mkTag("tr",box);
 		tr.style.cursor="pointer";
 		
 		var td1=cf.mkTag("td",tr);
 		td1.align="center";
-		td1.width=27+"px";
+		td1.width="27px";
 		
 		var ipt1=cf.mkTag("input",td1),
 			ipt2=cf.mkTag("input",td1);
@@ -132,7 +151,7 @@ function authViewTable(obj){
 		ipt2.value=d.grant_id;
 		
 		var td2=cf.mkTag("td",tr);
-		td2.width=59+"px";
+		td2.width="59px";
 		td2.align="center";
 		td2.innerHTML=d.user_name;
 		
@@ -142,15 +161,15 @@ function authViewTable(obj){
 		
 		var td4=cf.mkTag("td",tr);
 		td4.align="center";
-		td4.width=67+"px";
+		td4.width="67px";
 		td4.className="right";
 		td4.innerHTML=d.grant_name;
 		
 		if(idx==0){
-			cf.setCss(td1,{borderTop:0+"px"});
-			cf.setCss(td2,{borderTop:0+"px"});
-			cf.setCss(td3,{borderTop:0+"px"});
-			cf.setCss(td4,{borderTop:0+"px"});
+			cf.setCss(td1,{borderTop:"0px"});
+			cf.setCss(td2,{borderTop:"0px"});
+			cf.setCss(td3,{borderTop:"0px"});
+			cf.setCss(td4,{borderTop:"0px"});
 		}
 	};
 };

@@ -33,24 +33,22 @@ function callTopInfo(){
 		});
 	};
 	
-	cf.setCss(div1,{float:"left",marginLeft:5+"px"});
-	cf.setCss(str1,{float:"left",marginLeft:5+"px",cursor:"pointer"});
-	cf.setCss(div2,{float:"left",marginLeft:5+"px",cursor:"pointer"});
-	cf.setCss(div3,{float:"left",marginLeft:5+"px",cursor:"pointer"});
-	cf.setCss(div4,{float:"left",marginLeft:5+"px",cursor:"pointer"});
-	cf.setCss(div5,{float:"left",marginLeft:5+"px",cursor:"pointer"});
+	cf.setCss(div1,{float:"left",marginLeft:"5px"});
+	cf.setCss(str1,{float:"left",marginLeft:"5px",cursor:"pointer"});
+	cf.setCss(div2,{float:"left",marginLeft:"5px",cursor:"pointer"});
+	cf.setCss(div3,{float:"left",marginLeft:"5px",cursor:"pointer"});
+	cf.setCss(div4,{float:"left",marginLeft:"5px",cursor:"pointer"});
+	cf.setCss(div5,{float:"left",marginLeft:"5px",cursor:"pointer"});
 	cf.setCss(img1,{float:"left",verticalAlign:"middle"});
 	cf.setCss(img2,{verticalAlign:"middle"});
 	cf.setCss(img3,{verticalAlign:"middle"});
 	cf.setCss(img4,{verticalAlign:"middle"});
 	cf.setCss(img5,{verticalAlign:"middle"});
-	cf.setCss(p,{position:"absolute",right:150+"px",marginBottom:64+"px",fontSize:13+"px",paddingTop:20+"px"});//,width:380+"px"
+	cf.setCss(p,{position:"absolute",right:"150px",marginBottom:"64px",fontSize:"13px",paddingTop:"20px"});//,width:380+"px"
 };
 function pfn_mypage(result){
 	var con=document.createElement("div");
-		con.style.width=884+"px";
-		con.style.height=464+"px";
-		con.style.position="absolute";
+		Object.assign(con.style, {width:"884px", height:"464px", position:"absolute"});
 		con.innerHTML="";
 	var hdr=mkHdr(),
 		con2=hdr.con2,
@@ -62,30 +60,37 @@ function pfn_mypage(result){
 	mkuserTb(con7_tbl, result);
 	mkdivisionTb(con9_tbl, result);
 	mksave(con4, result);
+	
 	function mkHdr(){
 		var con1=cf.mkTag("div",con);
 		con1.className="pop-mypage";
+		
 		var con2=cf.mkTag("div",con1);
 		con2.id="pop_my";
-		con2.className="pop-mypage";
-		con2.style.border=2+"px solid black";
-		con2.style.backgroundColor="white";
-		con2.style.height=464+"px";
+		con2.className="pop-mypage";		
+		Object.assign(con2.style, {border:"2px solid black", backgroundColor:"white", height:"464px"});
+		
 		var con3=cf.mkTag("div",con2);
 		con3.className="my_top";
+		
 		var con3_text=cf.mkTag("span",con3);
 		con3_text.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;MY PAGE";
+		
 		var con3_a=cf.mkTag("a",con3);
-		con3_a.href="#";
+		con3_a.href="javascript:;";
 		con3_a.className="my_top_closs";
+		
 		var con3_img=cf.mkTag("img",con3_a);
-		con3_img.src="/images/pop_btn/btn_pop_close.png";
-		con3_img.id="my_closs";
-		con3_img.alt="닫기";
-		con3_img.align="right";
+		Object.assign(con3_img, {
+			src:"/images/pop_btn/btn_pop_close.png",
+			id:"my_closs",
+			alt:"닫기",
+			align:"right"
+		});		
 		con3_img.onclick=function(){
 			cf.killTag(con.parentNode);
-		};
+		}
+		
 		var con4=cf.mkTag("div",con2);
 		con4.className="my-container";
 		
@@ -113,7 +118,7 @@ function pfn_mypage(result){
 		var con9_tbl=cf.mkTag("table",con9);
 		con9_tbl.cellpadding=0;
 		con9_tbl.cellspacing=0;
-		con9_tbl.width=792+"px";
+		con9_tbl.width="792px";
 		con9_tbl.className="Normal_table_pop";
 		return {con7_tbl:con7_tbl, con9_tbl:con9_tbl};
 	};		
@@ -129,7 +134,7 @@ function pfn_mypage(result){
 		var th1=cf.mkTag("th",tr),
 			td1=cf.mkTag("td",tr);
 		
-		th1.style.width=100+"px";
+		th1.style.width=+"100px";
 		td1.className="right pd10";
 		td1.id="login_id";
 		td1.className="right pd10";
@@ -139,17 +144,17 @@ function pfn_mypage(result){
 		var pw=cf.mkTag("button",td1);
 		pw.className="ct-btn blue td";
 		pw.innerHTML="비밀번호 변경";
-		pw.style.marginLeft=20+"px";
+		pw.style.marginLeft="20px";
 		pw.onclick=changePw;
 		
 		var th2=cf.mkTag("th",tr1),
 			td2=cf.mkTag("td",tr1),
 			th3=cf.mkTag("th",tr1),
 			td3=cf.mkTag("td",tr1);
-		th2.style.width=100+"px";
-		th3.style.width=100+"px";
+		th2.style.width="100px";
+		th3.style.width="100px";
 		td2.className="pd10";
-		td2.style.width=283+"px";
+		td2.style.width="283px";
 		td3.className="right pd10";
 		th2.innerHTML="이름";
 		th3.innerHTML="영문이름";
@@ -301,9 +306,9 @@ function pfn_mypage(result){
 			td1=cf.mkTag("td",tr),
 			th2=cf.mkTag("th",tr),
 			td2=cf.mkTag("td",tr);
-		th1.style.width=100+"px";
-		th2.style.width=100+"px";
-		td1.style.width=283+"px";
+		th1.style.width="100px";
+		th2.style.width="100px";
+		td1.style.width="283px";
 		td1.className="pd10";
 		td2.className="right pd10";
 		th1.innerHTML="부서";
@@ -394,11 +399,7 @@ function pfn_mypage(result){
 	};
 	function changePw(){
 		var con=document.createElement("div");
-		con.style.width=350+"px";
-		con.style.height=200+"px";
-		con.style.position="absolute";
-		//con.style.backgroundColor="white";
-		
+		Object.assign(con.style, {width:"350px", height:"200px", position:"absolute"});		
 		con.innerHTML="";
 		
 		var con1=cf.mkTag("div",con);
@@ -425,7 +426,7 @@ function pfn_mypage(result){
 		var tr=cf.mkTag("tr",tbd),
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.width=100+"px";
+		th.style.width="100px";
 		td.className="right";
 		th.innerHTML="기존 비밀번호";
 		var input=cf.mkTag("input",td);

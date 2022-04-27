@@ -1,8 +1,4 @@
-mkSearchDiv();
-defaultLoadList();	
-autoHeight();
-
-function mkSearchDiv(){
+var mkSearchDiv = function(){
 	var p=document.getElementById("searchDiv");
 	p.innerHTML = "";
 	
@@ -14,9 +10,9 @@ function mkSearchDiv(){
 	select.id = "sh_sales_year";
 	select.name = "sh_sales_year";
 	span.innerHTML = "년";
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
-	cf.setCss(bx1,{width:280+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
+	cf.setCss(bx1,{width:"280px"});
 	
 	var	select = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
@@ -24,16 +20,16 @@ function mkSearchDiv(){
 	select.name = "sh_sales_month";
 	mkMonthSelect(select,CurrentDate[1]);
 	span.innerHTML = "월";
-	cf.setCss(select,{width:60+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
+	cf.setCss(select,{width:"60px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
 	
 	var	select = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
 	select.id = "sh_sales_week";
 	select.name = "sh_sales_week";
 	span.innerHTML = "주차";
-	cf.setCss(select,{width:50+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
+	cf.setCss(select,{width:"50px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
 
 	var bx2 = cf.mkTag("div", line1);
 	bx2.id = "weekDate";
@@ -46,12 +42,13 @@ function mkSearchDiv(){
 		formSearch();
 	};
 	
-	cf.setCss(srch,{marginLeft:20+"px"});
+	cf.setCss(srch,{marginLeft:"20px"});
 	cf.setCss(bx1,{float:"left"});
-	cf.setCss(bx2,{float:"left",paddingTop:5+"px",paddingLeft:12+"px"});
+	cf.setCss(bx2,{float:"left",paddingTop:"5px",paddingLeft:"12px"});
 };
+
 //리스트 출력
-function forCastingStatusList(){
+var forCastingStatusList = function(){
 	//계약시점 월
 	var monthArray = new Array();	
 	var addText = "";
@@ -118,8 +115,9 @@ function forCastingStatusList(){
 		}
 	});
 };
+
 //검색 조건 생성
-function searchCodeHTML(appendId, eleName, data) {
+var searchCodeHTML = function(appendId, eleName, data) {
 	var jsonLength = data.length;
 	var HTML = "";
 	HTML += "<table cellpadding='0' cellspacing='0' width='100%' bgcolor='white' class='Normal_table'>";
@@ -134,8 +132,9 @@ function searchCodeHTML(appendId, eleName, data) {
 	HTML += "</table>";
 	$(appendId).append(HTML);
 };
+
 //리스트 데이터 가공
-function dataShowList(data) {
+var dataShowList = function(data) {
 	//초기화
 	$("#mainList").empty();	
 	$("#mainSumList").empty();
@@ -147,8 +146,7 @@ function dataShowList(data) {
 	var	arr_contract_price = new Array();
 	var	arr_profit_price = new Array();
 	
-	for(var cnt=0; cnt<jsonLength; cnt++) {
-		
+	for(var cnt=0; cnt<jsonLength; cnt++) {		
 		division_name	= data[cnt].division_name.trim();
 		user_name		= data[cnt].user_name.trim();
 		operation_cd 	= data[cnt].operation_cd;
@@ -169,35 +167,27 @@ function dataShowList(data) {
 	}
 	
 	var HTML = "", SumHTML = "";
-	var profit_pt = 0, all_contract_pt = 0, all_profit_pt = 0;
-	var sum_profit_pt = 0, sum_all_contract_pt = 0, sum_all_profit_pt = 0;
+	var profit_pt = 0, all_contract_pt = 0, all_profit_pt = 0;	
 	//var pre_operation_cd = "";
 	var pointColor = "";
 	
 	HTML += "<table cellpadding='0' cellspacing='0' width='100%' class='Normal_table'>";
 	
 	if(jsonLength > 0) {
-	
-		for(var cnt=0; cnt<jsonLength; cnt++) {
-			
+		for(var cnt=0; cnt<jsonLength; cnt++) {			
 			division_name	= data[cnt].division_name.trim();
 			user_name		= data[cnt].user_name.trim();
 			operation_cd 	= data[cnt].operation_cd;
 			contract_price 	= parseInt(data[cnt].contract_price);
 			profit_price   	= parseInt(data[cnt].profit_price);
 			
-			if(user_name == '소계' || user_name == '합계') {
-				
-				pointColor = "class='hColor'";
-				
+			if(user_name == '소계' || user_name == '합계') {				
+				pointColor = "class='hColor'";				
 				profit_pt   	= ((profit_price/contract_price) * 100).toFixed(2);
 				all_contract_pt	= ((contract_price/sum_contract_price) * 100).toFixed(2);
-				all_profit_pt	= ((profit_price/sum_profit_price) * 100).toFixed(2);
-				
-			} else {
-				
-				pointColor = "";
-				
+				all_profit_pt	= ((profit_price/sum_profit_price) * 100).toFixed(2);				
+			} else {				
+				pointColor = "";				
 				profit_pt   	= ((profit_price/contract_price) * 100).toFixed(2);
 				all_contract_pt	= ((contract_price/arr_contract_price[operation_cd]) * 100).toFixed(2);
 				all_profit_pt	= ((profit_price/arr_profit_price[operation_cd]) * 100).toFixed(2);
@@ -207,8 +197,7 @@ function dataShowList(data) {
 			sum_all_contract_pt	+= parseFloat(all_contract_pt);
 			sum_all_profit_pt	+= parseFloat(all_profit_pt);
 			
-			if(division_name == '합계') {
-			
+			if(division_name == '합계') {			
 				SumHTML += "<table cellpadding='0' cellspacing='0' class='Normal_table' width='100%'>";
 				SumHTML += "<tr>";
 				SumHTML += "	<td width='13%' class='sum'>&nbsp;</td>";
@@ -219,10 +208,8 @@ function dataShowList(data) {
 				SumHTML += "	<td width='12%' class='sum'>&nbsp;</td>";
 				SumHTML += "	<td width='16%' class='sum'>&nbsp;</td>";
 				SumHTML += "</tr>";
-				SumHTML += "</table>";
-				
-			} else {
-				
+				SumHTML += "</table>";				
+			} else {				
 				HTML += "<tr " + pointColor + ">";
 				HTML += "	<td width='13%' align='center'>" + data[cnt].division_name + "</td>";
 				HTML += "	<td width='12%' align='center'>" + data[cnt].user_name + "</td>";
@@ -233,10 +220,8 @@ function dataShowList(data) {
 				HTML += "	<td width='16%' class='right' align='center'>" + all_profit_pt + "%</td>";
 				HTML += "</tr>";
 			}
-		}
-		
-	} else {
-		
+		}		
+	} else {		
 		HTML += "<tr>";
 		HTML += "	<td colspan='7' align='center' class='right' style='border-top:none;'>조회된 데이터가 없습니다.</td>";
 		HTML += "</tr>";
@@ -244,29 +229,24 @@ function dataShowList(data) {
 	
 	HTML += "</table>";
 	
-	$("#mainList").append(HTML);
-	
+	$("#mainList").append(HTML);	
 	$("#mainSumList").append(SumHTML);
 };
+
 //리스트 상세 데이터 가공
-function dataShowDetailList(data) {	
+var dataShowDetailList = function(data) {	
 	//초기화
 	$("#detailList").empty();	
 	$("#detailSumList").empty();
 	
 	//데이터 생성
-	var jsonLength = data.length;
-	
+	var jsonLength = data.length;	
 	var HTML = "", SumHTML = "";
 	
 	HTML += "<table cellpadding='0' cellspacing='0' width='100%' class='Normal_table' style='table-layout:fixed'>";
 	
-	if(jsonLength > 0) {
-	
+	if(jsonLength > 0) {	
 		for(var cnt=0; cnt<jsonLength; cnt++) {
-			
-			//if(data[cnt].contract_name == null) data[cnt].contract_name = "";
-			
 			if(data[cnt].user_name.trim() == '소계') {	
 				pointColor = "class='hColor'";
 			} else {
@@ -276,8 +256,7 @@ function dataShowDetailList(data) {
 					pointColor = "";	
 				}
 			}			
-			if(data[cnt].division_name.trim() == '합계') {
-				
+			if(data[cnt].division_name.trim() == '합계') {				
 				SumHTML += "<table cellpadding='0' cellspacing='0' class='Normal_table' width='100%' style='table-layout:fixed'>";
 				SumHTML += "<tr>";
 				SumHTML += "	<td width='10%' class='sum'>&nbsp;</td>";
@@ -293,10 +272,8 @@ function dataShowDetailList(data) {
 				SumHTML += "	<td width='10%' class='sum_cost pdr10'>" + convertNull(set_comma(data[cnt].contract_price), '') + "</td>";
 				SumHTML += "	<td width='10%' class='sum_cost pdr10'>" + convertNull(set_comma(data[cnt].profit_price), '') + "</td>";
 				SumHTML += "</tr>";
-				SumHTML += "</table>";
-				
-			} else {
-			
+				SumHTML += "</table>";				
+			} else {			
 				HTML += "<tr " + pointColor + ">";
 				HTML += "	<td width='10%' align='center'>" + convertNull(data[cnt].division_name, '') + "</td>";
 				HTML += "	<td width='10%' align='center'>" + convertNull(data[cnt].user_name, '') + "</td>";
@@ -314,8 +291,7 @@ function dataShowDetailList(data) {
 			}
 		}
 		
-	} else {
-		
+	} else {		
 		HTML += "<tr>";
 		HTML += "	<td colspan='12' align='center' class='right' style='border-top:none;'>조회된 데이터가 없습니다.</td>";
 		HTML += "</tr>";
@@ -324,19 +300,5 @@ function dataShowDetailList(data) {
 	HTML += "</table>";
 	
 	$("#detailList").append(HTML);
-	
 	$("#detailSumList").append(SumHTML);
-};
-//상세보기
-function showDetail() {	
-	if($("#detailShowImg").attr("alt") == "show") {
-		$(".Show_detail").show();
-		$("#detailShowImg").attr("alt","hide");
-		$("#detailShowImg").attr("src","/images/btn/btn_detail_close.gif");
-	} else {
-		$(".Show_detail").hide();
-		$("#detailShowImg").attr("alt","show");
-		$("#detailShowImg").attr("src","/images/btn/btn_detail_open.gif");
-	}
-	autoHeight();
 };

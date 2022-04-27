@@ -358,9 +358,8 @@ function mkPrint(con,opt, obj){
 				}
 				td.innerHTML=d;
 			});
-			con14.style.paddingTop=100+"px";
-			con14.style.paddingBottom=50+"px";
-			con14.style.fontSize="14px";
+			
+			Object.assign(con14.style, {paddingTop:"100px", paddingBottom:"50px", fontSize:"14px"});
 			con14.innerHTML="위 금액을 청구하오니 결재 바랍니다.<br/><br/><br/><br/><br/>"+expanse_day;
 		};
 	};
@@ -411,7 +410,7 @@ function mkPrint(con,opt, obj){
 					var td=cf.mkTag("td",tr);
 					if(j==0) td.innerHTML=d.expanse_type_name;
 					if(j==1){
-						td.style.paddingRight=5+"px";
+						td.style.paddingRight="5px";
 						td.id="print_top_price_"+d.expanse_type;
 						td.className="cost paddingright";
 						td.innerHTML=cf.commify(d.payment);
@@ -427,7 +426,7 @@ function mkPrint(con,opt, obj){
 				if(i==0){
 					td.className="sum";
 				}else if(i==1){
-					td.style.paddingRight=5+"px";
+					td.style.paddingRight="5px";
 					td.id="print_top_total_price";
 					td.className="sum_cost paddingright";
 				}else if(i==2){
@@ -448,7 +447,7 @@ function mkPrint(con,opt, obj){
 		
 		var td=cf.mkTag("td",tr);
 		td.className="right";
-		td.style.paddingLeft=10+"px";
+		td.style.paddingLeft="10px";
 		td.innerHTML=str1;
 	};
 	function mkHdr(str){
@@ -461,11 +460,8 @@ function mkPrint(con,opt, obj){
 		
 		var con2=cf.mkTag("div",con1);
 		con2.id="pop_print";
-		con2.className="pop_print";
-		con2.style.width=820+"px";
-		con2.style.height=cf.workareaheight-60+"px";
-		con2.style.backgroundColor="white";
-		con2.style.border=2+"px solid black";
+		con2.className="pop_print";		
+		Object.assign(con2.style, {width:"820px", height:(cf.workareaheight-60)+"px", backgroundColor:"white", border:"2px solid black"});
 		
 		var con3=cf.mkTag("div",con2);
 		con3.className="prt_top my_top";
@@ -476,10 +472,9 @@ function mkPrint(con,opt, obj){
 		var con3_a=cf.mkTag("a",con3);
 		con3_a.href="#";
 		con3_a.className="printClose";
+		
 		var con3_img=cf.mkTag("img",con3_a);
-		con3_img.src="/images/pop_btn/btn_pop_close.png";
-		con3_img.alt="닫기";
-		con3_img.align="right";
+		Object.assign(con3_img, {width:"820px", src:"/images/pop_btn/btn_pop_close.png", alt:"닫기", align:"right"});
 		con3_img.onclick=function(){
 			cf.killTag(con.parentNode);
 		};
@@ -520,10 +515,7 @@ function mkPrint(con,opt, obj){
 		con9.className="table_left";
 		
 		var con9_tbl=cf.mkTag("table",con9);
-		con9_tbl.cellpadding=0;
-		con9_tbl.cellspacing=0;
-		con9_tbl.width=229;
-		con9_tbl.className="Normal_table";
+		Object.assign(con9_tbl, {cellpadding:0, cellspacing:0, width:"229px", className:"Normal_table"});		
 		
 		mkTr("부서",obj.divisionname,con9_tbl);
 		mkTr("성명",obj.username,con9_tbl);
@@ -534,12 +526,8 @@ function mkPrint(con,opt, obj){
 		var con11=cf.mkTag("div",con10);
 		con11.className="table_right";
 		
-		var con11_tbl=cf.mkTag("table",con11);
-		con11_tbl.cellpadding=0;
-		con11_tbl.cellspacing=0;
-		con11_tbl.width=487;
-		con11_tbl.height=100;
-		con11_tbl.className="Normal_table";
+		var con11_tbl=cf.mkTag("table",con11);		
+		Object.assign(con11_tbl, {cellpadding:0, cellspacing:0, width:"487px", height:"0", className:"Normal_table"});
 		
 		var con11_tbl_tr=cf.mkTag("tr",con11_tbl);
 		con11_tbl_tr.height=32;
@@ -581,10 +569,7 @@ function mkPrint(con,opt, obj){
 		con13.className="pop_table2";
 		
 		var con13_tbl=cf.mkTag("table",con13);
-		con13_tbl.cellpadding=0;
-		con13_tbl.cellspacing=0;
-		con13_tbl.width=100+"%";
-		con13_tbl.className="Normal_table";
+		Object.assign(con13_tbl, {cellpadding:0, cellspacing:0, width:"100%", className:"Normal_table"});
 		
 		var ar=["구분","금액","비고"];
 		var con13_tbl_tr=cf.mkTag("tr",con13_tbl);
@@ -606,12 +591,13 @@ function mkPrint(con,opt, obj){
 		son=son.parentNode;
 		var con15=cf.mkTag("div",son);
 		con15.className="prt_page";
+		
 		var con16=cf.mkTag("div",con15);
 		con16.className="page_table";
+		
 		var con16_tbl=cf.mkTag("table",con16);
-		con16_tbl.cellpadding=0;
-		con16_tbl.cellspacing=0;
-		con16_tbl.width=770+"px";
+		Object.assign(con16_tbl, {cellpadding:0, cellspacing:0, width:"770px"});
+		
 		var con16_tbl_tr=cf.mkTag("tr",con16_tbl);
 		var ar=[
 			    "<a href=\"#\"><img src=\"/images/exp_payment/btn_prevpage.png\" alt=\"이전 페이지\"></a>",
@@ -666,7 +652,7 @@ function mkPrint(con,opt, obj){
 					img_btn_bar=cf.mkTag("img",btn_bar);
 				
 				img_btn_bar.src="/images/ico/print_bar.gif";
-				img_btn_bar.style.paddingBottom=15+"px";
+				img_btn_bar.style.paddingBottom="15px";
 				img_btn_bar.style.align="center";
 				
 				btn_permit.param={
@@ -718,11 +704,8 @@ function mkPrint(con,opt, obj){
 				img_print_return=cf.mkTag("img",btn_print_return),
 				img_btn_bar=cf.mkTag("img",btn_bar);
 			
-			
-			
 			img_btn_bar.src="/images/ico/print_bar.gif";
-			img_btn_bar.style.paddingBottom=15+"px";
-			//img_btn_bar.style.marginRight=25+"px";
+			img_btn_bar.style.paddingBottom="15px";
 			
 			btn_print_return.href="#";
 			btn_print_return.className="printClose";
@@ -796,7 +779,7 @@ function mkPrint(con,opt, obj){
 		
 		var a=cf.mkTag("div",son);
 		///a.style.height=365+"px";
-		a.style.height=600+"px";
+		a.style.height="600px";
 		a.className="prt_con";
 		a.style.overflow="auto";
 		
@@ -805,10 +788,7 @@ function mkPrint(con,opt, obj){
 		b.className="pop_table2";
 		
 		var tbl=cf.mkTag("table",b);
-		tbl.cellpadding=0;
-		tbl.cellspacing=0;
-		tbl.width=100+"%";
-		tbl.className="Normal_table";
+		Object.assign(tbl, {cellpadding:0, cellspacing:0, width:"100%", className:"Normal_table"});
 		
 		var tr=cf.mkTag("tr",tbl);
 		var chk=data[0].drive_day?true:false;
@@ -867,7 +847,7 @@ function mkPrint(con,opt, obj){
 			
 			var td1=cf.mkTag("td",tr);
 			td1.className="sum_cost paddingright";
-			td1.style.paddingRight=5+"px";
+			td1.style.paddingRight="5px";
 			td1.innerHTML=cf.commify(sum);
 		}
 	};	
@@ -1733,11 +1713,8 @@ function getPopupBody(width, height, headname, bodyareaid){
 	popHeight = height;
 	popBody = popHeight-118;
 	
-	var con=document.createElement("div");
-	con.style.width=popWidth+"px";
-	con.style.height=popHeight+"px";
-	con.style.maxHeight=670+"px";
-	con.style.position="absolute";	
+	var con=document.createElement("div");	
+	Object.assign(con.style, {width:popWidth+"px", height:popHeight+"px", maxHeight:"670px", position:"absolute"});	
 	con.innerHTML="";
 	
 	var con0=cf.mkTag("div",con);
@@ -1749,11 +1726,7 @@ function getPopupBody(width, height, headname, bodyareaid){
 	var con2=cf.mkTag("div",con1);
 	con2.id="pop_print";
 	con2.className="pop_print";
-	con2.style.width=popWidth+"px";
-	con2.style.height=popHeight+"px";
-	con2.style.maxHeight=670+"px";
-	con2.style.backgroundColor="white";
-	con2.style.border=2+"px solid black";
+	Object.assign(con2.style, {width:popWidth+"px", height:popHeight+"px", maxHeight:"670px", backgroundColor:"white", border:"2px solid black"});
 	
 	var con3=cf.mkTag("div",con2);
 	con3.className="prt_top my_top";
@@ -1764,10 +1737,9 @@ function getPopupBody(width, height, headname, bodyareaid){
 	var con3_a=cf.mkTag("a",con3);
 	con3_a.href="javascript:void(0);";
 	con3_a.className="printClose";
-	var con3_img=cf.mkTag("img",con3_a);
-	con3_img.src="/images/pop_btn/btn_pop_close.png";
-	con3_img.alt="닫기";
-	con3_img.align="right";
+	
+	var con3_img=cf.mkTag("img",con3_a);	
+	Object.assign(con3_img, {src:"/images/pop_btn/btn_pop_close.png", alt:"닫기", align:"right"});
 	con3_img.onclick=function(){
 		cf.killTag(con.parentNode);
 	};
@@ -1779,7 +1751,7 @@ function getPopupBody(width, height, headname, bodyareaid){
 	con5.id=bodyareaid;
 	con5.className="my-container";
 	con5.style.height=popBody+"px";
-	con5.style.maxHeight=544+"px";
+	con5.style.maxHeight="544px";
 	
 	$(".my_top").css("cursor","move");
 	$(".movePopup").draggable({ handle: ".my_top" });
@@ -1963,7 +1935,7 @@ function mkSelectYN(select, def){
 	var op1=cf.mkTag("option",select),
 		op2=cf.mkTag("option",select);
 
-	select.style.width=50+"px";
+	select.style.width="50px";
 	select.className="select_pop";
 	op1.value="0";
 	op1.innerHTML="N";

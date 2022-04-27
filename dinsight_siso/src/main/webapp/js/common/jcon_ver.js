@@ -32,7 +32,7 @@
 	});
 	cf.setCss(bx,{
 		width:obj.w+"px",
-		height:100+"%",
+		height:"100%",
 		
 		//backgroundColor:"#fff",
 		margin:"0 auto"

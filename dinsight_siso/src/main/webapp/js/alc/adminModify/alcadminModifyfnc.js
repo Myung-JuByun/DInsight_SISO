@@ -1,12 +1,8 @@
 //검색
-function alcAdminSearchList(check) {
-	
-	if(!check){
-		
-		if($("#sh_company_name").val()==""){
-			
-			generalPop("고객사를 선택하세요.");
-			
+function alcAdminSearchList(check) {	
+	if(!check){		
+		if($("#sh_company_name").val()==""){			
+			generalPop("고객사를 선택하세요.");			
 		} else{
 			var temp = $("#searchDiv").find("input, select").serializeArray();
 			//dir(temp);
@@ -23,10 +19,8 @@ function alcAdminSearchList(check) {
 			});
 		}
 		
-	} else {
-		
-		if($("#sh_company_name").val()!=""){
-			
+	} else {		
+		if($("#sh_company_name").val()!=""){			
 			var temp = $("#searchDiv").find("input, select").serializeArray();
 			//dir(temp);
 		
@@ -46,14 +40,10 @@ function alcAdminSearchList(check) {
 
 //설치사
 function alcAdminInstallCustomer(obj){
-	
-	//dir(obj);
-	
 	if(obj.place_of_business==undefined) obj.place_of_business="";
 	if(obj.sales_customer==undefined) obj.sales_customer="";
 	
 
-	//var temp = $("#searchDiv").find("input, select").serialize();
 	var temp = "sh_company_id=" + obj.company_id + "&sh_year=" + obj.alc_year;
 	temp += "&sh_place_of_business=" + obj.place_of_business + "&sh_sales_customer=" +obj.sales_customer;
 	temp += "&portfolio=" + obj.portfolio.replace("&","%26") + "&prd_number=" + obj.prd_number.replace("&","%26") + "&prd_type=" + obj.prd_type.replace("&","%26") + "&trigram=" + obj.trigram.replace("&","%26");
@@ -74,28 +64,31 @@ function alcAdminInstallCustomer(obj){
 //고객사 검색에 검색값 넣기
 function companySave(obj){
 	
-	if(!obj) generalPop("고객사를 선택하세요.");
-	else {
-		document.getElementById("sh_company_id").value=obj.company_id;
-		document.getElementById("sh_company_name").value=obj.company_name;
+	if(obj){
+		$("#sh_company_id").val(obj.company_id);
+		$("#sh_company_name").val(obj.company_name);
+	} else {
+		generalPop("고객사를 선택하세요.");
 	}
-	document.getElementById("my_closs").onclick();
+	
+	$("#my_closs").trigger("click");
 };
 
 //고객사 검색에 검색값 넣기(ALC 등록 팝업)
-function alcCompanySave(obj){
-	
-	if(!obj) generalPop("고객사를 선택하세요.");
-	else {
-		document.getElementById("company_id").value=obj.company_id;
-		document.getElementById("company_name").value=obj.company_name;
+function alcCompanySave(obj){	
+	if(obj) {
+		$("#company_id").val(obj.company_id);
+		$("#company_name").val(obj.company_name);
 		
-		if(document.getElementById("install_identical_yn").value == "1"){
-			document.getElementById("install_company_id").value=obj.company_id;
-			document.getElementById("install_company_name").value=obj.company_name;
+		if($("#install_identical_yn").val() == "1"){
+			$("#install_company_id").val(obj.company_id);
+			$("#install_company_name").val(obj.company_name);
 		}
+	} else {
+		generalPop("고객사를 선택하세요.");
 	}
-	document.getElementById("my_closs").onclick();
+	
+	$("#my_closs").trigger("click");
 };
 
 //설치사 검색에 검색값 넣기(ALC 등록 팝업)
@@ -106,7 +99,8 @@ function alcInstallCompanySave(obj){
 		document.getElementById("install_company_id").value=obj.company_id;
 		document.getElementById("install_company_name").value=obj.company_name;
 	}
-	document.getElementById("my_closs").onclick();
+	
+	$("#my_closs").trigger("click");
 };
 
 //필수입력값 표시
@@ -130,8 +124,7 @@ function copyOrderDate(){
 }
 
 //ALC관리등록 팝업 - 발주기간 복사
-function copyDate(obj){
-	
+function copyDate(obj){	
 	if(obj.checked == true) {
 		$("#install_day").val($("#ordering_day").val());
 		$("#install_day").datepicker( "destroy");
@@ -143,52 +136,50 @@ function copyDate(obj){
 
 //견적서 파일 선택
 function alcInstallQuoteSearch(obj) {
-	if(!obj) generalPop("견적서 파일을 선택하세요.");
-	else {
-		document.getElementById("quote_file_name").value=obj[2];
-		document.getElementById("quote_id").value=obj[4];
+	if(obj) { 
+		$("#quote_file_name").val(obj[2]);
+		$("#quote_id").val(obj[4]);
+	} else {
+		generalPop("견적서 파일을 선택하세요.");
 	}
-	document.getElementById("my_closs").onclick();
+	
+	$("#my_closs").trigger("click");
 }
 
 //계약서 파일 선택
 function alcInstallContractSearch(obj){
-	if(!obj) generalPop("계약서 파일을 선택하세요.");
-	else {
-		document.getElementById("contract_file_name").value=obj[2];
-		document.getElementById("contract_id").value=obj[4];
+	if(obj) {
+		$("#contract_file_name").val(obj[2]);
+		$("#contract_id").val(obj[4]);		
+	} else {
+		generalPop("계약서 파일을 선택하세요.");
 	}
-	document.getElementById("my_closs").onclick();
+	
+	$("#my_closs").trigger("click");
 }
 
 //설치사 동일일 경우 copy 복사(사용안함)
-function qtyCopy(){
-	
-	if($("#install_identical_yn").val()=="1"){
-		$("#sub_qty").val($("#qty").val());
-	}
+function qtyCopy(){	
+	if($("#install_identical_yn").val()=="1")
+		$("#sub_qty").val($("#qty").val());	
 }
 
 //alc 추가 - 입력폼(설치사 부분) - 설치사추가한 리스트 삭제
-function alcInstallCustomerDel(con){
-	
+function alcInstallCustomerDel(con){	
 	if(pop_prev_tr==null){
 		generalPop("삭제할 설치사를 선택하세요.");
 		return;
 	}
 	
-	generalPop("삭제하시겠습니까?", function(){
-		
-		cf.killTag(pop_prev_tr);
-		
+	generalPop("삭제하시겠습니까?", function(){		
+		cf.killTag(pop_prev_tr);		
 		pop_prev_tr=null;
 	});
 	
 }
 
 //alc관리저장
-function alcSave(con){
-	
+function alcSave(con){	
 	if($("#company_id").val()==""){
 		generalPop("고객사를 입력하세요.");
 		$("#company_name").focus();
@@ -226,8 +217,7 @@ function alcSave(con){
 	}
 	
 	//설치사 동일이면
-	if($("#install_identical_yn").val()=="1"){
-		
+	if($("#install_identical_yn").val()=="1"){		
 		if($("#install_company_id").val()==""){
 			generalPop("설치사를 입력하세요.");
 			$("#install_company_name").focus();
@@ -264,8 +254,7 @@ function alcSave(con){
 		}
 	}
 	
-	generalPop("저장하시겠습니까?", function(){
-		
+	generalPop("저장하시겠습니까?", function(){		
 		var temp = $("#con_table").find("input, select").serializeArray();
 		
 		//dir(temp);
@@ -284,8 +273,7 @@ function alcSave(con){
 }
 
 //자동완성 기능(고객사, 설치사)
-function autocompleteCompanySearch(){
-	
+function autocompleteCompanySearch(){	
 	$("#sh_company_name, #company_name, #install_company_name").autocomplete({
 		source : function( request, response ) {
 			//dir(request);
@@ -493,8 +481,7 @@ function autocompleteTrigramSearch(){
         	return false;
         }
 	})
-	.autocomplete( "instance" )._renderItem = function( ul, item ) {
-		
+	.autocomplete( "instance" )._renderItem = function( ul, item ) {		
 		return $( "<li>" )
         //.append( "<a>" + item.label + "<br>" + item.value + "<br>" + item.desc1+ "<br>" + item.desc2 + "<br>" + item.desc3 +"</a>" )
       	.append("<div class='Wrap_table'><table class='Normal_table_pop'>"
@@ -508,23 +495,20 @@ function autocompleteTrigramSearch(){
 }
 
 //견적서, 계약서 파일 리스트
-function alcAdminfileList(searchString, mode){
-	
+function alcAdminfileList(searchString, mode){	
 	var url;
 	
-	if(mode == "quite") {
+	if(mode == "quite")
 		url="/alc/admin/alcAdminDetailQuiteFileList";
-	}else{
-		url="/alc/admin/alcAdminDetailContractFileList";
-	}
+	else
+		url="/alc/admin/alcAdminDetailContractFileList";	
 	
 	$.ajax({
 		  url: url,
 		  type: "POST",
 		  data: searchString,
 		  dataType: "json",
-		  success: function (data) {
-			  
+		  success: function (data) {			  
 			  alcInstallCustomerFileListPop(mode, data.alcAdminDetailFileList);
 		  }
 	});

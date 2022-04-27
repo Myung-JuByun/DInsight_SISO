@@ -113,24 +113,20 @@ function companyPopDataSet(){
 		meta:["string","string","string","string","string","string","string","string","string","string","string","string","string","string","string","string","string"
 		      ,"string","string","string","string","string","string","number"]
 	});
-};
+}
+
 function companySrchPop(obj,fnc){
 	var con=document.createElement("div");
 	con.id="scrFull";
-	con.style.width=1150+"px";
-	con.style.height=cf.workareaheight-107+"px";;
-	con.style.position="absolute";
+	Object.assign(con.style, {width:"1150px", height:(cf.workareaheight-107)+"px", position:"absolute"});
 	
 	con.innerHTML="";	
 	var con0=cf.mkTag("div",con);
 	//con0.className="pop-mypage";
 	
 	var con1=cf.mkTag("div",con0);
-	con1.id="pop_my";
-	con1.style.width=1150+"px";
-	con1.style.height=cf.workareaheight-107+"px";
-	con1.style.border=2+"px solid black";
-	con1.style.backgroundColor="white";
+	con1.id="pop_my";	
+	Object.assign(con1.style, {width:"1150px", height:(cf.workareaheight-107)+"px", border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -140,11 +136,9 @@ function companySrchPop(obj,fnc){
 	var con2_a=cf.mkTag("a",con2);
 	con2_a.href="#";
 	con2_a.className="my_top_closs";
-	var con2_img=cf.mkTag("img",con2_a);
-	con2_img.src="/images/pop_btn/btn_pop_close.png";
-	con2_img.id="my_closs";
-	con2_img.alt="닫기";
-	con2_img.align="right";
+	
+	var con2_img=cf.mkTag("img",con2_a);	
+	Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs", alt:"닫기", align:"right"});
 	con2_img.onclick=function(){
 		cf.killTag(con.parentNode);
 	};
@@ -204,13 +198,11 @@ function companySrchPop(obj,fnc){
 	con6.style.height=cf.workareaheight-361+"px";;
 	con6.className="";
 	
-	var table=cf.mkTag("table",con6);
-	table.cellpadding=0;
-	table.cellspacing=0;
-	table.className="Normal_table";
-	table.id="companyView";
+	var table=cf.mkTag("table",con6);	
+	Object.assign(table, {cellpadding:0, cellspacing:0, className:"Normal_table", id:"companyView"});
 	
 	companyList(table,obj,fnc);
+	
 	var cl=cf.mkTag("div",con1);
 	cl.className="clear";
 	var con7=cf.mkTag("div",con1),
@@ -229,9 +221,10 @@ function companySrchPop(obj,fnc){
 	btn2.onclick=function(){
 		cf.killTag(con.parentNode);
 	};
-	cf.setCss(btn1,{marginRight:5+"px"});
+	cf.setCss(btn1,{marginRight:"5px"});
 	callPop(con);
-};
+}
+
 function companyList(son,obj,fnc){
 	prev_com="";
 	son.innerHTML="";
@@ -280,56 +273,56 @@ function companyList(son,obj,fnc){
 			if(d.company_yn=="1") company_yn="Y";
 			
 			var td1=cf.mkTag("td",tr);
-			td1.style.width=119+"px";
+			td1.style.width="119px";
 			td1.innerHTML=d.company_name;
 			
 			var td2=cf.mkTag("td",tr);
-			td2.style.width=84+"px";
+			td2.style.width="84px";
 			td2.innerHTML=d.chairman;
 			
 			var td3=cf.mkTag("td",tr);
-			td3.style.width=129+"px";
+			td3.style.width="129px";
 			td3.innerHTML=d.business_category;
 			
 			var td4=cf.mkTag("td",tr);
-			td4.style.width=129+"px";
+			td4.style.width="129px";
 			td4.innerHTML=d.business_condition;
 			
 			var td5=cf.mkTag("td",tr);
-			td5.style.width=119+"px";
+			td5.style.width="119px";
 			td5.innerHTML=d.company_reg_number;
 			
 			var td6=cf.mkTag("td",tr);
-			td6.style.width=119+"px";
+			td6.style.width="119px";
 			td6.innerHTML=d.corporate_number;
 			
 			var td7=cf.mkTag("td",tr);
-			td7.style.width=109+"px";
+			td7.style.width="109px";
 			td7.innerHTML=d.phone_number;
 			
 			var td8=cf.mkTag("td",tr);
 			td8.innerHTML=d.address;
 			
 			var td9=cf.mkTag("td",tr);
-			td9.style.width=44+"px";
+			td9.style.width="44px";
 			td9.innerHTML=charger_yn;
 			
 			var td10=cf.mkTag("td",tr);
-			td10.style.width=44+"px";
+			td10.style.width="44px";
 			td10.className="right";
 			td10.innerHTML=company_yn;
 			
 			if(i==0){
-				cf.setCss(td1,{borderTop:0+"px"});
-				cf.setCss(td2,{borderTop:0+"px"});
-				cf.setCss(td3,{borderTop:0+"px"});
-				cf.setCss(td4,{borderTop:0+"px"});
-				cf.setCss(td5,{borderTop:0+"px"});
-				cf.setCss(td6,{borderTop:0+"px"});
-				cf.setCss(td7,{borderTop:0+"px"});
-				cf.setCss(td8,{borderTop:0+"px"});
-				cf.setCss(td9,{borderTop:0+"px"});
-				cf.setCss(td10,{borderTop:0+"px"});
+				cf.setCss(td1,{borderTop:"0px"});
+				cf.setCss(td2,{borderTop:"0px"});
+				cf.setCss(td3,{borderTop:"0px"});
+				cf.setCss(td4,{borderTop:"0px"});
+				cf.setCss(td5,{borderTop:"0px"});
+				cf.setCss(td6,{borderTop:"0px"});
+				cf.setCss(td7,{borderTop:"0px"});
+				cf.setCss(td8,{borderTop:"0px"});
+				cf.setCss(td9,{borderTop:"0px"});
+				cf.setCss(td10,{borderTop:"0px"});
 			}
 		});
 	}	
@@ -347,16 +340,16 @@ function companyListHead(son){
     		ar.trav(function(d,j){
 				td=cf.mkTag("th",tr);
 				td.innerHTML=d;
-				if(j==0)td.style.width=119+"px";
-				if(j==1)td.style.width=84+"px";
-				if(j==2)td.style.width=129+"px";
-				if(j==3)td.style.width=129+"px";
-				if(j==4)td.style.width=119+"px";
-				if(j==5)td.style.width=119+"px";
-				if(j==6)td.style.width=109+"px";
-				if(j==8)td.style.width=44+"px";
+				if(j==0)td.style.width="119px";
+				if(j==1)td.style.width="84px";
+				if(j==2)td.style.width="129px";
+				if(j==3)td.style.width="129px";
+				if(j==4)td.style.width="119px";
+				if(j==5)td.style.width="119px";
+				if(j==6)td.style.width="109px";
+				if(j==8)td.style.width="44px";
 				if(j==9){
-					td.style.width=44+"px";
+					td.style.width="44px";
 					td.className="right";
 				}
     		});
@@ -376,11 +369,8 @@ function companyPopAdd(){
 	con2.className="my_top";
 	span.innerHTML="고객사 추가";
 	con2_a.href="#";
-	con2_a.className="my_top_closs";
-	con2_img.src="/images/pop_btn/btn_pop_close.png";
-	con2_img.id="my_closs";
-	con2_img.alt="닫기";
-	con2_img.align="right";
+	con2_a.className="my_top_closs";	
+	Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs", alt:"닫기", align:"right"});
 	con2_img.onmousedown=function(e){
 		cf.killTag(con.parentNode);
 	};
@@ -393,7 +383,7 @@ function companyPopAdd(){
 	con3.className="my-container";
 	div.className="descriptR must asterisk";
 	span.innerHTML="* 표시는 필수 입력 항목입니다.";
-	cf.setCss(con3,{height:cf.workareaheight-260+"px",paddingBottom:0+"px",overflowY:"auto"});
+	cf.setCss(con3,{height:cf.workareaheight-260+"px",paddingBottom:"0px",overflowY:"auto"});
 	
 	var con4=cf.mkTag("div",con3),
 		con4_title=cf.mkTag("div",con4)
@@ -447,7 +437,7 @@ function companyPopAdd(){
 	btn2.onmousedown=function(){
 		cf.killTag(con.parentNode);
 	};
-	cf.setCss(btn1,{marginRight:5+"px"});
+	cf.setCss(btn1,{marginRight:"5px"});
 	callPop(con);
 };
 function mkHeadTable(p,opt){
@@ -480,7 +470,7 @@ function mkHeadTable(p,opt){
 				if(j==0){
 					cf.killTag(td);
 					td=cf.mkTag("th",tr);
-					td.style.width=105+"px";
+					td.style.width="105px";
 					if(i==6)td.rowSpan="2";
 					if(i==7)cf.killTag(td);					
 					td.innerHTML=d;					
@@ -493,7 +483,7 @@ function mkHeadTable(p,opt){
 				if(j==2){
 					cf.killTag(td);
 					 td=cf.mkTag("th",tr);
-					 td.style.width=105+"px";
+					 td.style.width="105px";
 					 td.innerHTML=d;
 				}
 				if(j==3)td.className="right pd10";
@@ -509,7 +499,7 @@ function mkHeadTable(p,opt){
 				if(j==0){
 					cf.killTag(td);
 					td=cf.mkTag("th",tr);
-					td.style.width=105+"px";
+					td.style.width="105px";
 					td.innerHTML=d;			
 					if(opt&&(i==0||i==3||i==4||i==5)){
 						var span=cf.mkTag("span",td);
@@ -521,7 +511,7 @@ function mkHeadTable(p,opt){
 					if(i==0||i==1||i==2||i==3||i==4||i==5||i==8){
 						cf.killTag(td);
 						td=cf.mkTag("th",tr);
-						td.style.width=105+"px";
+						td.style.width="105px";
 						td.innerHTML=d;
 					}
 				}
@@ -530,7 +520,8 @@ function mkHeadTable(p,opt){
 		});
 	});
 	return tb;
-};
+}
+
 function setInput(tbl){
 	for(var i=0, lng=tbl.children.length;i<lng;i++){
 		var row=tbl.children[i];
@@ -541,19 +532,18 @@ function setInput(tbl){
 					var ipt=cf.mkTag("input",cell);
 					ipt.name="company_name";
 					ipt.id="company_name";
-					cf.setCss(ipt,{width:125+"px"});
+					cf.setCss(ipt,{width:"125px"});
 					ipt.onblur=function(e){
 						if(!nameFlag){
-							var span = document.getElementById('nameChk');
-							span.textContent = "중복체크를 하셔야 합니다.";
-							span.style.color="blue";
+							var span = $("#nameChk");
+							span.text("중복 체크를 하셔야 합니다.").css("color", "blue");							
 						}
 					};					
 					var btn=cf.mkTag("button", cell);
 					btn.id = "nameImg";
 					btn.className="ct-btn blue td";
 					btn.innerHTML="중복체크";
-					cf.setCss(btn,{marginLeft:10+"px",marginRight:10+"px"});
+					cf.setCss(btn,{marginLeft:"10px",marginRight:"10px"});
 					btn.onclick = function(e){
 						nameFlag = false;
 						var company_name=document.getElementById("company_name"),
@@ -561,9 +551,8 @@ function setInput(tbl){
 						if(!strOrigin){
 							generalPopOk("고객사명을 입력해주세요.",function(){
 								nameFlag = false;
-								var span = document.getElementById('nameChk');
-								span.textContent = "중복 체크를 하셔야합니다.";
-								span.style.color="blue";
+								var span = $("#nameChk");
+								span.text("중복 체크를 하셔야 합니다.").css("color", "blue");
 								company_name.focus();
 							});
 							return false;
@@ -577,13 +566,12 @@ function setInput(tbl){
 								success: function (data) {
 									if(parseInt(data) > 0){
 										nameFlag = false;
-										var span = document.getElementById('nameChk');
-										span.textContent = "중복된 고객사명입니다";
-										span.style.color="red";
+										var span = $("#nameChk");
+										span.text("중복된 고객사명입니다").css("color", "red");										
 										//company_name.focus();
 									}else{
 										nameFlag = true;
-										var span = document.getElementById('nameChk');
+										var span = document.getElementById("nameChk");
 										span.textContent = "사용가능한 고객사명 입니다";
 										span.style.color="green";
 										e.target.parentNode.appendChild(span);
@@ -602,7 +590,7 @@ function setInput(tbl){
 					var ipt=cf.mkTag("input",cell);
 					ipt.name="company_eng";
 					ipt.id="company_eng";
-					cf.setCss(ipt,{width:125+"px"});
+					cf.setCss(ipt,{width:"125px"});
 				}
 			}
 			if(i==1){
@@ -610,7 +598,7 @@ function setInput(tbl){
 					var ipt=cf.mkTag("input",cell);
 					ipt.name="chairman";
 					ipt.id="chairman";
-					cf.setCss(ipt,{width:125+"px"});
+					cf.setCss(ipt,{width:"125px"});
 				}else if(j==3){
 					var ipt=cf.mkTag("input",cell);
 					ipt.name="sales_customer";
@@ -618,13 +606,9 @@ function setInput(tbl){
 					ipt.type="hidden";
 					ipt.value="";
 										
-					var dv=cf.mkTag("div",cell);
-					dv.style.border="1px solid #dbdbdb";
-					dv.style.width="130px";
-					dv.style.height="26px";
-					dv.style.float="left";
-					dv.style.overflowY="auto";
+					var dv=cf.mkTag("div",cell);					
 					dv.id="sales_customer_layer";
+					cf.setCss(dv, {border:"1px solid #dbdbdb", width:"130px", height:"26px", float:"left", overflowY:"auto"});
 					
 					var img=cf.mkTag("img",cell);
 					img.src="/images/ico/btn_search_small.png";
@@ -641,13 +625,13 @@ function setInput(tbl){
 					var ipt=cf.mkTag("input",cell);
 					ipt.name="business_category";
 					ipt.id="business_category";
-					cf.setCss(ipt,{width:125+"px"});
+					cf.setCss(ipt,{width:"125px"});
 				}
 				if(j==3){
 					var ipt=cf.mkTag("input",cell);
 					ipt.name="business_condition";
 					ipt.id="business_condition";
-					cf.setCss(ipt,{width:125+"px"});
+					cf.setCss(ipt,{width:"125px"});
 				}
 			}
 			if(i==3){
@@ -656,24 +640,21 @@ function setInput(tbl){
 					ipt.name="company_reg_number";
 					ipt.id="company_reg_number";
 					ipt.placeholder="000-00-00000";
-					cf.setCss(ipt,{width:125+"px"});
+					cf.setCss(ipt,{width:"125px"});
 					ipt.onblur=function(e){
-						if(!dupFlag){
-							var span = document.getElementById('duplicateChk');
-							span.textContent = "중복체크를 하셔야 합니다";
-							span.style.color="blue";
-						}
+						if(!dupFlag)
+							$("#duplicateChk").text("중복체크를 하셔야 합니다").css("color", "blue");						
 					};					
 					regSet(ipt);
 					var btn=cf.mkTag("button", cell);
 					btn.id = "duplicateImg";
 					btn.className="ct-btn blue td";
 					btn.innerHTML="중복체크";
-					cf.setCss(btn,{marginLeft:10+"px",marginRight:10+"px"});
+					cf.setCss(btn,{marginLeft:"10px",marginRight:"10px"});
 					btn.onclick = function(e){
 						dupFlag = false;
-						var company_reg_number = document.getElementById("company_reg_number");
-						var strOrigin=company_reg_number.value;
+						var company_reg_number = $("#company_reg_number");
+						var strOrigin = company_reg_number.val();
 						var str = checkDigit(strOrigin);
 					 	len = str.length;
 					 	var strValue = parseInt(str) + "";
@@ -681,60 +662,52 @@ function setInput(tbl){
 							strOrigin = str.replace(/([0-9]{3})([0-9]{2})([0-9]{5})/,"$1-$2-$3");
 						}else if(len==0){
 							generalPopOk("사업자등록번호를 입력해주세요.",function(){
-								  dupFlag = false;
-								  var span = document.getElementById('duplicateChk');
-								  span.textContent = "중복체크를 하셔야 합니다";
-								  span.style.color="blue";
-								  company_reg_number.focus();
+								dupFlag = false;
+								$("#duplicateChk").text("중복체크를 하셔야 합니다").css("color", "blue");
+								company_reg_number.focus();
 							});
 							return false;
 						}else{
 							generalPopOk("잘못된 사업자등록번호입니다.",function(){
-								 dupFlag = false;
-								  var span = document.getElementById('duplicateChk');
-								  span.textContent = "중복체크를 하셔야 합니다";
-								  span.style.color="blue";
+								dupFlag = false;
+								$("#duplicateChk").text("중복체크를 하셔야 합니다").css("color", "blue");
 								company_reg_number.focus();
 							});
 							return false;
 						}						
 						if(strValue == "0"){
 							generalPopOk("사업자등록번호를 입력해주세요.",function(){
-								 dupFlag = false;
-								  var span = document.getElementById('duplicateChk');
-								  span.textContent = "중복체크를 하셔야 합니다";
-								  span.style.color="blue";
+								dupFlag = false;
+								$("#duplicateChk").text("중복체크를 하셔야 합니다").css("color", "blue");
 								company_reg_number.focus();
 							});
 							return false;
 					 	}						
+						
 						dupNumber = str;
+						
 						$.ajax({
-							  url: "/cop/chk_comapny_number",
-							  type: "POST",
-							  data: { "company_reg_number" : strOrigin },
-							  async: false,
-							  dataType: 'json',
-							  success: function (data) {
-								  if(parseInt(data) > 0){
-									  dupFlag = false;
-									  var span = document.getElementById('duplicateChk');
-									  span.textContent = "중복된 번호 입니다";
-									  span.style.color="red";
-									  //company_reg_number.focus();
-								  }else{
-									  dupFlag = true;
-									  //var span = document.createElement('span');
-									  var span = document.getElementById('duplicateChk');
-									  span.textContent = "사용가능한 번호 입니다";
-									  span.style.color="green";
-									  span.id = "duplicateChk";
-									 // e.target.parentNode.appendChild(span);
-									  company_reg_number.value = strOrigin;
-								  }
-							  }
+							url: "/cop/chk_comapny_number",
+							type: "POST",
+							data: { "company_reg_number" : strOrigin },
+							async: false,
+							dataType: 'json',
+							success: function (data) {
+								var span = $("#duplicateChk");
+								
+								if(parseInt(data) > 0){
+									dupFlag = false;
+									span.text("중복된 번호 입니다").css("color", "red");
+								}else{
+									dupFlag = true;
+									span.text("사용가능한 번호 입니다").css("color", "green");
+									span.attr("id", "duplicateChk");									 
+									company_reg_number.val(strOrigin);
+								}
+							}
 						});	
 					};
+					
 					var span=cf.mkTag("span", cell);
 					span.textContent = "중복체크를 하셔야 합니다";
 					span.style.color="blue";
@@ -751,22 +724,22 @@ function setInput(tbl){
 						if(tt.checked){
 							tt.value=1;
 							dupFlag = true;
-							company_reg_number.value="";
-							company_reg_number.readOnly=true;
-							company_reg_number.bg("#ddd");
+							company_reg_number.val("");
+							company_reg_number.attr("readOnly", true);
+							company_reg_number.css("background-color", "#ddd");
 						}else{
 							tt.value=0;
 							dupFlag = false;
-							company_reg_number.readOnly=false;
-							company_reg_number.bg("#fff");
+							company_reg_number.attr("readOnly", false);
+							company_reg_number.css("background-color", "#fff");
 						}
 					};
-					cf.setCss(ipt_chk,{marginLeft:10+"px",marginRight:5+"px"});
+					cf.setCss(ipt_chk,{marginLeft:"10px",marginRight:"5px"});
 				}else if(j==3){
 					var ipt=cf.mkTag("input",cell);
 					ipt.name="site_id";
 					ipt.id="site_id";
-					cf.setCss(ipt,{width:125+"px"});
+					cf.setCss(ipt,{width:"125px"});
 				}
 			}
 			if(i==4){
@@ -775,12 +748,11 @@ function setInput(tbl){
 					ipt.name="corporate_number";
 					ipt.id="corporate_number";
 					ipt.placeholder="000000-0000000";
-					cf.setCss(ipt,{width:125+"px"});
+					cf.setCss(ipt,{width:"125px"});
 					ipt.onblur=function(e){
 						if(!cupFlag){
-							var span = document.getElementById('duplicateChk2');
-							span.textContent = "중복체크를 하셔야 합니다";
-							span.style.color="blue";
+							var span = $("#duplicateChk2");
+							span.text("중복체크를 하셔야 합니다").css("color", "blue");							
 						}
 					};					
 					corporateSet(ipt);
@@ -788,11 +760,11 @@ function setInput(tbl){
 					btn.id = "duplicateImg2";
 					btn.className="ct-btn blue td";
 					btn.innerHTML="중복체크";
-					cf.setCss(btn,{marginLeft:10+"px",marginRight:10+"px"});
+					cf.setCss(btn,{marginLeft:"10px",marginRight:"10px"});
 					btn.onclick = function(e){
 						cupFlag = false;
-						var corporate_number = document.getElementById("corporate_number");
-						var strOrigin=corporate_number.value;
+						var corporate_number = $("#corporate_number");
+						var strOrigin = corporate_number.val();
 						var str = checkDigit(strOrigin);
 					 	len = str.length;
 					 	var strValue = parseInt(str) + "";
@@ -801,29 +773,23 @@ function setInput(tbl){
 						}else if(len==0){
 							generalPopOk("법인번호를 입력해주세요.",function(){
 								cupFlag = false;
-								  var span = document.getElementById('duplicateChk2');
-								  span.textContent = "중복체크를 하셔야 합니다";
-								  span.style.color="blue";
-								  corporate_number.focus();
+								$("#duplicateChk2").text("중복체크를 하셔야 합니다").css("color", "blue");
+								corporate_number.focus();
 							});
 							return false;
 						}else{
 							generalPopOk("잘못된 법인번호입니다.",function(){
 								cupFlag = false;
-								  var span = document.getElementById('duplicateChk2');
-								  span.textContent = "중복체크를 하셔야 합니다";
-								  span.style.color="blue";
-								  corporate_number.focus();
+								$("#duplicateChk2").text("중복체크를 하셔야 합니다").css("color", "blue");
+								corporate_number.focus();
 							});
 							return false;
 						}						
 						if(strValue == "0"){
 							generalPopOk("법인번호를 입력해주세요.",function(){
 								cupFlag = false;
-								  var span = document.getElementById('duplicateChk2');
-								  span.textContent = "중복체크를 하셔야 합니다";
-								  span.style.color="blue";
-								  corporate_number.focus();
+								$("#duplicateChk2").text("중복체크를 하셔야 합니다").css("color", "blue");
+								corporate_number.focus();
 							});
 							return false;
 					 	}						
@@ -837,23 +803,17 @@ function setInput(tbl){
 							  success: function (data) {
 								  if(parseInt(data) > 0){
 									  cupFlag = false;
-									  var span = document.getElementById('duplicateChk2');
-									  span.textContent = "중복된 번호 입니다";
-									  span.style.color="red";
-									  //company_reg_number.focus();
+									  $("#duplicateChk2").text("중복된 번호입니다").css("color", "red");									  
 								  }else{
 									  cupFlag = true;
-									  //var span = document.createElement('span');
-									  var span = document.getElementById('duplicateChk2');
-									  span.textContent = "사용가능한 번호 입니다";
-									  span.style.color="green";
-									  span.id = "duplicateChk";
-									 // e.target.parentNode.appendChild(span);
-									  corporate_number.value = strOrigin;
+									  $("#duplicateChk2").text("사용가능한 번호입니다").css("color", "green");
+									  $("#duplicateChk2").attr("id", "duplicateChk");									  
+									  corporate_number.val(strOrigin);
 								  }
 							  }
 						});	
 					};
+					
 					var span=cf.mkTag("span", cell);
 					span.textContent = "중복체크를 하셔야 합니다";
 					span.style.color="blue";
@@ -870,22 +830,22 @@ function setInput(tbl){
 						if(tt.checked){
 							tt.value=1;
 							cupFlag = true;
-							corporate_number.value="";
-							corporate_number.readOnly=true;
-							corporate_number.bg("#ddd");
+							corporate_number.val("");
+							corporate_number.attr("readOnly", true);
+							corporate_number.css("background-color", "#ddd");
 						}else{
 							tt.value=0;
 							cupFlag = false;
-							corporate_number.readOnly=false;
-							corporate_number.bg("#fff");
+							corporate_number.attr("readOnly", false);
+							corporate_number.css("background-color", "#fff");
 						}
 					};
-					cf.setCss(ipt_chk,{marginLeft:10+"px",marginRight:5+"px"});
+					cf.setCss(ipt_chk,{marginLeft:"10px",marginRight:"5px"});
 				}else if(j==3){
 					var ipt=cf.mkTag("input",cell);
 					ipt.name="site_id";
 					ipt.id="site_id";
-					cf.setCss(ipt,{width:125+"px"});
+					cf.setCss(ipt,{width:"125px"});
 				}
 			}
 			if(i==5){
@@ -893,7 +853,7 @@ function setInput(tbl){
 					var ipt=cf.mkTag("input",cell);
 					ipt.name="phone_number";
 					ipt.id="phone_number";
-					cf.setCss(ipt,{width:125+"px"});
+					cf.setCss(ipt,{width:"125px"});
 					ipt.onblur=function(e){
 						chk_tel(e.target,this);
 					};
@@ -905,7 +865,7 @@ function setInput(tbl){
 					var ipt=cf.mkTag("input",cell);
 					ipt.name="main_fax";
 					ipt.id="main_fax";
-					cf.setCss(ipt,{width:125+"px"});
+					cf.setCss(ipt,{width:"125px"});
 					ipt.onblur=function(e){
 						chk_tel(e.target,this);
 					};
@@ -917,13 +877,13 @@ function setInput(tbl){
 			}
 			if(i==6){    //0512수정
 				if(j==1){
-					cell.style.height=66+"px";
+					cell.style.height="66px";
 					var p_div=cf.mkTag("div", cell);
 					p_div.className="postDiv";
 					
 					var post1=cf.mkTag("input",p_div);
 					post1.id="post1";
-					post1.style.width=60+"px";
+					post1.style.width="60px";
 					post1.readOnly=true;
 					
 					var span=cf.mkTag("span", p_div);
@@ -931,7 +891,7 @@ function setInput(tbl){
 					
 					var post2=cf.mkTag("input",p_div);					
 					post2.id="post2";
-					post2.style.width=60+"px";
+					post2.style.width="60px";
 					post2.readOnly=true;
 					
 					var zipcode=cf.mkTag("input",cell);
@@ -953,7 +913,7 @@ function setInput(tbl){
 					ipt.id="address";
 					ipt.readOnly=true;
 					ipt.placeholder="선택하세요";
-					cf.setCss(ipt,{width:686+"px"});
+					cf.setCss(ipt,{width:"686px"});
 				}
 			}
 			if(i==8){
@@ -961,7 +921,7 @@ function setInput(tbl){
 					var ipt=cf.mkTag("input",cell);
 					ipt.name="address_eng";
 					ipt.id="address_eng";
-					cf.setCss(ipt,{width:686+"px"});
+					cf.setCss(ipt,{width:"686px"});
 				}
 			}
 			if(i==9){
@@ -992,8 +952,8 @@ function setInput(tbl){
 					var ipt=cf.mkTag("textarea",cell);
 					ipt.id="etc";
 					ipt.name="etc";
-					ipt.style.width=95+"%";
-					ipt.style.height=80+"px";
+					ipt.style.width="95%";
+					ipt.style.height="80px";
 				}
 			}
 		}
@@ -1005,10 +965,8 @@ function getZipCodePop() {
 	addr_gubun = "S";  //도로명선택(default)
 	//바탕 선택 못하도록 막는 레이어
 	var pop_Window=document.createElement("div");
-	pop_Window.id="pop_win";
-	pop_Window.style.width = cf.workareawidth-100+"%";
-	pop_Window.style.height = cf.workareaheight-250+"%";
-	pop_Window.style.position = "absolute";
+	pop_Window.id="pop_win";	
+	Object.assign(pop_Window.style, {width:(cf.workareawidth-100)+"%", height:(cf.workareaheight-250)+"%", position:"absolute"});
 	
 	//주소찾기 전체창 설정
 	var winZip=cf.mkTag("div",pop_Window);
@@ -1018,14 +976,10 @@ function getZipCodePop() {
 	sw=400;    //띄울 창의 넓이
 	sh=535;    //띄울 창의 높이
 	
-	winZip.style.top = (ch-sh)/3+"px";  //가운데 띄우기위한 창의 y위치
-	winZip.style.left = (cw-sw)*2/5+"px"; //가운데 띄우기위한 창의 x위치
-	
-	winZip.style.width=sw+"px";
-	winZip.style.height = sh+"px";
-	winZip.style.position = "absolute";
-	winZip.style.backgroundColor="white";
-	winZip.style.border=1+"px solid black";
+	Object.assign(winZip.style, {
+		top:(ch-sh)/3+"px", left:(cw-sw)*2/5+"px", width:sw+"px", height:sh+"px",
+		position:"absolute", backgroundColor:"white", border:"1px solid black"  		 
+	});
 	
 	var con3=cf.mkTag("div",winZip);
 	con3.className="prt_top my_top";
@@ -1036,10 +990,8 @@ function getZipCodePop() {
 	var con3_a=cf.mkTag("a",con3);
 	con3_a.href="#";
 	con3_a.className="printClose";
-	var con3_img=cf.mkTag("img",con3_a);
-	con3_img.src="/images/pop_btn/btn_pop_close.png";
-	con3_img.alt="닫기";
-	con3_img.align="right";
+	var con3_img=cf.mkTag("img",con3_a);	
+	Object.assign(con3_img, {src:"/images/pop_btn/btn_pop_close.png", alt:"닫기", align:"right"});
 	con3_img.onclick=function(){
 		cf.killTag(pop_Window.parentNode);
 	};
@@ -1056,8 +1008,7 @@ function getZipCodePop() {
 	div_addr_list.className = "pop_zipcode";
 	div_addr_list.style.display = "block";
 	div_addr_list.id="addr_list";
-	//div_addr_list.style.width=90+"%";
-	div_addr_list.style.height = 92+"%";
+	div_addr_list.style.height = "92%";
 
 //------------------------주소찾기 Title -------------------------------------	
 	/*var zip_title=cf.mkTag("h1",div_addr_list);
@@ -1102,7 +1053,7 @@ function getZipCodePop() {
 	var zip_desc=cf.mkTag("div",div_addr_list);
 	zip_desc.id="field_set";
 	zip_desc.className="zipcode_fieldset";
-	cf.setCss(zip_desc,{height:145+"px"});
+	cf.setCss(zip_desc,{height:"145px"});
 	//hidden - 주소구분(도로명선택/지번선택);
     var ipt_gubun=document.createElement("input");
     ipt_gubun.name="addr_gubun";
@@ -1251,10 +1202,10 @@ function getZipCodePop() {
 			return false;
 		}
 	};
-	cf.setCss(zip_sch_area2,{height:28+"px"});
+	cf.setCss(zip_sch_area2,{height:"28px"});
 //-------------------------검색 버튼 ---------------------------------------	
 	var area2_btn=cf.mkTag("div",zip_fdset);
-	cf.setCss(area2_btn,{position:"absolute",width:60+"px",right:25+"px",top:220+"px"});
+	cf.setCss(area2_btn,{position:"absolute",width:"60px",right:"25px",top:"220px"});
 	var zip_sch_btn=cf.mkTag("button",area2_btn);
 	zip_sch_btn.id="srchbtn";
 	zip_sch_btn.className="ct-btn blue small";
@@ -1524,37 +1475,32 @@ function inputBottomTableHead(p){
 				span.innerHTML="*";
 			}else if(j==8)td.className="right";			
 			if(i==0){
-				if(j==0)cf.setCss(td,{width:29+"px"});
-				else if(j==1)cf.setCss(td,{width:79+"px"});
-				else if(j==2||j==3)cf.setCss(td,{width:109+"px"});
-				else if(j==4)cf.setCss(td,{width:129+"px"});
-				else if(j==5||j==6||j==7)cf.setCss(td,{width:109+"px"});
+				if(j==0)cf.setCss(td,{width:"29px"});
+				else if(j==1)cf.setCss(td,{width:"79px"});
+				else if(j==2||j==3)cf.setCss(td,{width:"109px"});
+				else if(j==4)cf.setCss(td,{width:"129px"});
+				else if(j==5||j==6||j==7)cf.setCss(td,{width:"109px"});
 			}
 		});
 	});
 	return tb;
 };
 function copSave(con,flag){
-	var comname=document.getElementById("company_name");
-	var company_reg_number=document.getElementById("company_reg_number");
-	var company_reg_number_val=company_reg_number.value;
-	var company_reg_check=document.getElementById("company_reg_check");
-	var company_reg_check_val=company_reg_check.value;
-	
-	var corporate_number=document.getElementById("corporate_number");
-	var corporate_number_val=corporate_number.value;
-	var corporate_number_check=document.getElementById("corporate_number_check");
-	var corporate_number_check_val=corporate_number_check.value;
-		
-	var phone_number=document.getElementById("phone_number");
-	var phone_number_val=phone_number.value;
-	
-	var fax_number=document.getElementById("main_fax");
-	var fax_number_val=fax_number.value;
-	
-	var etc=document.getElementById("etc");
-	var etc_val=etc.value; //이벤트가 일어난 컨트롤의 value 값
-	var etc_len=etc_val.lenght; //전체길이
+	var comname = $("#company_name");
+	var company_reg_number = $("#company_reg_number");
+	var company_reg_number_val = company_reg_number.val();
+	var company_reg_check = $("#company_reg_check");
+	var company_reg_check_val = company_reg_check.val();	
+	var corporate_number = $("#corporate_number");
+	var corporate_number_val = corporate_number.val();
+	var corporate_number_check = $("#corporate_number_check");
+	var corporate_number_check_val = corporate_number_check.val();		
+	var phone_number = $("#phone_number");
+	var phone_number_val = phone_number.val();	
+	var fax_number = $("#main_fax");
+	var fax_number_val = fax_number.val();	
+	var etc = $("#etc");
+	var etc_val = etc.val(); //이벤트가 일어난 컨트롤의 value 값	
 	var len = 0;
 	
 	for(var i=0; i<etc_val.length; i++)	{
@@ -1565,7 +1511,7 @@ function copSave(con,flag){
         }
  
         if(len > 2000){
-        	generalPopOk(2000+"bytes를 넘었습니다");
+        	generalPopOk("2000bytes를 넘었습니다");
         	etc_val = etc_val.substring(0,i);  // maxlen이상 입력할 수 없다
         }
 	}
@@ -1608,23 +1554,22 @@ function copSave(con,flag){
 	}
 	if(phone_number_val && chk_tel_new(phone_number) == "fail"){
 		generalPopOk("잘못된 전화번호입니다.",function(){
-			phone_number.value="";
+			phone_number.val("");
 			phone_number.focus();
 		});
 		return;
 	}
 	
-	if(phone_number_val.length == 8) {
-		phone_number.value=phone_format(1, phone_number_val);
-	}else if(phone_number_val.length == 9){
-		phone_number.value=phone_format(2, phone_number_val);
-	}else{
-		phone_number.value=phone_format(3, phone_number_val);
-	}
+	if(phone_number_val.length == 8)
+		phone_number.val() = phone_format(1, phone_number_val);
+	else if(phone_number_val.length == 9)
+		phone_number.val() = phone_format(2, phone_number_val);
+	else
+		phone_number.val() = phone_format(3, phone_number_val);	
 	
 	if(fax_number_val && chk_tel_new(fax_number) == "fail") {
 		generalPopOk("잘못된 번호입니다.",function(){
-			fax_number.value="";
+			fax_number.val("");
 			fax_number.focus();
 		});
 		return;
@@ -1632,11 +1577,11 @@ function copSave(con,flag){
 	
 	if(fax_number_val && chk_tel_new(fax_number) == "succ") {
 		if(fax_number_val.length == 8) {
-			fax_number.value=phone_format(1, fax_number_val);
+			fax_number.val(phone_format(1, fax_number_val));
 		}else if(fax_number_val.length == 9){
-			fax_number.value=phone_format(2, fax_number_val);
+			fax_number.val(phone_format(2, fax_number_val));
 		}else{
-			fax_number.value=phone_format(3, fax_number_val);
+			fax_number.val(phone_format(3, fax_number_val));
 		}
 	}
 	
@@ -1730,26 +1675,26 @@ function subCompanyAdd(opt){
 		input=cf.mkTag("input",td);
 	input.className="input_han";
 	input.name="customer_name";
-	cf.setCss(input,{width:90+"%"});
+	cf.setCss(input,{width:"90%"});
 	input.focus();
 
 	var td=cf.mkTag("td",tr),
 		input=cf.mkTag("input",td);
 	input.className="input_han";
 	input.name="division";
-	cf.setCss(input,{width:90+"%"});
+	cf.setCss(input,{width:"90%"});
 	
 	var td=cf.mkTag("td",tr),
 		input=cf.mkTag("input",td);
 	input.className="input_han";
 	input.name="job_title";
-	cf.setCss(input,{width:90+"%"});
+	cf.setCss(input,{width:"90%"});
 	
 	var td=cf.mkTag("td",tr),
 		input=cf.mkTag("input",td);
 	input.name="email";
 	input.className="input_eng";
-	cf.setCss(input,{width:90+"%"});
+	cf.setCss(input,{width:"90%"});
 	input.onblur=function(e){
 		chk_email(e.target,this);
 	};
@@ -1758,7 +1703,7 @@ function subCompanyAdd(opt){
 	//td.style.width=15+"%";
 	var input=cf.mkTag("input",td);
 	input.name="mobile";
-	cf.setCss(input,{width:90+"%"});
+	cf.setCss(input,{width:"90%"});
 	input.onblur=function(e){
 		chk_tel(e.target,this);
 	};
@@ -1771,7 +1716,7 @@ function subCompanyAdd(opt){
 	//td.style.width=15+"%";
 	var input=cf.mkTag("input",td);
 	input.name="sub_phone_number";
-	cf.setCss(input,{width:90+"%"});
+	cf.setCss(input,{width:"90%"});
 	input.onblur=function(e){
 		chk_tel(e.target,this);
 	};
@@ -1784,7 +1729,7 @@ function subCompanyAdd(opt){
 	//td.style.width=13+"%";
 	var input=cf.mkTag("input",td);
 	input.name="fax";
-	cf.setCss(input,{width:90+"%"});
+	cf.setCss(input,{width:"90%"});
 	input.onblur=function(e){
 		chk_tel(e.target,this);
 	};
@@ -1802,7 +1747,7 @@ function subCompanyAdd(opt){
 };
 function subCompanyDel(){
 	var temp = $("#subCompanyList").find(":has(:checkbox:checked)").find("select, input").serialize(),
-		len=com_checks.length;	
+		len = com_checks.length;	
 	
 	var customercheckbox = document.getElementsByName("customercheckbox"),
 		customercheckboxCnt = 0;
@@ -1964,9 +1909,9 @@ function getAddressList() {
 
 /** 선택된 주소값 전달후 창 닫기 */
 function setAddrValue(post1, post2, addr, mng_no) {
-	document.getElementById("post1").value=post1;
-	document.getElementById("post2").value=post2;
-	document.getElementById("address").value=addr;
-	document.getElementById("zipcode").value=post1+post2;
+	$("#post1").val(post1);
+	$("#post2").val(post2);
+	$("#address").val(addr);
+	$("#zipcode").val(post1+post2);
 	cf.killTag(document.getElementById("pop_win").parentNode);
 }

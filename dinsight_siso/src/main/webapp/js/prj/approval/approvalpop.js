@@ -11,7 +11,8 @@ function approvlaPop(con, obj){
 	});	
 	dataProc();
 	mkPageFront();
-	function dataProc(){
+	
+	var dataProc = function(){
 		lineF=dataPLineList[0];
 		lineArr=new Array();
 		lineE=dataPLineList[dataPLineList.length-1];
@@ -33,7 +34,8 @@ function approvlaPop(con, obj){
 		lineArr.unshift(lineF);
 		lineArr.push(lineE);
 	};
-	function mkPageFront(){
+	
+	var mkPageFront = function(){
 		con.innerHTML="";
 		//con.style.overflow="auto";
 		var hdr=mkHdr(),
@@ -48,7 +50,7 @@ function approvlaPop(con, obj){
 		mkPtr(con5.parentNode);
 		dataSpread();
 		
-		function dataSpread(){
+		var dataSpread = function(){
 			var mon=0,tue=0,wed=0,thu=0,fri=0,sat=0,sun=0,tot=0;
 			if(lineArr[0])
 				lineTDs.trav(function(d,i){
@@ -124,13 +126,12 @@ function approvlaPop(con, obj){
 			td8.innerHTML=sun.toFixed(1);
 			td9.innerHTML=tot.toFixed(1);
 			
-			con14.style.paddingTop=50+"px";
-			con14.style.paddingBottom=50+"px";
-			con14.style.fontSize="14px";
+			Object.assign(con14.style, {paddingTop:"50px", paddingBottom:"50px", fontSize:"14px"});
 			con14.innerHTML="위 내용을 결재 바랍니다.<br/><br/><br/>"+expanse_day;
 		};
 	};
-	function setStatus(st){
+	
+	var setStatus = function(st){
 		var status;
 		dataStatus.trav(function(d,i){
 			if(d.code_id==st)
@@ -138,7 +139,8 @@ function approvlaPop(con, obj){
 		});
 		return status;
 	};	
-	function mkTr(str,str1,p){
+	
+	var mkTr = function(str,str1,p){
 		var tr=cf.mkTag("tr",p);
 		tr.height=32;
 		var th=cf.mkTag("th",tr);
@@ -147,10 +149,11 @@ function approvlaPop(con, obj){
 		
 		var td=cf.mkTag("td",tr);
 		td.className="right";
-		td.style.paddingLeft=10+"px";
+		td.style.paddingLeft="10px";
 		td.innerHTML=str1;
 	};
-	function mkHdr(str){
+	
+	var mkHdr = function(str){
 		if(str) str="["+str+"]";
 		else str="";
 		
@@ -159,11 +162,8 @@ function approvlaPop(con, obj){
 		
 		var con2=cf.mkTag("div",con1);
 		con2.id="pop_print";
-		con2.className="pop_print";
-		con2.style.width=820+"px";
-		con2.style.height=cf.workareaheight-170+"px";
-		con2.style.backgroundColor="white";
-		con2.style.border=2+"px solid black";
+		con2.className="pop_print";		
+		Object.assign(con2.style, {width:"820px", height:cf.workareaheight-170+"px", backgroundColor:"white", border:"2px solid black"});
 		
 		var con3=cf.mkTag("div",con2);
 		con3.className="prt_top";
@@ -172,12 +172,14 @@ function approvlaPop(con, obj){
 		con3_text.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;MH 승인 요청서";
 		
 		var con3_a=cf.mkTag("a",con3);
-		con3_a.href="#";
+		con3_a.href="javascript:;";
 		con3_a.className="printClose";
+		
 		var con3_img=cf.mkTag("img",con3_a);
 		con3_img.src="/images/pop_btn/btn_pop_close.png";
 		con3_img.alt="닫기";
 		con3_img.align="right";
+		Object.assign(con3_img, {src:"/images/pop_btn/btn_pop_close.png", alt:"닫기", align:"right"});
 		con3_img.onclick=function(){
 			cf.killTag(con.parentNode);
 		};
@@ -196,12 +198,14 @@ function approvlaPop(con, obj){
 		
 		return {con2:con2, con4:con4, con5:con5};
 	};
-	function mkTitle(son,str){
+	
+	var mkTitle = function(son,str){
 		var con6=cf.mkTag("div",son);
 		con6.className="prt_title next_print_page";
 		con6.innerHTML=str;
 	};
-	function mkBody(son){
+	
+	var mkBody = function(son){
 		var con7=cf.mkTag("div",son);
 		con7.className="prt_lnr";
 		
@@ -210,11 +214,8 @@ function approvlaPop(con, obj){
 		var con9=cf.mkTag("div",con8);
 		con9.className="table_left";
 		
-		var con9_tbl=cf.mkTag("table",con9);
-		con9_tbl.cellpadding=0;
-		con9_tbl.cellspacing=0;
-		con9_tbl.width=229;
-		con9_tbl.className="Normal_table";
+		var con9_tbl=cf.mkTag("table",con9);		
+		Object.assign(con9_tbl, {cellpadding:0, cellspacing:0, width:"229px", className:"Normal_table"});
 		
 		mkTr("부서",obj.divisionname,con9_tbl);
 		mkTr("성명",obj.username,con9_tbl);
@@ -226,11 +227,7 @@ function approvlaPop(con, obj){
 		con11.className="table_right";
 		
 		var con11_tbl=cf.mkTag("table",con11);
-		con11_tbl.cellpadding=0;
-		con11_tbl.cellspacing=0;
-		con11_tbl.width=487;
-		con11_tbl.height=100;
-		con11_tbl.className="Normal_table";
+		Object.assign(con11_tbl, {cellpadding:0, cellspacing:0, width:"487px", height:"100px", className:"Normal_table"});
 		
 		var con11_tbl_tr=cf.mkTag("tr",con11_tbl);
 		con11_tbl_tr.height=32;
@@ -256,7 +253,7 @@ function approvlaPop(con, obj){
 		str.trav(function(d,i){
 			if(i!=0){
 				var td=cf.mkTag("td",con11_tbl_tr1);
-				td.style.height=65+"px";
+				td.style.height="65px";
 				if(i==str.length-1){
 					td.className="right";
 				}
@@ -265,16 +262,13 @@ function approvlaPop(con, obj){
 		});
 		
 		var con12=cf.mkTag("div",son);
-		con12.style.minHeight = 200+"px";
+		con12.style.minHeight = "200px";
 		con12.className="prt_con";
 		var con13=cf.mkTag("div",con12);
 		con13.className="pop_table2";
 		
 		var con13_tbl=cf.mkTag("table",con13);
-		con13_tbl.cellpadding=0;
-		con13_tbl.cellspacing=0;
-		con13_tbl.width=100+"%";
-		con13_tbl.className="Normal_table";
+		Object.assign(con13_tbl, {cellpadding:0, cellspacing:0, width:"100%", className:"Normal_table"});
 		
 		var week=document.getElementById("weekDate"),
 			st=week.innerHTML.substring(1,11),
@@ -298,9 +292,9 @@ function approvlaPop(con, obj){
 			th.innerHTML=d;
 			
 			if(i==ar.length-1)th.className="right";			
-			else if(i==0)th.style.width=20+"%";
+			else if(i==0)th.style.width="20%";
 			else{
-				th.style.width=10+"%";
+				th.style.width="10%";
 				var span=cf.mkTag("span",th);
 				span.id=ar2[i]+"_day";
 				
@@ -308,7 +302,7 @@ function approvlaPop(con, obj){
 					sday=ar3[i].getDate();		
 				span.innerHTML="("+smonth+"/"+sday+")";
 				span.innerHTML="("+smonth+"/"+sday+")";
-				cf.setCss(span,{fontSize:10+"px",marginLeft:5+"px"});
+				cf.setCss(span,{fontSize:"10px",marginLeft:"5px"});
 			}			
 			dataMHheadList.push(th);
 		});
@@ -316,9 +310,10 @@ function approvlaPop(con, obj){
 		var con14=cf.mkTag("div",son);
 		con14.className="prt_text";
 		
-		return {con13_tbl:con13_tbl, con14:con14}
+		return {con13_tbl:con13_tbl, con14:con14};
 	};
-	function mkPtr(son){
+	
+	var mkPtr = function(son){
 		var con19=cf.mkTag("div",son);
 		con19.className="prt_btns";
 		con19.style.backgroundColor="white";

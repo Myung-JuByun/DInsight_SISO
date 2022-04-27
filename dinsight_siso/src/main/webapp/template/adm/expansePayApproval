@@ -1,0 +1,71 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<form:form commandName="searchVO" method="post" id="searchForm" name="searchForm">
+	<div class="search" id="searchDiv"></div>		
+	<div class="Left_group">
+		<!-- <div class="mini_title">
+			부서/사원
+		</div> -->
+		<!--  table start -->
+		<div class="left_table">
+			<div class="Wrap_table">
+				<table style="width:100%" class="Normal_table">
+					<thead>
+						<tr>
+							<th class="right" v-text="deptEmplName"></th>
+						</tr>	
+					</thead>
+				</table>
+				<div class="codeTable" style="height:466px;">
+					<table style="width:250px" class="Normal_table">
+						<tbody id="tree_menu">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="Right_group">
+		<!-- button start -->
+		<div class="btn_action">
+			<ul>
+				<li v-for="(item, index) in btnList">
+					<template v-if="index == 0">
+						<img :src="item.btnImg" :alt="item.altText"/>
+					</template>
+					<template v-else>	
+						<a href="javascript:;" :onclick="item.func"><img :src="item.btnImg" :alt="item.altText"/></a>
+					</template>							
+				</li>
+			</ul>
+		</div>
+		<!--// button end -->
+		<!--  table start -->
+		<div class="Right_table">
+		<div class="Wrap_table">
+			<table class="Normal_table" >
+				<thead>
+					<tr>
+						<th width="40ox" v-text="no"></th>
+						<th width="80px" v-text="date"></th>
+						<th width="90px" v-text="division"></th>
+						<th width="80px" v-text="kind"></th>
+						<th width="90px" v-text="price"></th>
+						<th v-text="history"></th>
+						<th width="80px" class="right" v-text="state"></th>
+					</tr>
+				</thead>
+			</table>
+			<div class="codeTable" style="overflow-y:scroll; height:466px;">
+				<table class="Normal_table">
+					<tbody id="approvalView">
+					</tbody>
+				</table>
+			</div>
+		</div>
+		 </div>
+		<!--  //table end -->
+	</div>
+</form:form>

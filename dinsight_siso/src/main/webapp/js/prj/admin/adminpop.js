@@ -1,18 +1,12 @@
 function prjAdd(){
 	var con=document.createElement("div");
-	con.style.width=600+"px";
-	con.style.height=336+"px";
-	con.style.position="absolute";
 	con.className="pop_add";
-	con.innerHTML="";
+	con.innerHTML="";	
+	Object.assign(con.style, {width:"600px", height:"336px", position:"absolute"});
 	
-	var con0=cf.mkTag("div",con);
-	
-	var con1=cf.mkTag("div",con0);
-	con1.style.width=600+"px";
-	con1.style.height=336+"px";
-	con1.style.border=2+"px solid black";
-	con1.style.backgroundColor="white";
+	var con0=cf.mkTag("div",con);	
+	var con1=cf.mkTag("div",con0);	
+	Object.assign(con1.style, {width:"600px", height:"336px", border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -52,25 +46,19 @@ function prjAdd(){
 	callPop(con);
 	cf.setCss(btn1,{marginRight:5+"px"});
 	datePicker("input_date", "yy-mm-dd");
-};
+}
+
 function prjModi(){
 	if(!prev) generalPopOk2("수정할 Project를 선택하세요.");
 	else{
 		var con=document.createElement("div");
-		con.style.width=600+"px";
-		con.style.height=336+"px";
-		con.style.position="absolute";
 		con.className="pop_add";
 		con.innerHTML="";
+		Object.assign(con.style, {width:"600px", height:"336px", position:"absolute"});
 		
-		var con0=cf.mkTag("div",con);
-		
-		var con1=cf.mkTag("div",con0);
-		con1.style.width=600+"px";
-		con1.style.height=336+"px";
-		con1.style.border=2+"px solid black";
-		con1.style.backgroundColor="white";
-		
+		var con0=cf.mkTag("div",con);		
+		var con1=cf.mkTag("div",con0);		
+		Object.assign(con1.style, {width:"600px", height:"336px", border:"2px solid black", backgroundColor:"white"});		
 		
 		var con2=cf.mkTag("div",con1);
 		con2.className="my_top";
@@ -112,26 +100,25 @@ function prjModi(){
 		cf.setCss(btn1,{marginRight:5+"px"});
 		datePicker("input_date", "yy-mm-dd");
 	}
-};
+}
+
 function mkAddTable(p){
 	var table=cf.mkTag("table",p);
-	table.cellpadding=0;
-	table.cellspacing=0;
-	table.className="Normal_table_pop";
+	Object.assign(table, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
 	
 	var tr1=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr1);
-	th.style.width=100+"px";
+	th.style.width="100px";
 	th.innerHTML="구분";
 	var span=cf.mkTag("span",th);
 	span.className="asterisk";
 	span.innerHTML="*";
 	var td=cf.mkTag("td",tr1);
 	td.className="pd10";
-	td.style.width=149+"px";
+	td.style.width="149px";
 	var select=cf.mkTag("select",td);
 	select.id="in_status";
-	select.style.width=120+"px";
+	select.style.width="120px";
 	mkSelect(select,STATUS);
 	
 	var set;
@@ -153,7 +140,7 @@ function mkAddTable(p){
 			select_COMPANYNAME.style.textAlign="";
 			var input=cf.mkTag("input",select_COMPANYNAME);
 			input.id="in_companyname";
-			input.style.width=120+"px";
+			input.style.width="120px";
 			input.readOnly=true;
 			var ipt=cf.mkTag("input",td);
 			ipt.type="hidden";
@@ -161,7 +148,7 @@ function mkAddTable(p){
 						
 			var input=cf.mkTag("input",select_PAYMENT);
 			input.id="in_contract";
-			input.style.width=110+"px";
+			input.style.width="110px";
 			input.readOnly=true;
 			input.className="payment_input";
 
@@ -183,7 +170,7 @@ function mkAddTable(p){
 						
 			var input=cf.mkTag("input",select_PAYMENT);
 			input.id="in_contract";
-			input.style.width=110+"px";
+			input.style.width="110px";
 			input.className="payment_input";
 			paymentSet(input);
 			input.onkeyup=function(e){
@@ -194,7 +181,7 @@ function mkAddTable(p){
 	};
 	
 	var th=cf.mkTag("th",tr1);
-	th.style.width=100+"px";
+	th.style.width="100px";
 	th.innerHTML="Project Code";
 	select_PJCODE=cf.mkTag("td",tr1);
 	select_PJCODE.className="pd10 right";
@@ -202,7 +189,7 @@ function mkAddTable(p){
 	var input=cf.mkTag("input",select_PJCODE);
 	input.id="in_pjcode";
 	input.disabled=true;
-	cf.setCss(input,{width:120+"px",backgroundColor:"#eee"});
+	cf.setCss(input,{width:"120px",backgroundColor:"#eee"});
 	
 	var tr2=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr2);
@@ -215,7 +202,7 @@ function mkAddTable(p){
 	td.colSpan="3";
 	var input=cf.mkTag("input",td);
 	input.id="in_pjname";
-	cf.setCss(input,{width:400+"px"});
+	cf.setCss(input,{width:"400px"});
 	var ipt=cf.mkTag("input",td);
 	ipt.type="hidden";
 	ipt.id="in_pjid";
@@ -231,7 +218,7 @@ function mkAddTable(p){
 	var input=cf.mkTag("input",select_COMPANYNAME);
 	input.id="in_companyname";
 	input.disabled=true;
-	cf.setCss(input,{width:120+"px",backgroundColor:"#eee"});
+	cf.setCss(input,{width:"120px",backgroundColor:"#eee"});
 	
 	var th=cf.mkTag("th",tr3);
 	th.innerHTML="계약(M/M)";
@@ -240,7 +227,7 @@ function mkAddTable(p){
 	var ipt=cf.mkTag("input",td);
 	ipt.id="in_mm";
 	ipt.readOnly=true;
-	cf.setCss(ipt,{width:120+"px",backgroundColor:"#eee"});
+	cf.setCss(ipt,{width:"120px",backgroundColor:"#eee"});
 	
 	var tr4=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr4);
@@ -254,7 +241,7 @@ function mkAddTable(p){
 	ipt_s.id="in_start";
 	ipt_s.className="input_date";
 	ipt_s.readOnly=true;
-	cf.setCss(ipt_s,{width:120+"px"});
+	cf.setCss(ipt_s,{width:"120px"});
 	
 	var th=cf.mkTag("th",tr4);
 	th.innerHTML="종료일";
@@ -267,7 +254,7 @@ function mkAddTable(p){
 	ipt_e.id="in_end";
 	ipt_e.className="input_date";
 	ipt_e.readOnly=true;
-	cf.setCss(ipt_e,{width:120+"px"});
+	cf.setCss(ipt_e,{width:"120px"});
 	
 	ipt_s.onchange=function(){
 		dateCheck(ipt_s,ipt_e,"PS");
@@ -286,7 +273,7 @@ function mkAddTable(p){
 		ipt=cf.mkTag("input",td);
 	td.className="pd10";
 	ipt.id="in_staff_name";
-	cf.setCss(ipt,{width:120+"px"});
+	cf.setCss(ipt,{width:"120px"});
 	
 	var th=cf.mkTag("th",tr5);
 	th.innerHTML="담당자 연락처";
@@ -297,7 +284,8 @@ function mkAddTable(p){
 		ipt=cf.mkTag("input",td);
 	td.className="pd10 right";
 	ipt.id="in_staff_phone_number";
-	cf.setCss(ipt,{width:120+"px"});
+	cf.setCss(ipt,{width:"120px"});
+	
 	ipt.onblur=function(e){
 		chk_tel(e.target,this);
 	};
@@ -316,7 +304,7 @@ function mkAddTable(p){
 	select_DIVISION.className="pd10";
 	var select=cf.mkTag("select",select_DIVISION);
 	select.id="in_division";
-	cf.setCss(select,{width:120+"px"});
+	cf.setCss(select,{width:"120px"});
 	mkSelect(select,DIVISIONS_op);
 	var ipt_op=cf.mkTag("input",select_DIVISION);
 	ipt_op.type="hidden";
@@ -338,17 +326,16 @@ function mkAddTable(p){
 	var input=cf.mkTag("input",select_PAYMENT);
 	input.id="in_contract";
 	input.readOnly=true;
-	cf.setCss(input,{width:120+"px"});
-};
+	cf.setCss(input,{width:"120px"});
+}
+
 function mkModiTable(p){
-	var table=cf.mkTag("table",p);
-	table.cellpadding=0;
-	table.cellspacing=0;
-	table.className="Normal_table_pop";
+	var table=cf.mkTag("table",p);	
+	Object.assign(table, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
 	
 	var tr1=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr1);
-	th.style.width=100+"px";
+	th.style.width="100px";
 	th.innerHTML="구분";
 	var td=cf.mkTag("td",tr1);
 	td.className="pd10";
@@ -359,7 +346,7 @@ function mkModiTable(p){
 	ipt.value=prev.obj.sale_dev_cd;
 	
 	var th=cf.mkTag("th",tr1);
-	th.style.width=100+"px";
+	th.style.width="100px";
 	th.innerHTML="Project Code";
 	select_PJCODE=cf.mkTag("td",tr1);
 	select_PJCODE.className="pd10 right";
@@ -368,7 +355,7 @@ function mkModiTable(p){
 	ipt.value=prev.obj.project_code;
 	ipt.id="in_pjcode";
 	ipt.readOnly=true;
-	cf.setCss(ipt,{width:120+"px",backgroundColor:"#eee"});
+	cf.setCss(ipt,{width:"120px",backgroundColor:"#eee"});
 	
 	var tr2=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr2);
@@ -382,7 +369,7 @@ function mkModiTable(p){
 	var input=cf.mkTag("input",td);
 	input.id="in_pjname";
 	input.value=prev.obj.project_name;
-	cf.setCss(input,{width:394+"px"});
+	cf.setCss(input,{width:"394px"});
 	var ipt=cf.mkTag("input",td);
 	ipt.type="hidden";
 	ipt.id="in_pjid";
@@ -397,7 +384,7 @@ function mkModiTable(p){
 	ipt.id="in_companyname";
 	ipt.readOnly=true;
 	ipt.value=prev.obj.company_name;
-	cf.setCss(ipt,{width:120+"px",backgroundColor:"#eee"});
+	cf.setCss(ipt,{width:"120px",backgroundColor:"#eee"});
 	var ipt=cf.mkTag("input",td);
 	ipt.type="hidden";
 	ipt.id="companyid";
@@ -411,7 +398,7 @@ function mkModiTable(p){
 	ipt.id="in_mm";
 	ipt.value=prev.obj.man_month;
 	ipt.readOnly=true;
-	cf.setCss(ipt,{width:120+"px",backgroundColor:"#eee"});
+	cf.setCss(ipt,{width:"120px",backgroundColor:"#eee"});
 	
 	var tr4=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr4);
@@ -426,7 +413,7 @@ function mkModiTable(p){
 	ipt_s.id="in_start";
 	ipt_s.className="input_date";
 	ipt_s.readOnly=true;
-	cf.setCss(ipt_s,{width:120+"px"});
+	cf.setCss(ipt_s,{width:"120px"});
 	
 	var th=cf.mkTag("th",tr4);
 	th.innerHTML="종료일";
@@ -440,7 +427,7 @@ function mkModiTable(p){
 	ipt_e.id="in_end";
 	ipt_e.className="input_date";
 	ipt_e.readOnly=true;
-	cf.setCss(ipt_e,{width:120+"px"});	
+	cf.setCss(ipt_e,{width:"120px"});	
 	ipt_s.onchange=function(){
 		dateCheck(ipt_s,ipt_e,"PS");
 	};
@@ -459,7 +446,7 @@ function mkModiTable(p){
 	td.className="pd10";
 	ipt.id="in_staff_name";
 	ipt.value=prev.obj.staff_name;
-	cf.setCss(ipt,{width:120+"px"});
+	cf.setCss(ipt,{width:"120px"});
 	
 	var th=cf.mkTag("th",tr5);
 	th.innerHTML="담당자 연락처";
@@ -471,7 +458,7 @@ function mkModiTable(p){
 	td.className="pd10 right";
 	ipt.id="in_staff_phone_number";
 	ipt.value=prev.obj.staff_phone_number;
-	cf.setCss(ipt,{width:120+"px"});
+	cf.setCss(ipt,{width:"120px"});
 	ipt.onblur=function(e){
 		chk_tel(e.target,this);
 	};
@@ -490,7 +477,7 @@ function mkModiTable(p){
 	select_DIVISION.className="pd10";
 	var select=cf.mkTag("select",select_DIVISION);
 	select.id="in_division";
-	cf.setCss(select,{width:120+"px"});
+	cf.setCss(select,{width:"120px"});
 	var def=prev.obj.division_name;
 	mkSelect(select,DIVISIONS_op, def);
 	var ipt_op=cf.mkTag("input",select_DIVISION);
@@ -514,7 +501,7 @@ function mkModiTable(p){
 	input.id="in_contract";
 	input.className="payment_input";
 	input.value=comma(prev.obj.contract_price/10000);
-	cf.setCss(input,{width:110+"px"});
+	cf.setCss(input,{width:"110px"});
 	if(prev.obj.sale_dev_cd=="01"){
 		input.readOnly=true;
 	}else{

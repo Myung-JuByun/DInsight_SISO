@@ -28,7 +28,8 @@ function defaultLoadList(){
    		}
 	});
 	//getProjectStatusList();
-};
+}
+
 function initView(){
 	var date = new Date(),
 		year = date.getFullYear() + "",
@@ -129,7 +130,8 @@ function initView(){
 	
 	//선택한 주의 기간 표시
 	getWeekDate(document.getElementById("sh_report_yy").value, document.getElementById("sh_report_mm").value, document.getElementById("sh_report_week").value, "#weekDate");
-};
+}
+
 function getProjectStatusList() {
 	reSetDataArea();
 	var temp = $("input, select").serialize();

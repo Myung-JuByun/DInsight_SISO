@@ -1,0 +1,97 @@
+<div id="authListView">
+	<div class="Left_group2">
+		<div class="title2" v-text="organizationMap"></div>
+	
+		<!--  table start -->
+		<div class="left_table2" :style="tblDivStyle">
+			<table class="Normal_table">
+				<tr>
+					<th class="right" v-text="departmentNm"></th>
+				</tr>
+			</table>
+			
+			<table style="width:100%">
+				<tr>
+					<td class="right">
+						<div class="tree_menu" id="tree_menu" style="height:466px;">
+						<!-- 트리메뉴 시작 -->
+						<!-- 트리메뉴 끝 -->
+						</div>
+					</td>
+				</tr>			
+			</table>
+		</div>		
+	</div>
+	
+	<span :style="sMarginStyle">&nbsp;</span>
+	
+	<div class="Left_group2">
+		<div class="title2" v-text="name"></div>
+	
+		<!--  table start -->
+		<div class="left_table2" :style="tblDivStyle">
+			<table class="Normal_table">
+				<thead>
+					<tr>
+						<th width="27px"><input type="checkbox" name="UserCheckMode" class ="UserCheckMode" value="Y" onclick="GroupCheck('UserCheckMode', 'in_user_id')"></th>
+						<th v-text="name"></th>
+						<th width="79px" v-text="position"></th>
+						<th width="114px" class="right" v-text="department"></th>
+					</tr>
+				</thead>
+			</table>
+			<div :style="tblStyle">
+				<table class="Normal_table">
+					<tbody id="userListView">
+						<!-- 직원리스트 시작 -->
+						<!-- 직원리스트 끝 -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!--  //table end -->
+		
+		<div class="savebtn" style="text-align:right;"><button :class="redBtn" onclick="viewAuth()">{{ watchAuth }}</button></div>
+	</div>
+	
+	<span :style="sMarginStyle">&nbsp;</span>
+	
+	<div style="float:left;width:15%;position:relative">
+		<!--  table start -->
+		<div class="left_table2" style="margin-top:10px;">
+			<div id="authBtn"></div>
+		</div>
+		<!--  //table end -->
+	</div>
+	
+	<span :style="sMarginStyle">&nbsp;</span>
+	
+	<div class="Left_group2">
+		<div class="title2" v-text="setAuth"></div>
+	
+		<!--  table start -->
+		<div class="left_table2" :style="tblDivStyle">
+			<table class="Normal_table">
+				<thead>
+					<tr>
+						<th width="27px"><input type="checkbox" name="AuthCheckMode" class="AuthCheckMode" value="Y" onclick="GroupCheck('AuthCheckMode', 'in_grant_user_id')"></th>
+						<th width="59px" v-text="name"></th>
+						<th v-text="department"></th>
+						<th width="84px" class="right" v-text="auth"></th>
+					</tr>
+				</thead>
+			</table>
+			<div :style="tblStyle">
+				<table class="Normal_table">
+					<tbody id="authList">
+						<!-- 설정권한 리스트 시작 -->
+						<!-- 설정권한 리스트 끝 -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!--  //table end -->
+		
+		<div class="savebtn" style="text-align:right;"><button :class="redBtn" onclick="delAuth()">{{ del }}</button></div>
+	</div>
+</div>		

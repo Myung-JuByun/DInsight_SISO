@@ -1,6 +1,6 @@
 var BRANDLIST,STATUSLIST,TYPELIST,DIVISIONUSERS,SELECT_brand,SELECT_status,SELECT_type,SELECT_user,searchString,prev;
 
-function defaultLoadList(){
+var defaultLoadList = function(){
 	var obj={sales_project_year:CurrentDate[0],sales_project_month:CurrentDate[1],company_name:"",sales_type_cd:"",sales_status_cd:"",brand_cd:"",user_id:""};
 	//년월생성
 	//dateSelect();
@@ -13,23 +13,34 @@ function defaultLoadList(){
 		mkSearch();
 	});
 };
-function searchAdmin(){
-	sales_project_month = document.getElementById("sh_contract_month").value
-	if(sales_project_month.length <= 1){
-		sales_project_month = "0" + sales_project_month;	
-	}
-	var obj={sales_project_year : document.getElementById("sh_contract_year").value,sales_project_month : sales_project_month,company_name  : searchString.value,
-			sales_type_cd : SELECT_type.value,sales_status_cd : SELECT_status.value,brand_cd : SELECT_brand.value,user_id : SELECT_user.value};
+
+var searchAdmin = function(){
+	sales_project_month = $("#sh_contract_month").val();
+	
+	if(sales_project_month.length <= 1)
+		sales_project_month = "0" + sales_project_month;
+				
+	var obj={
+		sales_project_year : $("#sh_contract_year").val(),
+		sales_project_month : sales_project_month,
+		company_name  : searchString.value,
+		sales_type_cd : SELECT_type.value,
+		sales_status_cd : SELECT_status.value,
+		brand_cd : SELECT_brand.value,
+		user_id : SELECT_user.value
+	};
+	
 	callContractAdminData(obj,function(data){
 		contractList(data.salesContractList);
 	});
 };
-function contractSave(con, flag){
+
+var contractSave = function(con, flag){
 	var formData = new FormData();
 	
-	var pjcode=document.getElementById("pjcode").value;
-	var pjcodeid=document.getElementById("pjcodeid").value;
-	var contractname=document.getElementById("contractname").value;
+	var pjcode=$("#pjcode").val();
+	var pjcodeid=$("#pjcodeid").val();
+	var contractname=$("#contractname").val();
 	
 	formData.append("uploadfile", $("#uploadFile")[0].files[0]);
 	formData.append("in_contract_project_code", pjcode);
@@ -56,13 +67,11 @@ function contractSave(con, flag){
 	}
 	
 	if(flag=="prdsales"){
-		var box=document.getElementById("contract_detail_pop"),
-			contract_name=document.getElementById("contract_name"),
-			contract_number=document.getElementById("pjcode"),
-			tbody=document.getElementById("contract_detail_pop_tbody"),
-			obj={pjcode:contract_number.value},
+		var box = $("#contract_detail_pop"),			
+			tbody = document.getElementById("contract_detail_pop_tbody"),
+			obj = {pjcode:$("#pjcode").val()},
 			ContractList;
-		contract_name.value=contractname;
+		$("#contract_name").val(contractname);
 		
 		generalPop("저장하시겠습니까?", function(){
 			$.ajax({

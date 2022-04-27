@@ -550,13 +550,13 @@ function addsalesDetail(){
 	};
 	
 	var td=cf.mkTag("td",tr);
-	td.style.borderLeft=1+"px solid #e3e3e3";
+	td.style.borderLeft="1px solid #e3e3e3";
 	td.style.width="20px";
 	var span_idx=cf.mkTag("span",td);
 	
 	var td=cf.mkTag("td",tr);
 	var select=cf.mkTag("select",td);
-	select.style.width=95+"px";
+	select.style.width="95px";
 	select.name="in_sales_gb";
 	mkSelect(select, BRANDLIST);
 	
@@ -677,13 +677,13 @@ function addsalesDetail(){
 	var td=cf.mkTag("td",tr),
 		select=cf.mkTag("select",td),
 		ipt=cf.mkTag("input",td);
-	select.style.width=60+"px";
+	select.style.width="60px";
 	select.name="in_purchase_pay_code";
 	mkSelect(select,PAYLIST);
 	select.onchange=payMethod;
 	ipt.name="in_purchase_pay_method";
 	ipt.onblur=payMethod;
-	cf.setCss(ipt,{width:50+"%",marginLeft:5+"px"});
+	cf.setCss(ipt,{width:"50%",marginLeft:"5px"});
 	
 	span_idx.innerHTML=idxReturn(tbd,tr)+1;
 	//idxList(tbd,tr);
@@ -728,36 +728,36 @@ function addSales(){
 	};
 	
 	var td=cf.mkTag("td",tr);
-	td.style.borderLeft=1+"px solid #e3e3e3";
+	td.style.borderLeft="1px solid #e3e3e3";
 	var ipt=cf.mkTag("input",td);
 	ipt.name="in_split";
 	ipt.readOnly=true;
 	mkHidden("","in_invoice_id",td);
-	cf.setCss(ipt,{textAlign:"center",width:85+"%"});
+	cf.setCss(ipt,{textAlign:"center",width:"85%"});
 	
 	splitAutoCount(tbd, ipt.name, "/"); //분할 자동계산
 
 	var td=cf.mkTag("td",tr);
 	var ipt=cf.mkTag("input",td);
-	ipt.style.width=85+"%";
+	ipt.style.width="85%";
 	ipt.name="in_issued";
 	ipt.className="input_date";
 	ipt.readOnly=true;
 	
 	var td=cf.mkTag("td",tr);
 	var ipt=cf.mkTag("input",td);
-	ipt.style.width=95+"%";
+	ipt.style.width="95%";
 	ipt.name="in_invoice_name";
 	
 	var td=cf.mkTag("td",tr);
 	var select=cf.mkTag("select",td);
-	select.style.width=100+"px";
+	select.style.width="100px";
 	select.name="in_method";
 	mkSelect(select,METHODLIST,"02");
 	
 	var td=cf.mkTag("td",tr);
 	var ipt=cf.mkTag("input",td);
-	ipt.style.width=85+"%";
+	ipt.style.width="85%";
 	ipt.className="payment_input";
 	ipt.name="in_price";
 	ipt.onkeyup=function(e){
@@ -768,12 +768,12 @@ function addSales(){
 	
 	var td=cf.mkTag("td",tr);
 	var ipt=cf.mkTag("input",td);
-	ipt.style.width=95+"%";
+	ipt.style.width="95%";
 	ipt.name="in_payment_requisite_content";
 	
 	var td=cf.mkTag("td",tr);
 	var ipt=cf.mkTag("input",td);
-	ipt.style.width=95+"%";
+	ipt.style.width="95%";
 	ipt.name="in_contract_number";
 	ipt.readOnly=true;
 	var pjcode=document.getElementById("pjcode").value;

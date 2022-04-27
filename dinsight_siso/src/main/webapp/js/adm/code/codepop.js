@@ -1,19 +1,17 @@
 function groupAdd() {
 	var con=document.createElement("div");
-	con.style.width=400+"px";
-	con.style.height=225+"px";
+	con.style.width="400px";
+	con.style.height="225px";
 	con.style.position="absolute";
-	//con.style.backgroundColor="white";
+	Object.assign(con.style, {width:"400px", height:"225px", position:"absolute"});
 	
 	con.innerHTML="";
 	
 	var con0=cf.mkTag("div",con);
 	
 	var con1=cf.mkTag("div",con0);
-	con1.id="pop_group_add2";
-	//con1.className="my_top";
-	con1.style.border=2+"px solid black";
-	con1.style.backgroundColor="white";
+	con1.id="pop_group_add2";	
+	Object.assign(con1.style, {border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -33,16 +31,14 @@ function groupAdd() {
 	var con6=cf.mkTag("div",con4);
 	con6.className="Wrap_table";
 	
-	var tb1=cf.mkTag("table",con6);
-	tb1.cellpadding=0;
-	tb1.cellspacing=0;
-	tb1.className="Normal_table_pop";
+	var tb1=cf.mkTag("table",con6);	
+	Object.assign(tb1, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
 	
 	var tbd=cf.mkTag("tbody",tb1);
 	var tr=cf.mkTag("tr",tbd),
 		th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr);
-	th.style.width=100+"px";
+	th.style.width="100px";
 	td.className="right pd10";
 	th.innerHTML="그룹 코드";
 	var input=cf.mkTag("input",td);
@@ -109,24 +105,20 @@ function groupAdd() {
 	};
 	callPop(con);
 };
+
 function groupModi() {
 	if(!prev_g) generalPop("수정할 그룹을 선택하세요.");
 	else{
-		var con=document.createElement("div");
-		con.style.width=400+"px";
-		con.style.height=225+"px";
-		con.style.position="absolute";
-		//con.style.backgroundColor="white";
+		var con=document.createElement("div");		
+		Object.assign(con.style, {width:"400px", height:"225px", position:"absolute"});
 		
 		con.innerHTML="";
 		
 		var con0=cf.mkTag("div",con);
 		
 		var con1=cf.mkTag("div",con0);
-		con1.id="pop_group_add2";
-		//con1.className="my_top";
-		con1.style.border=2+"px solid black";
-		con1.style.backgroundColor="white";
+		con1.id="pop_group_add2";				
+		Object.assign(con1.style, {border:"2px solid black", backgroundColor:"white"});
 		
 		var con2=cf.mkTag("div",con1);
 		con2.className="my_top";
@@ -146,16 +138,14 @@ function groupModi() {
 		var con6=cf.mkTag("div",con4);
 		con6.className="Wrap_table";
 		
-		var tb1=cf.mkTag("table",con6);
-		tb1.cellpadding=0;
-		tb1.cellspacing=0;
-		tb1.className="Normal_table_pop";
+		var tb1=cf.mkTag("table",con6);		
+		Object.assign(tb1, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
 		
 		var tbd=cf.mkTag("tbody",tb1);
 		var tr=cf.mkTag("tr",tbd),
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.width=100+"px";
+		th.style.width="100px";
 		td.className="right pd10";
 		th.innerHTML="그룹 코드";
 		var input=cf.mkTag("input",td);
@@ -228,14 +218,12 @@ function groupModi() {
 		callPop(con);
 	}//else
 };
+
 function codeAdd(){
 	if(!prev_g) generalPop("그룹을 선택하세요.");
 	else{
-		var con=document.createElement("div");
-		con.style.width=400+"px";
-		con.style.height=225+"px";
-		con.style.position="absolute";
-		//con.style.backgroundColor="white";
+		var con=document.createElement("div");		
+		Object.assign(con.style, {width:"400px", height:"225px", position:"absolute"});
 		
 		con.innerHTML="";
 		
@@ -243,9 +231,7 @@ function codeAdd(){
 		
 		var con1=cf.mkTag("div",con0);
 		con1.id="pop_group_add2";
-		//con1.className="my_top";
-		con1.style.border=2+"px solid black";
-		con1.style.backgroundColor="white";
+		Object.assign(con1.style, {border:"2px solid black", backgroundColor:"white"});
 		
 		var con2=cf.mkTag("div",con1);
 		con2.className="my_top";
@@ -266,15 +252,13 @@ function codeAdd(){
 		con6.className="Wrap_table";
 		
 		var tb1=cf.mkTag("table",con6);
-		tb1.cellpadding=0;
-		tb1.cellspacing=0;
-		tb1.className="Normal_table_pop";
+		Object.assign(tb1, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
 		
 		var tbd=cf.mkTag("tbody",tb1);
 		var tr=cf.mkTag("tr",tbd),
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.width=100+"px";
+		th.style.width="100px";
 		td.className="right pd10";
 		th.innerHTML="코드";
 		var input=cf.mkTag("input",td);
@@ -357,25 +341,21 @@ function codeAdd(){
 		};
 		callPop(con);
 	}//else
-};
+}
+
 function codeModi(){
 	if(!prev_c || prev_c.group_id!=prev_g.group_id) generalPop("코드를 선택하세요.");
 	else{
 		var con=document.createElement("div");
-		con.style.width=400+"px";
-		con.style.height=225+"px";
-		con.style.position="absolute";
-		//con.style.backgroundColor="white";
+		Object.assign(con.style, {width:"400px", height:"225px", position:"absolute"});		
 		
 		con.innerHTML="";
 		
 		var con0=cf.mkTag("div",con);
 		
 		var con1=cf.mkTag("div",con0);
-		con1.id="pop_group_add2";
-		//con1.className="my_top";
-		con1.style.border=2+"px solid black";
-		con1.style.backgroundColor="white";
+		con1.id="pop_group_add2";		
+		Object.assign(con1.style, {border:"2px solid black", backgroundColor:"white"});
 		
 		var con2=cf.mkTag("div",con1);
 		con2.className="my_top";
@@ -396,15 +376,13 @@ function codeModi(){
 		con6.className="Wrap_table";
 		
 		var tb1=cf.mkTag("table",con6);
-		tb1.cellpadding=0;
-		tb1.cellspacing=0;
-		tb1.className="Normal_table_pop";
+		Object.assign(tb1, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
 		
 		var tbd=cf.mkTag("tbody",tb1);
 		var tr=cf.mkTag("tr",tbd),
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.width=100+"px";
+		th.style.width="100px";
 		td.className="right pd10";
 		th.innerHTML="코드";
 		td.innerHTML=prev_c.code_id;
@@ -487,4 +465,4 @@ function codeModi(){
 		};
 		callPop(con);
 	}//else	
-};
+}

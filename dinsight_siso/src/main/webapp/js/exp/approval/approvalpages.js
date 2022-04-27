@@ -1,7 +1,3 @@
-defaultLoadList();
-mkSearchDiv();
-setDate();
-
 function mkSearchDiv(){
 	var p=document.getElementById("searchDiv");
 	p.innerHTML = "";
@@ -19,9 +15,9 @@ function mkSearchDiv(){
 	select.onchange=function(){
 		approvalSearch();
 	};
-	cf.setCss(select,{width:70+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
-	cf.setCss(bx1,{width:187+"px"});
+	cf.setCss(select,{width:"70px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
+	cf.setCss(bx1,{width:"187px"});
 	
 	var	select = cf.mkTag("select", bx1),
 		span = cf.mkTag("span", bx1);
@@ -32,8 +28,8 @@ function mkSearchDiv(){
 		approvalSearch();
 	};	
 	span.innerHTML = "월";
-	cf.setCss(select,{width:60+"px"});
-	cf.setCss(span,{paddingRight:12+"px",marginLeft:5+"px"});
+	cf.setCss(select,{width:"60px"});
+	cf.setCss(span,{paddingRight:"12px",marginLeft:"5px"});
 	
 	var bx2=cf.mkTag("div", line1),
 		span=cf.mkTag("span", bx2);
@@ -45,14 +41,15 @@ function mkSearchDiv(){
 		approvalSearch();
 	};	
 	span.innerHTML = "구분";
-	cf.setCss(select,{width:60+"px"});
-	cf.setCss(span,{paddingRight:5+"px"});
+	cf.setCss(select,{width:"60px"});
+	cf.setCss(span,{paddingRight:"5px"});
 	
-	cf.setCss(srch,{marginLeft:20+"px"});
-	cf.setCss(title,{float:"left",fontWeight:"bold",paddingRight:12+"px",paddingTop:6+"px"});
+	cf.setCss(srch,{marginLeft:"20px"});
+	cf.setCss(title,{float:"left",fontWeight:"bold",paddingRight:"12px",paddingTop:"6px"});
 	cf.setCss(bx1,{float:"left"});
-	cf.setCss(bx2,{float:"left",marginLeft:21+"px"});
-};
+	cf.setCss(bx2,{float:"left",marginLeft:"21px"});
+}
+
 function setDate(){
 	var year=document.getElementById("sh_expanse_year"),
 		month=document.getElementById("sh_expanse_month");
@@ -63,7 +60,8 @@ function setDate(){
 		mkYearSelect(year);
 		mkMonthSelect(month);
 	}
-};
+}
+
 function noDataList(){
 	var dv=document.getElementById("listView");
 	dv.innerHTML="";
@@ -72,14 +70,12 @@ function noDataList(){
 	td0.colSpan=6;
 	td0.className="right txt_center";
 	td0.innerHTML="조회된 데이터가 없습니다.";
-	cf.setCss(td0,{borderTop:0+"px"});
-};
+	cf.setCss(td0,{borderTop:"0px"});
+}
+
 function approvalList(target,data){
 	var con=document.createElement("div");
-	con.style.width=820+"px";
-	con.style.height=cf.workareaheight-60+"px";
-	con.style.position="absolute";
-	con.style.backgroundColor="white";
+	Object.assign(con.style, {width:"820px", height:(cf.workareaheight-60)+"px", position:"absolute", backgroundColor:"white"});
 	var table;
 	// traverse 지역함수 - table 객체 잡는 거.... 
 	traverse(target,function(el){
@@ -164,12 +160,12 @@ function approvalList(target,data){
 			callPop(con);
 		};
 		if(i==0){
-			cf.setCss(td0,{borderTop:0+"px"});
-			cf.setCss(td1,{borderTop:0+"px"});
-			cf.setCss(td2,{borderTop:0+"px"});
-			cf.setCss(td3,{borderTop:0+"px"});
-			cf.setCss(td4,{borderTop:0+"px"});
-			cf.setCss(td5,{borderTop:0+"px"});
+			cf.setCss(td0,{borderTop:"0px"});
+			cf.setCss(td1,{borderTop:"0px"});
+			cf.setCss(td2,{borderTop:"0px"});
+			cf.setCss(td3,{borderTop:"0px"});
+			cf.setCss(td4,{borderTop:"0px"});
+			cf.setCss(td5,{borderTop:"0px"});
 		}
 	}
 };

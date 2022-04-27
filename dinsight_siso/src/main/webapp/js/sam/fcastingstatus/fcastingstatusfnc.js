@@ -1,9 +1,10 @@
 //페이지 갱신할때 호출해야 하는 항목을 함수에 등록시킴
-function defaultLoadList(){
+var defaultLoadList = function(){
 	initView();	
 	forCastingStatusList();
 };
-function initView(){	
+
+var initView = function(){	
 	var date = new Date(),
 		year = date.getFullYear() + "",
 		month = date.getMonth() + 1,
@@ -90,6 +91,7 @@ function initView(){
 		//선택한 주의 기간 표시
 		getWeekDate(document.getElementById("sh_sales_year").value, document.getElementById("sh_sales_month").value, document.getElementById("sh_sales_week").value, "#weekDate");
 	};	
+	
 	forecastingmm.onchange = function(e){
 		forecastingweak.innerHTML = "";
 		var dateStr2 = forecastingyy.value;
@@ -111,8 +113,7 @@ function initView(){
 		getWeekDate(document.getElementById("sh_sales_year").value, document.getElementById("sh_sales_month").value, document.getElementById("sh_sales_week").value, "#weekDate");
 	};
 	
-	forecastingweak.onchange = function(e){
-		
+	forecastingweak.onchange = function(e){		
 		//선택한 주의 기간 표시
 		getWeekDate(document.getElementById("sh_sales_year").value, document.getElementById("sh_sales_month").value, document.getElementById("sh_sales_week").value, "#weekDate");
 	};
@@ -120,8 +121,9 @@ function initView(){
 	//선택한 주의 기간 표시
 	getWeekDate(document.getElementById("sh_sales_year").value, document.getElementById("sh_sales_month").value, document.getElementById("sh_sales_week").value, "#weekDate");
 };
+
 //검색
-function formSearch() {
+var formSearch = function() {
 	$(".Show_detail").hide();
 	var temp = $("input, select").serialize();
 	//데이터 검색
@@ -144,103 +146,9 @@ function formSearch() {
 		}
 	});
 };
-//엑셀 데이터 수집
-function excelDataSend() {
-	formSearch();
-	//generalPop("엑셀다운로드 하시겠습니까?", function (){
-		var searchArray = new Array();
-		//search
-		$(".search_detail .Wrap_table").each(function(i){		
-			var search = $(this);
-			var searchInfo = new Object();		
-			searchInfo["codeName0"] = search.find("th").first().text();
-			
-			var cnt=1;
-			search.find("div tr").each(function(j, k){			
-				var searchSub = $(this);			
-				if(searchSub.find("input:checked").val()) {
-					searchInfo["codeName" + cnt] = k.innerText;
-					cnt++;
-				}
-			});
-			searchArray.push(searchInfo);
-		});
-		
-		var titleArray = new Array();
-		
-		//Sales Status
-		var titleInfo = new Object();
-		$("#mainTitle th").each(function(i) {
-			titleInfo["codeName" + i] = $(this).text();
-		});	
-		titleArray.push(titleInfo);
-		
-		$("#mainList tr").each(function(i) {
-			var tr = $(this);
-			
-			var titleInfo = new Object();
-			tr.find("td").each(function(j,k) {
-				titleInfo["codeName" + j] = k.innerText;
-			});		
-			titleArray.push(titleInfo);
-		});
-		
-		var titleInfo = new Object();
-		$("#mainSumList td").each(function(i){
-			titleInfo["codeName" + i] = $(this).text();
-		});
-		titleArray.push(titleInfo);
-		
-		var issueArray = new Array();
-		
-		//Sales Status 현황
-		var issueInfo = new Object();
-		$("#detailTitle th").each(function(i){
-			issueInfo["codeName" + i] = $(this).text();
-		});
-		issueArray.push(issueInfo);
-		
-		$("#detailList tr").each(function(){
-			var tr = $(this);
-			
-			var issueInfo = new Object();	
-			tr.find("td").each(function(j,k) {
-				issueInfo["codeName" + j] = k.innerText;
-			});		
-			issueArray.push(issueInfo);
-		});
-		
-		var issueInfo = new Object();
-		$("#detailSumList td").each(function(i){
-			issueInfo["codeName" + i] = $(this).text();
-		});
-		issueArray.push(issueInfo);
-		
-		//전체
-		var totalInfoSearch = new Object();
-		totalInfoSearch.search = searchArray;
-		
-		var totalInfo = new Object();
-	    totalInfo.main = titleArray;
-	    totalInfo.issue = issueArray;
-	    
-	    var tempSearch 	= JSON.stringify(totalInfoSearch);
-	    var temp 		= JSON.stringify(totalInfo);
-	    
-	    //console.dir(tempSearch);
-	    //console.dir(temp);
-	    
-	  	//데이터 검색
-	    var form = "<form id='excelForm' action='/sam/fcastingstatus/foreCastingStatusExcelDown.do' method='post'>"; 
-	    form += "<input type='hidden' name='dataSearch' value='"+tempSearch+"' />";
-	    form += "<input type='hidden' name='data' value='"+temp+"' />";
-	    form += "</form>"; 
-	    jQuery(form).appendTo("body").submit().remove();
-	    
-	//});
-};
+
 //좌우메뉴 height resize
-function autoHeight() {	
+var autoHeight = function() {	
 	var changeHeight = $("#Center_wrap").height() + 90;	
 	$("#Left_wrap").height(changeHeight);
 	//$("#Right_wrap").height(changeHeight);	

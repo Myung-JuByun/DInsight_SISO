@@ -1,7 +1,7 @@
 var STATUS_info,STATUSLIST;
 
 //페이지 갱신할때 호출해야 하는 항목을 함수에 등록시킴
-function defaultLoadList(){	
+var defaultLoadList = function(){	
 	statusInfo();
 	imgDisable();
 	//년월생성
@@ -26,8 +26,9 @@ function defaultLoadList(){
 		}
 	});	
 };
+
 //검색 조건 생성
-function searchCodeHTML(appendId, data, defaultkey) {	
+var searchCodeHTML = function(appendId, data, defaultkey) {	
 	var jsonLength = data.length,
 	HTML = "";	
 	if(defaultkey == "Y")HTML += "<option value=''>선택안함</option>";		
@@ -36,8 +37,9 @@ function searchCodeHTML(appendId, data, defaultkey) {
 	}	
 	$(appendId).append(HTML);
 };
+
 //검색
-function formSearch() {
+var formSearch = function() {
 	imgDisable();
 	var temp = $("input, select").serialize();
 	//데이터 검색
@@ -56,8 +58,9 @@ function formSearch() {
 		}
 	});
 };
+
 //Success 전환
-function formSubmit() {
+var formSubmit = function() {
 	var checkYN = "N";
 	$("#pcodeView .in_sales_project_id").each(function() {
 		
@@ -91,14 +94,15 @@ function formSubmit() {
 	}
 };
 //Success show/hide 처리
-function imgDisable() {
+var imgDisable = function() {
 	if($("#win_gb").val() == "1") {
 		$("#successImg").hide();
 	} else {
 		$("#successImg").show();
 	}
 };
-function companySave(prev_com_obj){
+
+var companySave = function(prev_com_obj){
 	if(!prev_com) generalPopOk2("고객사를 선택하세요.");
 	else document.getElementById("sh_company_name").value=prev_com_obj.company_name;
 	

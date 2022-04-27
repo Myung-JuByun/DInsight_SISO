@@ -5,7 +5,8 @@ function defaultCodeLoadList(){
 	callProjectApprovalData(obj, function (data){
 		STATUSLIST=data.statusList;
 	});
-};
+}
+
 function defaultLoadList(){
 	initView();	
 	//데이터 검색 , callApprovalData에 필요한 parameter를 obj 객체를 이용하여 넘김.
@@ -13,13 +14,15 @@ function defaultLoadList(){
 	callProjectApprovalData(obj, function (data){
 		approvalList(data.approvalList);
 	});
-};
+}
+
 function approvalSearch() {
 	var obj = {year : $("#sh_expanse_year").val(),month :$("#sh_expanse_month").val(),week :$("#sh_expanse_week").val(),status : $("#sh_status_cd").val()};
 	callProjectApprovalData(obj, function (data){
 		approvalList(data.approvalList);
 	});
-};
+}
+
 function initView(){
 	var date = new Date(),
 		year = date.getFullYear() + "",
@@ -127,7 +130,8 @@ function initView(){
 	
 	//선택한 주의 기간 표시
 	getWeekDate(document.getElementById("sh_expanse_year").value, document.getElementById("sh_expanse_month").value, document.getElementById("sh_expanse_week").value, "#weekDate");
-};
+}
+
 //승인
 function approval_permit(bt,con){	
 	generalPop("승인처리 하시겠습니까?", function (){
@@ -149,7 +153,7 @@ function approval_permit(bt,con){
 	   		}
 		});
 	});
-};
+}
 
 //반려
 function approval_return(bt,con){
@@ -171,4 +175,4 @@ function approval_return(bt,con){
 	   		}
 		});
 	});
-};
+}

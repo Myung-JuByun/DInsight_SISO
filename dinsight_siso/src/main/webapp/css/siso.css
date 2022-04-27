@@ -695,7 +695,7 @@ html {overflow-y: scroll;}
 
 /*.Show_detail{border:0px solid black; height:352px; width:100%; margin-top:10px; overflow-y:auto; overflow-x:auto;}*/
 .Show_detail{border:0px solid black; height:352px; width:100%; margin-top:0px;}
-.detail_title{height:26px; background:#575757; width:54%; padding-top:6px; padding-left:46%;color:white; font-weight:bold; font-size:13px;}
+.detail_title{height:26px; background:#69371A; width:54%; padding-top:6px; padding-left:46%;color:white; font-weight:bold; font-size:13px;}
 
 /*0223 work*/
 .cus_search{padding-bottom:20px; margin-left:71%;}

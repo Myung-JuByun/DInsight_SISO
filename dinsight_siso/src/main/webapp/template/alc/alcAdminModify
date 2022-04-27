@@ -1,0 +1,45 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<div class="search" id="searchDiv"></div>
+<!--// search end -->
+
+<!-- button start -->			
+<div class="btn_action">
+	<ul>
+		<li><a href="javascript:alcAdminAddPop('M')"><img src="/images/btn/btn_modify_on.gif" alt="수정"/></a></li>
+	</ul>
+</div>			
+<!--// button end -->
+
+<!--  table start -->
+<div class="con_table">
+	<div class="Wrap_table">
+		<div style="overflow-y:scroll;">
+			<table class="project_table Normal_table" style="text-align:center">
+				<thead>
+					<tr>
+						<th width="3%"><input type="checkbox" id="allCheck" name="allCheck"></th>
+						<th width="10%" v-text="customerCompany"></th>
+						<th width="10%" v-text="pf"></th>
+						<th width="7%" v-text="prdNo"></th>
+						<th width="5%">Type</th>
+						<th width="10%">Trigram</th>
+						<th width="10%" v-html="pfItemNm"></th>
+						<th width="5%" v-text="breakYn"></th>
+						<th width="10%" v-text="orderPeriod"></th>
+						<th width="10%" v-text="installCompany"></th>
+						<th width="5%">copy</th>
+						<th width="10%" v-text="installPeriod"></th>
+						<th width="5%" class="right" v-html="comUnifiedYn"></th>
+					</tr>							
+				</thead>
+			</table>
+		</div>
+		<div style="overflow-y:scroll; height:364px;">
+			<table class="project_table Normal_table" style="text-align:center">
+				<tbody id="alcView"></tbody> 
+			</table>
+		</div>
+	</div>
+</div>
+<!--  //table end -->

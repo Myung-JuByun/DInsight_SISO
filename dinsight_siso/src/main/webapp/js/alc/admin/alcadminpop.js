@@ -1,22 +1,15 @@
 //상세보기
 function alcInstallCustomerPop(searchString, obj, objSub){
-	
-	var con=document.createElement("div");
-	con.style.width=1000+"px";
-	con.style.height=cf.workareaheight-280+"px";
-	con.style.position="absolute";
-	
+	var con=document.createElement("div");	
+	Object.assign(con, {width:"1000px", height:(cf.workareaheight-280)+"px", position:"absolute"});	
 	con.innerHTML="";
 	
 	var con0=cf.mkTag("div",con);
 	con0.className="pop-mypage";
 	
 	var con1=cf.mkTag("div",con0);
-	con1.id="pop_my";
-	con1.style.width=1000+"px";
-	//con1.style.height=cf.workareaheight-280+"px";
-	con1.style.border=2+"px solid black";
-	con1.style.backgroundColor="white";
+	con1.id="pop_my";	
+	Object.assign(con1.style, {width:"1000px", border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -26,11 +19,9 @@ function alcInstallCustomerPop(searchString, obj, objSub){
 	var con2_a=cf.mkTag("a",con2);
 	con2_a.href="#";
 	con2_a.className="my_top_closs";
+	
 	var con2_img=cf.mkTag("img",con2_a);
-	con2_img.src="/images/pop_btn/btn_pop_close.png";
-	con2_img.id="my_closs1";
-	con2_img.alt="닫기";
-	con2_img.align="right";
+	Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs1", alt:"닫기", align:"right"});
 	con2_img.onmousedown=function(e){
 		cf.killTag(con.parentNode);
 	};
@@ -52,23 +43,16 @@ function alcInstallCustomerPop(searchString, obj, objSub){
 	con6.className="Wrap_table";
 	
 	//제품
-	alcInstallCustomerPopTable(con6, obj);
-	
+	alcInstallCustomerPopTable(con6, obj);	
 	//설치사
-	alcInstallCustomerPopSubTable(searchString, con3, objSub);
-	
+	alcInstallCustomerPopSubTable(searchString, con3, objSub);	
 	callPop(con);
 }
 
 //상세보기 - 제품
 function alcInstallCustomerPopTable(con, obj) {
-	//dir(obj);
-	
-	var table=cf.mkTag("table",con);
-	table.cellpadding=0;
-	table.cellspacing=0;
-	table.className="Normal_table_pop";
-	
+	var table=cf.mkTag("table",con);	
+	Object.assign(table, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
 	//
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
@@ -89,7 +73,6 @@ function alcInstallCustomerPopTable(con, obj) {
 	td.style.width="30%";
 	td.innerHTML=obj[0].alc_year;
 	
-	//
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
 	th.innerHTML="사업장";
@@ -129,7 +112,6 @@ function alcInstallCustomerPopTable(con, obj) {
 	td.className="pd10 right";
 	td.innerHTML=obj[0].prd_number;
 	
-	//
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
 	th.innerHTML="Type";
@@ -145,7 +127,6 @@ function alcInstallCustomerPopTable(con, obj) {
 	td.className="pd10 right";
 	td.innerHTML=obj[0].trigram;
 	
-	//
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
 	th.innerHTML="Portfolio Item Name";
@@ -180,14 +161,11 @@ function alcInstallCustomerPopSubTable(searchString, con, obj) {
 	con_title.style.cssFloat="left";
 	
 	var div=cf.mkTag("div",mainCon);
-	div.className="Wrap_table";
-	div.style.width="100%";
-	div.style.height="300px";
-	div.style.overflowX="scroll";
-	div.style.overflowY="auto";
+	div.className="Wrap_table";	
+	Object.assign(div.style, {width:"100%", height:"300px", overflowX:"scroll", overflowY:"auto"});
 	
 	var table=cf.mkTag("table",div);
-	table.style.width=1800+"px";
+	table.style.width="1800px";
 	table.cellPadding="0";
 	table.cellSpacing="0";
 	table.className="project_table Normal_table";
@@ -364,24 +342,17 @@ function alcInstallCustomerPopSubTable(searchString, con, obj) {
 }
 
 //상세보기 - 설치사 - 견적서 파일 리스트
-function alcInstallCustomerFileListPop(obj, objSub){
-	
-	var con=document.createElement("div");
-	con.style.width=1000+"px";
-	con.style.height=cf.workareaheight-280+"px";
-	con.style.position="absolute";
-	
+function alcInstallCustomerFileListPop(obj, objSub){	
+	var con=document.createElement("div");	
+	Object.assign(con.style, {width:"1000px", height:(cf.workareaheight-280)+"px", position:"absolute"});
 	con.innerHTML="";
 	
 	var con0=cf.mkTag("div",con);
 	con0.className="pop-mypage";
 	
 	var con1=cf.mkTag("div",con0);
-	con1.id="pop_my";
-	con1.style.width=1000+"px";
-	con1.style.height=cf.workareaheight-280+"px";
-	con1.style.border=2+"px solid black";
-	con1.style.backgroundColor="white";
+	con1.id="pop_my";	
+	Object.assign(con1.style, {width:"1000px", height:(cf.workareaheight-280)+"px", border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -389,13 +360,11 @@ function alcInstallCustomerFileListPop(obj, objSub){
 	span.innerHTML="상세보기";
 		
 	var con2_a=cf.mkTag("a",con2);
-	con2_a.href="#";
+	con2_a.href="javascript:;";
 	con2_a.className="my_top_closs";
-	var con2_img=cf.mkTag("img",con2_a);
-	con2_img.src="/images/pop_btn/btn_pop_close.png";
-	con2_img.id="my_closs1";
-	con2_img.alt="닫기";
-	con2_img.align="right";
+	
+	var con2_img=cf.mkTag("img",con2_a);	
+	Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs1", alt:"닫기", align:"right"});
 	con2_img.onmousedown=function(e){
 		cf.killTag(con.parentNode);
 	};
@@ -417,17 +386,14 @@ function alcInstallCustomerFileListPop(obj, objSub){
 	con6.className="Wrap_table";
 	
 	//제품
-	alcInstallCustomerPopTable(con6, obj);
-	
+	alcInstallCustomerPopTable(con6, obj);	
 	//설치사
 	alcInstallCustomerPopSubTable(con3, objSub);
-	
 	callPop(con);
 }
 
 //alc 추가 팝업
-function alcAdminAddPop(mode){
-	
+function alcAdminAddPop(mode){	
 	if(mode=="M") {
 		if(!prev_tr){
 			generalPop("수정할 제품을 선택하세요.");
@@ -435,22 +401,16 @@ function alcAdminAddPop(mode){
 		}
 	}
 	
-	var con=document.createElement("div");
-	con.style.width=950+"px";
-	con.style.height=cf.workareaheight-280+"px";
-	con.style.position="absolute";
-	
+	var con=document.createElement("div");	
+	Object.assign(con.style, {width:"950px", height:(cf.workareaheight-280)+"px", position:"absolute"});
 	con.innerHTML="";
 	
 	var con0=cf.mkTag("div",con);
 	con0.className="pop-mypage";
 	
 	var con1=cf.mkTag("div",con0);
-	con1.id="pop_my";
-	con1.style.width=950+"px";
-	//con1.style.height=cf.workareaheight-280+"px";
-	con1.style.border=2+"px solid black";
-	con1.style.backgroundColor="white";
+	con1.id="pop_my";	
+	Object.assign(con1.style, {width:"950px", border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -464,11 +424,9 @@ function alcAdminAddPop(mode){
 	var con2_a=cf.mkTag("a",con2);
 	con2_a.href="#";
 	con2_a.className="my_top_closs";
-	var con2_img=cf.mkTag("img",con2_a);
-	con2_img.src="/images/pop_btn/btn_pop_close.png";
-	con2_img.id="my_closs1";
-	con2_img.alt="닫기";
-	con2_img.align="right";
+	
+	var con2_img=cf.mkTag("img",con2_a);	
+	Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs1", alt:"닫기", align:"right"});
 	con2_img.onmousedown=function(e){
 		cf.killTag(con.parentNode);
 	};
@@ -542,8 +500,8 @@ function alcAdminAddPopTable(mode, con){
 	table.cellpadding=0;
 	table.cellspacing=0;
 	table.className="Normal_table_pop";
-	
-	//
+	Object.assign(table, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
+		
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
 	th.style.width="20%";
@@ -554,6 +512,7 @@ function alcAdminAddPopTable(mode, con){
 	var td=cf.mkTag("td",tr);
 	td.className="pd10";
 	td.style.width="30%";
+	
 	var input=cf.mkTag("input",td);
 	input.id="company_name";
 	input.name="company_name";
@@ -590,12 +549,9 @@ function alcAdminAddPopTable(mode, con){
 	
 	mkYearSelect(select);
 	
-	//
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
 	th.innerHTML="사업장";
-	
-	///asterisk(th);
 	
 	var td=cf.mkTag("td",tr);
 	td.className="pd10";
@@ -608,8 +564,6 @@ function alcAdminAddPopTable(mode, con){
 	var th=cf.mkTag("th",tr);
 	th.innerHTML="영업담당자";
 	
-	///asterisk(th);
-	
 	var td=cf.mkTag("td",tr);
 	td.className="pd10 right";
 	select=cf.mkTag("select",td);
@@ -618,7 +572,6 @@ function alcAdminAddPopTable(mode, con){
 	
 	mkSelect(select, SALES, "", "Y");
 	
-	//
 	var tr=cf.mkTag("tr",table);
 	var th=cf.mkTag("th",tr);
 	th.innerHTML="Portfolio";
@@ -698,7 +651,7 @@ function alcAdminAddPopTable(mode, con){
 	input.id="portfolio_item_name";
 	input.name="portfolio_item_name";
 	input.readOnly=true;
-	input.style.width=280+"px";
+	input.style.width="280px";
 	input.style.backgroundColor="#F2F2F2";
 	
 	var tr=cf.mkTag("tr",table);
@@ -713,7 +666,7 @@ function alcAdminAddPopTable(mode, con){
 	select=cf.mkTag("select",td);
 	select.id="install_identical_yn";
 	select.name="install_identical_yn";
-	select.style.width=160+"px";
+	select.style.width="160px";
 	
 	if(mode == "M") {
 		mkSelect(select, YN);
@@ -721,28 +674,21 @@ function alcAdminAddPopTable(mode, con){
 		mkSelect(select, YN, "1");
 	}
 	
-	select.onchange=function(){
-		
+	select.onchange=function(){		
 		//설치사 동일이 N 이면
-		if(this.value == 0) {
-			
-			$(".option_hidden").remove();
-			
-			alcAdminAddPopSubInstallCustomerTable("con_table");
-			
-		} else {
-			
+		if(this.value == 0) {			
+			$(".option_hidden").remove();			
+			alcAdminAddPopSubInstallCustomerTable("con_table");			
+		} else {			
 			//설치사 동일이 Y 이면
-			alcAdminAddPopSubTable(table);
-			
+			alcAdminAddPopSubTable(table);			
 			$("#install_customer").remove();
 			
 			//설치사 정보
 			$("#install_company_name").val($("#company_name").val());
 			$("#install_company_id").val($("#company_id").val());
 			$("#install_company_name").attr("readonly", "true");
-			$("#install_search_icon").hide();
-			
+			$("#install_search_icon").hide();			
 			$("#list_price").val($("#temp_list_price").val());
 			
 			//달력
@@ -824,7 +770,7 @@ function alcAdminAddPopSubTable(con){
 	input.name="ordering_day";
 	input.className="input_multi_date";
 	input.readOnly=true;
-	input.style.width=280+"px";
+	input.style.width="280px";
 	input.onblur=function(){
 		copyOrderDate(); //발주기간 -> 설치기간 복사
 	};
@@ -845,16 +791,13 @@ function alcAdminAddPopSubTable(con){
 	input.name="install_day";
 	input.className="input_multi_date";
 	input.readOnly=true;
-	input.style.width=280+"px";
+	input.style.width="280px";
 	
 	var span=cf.mkTag("span",td);
 	span.innerHTML="&nbsp;발주기간동일&nbsp;&nbsp;";
 	
-	var checkbox=cf.mkTag("input",td);
-	checkbox.type="checkbox";
-	checkbox.id="ordering_identical_yn";
-	checkbox.name="ordering_identical_yn";
-	checkbox.value="1";
+	var checkbox=cf.mkTag("input",td);	
+	Object.assign(checkbox, {type:"checkbox", id:"ordering_identical_yn", name:"ordering_identical_yn", value:"1"});
 	checkbox.onclick=function(){
 		copyDate(this); //발주기간 동일
 	};
@@ -888,7 +831,6 @@ function alcAdminAddPopSubTable(con){
 	input.readOnly=true;
 	input.style.width="50%";
 	
-	//
 	var tr=cf.mkTag("tr",con);
 	tr.className="option_hidden";
 	var th=cf.mkTag("th",tr);
@@ -966,7 +908,7 @@ function alcAdminAddPopSubTable(con){
 	input.name="invoice_day";
 	input.className="input_multi_date";
 	input.readOnly=true;
-	input.style.width=280+"px";
+	input.style.width="280px";
 	
 	//
 	var tr=cf.mkTag("tr",con);
@@ -984,8 +926,7 @@ function alcAdminAddPopSubTable(con){
 	input.name="contract_day";
 	input.className="input_multi_date";
 	input.readOnly=true;
-	input.style.width=280+"px";
-	
+	input.style.width="280px";	
 	//
 	var tr=cf.mkTag("tr",con);
 	tr.className="option_hidden";
@@ -1076,8 +1017,7 @@ function alcAdminAddPopSubTable(con){
 }
 
 //alc 추가 - 입력폼(설치사 부분) - 추가후 리스트 헤더
-function alcAdminAddPopSubInstallCustomerTable(con_id){
-	
+function alcAdminAddPopSubInstallCustomerTable(con_id){	
 	var con = document.getElementById(con_id);
 	
 	var mainCon=cf.mkTag("div",con);
@@ -1107,11 +1047,8 @@ function alcAdminAddPopSubInstallCustomerTable(con_id){
 	var div=cf.mkTag("div",mainCon);
 	div.className="Wrap_table";
 	
-	var table=cf.mkTag("table",div);
-	table.width="100%";
-	table.cellPadding="0";
-	table.cellSpacing="0";
-	table.className="project_table Normal_table";
+	var table=cf.mkTag("table",div);	
+	Object.assign(table, {width:"100%", cellPadding:"0", cellSpacing:"0", className:"project_table Normal_table"});
 	table.style.textAlign="center";
 	
 	var thead=cf.mkTag("thead",table);
@@ -1157,7 +1094,6 @@ function alcAdminAddPopSubInstallCustomerTable(con_id){
 
 //alc 추가 - 입력폼(설치사 부분) - 설치사추가팝업
 function alcInstallCustomerAddPop(){
-	
 	if($("#portfolio").val()==""){
 		generalPop("portfolio를 입력하세요.");
 		$("#portfolio").focus();
@@ -1176,22 +1112,16 @@ function alcInstallCustomerAddPop(){
 		return;
 	}
 	
-	var con=document.createElement("div");
-	con.style.width=800+"px";
-	con.style.height=cf.workareaheight-280+"px";
-	con.style.position="absolute";
-	
+	var con=document.createElement("div");	
+	Object.assign(con.style, {width:"800px", height:(cf.workareaheight-280)+"px", position:"absolute"});
 	con.innerHTML="";
 	
 	var con0=cf.mkTag("div",con);
 	con0.className="pop-mypage";
 	
 	var con1=cf.mkTag("div",con0);
-	con1.id="pop_my";
-	con1.style.width=800+"px";
-	con1.style.height=cf.workareaheight-380+"px";
-	con1.style.border=2+"px solid black";
-	con1.style.backgroundColor="white";
+	con1.id="pop_my";	
+	Object.assign(con1.style, {width:"800px", height:(cf.workareaheight-380)+"px", border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -1201,11 +1131,9 @@ function alcInstallCustomerAddPop(){
 	var con2_a=cf.mkTag("a",con2);
 	con2_a.href="#";
 	con2_a.className="my_top_closs";
+	
 	var con2_img=cf.mkTag("img",con2_a);
-	con2_img.src="/images/pop_btn/btn_pop_close.png";
-	con2_img.id="my_closs1";
-	con2_img.alt="닫기";
-	con2_img.align="right";
+	Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs1", alt:"닫기", align:"right"});
 	con2_img.onmousedown=function(e){
 		cf.killTag(con.parentNode);
 	};
@@ -1229,6 +1157,7 @@ function alcInstallCustomerAddPop(){
 	table.cellpadding=0;
 	table.cellspacing=0;
 	table.className="Normal_table_pop";
+	Object.assign(table, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
 	
 	//테이블
 	alcAdminAddPopSubTable(table);
@@ -1257,8 +1186,7 @@ function alcInstallCustomerAddPop(){
 	
 	//달력
 	datePickerMonth("input_date", "yymmdd");
-	datePickerMultiMonth("input_multi_date", "yymmdd", 2);
-	
+	datePickerMultiMonth("input_multi_date", "yymmdd", 2);	
 	//설치사 자동완성
 	autocompleteCompanySearch();
 }
@@ -1468,21 +1396,15 @@ function installCustomerAppendList(con){
 function alcInstallCustomerFileListPop(mode, obj){
 	
 	var con=document.createElement("div");
-	con.style.width=700+"px";
-	con.style.height=cf.workareaheight-480+"px";
-	con.style.position="absolute";
-	
+	Object.assign(con.style, {width:"700px", height:(cf.workareaheight-480)+"px", position:"absolute"});
 	con.innerHTML="";
 	
 	var con0=cf.mkTag("div",con);
 	con0.className="pop-mypage";
 	
 	var con1=cf.mkTag("div",con0);
-	con1.id="pop_my";
-	con1.style.width=700+"px";
-	con1.style.height=cf.workareaheight-480+"px";
-	con1.style.border=2+"px solid black";
-	con1.style.backgroundColor="white";
+	con1.id="pop_my";	
+	Object.assign(con1.style, {width:"700px", height:(cf.workareaheight-480)+"px", border:"2px solid black", backgroundColor:"white"});
 	
 	var con2=cf.mkTag("div",con1);
 	con2.className="my_top";
@@ -1497,10 +1419,7 @@ function alcInstallCustomerFileListPop(mode, obj){
 	con2_a.href="#";
 	con2_a.className="my_top_closs";
 	var con2_img=cf.mkTag("img",con2_a);
-	con2_img.src="/images/pop_btn/btn_pop_close.png";
-	con2_img.id="my_closs1";
-	con2_img.alt="닫기";
-	con2_img.align="right";
+	Object.assign(con2_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs1", alt:"닫기", align:"right"});
 	con2_img.onmousedown=function(e){
 		cf.killTag(con.parentNode);
 	};
@@ -1522,18 +1441,14 @@ function alcInstallCustomerFileListPop(mode, obj){
 	con5.className="Wrap_table";
 	
 	//견적서, 계약서 파일 리스트
-	alcInstallCustomerFileDetailList(mode, con5, obj);
-	
+	alcInstallCustomerFileDetailList(mode, con5, obj);	
 	callPop(con);
 }
 
 //견적서, 계약서 리스트 테이블
-function alcInstallCustomerFileDetailList(mode, con, obj){
-	
-	var table=cf.mkTag("table",con);
-	table.cellpadding=0;
-	table.cellspacing=0;
-	table.className="project_table Normal_table";
+function alcInstallCustomerFileDetailList(mode, con, obj){	
+	var table=cf.mkTag("table",con);	
+	Object.assign(table, {cellpadding:0, cellspacing:0, className:"project_table Normal_table"});	
 	table.style.textAlign="center";
 	
 	//
@@ -1554,8 +1469,7 @@ function alcInstallCustomerFileDetailList(mode, con, obj){
 	th.style.width="20%";
 	th.innerHTML="버전";
 	
-	obj.trav(function(d,i){
-		
+	obj.trav(function(d,i){		
 		if(d.file_name!=undefined){
 			//
 			var tr=cf.mkTag("tr",table);
@@ -1565,11 +1479,10 @@ function alcInstallCustomerFileDetailList(mode, con, obj){
 			var td=cf.mkTag("td",tr);
 			td.innerHTML=d.file_name;
 			td.onclick=function(){
-				if(mode=="quite"){
-					window.open(encodeURI("/sas/quote/quoteDownloadAjax.do?sh_quote_id=" + d.id));
-				}else{
-					window.open(encodeURI("/sas/contract/contractDownloadAjax.do?sh_contract_id=" + d.id));
-				}			
+				if(mode=="quite")
+					window.open(encodeURI("/sas/quote/quoteDownloadAjax?sh_quote_id=" + d.id));
+				else
+					window.open(encodeURI("/sas/contract/contractDownloadAjax?sh_contract_id=" + d.id));					
 			};
 			td.style.cursor="pointer";
 			td.style.textDecoration="underline";

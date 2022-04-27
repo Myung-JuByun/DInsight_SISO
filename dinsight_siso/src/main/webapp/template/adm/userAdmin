@@ -1,0 +1,77 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<form:form commandName="searchVO" method="post" id="searchForm" name="searchForm">
+	<div class="Left_group2">
+		<!-- button start -->	
+		<div class="btn_action">
+			<ul>
+				<li v-for="item in btnList">
+					<a href="javascript:;" :onclick="item.func"><img :src="item.btnImg" :alt="item.altText" /></a>
+				</li>				 
+			</ul>
+		</div>		
+		<!--// button end -->
+
+		<!--  table start -->
+		<div class="left_table2" style="height:500px;">
+			<table style="width:100%" class="Normal_table">
+				<tr>
+					<th class="right" v-text="department"></th>
+				</tr>					
+			</table>
+			
+			<table style="width:100%" >
+				<tr>
+					<td class="right">
+						<div class="tree_menu" id="tree_menu">
+						<!-- 트리메뉴 시작 -->
+						<!-- 트리메뉴 끝 -->
+						</div>
+					</td>
+				</tr>			
+			</table>
+		</div>
+	
+	</div>	
+	
+	<div class="Right_group2">
+		<!-- button start -->			
+		<div class="btn_action">
+			<ul>
+				<li v-for="item in rightBtnList">
+					<a href="javascript:;" :onclick="item.func"><img :src="item.btnImg" :alt="item.altText" /></a>
+				</li>				 
+			</ul>
+		</div>			
+		<!--// button end -->			
+
+		<!--  table start -->
+		<div class="Right_table3">
+			<table class="Normal_table">
+				<thead>
+					<tr>
+						<th width="39px"><input id="allchk" type="checkbox" class="CheckMode" onclick="GroupCheck('CheckMode', 'payment_id')"></th>
+						<th width="39px">No</th>
+						<th width="99px" v-text="name"></th>
+						<th width="99px" v-text="loginId"></th>
+						<th v-text="department"></th>
+						<th width="89px" v-text="position"></th>
+						<th width="79px" v-text="emplDiv"></th>
+						<th width="59px" v-text="activeYn"></th>
+						<th width="59px" class="right" v-text="delYn"></th>
+					</tr>
+				</thead>
+			</table>
+			<div id="userTb" style="height:467px; overflow-y:scroll;">
+				<table class="Normal_table">
+					<tbody id="userListView">
+						<!-- 직원리스트 시작 -->
+						<!-- 직원리스트 끝 -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!--  //table end -->
+	</div>
+</form:form>

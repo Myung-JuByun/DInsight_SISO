@@ -16,10 +16,10 @@ function jCON(obj){
 	
 	cf.setCss(cl,{clear:"both"});
 	cf.setCss(cl2,{clear:"both"});
-	cf.setCss(l.header,{width:100+"%",height:110+"px",position:"relative"});
-	cf.setCss(l.body,{width:100+"%",position:"relative"});
-	cf.setCss(l.footer,{width:100+"%",position:"relative"});
-	cf.setCss(bx,{width:obj.w+"px",height:100+"%"});
+	cf.setCss(l.header,{width:"100%",height:"110px",position:"relative"});
+	cf.setCss(l.body,{width:"100%",position:"relative"});
+	cf.setCss(l.footer,{width:"100%",position:"relative"});
+	cf.setCss(bx,{width:obj.w+"px",height:"100%"});
 };
 
 /*

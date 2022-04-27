@@ -3,15 +3,13 @@ function divisionAdd() {
 	if(!prev) generalPop("상위부서를 선택하세요.");
 	else{
 		var con=document.createElement("div");
-		con.style.width=400+"px";
-		con.style.height=200+"px";
-		con.style.position="absolute";
 		con.innerHTML="";
+		Object.assign(con.style, {width:"400px", height:"200px", position:"absolute"});
 		
 		var con0=cf.mkTag("div",con),		
 			con1=cf.mkTag("div",con0);
 		con1.id="pop_group_add";
-		con1.style.border=2+"px solid black";
+		con1.style.border="2px solid black";
 		con1.style.backgroundColor="white";
 		
 		var con2=cf.mkTag("div",con1);
@@ -33,15 +31,13 @@ function divisionAdd() {
 		con6.className="Wrap_table";
 		
 		var tb1=cf.mkTag("table",con6);
-		tb1.cellpadding=0;
-		tb1.cellspacing=0;
-		tb1.className="Normal_table";
+		Object.assign(tbl, {cellpadding:0, cellspacing:0, className:"Normal_table"});
 		
 		var tbd=cf.mkTag("tbody",tb1);
 		var tr=cf.mkTag("tr",tbd),
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.width=100+"px";
+		th.style.width="100px";
 		td.colSpan="3";
 		td.className="right pd10";
 		th.innerHTML="상위부서";
@@ -50,7 +46,7 @@ function divisionAdd() {
 		var	tr=cf.mkTag("tr",tbd),
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		td.style.width=125+"px";
+		td.style.width="125px";
 		td.style.textAlign="center";
 		th.innerHTML="부서";
 		var input=cf.mkTag("input",td);
@@ -59,7 +55,7 @@ function divisionAdd() {
 		
 		var th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.width=100+"px";
+		th.style.width="100px";
 		td.style.textAlign="center";
 		td.className="right pd10";
 		th.innerHTML="사업부여부";
@@ -67,7 +63,7 @@ function divisionAdd() {
 		var select=cf.mkTag("select",td),
 			op1=cf.mkTag("option",select),
 			op2=cf.mkTag("option",select);
-		select.style.width=50+"px";
+		select.style.width="50px";
 		select.className="select_pop";
 		select.id="operation_yn";
 		op1.value="0";
@@ -83,7 +79,7 @@ function divisionAdd() {
 		btn2.className="ct-btn grey small";
 		btn1.innerHTML="추가";
 		btn2.innerHTML="취소";
-		cf.setCss(btn1,{marginRight:5+"px"});
+		cf.setCss(btn1,{marginRight:"5px"});		
 		btn1.onclick=function(){
 			//추가
 			var new_cd,
@@ -153,19 +149,19 @@ function divisionAdd() {
 		};			
 		callPop(con);
 	}
-};
+}
+
 function divisionModi(){		
 	if(!prev) generalPop("수정할 부서를 선택하세요.");
 	else{
-		var con=document.createElement("div");
-		con.style.width=400+"px";
-		con.style.height=200+"px";
-		con.style.position="absolute";
+		var con=document.createElement("div");		
 		con.innerHTML="";
+		Object.assign(con.style, {width:"400px", height:"200px", position:"absolute"});
+		
 		var con0=cf.mkTag("div",con);
 		var con1=cf.mkTag("div",con0);
 		con1.id="pop_group_add";
-		con1.style.border=2+"px solid black";
+		con1.style.border="2px solid black";
 		con1.style.backgroundColor="white";
 		var con2=cf.mkTag("div",con1);
 		con2.className="my_top";
@@ -185,16 +181,14 @@ function divisionModi(){
 		var con6=cf.mkTag("div",con4);
 		con6.className="Wrap_table";
 		
-		var tb1=cf.mkTag("table",con6);
-		tb1.cellpadding=0;
-		tb1.cellspacing=0;
-		tb1.className="Normal_table";
+		var tb1=cf.mkTag("table",con6);		
+		Object.assign(tbl, {cellpadding:0, cellspacing:0, className:"Normal_table"});
 		
 		var tbd=cf.mkTag("tbody",tb1);
 		var tr=cf.mkTag("tr",tbd),
 			th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.width=100+"px";
+		th.style.width="100px";
 		td.colSpan="3";
 		td.className="right pd10";
 		th.innerHTML="상위부서";
@@ -209,7 +203,7 @@ function divisionModi(){
 		th=cf.mkTag("th",tr),
 		td=cf.mkTag("td",tr);
 		
-		td.style.width=125+"px";
+		td.style.width="125px";
 		td.style.textAlign="center";
 		th.innerHTML="부서";
 		var input=cf.mkTag("input",td);
@@ -219,7 +213,7 @@ function divisionModi(){
 		
 		var th=cf.mkTag("th",tr),
 			td=cf.mkTag("td",tr);
-		th.style.width=100+"px";
+		th.style.width="100px";
 		td.style.textAlign="center";
 		td.className="right pd10";
 		th.innerHTML="사업부여부";
@@ -228,7 +222,7 @@ function divisionModi(){
 			op1=cf.mkTag("option",select),
 			op2=cf.mkTag("option",select);
 		select.className="select_pop";
-		select.style.width=50+"px";
+		select.style.width="50px";
 		select.id="operation_yn";
 		op1.value="0";
 		op1.innerHTML="N";
@@ -245,7 +239,7 @@ function divisionModi(){
 		btn2.className="ct-btn grey small";
 		btn1.innerHTML="수정";
 		btn2.innerHTML="취소";
-		cf.setCss(btn1,{marginRight:5+"px"});
+		cf.setCss(btn1,{marginRight:"5px"});
 		btn1.onclick=function(){
 			var new_name=document.getElementById("modi").value,
 				operation_yn=document.getElementById("operation_yn").value;
@@ -276,7 +270,8 @@ function divisionModi(){
 		};
 		callPop(con);
 	}
-};
+}
+
 //사원정보 팝업
 function mkUserinfo(son, obj){
 	son.innerHTML="";
@@ -290,16 +285,15 @@ function mkUserinfo(son, obj){
 	mkuserTb(con7_tbl, obj);
 	mkdivisionTb(con9_tbl, obj);
 	mksave(con4, obj);
-};
+}
+
 function mkHdr(con){
 	var con1=cf.mkTag("div",con);
 	con1.className="pop-mypage";
 	
 	var con2=cf.mkTag("div",con1);
 	con2.id="pop_my";
-	con2.style.border=2+"px solid black";
-	con2.style.backgroundColor="white";
-	con2.style.height=464+"px";
+	Object.assign(con2.style, {border:"2px solid black", backgroundColor:"white", height:"464px"});
 	
 	var con3=cf.mkTag("div",con2);
 	con3.className="my_top";
@@ -310,19 +304,23 @@ function mkHdr(con){
 	var con3_a=cf.mkTag("a",con3);
 	con3_a.href="#";
 	con3_a.className="my_top_closs";
+	
 	var con3_img=cf.mkTag("img",con3_a);
 	con3_img.src="/images/pop_btn/btn_pop_close.png";
 	con3_img.id="my_closs";
 	con3_img.alt="닫기";
 	con3_img.align="right";
+	Object.assign(con3_img, {src:"/images/pop_btn/btn_pop_close.png", id:"my_closs", alt:"닫기", align:"right"});
 	con3_img.onclick=function(){
 		cf.killTag(con.parentNode);
 	};
+	
 	var con4=cf.mkTag("div",con2);
 	con4.className="my-container";
 	
 	return {con2:con2, con4:con4};
-};
+}
+
 function mkBody(son){
 	var con5=cf.mkTag("div",son);
 	con5.className="con_table";
@@ -339,7 +337,8 @@ function mkBody(son){
 	var con7_tbl=cf.mkTag("table",con7);
 	con7_tbl.cellpadding=0;
 	con7_tbl.cellspacing=0;
-	con7_tbl.className="Normal_table_pop"
+	con7_tbl.className="Normal_table_pop";
+	Object.assign(con7_tbl, {cellpadding:0, cellspacing:0, className:"Normal_table_pop"});
 	
 	var con8=cf.mkTag("div",con5);
 	con8.className="mini_title";
@@ -351,13 +350,11 @@ function mkBody(son){
 	con9.className="Wrap_table";
 	
 	var con9_tbl=cf.mkTag("table",con9);
-	con9_tbl.cellpadding=0;
-	con9_tbl.cellspacing=0;
-	con9_tbl.width=792+"px";
-	con9_tbl.className="Normal_table_pop";
+	Object.assign(con9_tbl, {cellpadding:0, cellspacing:0, width:"792px", className:"Normal_table_pop"});
 	
 	return {con7_tbl:con7_tbl, con9_tbl:con9_tbl};
-};
+}
+
 function mkuserTb(son, obj){
 	var tbody=cf.mkTag("tbody",son);
 	
@@ -372,7 +369,7 @@ function mkuserTb(son, obj){
 		td1=cf.mkTag("td",tr),
 		td1_2=cf.mkTag("td",tr),
 		td1_3=cf.mkTag("td",tr);
-	th1.style.width=100+"px";
+	th1.style.width="100px";
 	td1.className="right pd10";
 	td1_3.className="right";
 	td1_2.align="center";
@@ -439,10 +436,10 @@ function mkuserTb(son, obj){
 		td2=cf.mkTag("td",tr1),
 		th3=cf.mkTag("th",tr1),
 		td3=cf.mkTag("td",tr1);
-	th2.style.width=100+"px";
-	th3.style.width=100+"px";
+	th2.style.width="100px";
+	th3.style.width="100px";
 	td2.className="pd10";
-	td2.style.width=283+"px";
+	td2.style.width="283px";
 	td3.className="right pd10";
 	th2.innerHTML="이름";
 	th3.innerHTML="영문이름";
@@ -568,9 +565,9 @@ function mkuserTb(son, obj){
 	span2.innerHTML=" 음력 ";
 	var p=cf.mkTag("p",td8);
 	p.innerHTML="예 ) 1974년10월20일 19741020 숫자만입력";
-	p.style.paddingTop = 5 + "px";
-	p.style.paddingBottom = 5 + "px";
-	input8.style.marginTop = 2 + "px";
+	p.style.paddingTop = "5px";
+	p.style.paddingBottom = "5px";
+	input8.style.marginTop ="2px";
 	input8.size="30";
 	input8.id="birthday";
 	input8.maxLength="8";
@@ -584,7 +581,8 @@ function mkuserTb(son, obj){
 			if(obj.value[i]) d.value=obj.value[i];
 		});
 	}
-};
+}
+
 function mkdivisionTb(son, obj){
 	var tbody=cf.mkTag("tbody",son);
 	
@@ -595,9 +593,9 @@ function mkdivisionTb(son, obj){
 		td1=cf.mkTag("td",tr),
 		th2=cf.mkTag("th",tr),
 		td2=cf.mkTag("td",tr);
-	th1.style.width=100+"px";
-	th2.style.width=100+"px";
-	td1.style.width=283+"px";
+	th1.style.width="100px";
+	th2.style.width="100px";
+	td1.style.width="283px";
 	td1.className="pd10";
 	td2.className="right pd10";
 	th1.innerHTML="부서";
@@ -622,8 +620,8 @@ function mkdivisionTb(son, obj){
 		td3=cf.mkTag("td",tr1),
 		th4=cf.mkTag("th",tr1),
 		td4=cf.mkTag("td",tr1);
-	th3.style.width=100+"px";
-	th4.style.width=100+"px";
+	th3.style.width="100px";
+	th4.style.width="100px";
 	td3.className="pd10";
 	td4.className="right pd10";
 	th3.innerHTML="고용구분";
@@ -633,8 +631,7 @@ function mkdivisionTb(son, obj){
 	if(obj){
 		def=obj.employ_type_cd;
 		mkSelect(select, EMPLOYTYPELIST, def);
-	}else mkSelect(select, EMPLOYTYPELIST);
-	
+	} else mkSelect(select, EMPLOYTYPELIST);
 	
 	th4.innerHTML="화면권한";
 	var select=cf.mkTag("select",td4);
@@ -643,6 +640,5 @@ function mkdivisionTb(son, obj){
 	if(obj){
 		def=obj.role_cd;
 		mkSelect(select, ROLELIST, def);
-	}else mkSelect(select, ROLELIST,10);
-	
-};
+	}else mkSelect(select, ROLELIST, 10);
+}

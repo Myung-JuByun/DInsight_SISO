@@ -9,9 +9,7 @@ var g_domain;
 // 메인화면 로그인창 열기
 function fn_openLayer(IdName, tpos, lpos){
 	var pop = document.getElementById(IdName);
-	pop.style.display = "block";
-	pop.style.top = tpos + "px";
-	pop.style.left = lpos + "px";
+	Object.assign(pop.style, {display:"block", top:tpos + "px", left:lpos + "px"});
 }
 
 // 메인화면 로그인창 닫기
@@ -23,8 +21,7 @@ function fn_closeLayer(IdName){
 //메인화면 로그인창 관리
 (function (b) {
     b.fn.bPopup = function (z, F) {
-        function K() {
-        	
+        function K() {        	
             a.contentContainer = b(a.contentContainer || c);
             
             switch (a.content) {

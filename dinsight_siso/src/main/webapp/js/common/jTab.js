@@ -77,8 +77,8 @@
 	function cvrStyle(){
 		cf.setCss(cvr,{
 			position:"relative",
-			width:100+"%",
-			height:100+"%"
+			width:"100%",
+			height:"100%"
 		});
 	};
 	function bodyStyle(){
@@ -94,7 +94,7 @@
 	};
 	function headStyle(){
 		cf.setCss(head,{
-			height:35+"px",
+			height:"35px",
 			position:"relative",
 			borderBottom:"1px solid #6c7386",
 			//zIndex:1
@@ -113,22 +113,22 @@
 	function tabStyle(tab){		
 		if(prm.tabW){
 			cf.setCss(tab,{width:prm.tabW+"px",});
-		}else cf.setCss(tab,{width:158+"px",});
+		}else cf.setCss(tab,{width:"158px",});
 		
 		cf.setCss(tab,{
 			color:"#b2b2b2",
 			backgroundColor:"#f0f0f0",
-			borderBottom:1+"px solid #f0f0f0",
-			borderTop:1+"px solid #e5e5e5",
-			borderRight:1+"px solid #e5e5e5",
-			borderLeft:1+"px solid #e5e5e5",
+			borderBottom:"1px solid #f0f0f0",
+			borderTop:"1px solid #e5e5e5",
+			borderRight:"1px solid #e5e5e5",
+			borderLeft:"1px solid #e5e5e5",
 		    backgroundImage:"linear-gradient(to top, #f0f0f0 0%, #f0f0f0 0%)",			
-			height:25+"px",
+			height:"25px",
 			float:"left",
-			paddingTop:8+"px",
+			paddingTop:"8px",
 			fontWeight:"bold",
 			textAlign:"center",
-			marginRight:1+"px",
+			marginRight:"1px",
 			zIndex:10,
 			cursor:"pointer",
 		});

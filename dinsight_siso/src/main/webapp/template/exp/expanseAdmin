@@ -19,10 +19,10 @@
 					<tr>
 						<th width="5%"><input type="checkbox" name="CheckMode" class ="CheckMode" value="Y" onclick="GroupCheck('CheckMode', 'expanse_id')"></th>
 						<th width="5%">No</th>
-						<th width="7%">날짜</th>
+						<th width="7%" v-text="date"></th>
 						<th width="13%">
-							<select name="sh_expanse_type" id="sh_expanse_type" style="width:100%; background:#fafafa ;font-weight:bold;" onchange="javascript:showExpanseType(this)">
-								<option value="">구분 전체</option>
+							<select name="sh_expanse_type" id="sh_expanse_type" style="width:100%; background:#fafafa ;font-weight:bold;" @change="showExpanseType(this)">
+								<option value="" v-text="divisionAll"></option>
 								<c:forEach var="typeC" items="${typeList}" varStatus="statusC">
 									<option value="<c:out value="${typeC.code_id}" />">
 										<c:out value="${typeC.code_name}" />
@@ -30,11 +30,11 @@
 								</c:forEach>
 							</select>
 						</th>
-						<th width="13%">분류</th>
-						<th width="10%">금액</th>
-						<th width="24%">내역</th>
-						<th width="15%">품의서 No.</th>
-						<th width="10%" class="right">상태</th>
+						<th width="13%" v-text="classification"></th>
+						<th width="10%" v-text="price"></th>
+						<th width="24%" v-text="history"></th>
+						<th width="15%" v-text="approvalNo"></th>
+						<th width="10%" class="right" v-text="status"></th>
 					</tr>
 				</thead>				
 				<tbody>
@@ -52,11 +52,11 @@
 							</select>
 						</td>
 						<td width="13%" class="txt_center">
-							<select name="in_category_id" class="in_category_id select_pop2" title="분류" style="width:95%;"></select>
+							<select name="in_category_id" class="in_category_id select_pop2" :title="classification" style="width:95%;"></select>
 						</td>
-						<td width="10%" class="txt_center"><input name="in_payment" class="in_payment price" title="금액"></input></td>
-						<td width="24%" class="txt_center"><input name="in_expanse_name" class="in_expanse_name" title="내역"></input></td>
-						<td width="15%" class="txt_center"><input name="in_confer_number" class="in_confer_number" title="품의서번호"></input></td>
+						<td width="10%" class="txt_center"><input name="in_payment" class="in_payment price" :title="price"></input></td>
+						<td width="24%" class="txt_center"><input name="in_expanse_name" class="in_expanse_name" :title="history"></input></td>
+						<td width="15%" class="txt_center"><input name="in_confer_number" class="in_confer_number" :title="approvalNo"></input></td>
 						<td width="10%" class="txt_center statusView right">
 							<input type="hidden" name="in_expanse_id" class="in_expanse_id" />
 							<input type="hidden" name="in_expanse_type_temp" class="in_expanse_type_temp" />
@@ -105,11 +105,11 @@
 								</select>
 							</td>
 							<td width="13%" class="txt_center">
-								<select name="in_category_id" class="in_category_id select_pop2" title="분류" style="width:95%;"></select>
+								<select name="in_category_id" class="in_category_id select_pop2" :title="classification" style="width:95%;"></select>
 							</td>
-							<td width="10%" class="txt_center"><input name="in_payment" class="in_payment price" title="금액" value="<c:out value="${result.payment}" />"></input></td>
-							<td width="24%" class="txt_center"><input name="in_expanse_name" class="in_expanse_name" title="내역" value="<c:out value="${result.expanse_name}" />"></input></td>
-							<td width="15%" class="txt_center"><input name="in_confer_number" class="in_confer_number" title="품의서번호" value="<c:out value="${result.confer_number}" />"></input></td>
+							<td width="10%" class="txt_center"><input name="in_payment" class="in_payment price" :title="price" value="<c:out value="${result.payment}" />"></input></td>
+							<td width="24%" class="txt_center"><input name="in_expanse_name" class="in_expanse_name" :title="history" value="<c:out value="${result.expanse_name}" />"></input></td>
+							<td width="15%" class="txt_center"><input name="in_confer_number" class="in_confer_number" :title="approvalNo" value="<c:out value="${result.confer_number}" />"></input></td>
 							<td width="10%" class="txt_center statusView right" >
 								<c:choose>
 								    <c:when test="${result.status_cd == '701'}">
@@ -138,8 +138,8 @@
 			<table style="width:802px" class="Normal_table">	
 				<tfoot>
 					<tr>
-						<td width="43%" class="sum" colspan="5">합계</td>
-						<td width="10%" class="sum_cost"><input id="sum_price" name="sum_price" class="price" title="금액" readonly></input></td>
+						<td width="43%" class="sum" colspan="5" v-text="tot"></td>
+						<td width="10%" class="sum_cost"><input id="sum_price" name="sum_price" class="price" :title="price" readonly></input></td>
 						<td width="24%" class="sum">&nbsp;</td>
 						<td width="15%" class="sum">&nbsp;</td>
 						<td width="10%" class="sum">&nbsp;</td>

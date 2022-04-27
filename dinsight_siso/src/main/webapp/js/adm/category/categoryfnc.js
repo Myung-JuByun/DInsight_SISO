@@ -1,7 +1,5 @@
 var CATEGORY,CURRENT_CATEGORY,CATEGORY_ROOT=[],leaves=[],prev;
 
-defaultLoadList();
-
 function defaultLoadList(){
 	callExpanseCategoryData(function (data){
 		//dir(data);
@@ -9,7 +7,8 @@ function defaultLoadList(){
 		dataProc();
 		mkDivision();
 	})
-};
+}
+
 function dataProc(){
 	CATEGORY_ROOT =new Array();
 	
@@ -25,7 +24,8 @@ function dataProc(){
 		if(str!="0")	obj[str].childNodes.push(d);
 		else CATEGORY_ROOT.push(d);
 	});
-};
+}
+
 function mkDivision(){
 	var category_menu=document.getElementById("category_menu");
 	var cnt=0;
@@ -37,7 +37,8 @@ function mkDivision(){
 			cnt++;
 		});
 	}
-};
+}
+
 function categoryDel(){	
 	var childCheck = 0;
 	for(var i=0,lng=CATEGORY.length; i<lng; i++){ 
@@ -74,7 +75,8 @@ function categoryDel(){
 			});
 		}//else
 	}
-};
+}
+
 function findCategryName(){
 	var c_name;
 	
@@ -85,7 +87,8 @@ function findCategryName(){
 			c_name= CATEGORY[i].category_name;
 		}
 	return c_name;
-};
+}
+
 function mkSelectCategory(select, def){
 	var op;	
 	$.ajax({
@@ -108,4 +111,4 @@ function mkSelectCategory(select, def){
 		  	$('.wrap-loading').show();
 		  }
 	});
-};
+}
